@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { SignupPage } from './pages/signup-page'
 import { LoginPage } from './pages/login-page'
-import { NotFound } from './not-found'
+import { NotFound } from './pages/not-found'
 import { AddTransaction } from './add-transaction'
 import { useAuth } from '../contexts/auth-context'
 import { Settings } from './settings'

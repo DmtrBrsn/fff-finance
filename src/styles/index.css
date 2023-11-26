@@ -2,6 +2,7 @@ html {
   font: var(--font-size-html) helvetica, arial, sans serif;
 }
 
+
 .btn-std {
   background-color:dodgerblue;
   color: white;
@@ -16,6 +17,11 @@ html {
     background-color:crimson;
   }
 
+  &.secondary {
+    color: black;
+    background-color: rgb(234, 234, 234);
+  }
+
   &.large {
     padding: calc(var(--gap-step) * 4) calc(var(--gap-step) * 5);
   }
@@ -24,11 +30,16 @@ html {
     padding: calc(var(--gap-step) * 1) calc(var(--gap-step) * 2);
   }
 
-  &:hover {
+  &:hover:not([disabled]) {
     filter: brightness(90%);
   }
-  &:active {
+  &:active:not([disabled]) {
     filter: brightness(105%);
+  }
+
+  &[disabled] {
+    background-color: rgb(234, 234, 234);
+    color: grey;
   }
 }
 
@@ -36,9 +47,6 @@ html {
 .txt-inp-std {
   padding: var(--gap-step);
 }
-
-
-
 
 
 header {
@@ -69,25 +77,29 @@ header {
       padding: var(--gap-step) 0;
     }
     
-    > a:hover, a.active {border-color: transparent transparent white;}
-    & a:active {
+    > a:hover, a.active {border-color: white transparent transparent ;}
+    /* & a:active {
       color: orange;
-    }
+    } */
   }
 
   .cur-user-email {
     padding: var(--gap-step) 0;
   }
-
 }
-
 
 
 .auth-page  {
   display: flex;
-  flex-direction: column;
-  gap: var(--gap-step);
+  justify-content: center;
   align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  gap: var(--gap-step);
+  display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -96,7 +108,7 @@ header {
   flex-direction: column;
   flex-wrap: nowrap;
   gap: var(--gap-step);
-  width: 10rem;
+  width: 12rem;
 }
 
 .auth-error-text {
@@ -110,17 +122,47 @@ header {
   margin-bottom: var(--gap-step);
 }
 
+.google-sign-in-btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: var(--app-border-radius);
+  border: none;
+  padding: calc(var(--gap-step) * 2) calc(var(--gap-step) * 3);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  gap: var(--gap-step);
+  align-items: center;
+  background-color: rgb(234, 234, 234);
+  color: black;
+
+  & svg {
+    fill: rgb(234, 234, 234);
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+
+  &:hover {
+    filter: brightness(103%);
+  }
+  &:active {
+    filter: brightness(97%);
+  }
+}
+
+.auth-or {
+  align-self: center;
+  margin: calc(var(--gap-step) * 2) 0
+}
+
+
 
 .settings-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
+  align-items: start;
   gap: calc(var(--gap-step) * 2);
-
-  .settings-tile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: calc(var(--gap-step) * 2);
-  }
+  padding: calc(var(--gap-step) * 2);
 }

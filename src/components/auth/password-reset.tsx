@@ -1,4 +1,4 @@
-import { useAuth } from "../contexts/auth-context"
+import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -35,7 +35,7 @@ export const PasswordReset = () => {
   }
 
   return (
-    <>
+    <div className="auth-container">
       <h1>Password Reset</h1>
       {error && <span className='auth-error-text'>{ error }</span>}
       {message && <span className='auth-message-text'>{ message }</span>}
@@ -61,6 +61,6 @@ export const PasswordReset = () => {
       }
       <NavLink to="/login">Log in</NavLink>
       <NavLink to="/signup">Sign Up</NavLink>
-    </>
+    </div>
   )
 }

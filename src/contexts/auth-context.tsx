@@ -1,12 +1,19 @@
 import React, { useContext, useEffect, useState } from "react"
 import { auth } from '../firebase'
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateEmail as updateFirebaseEmail, updatePassword as updateFirebasePassword, deleteUser as deleteFirebaseUser, User } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateEmail as updateFirebaseEmail, updatePassword as updateFirebasePassword, deleteUser as deleteFirebaseUser, User, GoogleAuthProvider, signInWithPopup, unlink } from "firebase/auth";
 
 type Props = { children?: React.ReactNode }
 type CurrentUser = User | null
 type Auth = {
-  currentUser?: CurrentUser,
+  currentUser?: CurrentUser
+  setCurrentUser?: (value: React.SetStateAction<CurrentUser>) => void
   utils: typeof utils
+  providersIds: typeof providersIds
+}
+
+const providersIds = {
+  google: 'google.com',
+  emailAndPassword: 'password'
 }
 
 const utils = {
@@ -14,7 +21,7 @@ const utils = {
     return createUserWithEmailAndPassword(auth, email, password)
   },
   
-  login: (email:string, password:string) => {
+  loginWithEmailAndPassword: (email:string, password:string) => {
     return signInWithEmailAndPassword(auth, email, password)
   },
   
@@ -35,12 +42,21 @@ const utils = {
   deleteUser: (currentUser:User) => {
     return deleteFirebaseUser(currentUser)
   },
+  loginWithGoogle: () => {
+    const provider = new GoogleAuthProvider()
+    return signInWithPopup(auth, provider)
+  },
+  unlinkGoogle: (currentUser: User) => {
+    return unlink(currentUser, providersIds.google)
+  },
+  unlinkEmailAndPassword: (currentUser: User) => {
+    return unlink(currentUser, providersIds.emailAndPassword)
+  },
   
 }
 
 
-
-const AuthContext = React.createContext<Auth>({utils})
+export const AuthContext = React.createContext<Auth>({utils, providersIds})
 
 export function useAuth() {
   return useContext(AuthContext)
@@ -61,7 +77,9 @@ export const AuthProvider = ({ children }: Props) => {
   
   const value = {
     currentUser,
-    utils
+    setCurrentUser,
+    utils,
+    providersIds
   }
 
   return (

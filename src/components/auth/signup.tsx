@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/auth-context'
+import React, { useState } from 'react'
+import { useAuth } from '../../contexts/auth-context'
+import {NavLink, useNavigate} from 'react-router-dom'
 
-
-export const Login = () => {
-  const { login } = useAuth().utils
+export const Signup = () => {
+  const { signup } = useAuth().utils
 
   const navigate = useNavigate()
 
@@ -24,20 +23,18 @@ export const Login = () => {
     event.preventDefault()
     try {
       setError('')
-      if (formState.email==='' || formState.password==='') throw 'Fill the form'
       setLoading(true)
-      await login(formState.email, formState.password)
+      await signup(formState.email, formState.password)
       navigate('/')
     }
     catch(err) {
-      setError(`Sign in failed: ${err}`)
+      setError(`Sign up failed: ${err}`)
     }
     setLoading(false)
   }
 
   return (
     <>
-      <h1>Log In</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         {error && <span className='auth-error-text'>{ error }</span>}
         <label htmlFor='email'>Email</label>
@@ -46,6 +43,7 @@ export const Login = () => {
           id="email"
           type="email"
           className="txt-inp-std"
+          autoComplete='off'
           value={formState.email}
           onChange={handleInputChange}
           disabled={loading}
@@ -61,14 +59,13 @@ export const Login = () => {
           disabled={loading}
         />
         <input
+          className="btn-std"
           type="submit"
-          className='btn-std'
-          value={loading ? 'Loading...' : 'Log in'}
+          value={loading ? 'Loading...' : 'Sign up'}
           disabled={loading}
         />
       </form>
-      <NavLink to="/password-reset">Forgot password?</NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
+      <NavLink to="/login">Log in</NavLink>
     </>
   )
 }

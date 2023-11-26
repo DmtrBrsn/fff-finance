@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { useAuth } from '../contexts/auth-context'
+import { useAuth } from '../../contexts/auth-context'
 
-export const UpdatePassword = () => {
+export const UpdateEmail = () => {
   const { utils, currentUser } = useAuth()
-
   const [active, setActive] = useState(false)
-  const [formState, setFormState] = useState({ newPassword: '' })
+  const [formState, setFormState] = useState({ newEmail: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -21,54 +20,57 @@ export const UpdatePassword = () => {
     event.preventDefault()
     try {
       setError('')
-      if (formState.newPassword === '') throw 'Provide new email'
+      if (formState.newEmail === '') throw 'Provide new email'
       if (currentUser==undefined) throw 'No current user'
       setLoading(true)
-      await utils.updatePassword(currentUser, formState.newPassword)
-      setFormState({ newPassword: '' })
+      await utils.updateEmail(currentUser, formState.newEmail)
+      setFormState({ newEmail: '' })
       setActive(false)
     }
     catch(err) {
-      setError(`Password update failed: ${err}`)
+      setError(`Email update failed: ${err}`)
     }
     setLoading(false)
   }
 
   return active ? 
-    (<>
+    (<div className="auth-container">
       {error && <span className='auth-error-text'>{ error }</span>}
       <form className="auth-form" onSubmit={handleSubmit}>
-        <label htmlFor='newPassword'>New password:</label>
+        <label htmlFor='newEmail'>New email:</label>
         <input
-          name="newPassword"
-          id="newPassword"
-          type="password"
+          name="newEmail"
+          id="newEmail"
+          type="email"
           className="txt-inp-std"
-          value={formState.newPassword}
+          value={formState.newEmail}
           onChange={handleInputChange}
           disabled={loading}
         />
         <input
           type="submit"
           className="btn-std"
-          value={loading ? 'Loading...' : 'Update'}
+          value={loading ? 'Updating...' : 'Update'}
           disabled={loading}
         />
         <input
           type="button"
           className="btn-std"
           value="Cancel"
-          onClick={()=>setActive(false)}
+          onClick={() => {
+            setError('')
+            setActive(false)
+          }}
         />
       </form>
-    </>)
+    </div>)
     :
-    (<>
+    (<div>
       <input
         type="button"
         className="btn-std"
         onClick={()=>setActive(true)}
-        value="Update Password"
+        value="Update Email"
       />
-    </>)
+    </div>)
 }

@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useAuth } from '../contexts/auth-context'
+import { useAuth } from '../../contexts/auth-context'
 
-export const UpdateEmail = () => {
+export const UpdatePassword = () => {
   const { utils, currentUser } = useAuth()
 
   const [active, setActive] = useState(false)
-  const [formState, setFormState] = useState({ newEmail: '' })
+  const [formState, setFormState] = useState({ newPassword: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -21,54 +21,57 @@ export const UpdateEmail = () => {
     event.preventDefault()
     try {
       setError('')
-      if (formState.newEmail === '') throw 'Provide new email'
+      if (formState.newPassword === '') throw 'Provide new email'
       if (currentUser==undefined) throw 'No current user'
       setLoading(true)
-      await utils.updateEmail(currentUser, formState.newEmail)
-      setFormState({ newEmail: '' })
+      await utils.updatePassword(currentUser, formState.newPassword)
+      setFormState({ newPassword: '' })
       setActive(false)
     }
     catch(err) {
-      setError(`Email update failed: ${err}`)
+      setError(`Password update failed: ${err}`)
     }
     setLoading(false)
   }
 
   return active ? 
-    (<>
+    (<div className="auth-container">
       {error && <span className='auth-error-text'>{ error }</span>}
       <form className="auth-form" onSubmit={handleSubmit}>
-        <label htmlFor='newEmail'>New email:</label>
+        <label htmlFor='newPassword'>New password:</label>
         <input
-          name="newEmail"
-          id="newEmail"
-          type="email"
+          name="newPassword"
+          id="newPassword"
+          type="password"
           className="txt-inp-std"
-          value={formState.newEmail}
+          value={formState.newPassword}
           onChange={handleInputChange}
           disabled={loading}
         />
         <input
           type="submit"
           className="btn-std"
-          value={loading ? 'Loading...' : 'Update'}
+          value={loading ? 'Updating...' : 'Update'}
           disabled={loading}
         />
         <input
           type="button"
           className="btn-std"
           value="Cancel"
-          onClick={()=>setActive(false)}
+          onClick={() => {
+            setError('')
+            setActive(false)
+          }}
         />
       </form>
-    </>)
+    </div>)
     :
-    (<>
+    (<div>
       <input
         type="button"
         className="btn-std"
         onClick={()=>setActive(true)}
-        value="Update Email"
+        value="Update Password"
       />
-    </>)
+    </div>)
 }

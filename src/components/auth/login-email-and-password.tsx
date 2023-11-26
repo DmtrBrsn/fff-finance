@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { useAuth } from '../contexts/auth-context'
-import {NavLink, useNavigate} from 'react-router-dom'
+import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/auth-context'
 
-export const Signup = () => {
-  const { signup } = useAuth().utils
+
+export const LoginWithEmailAndPassword = () => {
+  const { loginWithEmailAndPassword } = useAuth().utils
 
   const navigate = useNavigate()
 
@@ -19,24 +20,24 @@ export const Signup = () => {
     }))
   }
 
-  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleEmailAndPasswordSingInSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       setError('')
+      if (formState.email==='' || formState.password==='') throw 'Fill the form'
       setLoading(true)
-      await signup(formState.email, formState.password)
+      await loginWithEmailAndPassword(formState.email, formState.password)
       navigate('/')
     }
     catch(err) {
-      setError(`Sign up failed: ${err}`)
+      setError(`Sign in failed: ${err}`)
     }
     setLoading(false)
   }
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form className="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form" onSubmit={handleEmailAndPasswordSingInSubmit}>
         {error && <span className='auth-error-text'>{ error }</span>}
         <label htmlFor='email'>Email</label>
         <input
@@ -44,7 +45,6 @@ export const Signup = () => {
           id="email"
           type="email"
           className="txt-inp-std"
-          autoComplete='off'
           value={formState.email}
           onChange={handleInputChange}
           disabled={loading}
@@ -60,13 +60,14 @@ export const Signup = () => {
           disabled={loading}
         />
         <input
-          className="btn-std"
           type="submit"
-          value={loading ? 'Loading...' : 'Sign up'}
+          className='btn-std'
+          value={loading ? 'Logging in...' : 'Log in'}
           disabled={loading}
         />
       </form>
-      <NavLink to="/login">Log in</NavLink>
+      <NavLink to="/password-reset">Forgot password?</NavLink>
+      <NavLink to="/signup">Sign Up</NavLink>
     </>
   )
 }
