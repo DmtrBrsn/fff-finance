@@ -1,0 +1,13 @@
+body {margin: 0;}
+
+button {
+  color: inherit;
+  font: inherit;
+
+}
+
+input, select {
+  font-size: inherit;
+  color: inherit;
+  font-family: inherit;
+}
