@@ -13,7 +13,7 @@ export const UnlinkGoogle = () => {
     setLoading(true)
     try {
       await utils.unlinkGoogle(currentUser)
-      setCurrentUser && setCurrentUser({ ...currentUser })
+      setCurrentUser && setCurrentUser({...currentUser})
     }
     catch (err) {
       setError(`Unlink failed: ${err}`)

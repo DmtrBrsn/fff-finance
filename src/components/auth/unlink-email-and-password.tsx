@@ -2,10 +2,9 @@ import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 
 export const UnlinkEmailAndPassword = () => {
-  const { currentUser, utils } = useAuth()
+  const { currentUser, setCurrentUser, utils } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [unlinked, setUnlinked] = useState(false)
   
   const handleUnlink = async () => {
     if (currentUser==undefined) throw 'No current user'
@@ -13,7 +12,7 @@ export const UnlinkEmailAndPassword = () => {
     setLoading(true)
     try {
       await utils.unlinkEmailAndPassword(currentUser)
-      setUnlinked(true)
+      setCurrentUser && currentUser && setCurrentUser({...currentUser})
     }
     catch (err) {
       setError(`Unlink failed: ${err}`)
@@ -21,7 +20,7 @@ export const UnlinkEmailAndPassword = () => {
     setLoading(false)
   }
 
-  return unlinked ? <></> : (
+  return (
     <div className="auth-container">
       {error && <><span className='auth-error-text'>{error}</span><br /></>}
       <input

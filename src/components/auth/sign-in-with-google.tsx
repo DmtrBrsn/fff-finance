@@ -9,12 +9,11 @@ export const SignInWithGoogle = () => {
   const [loading, setLoading] = useState(false)
 
   const handleGoogleSignIn = async () => {
-    if (currentUser==undefined) throw 'No current user'
     try {
       setError('')
       setLoading(true)
       await utils.loginWithGoogle()
-      setCurrentUser && setCurrentUser({ ...currentUser })
+      setCurrentUser && currentUser && setCurrentUser({ ...currentUser })
     }
     catch(err) {
       setError(`Sign in failed: ${err}`)
