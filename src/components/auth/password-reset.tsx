@@ -36,7 +36,6 @@ export const PasswordReset = () => {
 
   return (
     <div className="auth-container">
-      <h1>Password Reset</h1>
       {error && <span className='auth-error-text'>{ error }</span>}
       {message && <span className='auth-message-text'>{ message }</span>}
       {!message &&

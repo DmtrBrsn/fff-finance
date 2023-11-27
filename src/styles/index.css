@@ -91,6 +91,7 @@ header {
 
 .auth-page  {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -101,6 +102,9 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: rgb(234, 234, 234);
+  border-radius: var(--app-border-radius);
+  padding: calc(var(--gap-step) * 3);
 }
 
 .auth-form {

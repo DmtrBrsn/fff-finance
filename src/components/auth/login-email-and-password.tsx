@@ -36,7 +36,7 @@ export const LoginWithEmailAndPassword = () => {
   }
 
   return (
-    <>
+    <div className="auth-container">
       <form className="auth-form" onSubmit={handleEmailAndPasswordSingInSubmit}>
         {error && <span className='auth-error-text'>{ error }</span>}
         <label htmlFor='email'>Email</label>
@@ -68,6 +68,6 @@ export const LoginWithEmailAndPassword = () => {
       </form>
       <NavLink to="/password-reset">Forgot password?</NavLink>
       <NavLink to="/signup">Sign Up</NavLink>
-    </>
+    </div>
   )
 }

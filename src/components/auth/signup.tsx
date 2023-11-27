@@ -34,7 +34,7 @@ export const Signup = () => {
   }
 
   return (
-    <>
+    <div className='auth-container'>
       <form className="auth-form" onSubmit={handleSubmit}>
         {error && <span className='auth-error-text'>{ error }</span>}
         <label htmlFor='email'>Email</label>
@@ -66,6 +66,6 @@ export const Signup = () => {
         />
       </form>
       <NavLink to="/login">Log in</NavLink>
-    </>
+    </div>
   )
 }
