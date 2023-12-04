@@ -9,8 +9,9 @@ export const Nav = () => {
       {
         currentUser ?
           <>
-            <NavLink to="/">Add transaction</NavLink>
-            <NavLink to="/transactions">Transactions</NavLink>
+            <NavLink to="/">New operation</NavLink>
+            <NavLink to="/operations">Operations</NavLink>
+            <NavLink to="/categories">Catigories</NavLink>
             <NavLink to="/settings">Settings</NavLink>
           </>
           :
