@@ -2,7 +2,6 @@ html {
   font: var(--font-size-html) helvetica, arial, sans serif;
 }
 
-
 .btn-std {
   background-color:dodgerblue;
   color: white;
@@ -46,6 +45,57 @@ html {
 
 .txt-inp-std {
   padding: var(--gap-step);
+}
+
+.btn-icon {
+  background-color: inherit;
+  outline: none;
+  cursor: pointer;
+  min-width: 2rem;
+  min-height: 2rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  font-weight: bold;
+  color: black;
+  padding: var(--gap-step);
+  user-select: none;
+  border: unset;
+  cursor: pointer;
+
+  & svg {
+    fill: black;
+    height: 1.3rem;
+    width: 1.3rem;
+  }
+
+  &:hover:not([disabled]) {
+    background-color: lightgray
+  }
+
+  &:active:not([disabled]) {
+    filter: brightness(97%);
+    color: dodgerblue;
+    svg {
+      fill: dodgerblue;
+    }
+  }
+
+  & [disabled] {
+    color: grey;
+    
+    & svg {
+      fill: grey;
+    }
+  }
+  & [data-enabled="true"]:not([disabled]) {
+    background-color: darkgray;
+    color: white;
+
+    & svg {
+      fill: white;
+    }
+  }
+
 }
 
 
@@ -169,4 +219,26 @@ header {
   align-items: start;
   gap: calc(var(--gap-step) * 2);
   padding: calc(var(--gap-step) * 2);
+}
+
+
+
+
+
+.spinner {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 0.2rem solid;
+  border-color: black transparent black transparent;
+  border-radius: 50%;
+  animation: spin-anim 0.6s linear infinite;
+}
+
+@keyframes spin-anim {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }

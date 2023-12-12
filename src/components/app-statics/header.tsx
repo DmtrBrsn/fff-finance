@@ -1,5 +1,5 @@
 import { Nav } from "./nav"
-import { useAuth } from "../contexts/auth-context"
+import { useAuth } from "../../contexts/auth-context"
 
 export const Header = () => {
   const { currentUser } = useAuth()

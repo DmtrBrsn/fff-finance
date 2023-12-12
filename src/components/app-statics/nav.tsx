@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useAuth } from "../contexts/auth-context"
+import { useAuth } from "../../contexts/auth-context"
 
 export const Nav = () => {
   const { currentUser } = useAuth()
@@ -11,7 +11,7 @@ export const Nav = () => {
           <>
             <NavLink to="/">New operation</NavLink>
             <NavLink to="/operations">Operations</NavLink>
-            <NavLink to="/categories">Catigories</NavLink>
+            <NavLink to="/categories">Categories</NavLink>
             <NavLink to="/settings">Settings</NavLink>
           </>
           :

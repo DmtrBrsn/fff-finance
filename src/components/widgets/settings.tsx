@@ -1,11 +1,11 @@
-import { Logout } from "./auth/logout"
-import { UpdateEmail } from "./auth/update-email"
-import { UpdatePassword } from "./auth/update-password"
-import { DeleteUser } from "./auth/delete-user"
+import { Logout } from "../auth/logout"
+import { UpdateEmail } from "../auth/update-email"
+import { UpdatePassword } from "../auth/update-password"
+import { DeleteUser } from "../auth/delete-user"
 import { getAuth } from "firebase/auth"
-import { UnlinkGoogle } from "./auth/unlink-google"
-import { UnlinkEmailAndPassword } from "./auth/unlink-email-and-password"
-import { SignInWithGoogle } from "./auth/sign-in-with-google"
+import { UnlinkGoogle } from "../auth/unlink-google"
+import { UnlinkEmailAndPassword } from "../auth/unlink-email-and-password"
+import { SignInWithGoogle } from "../auth/sign-in-with-google"
 
 export const Settings = () => {
   const { currentUser } = getAuth()

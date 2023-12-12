@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
-import { GoogleIcon } from '../../common/svg/google'
+import { GoogleIcon } from '../../common/svg'
 
 
 export const SignInWithGoogle = () => {
@@ -29,7 +29,7 @@ export const SignInWithGoogle = () => {
         className='google-sign-in-btn'
         onClick={handleGoogleSignIn}
       >
-        <GoogleIcon />
+        <GoogleIcon/>
         <span>{loading ? 'Signing in...':'Sign in with Google'}</span>
       </button>
     </>
