@@ -19,7 +19,7 @@ const getAllCategories = async () => {
     return docs
   }
   catch(err) {
-    console.log(err)
+    console.error(err)
     return []
   }
 }
@@ -32,7 +32,7 @@ const addCategory = async (doc: Omit<CategoryDoc, "id">): Promise<CategoryDoc | 
     return addedDoc
   }
   catch (err) {
-    console.log(err)
+    console.error(err)
     return null
   }
 }
@@ -43,7 +43,7 @@ const deleteCategory = async (id: string) => {
     await deleteDoc(docRef)
   }
   catch(err) {
-    console.log(err)
+    console.error(err)
     return null
   }
 }
@@ -54,7 +54,7 @@ const updateCategory = async (updDoc: CategoryDoc) => {
     await setDoc(docRef, updDoc)
   }
   catch(err) {
-    console.log(err)
+    console.error(err)
     return null
   }
 }

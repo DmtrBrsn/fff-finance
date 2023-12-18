@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
-import { GoogleIcon } from '../../common/svg'
+import { GoogleIcon } from '../common/svg'
+import { Spinner } from '../common/spinner'
 
 
 export const SignInWithGoogle = () => {
@@ -30,7 +31,7 @@ export const SignInWithGoogle = () => {
         onClick={handleGoogleSignIn}
       >
         <GoogleIcon/>
-        <span>{loading ? 'Signing in...':'Sign in with Google'}</span>
+        <span>{loading ? <Spinner/> :'Sign in with Google'}</span>
       </button>
     </>
   )

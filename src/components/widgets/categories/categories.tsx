@@ -1,8 +1,8 @@
 import { useState, useEffect, ReactNode } from 'react'
 import { getAllCategories, addCategory, deleteCategory, updateCategory } from './categories.queries'
-import { BtnIcon } from '../../../common/ui/btn-icon';
-import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../../../common/svg';
-import { Spinner } from '../../../common/ui/spinner';
+import { BtnIcon } from '../../common/btn-icon';
+import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../../common/svg';
+import { Spinner } from '../../common/spinner';
 
 export const Categories = () => {
   const [categories, setCategories] = useState<CategoryDoc[]>([])
@@ -37,15 +37,15 @@ export const Categories = () => {
           setAddNewLoading(false)
           if (addedDoc !== null) {
             setAddNew(false)
-            setCategories([...categories, addedDoc])
+            setCategories([addedDoc, ...categories])
           }
         })
     }
   
     return (<>
-      <td><input type='text' value={name} onChange={(e)=>setName(e.target.value)} /></td>
-      <td><input type="checkbox" checked={isIncome} onChange={(e)=>setIsIncome(e.target.checked)} /></td>
-      {addNewLoading ? <SpinnerCell/> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}
+      <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} /></td>
+      <td><input type="checkbox" checked={isIncome} onChange={(e) => setIsIncome(e.target.checked)} /></td>
+      {addNewLoading ? <SpinnerCell /> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}
       <td><BtnIcon content={<CancelIcon />} onClick={() => setAddNew(false)}/></td>
     </>)
   }
@@ -54,6 +54,7 @@ export const Categories = () => {
     const [name, setName] = useState(cat.name)
     const [isIncome, setIsIncome] = useState(cat.isIncome)
     const [updLoading, setUpdLoading] = useState(false)
+
     const handleUpdate = () => {
       if (name === '' || (name === cat.name && isIncome === cat.isIncome)) return
       setUpdLoading(true)
@@ -67,6 +68,7 @@ export const Categories = () => {
           }
         })
     }
+
     return (<>
       <td><input type='text' value={name} onChange={(e)=>setName(e.target.value)} /></td>
       <td><input type="checkbox" checked={isIncome} onChange={(e)=>setIsIncome(e.target.checked)} /></td>

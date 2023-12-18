@@ -28,7 +28,7 @@ export const Logout = () => {
         className="btn-std"
         type="button"
         onClick={handleLogout}
-        value="Log out"
+        value={loading ? "...Logging out" : "Log out"}
         disabled={loading}
       />
     </div>

@@ -3,8 +3,8 @@ html {
 }
 
 .btn-std {
-  background-color:dodgerblue;
-  color: white;
+  background-color: var(--dodgerblue);
+  color: var(--light-font);
   border-radius: var(--app-border-radius);
   border: none;
   padding: calc(var(--gap-step) * 2) calc(var(--gap-step) * 3);
@@ -13,12 +13,12 @@ html {
   white-space: nowrap;
 
   &.danger {
-    background-color:crimson;
+    background-color: var(--red-hi-cont);
   }
 
   &.secondary {
-    color: black;
-    background-color: rgb(234, 234, 234);
+    color: var(--font-color);
+    background-color: var(--grey-low-cont);
   }
 
   &.large {
@@ -37,8 +37,8 @@ html {
   }
 
   &[disabled] {
-    background-color: rgb(234, 234, 234);
-    color: grey;
+    background-color: var(--grey-low-cont);
+    color: var(--grey-hi-cont);
   }
 }
 
@@ -56,43 +56,43 @@ html {
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   font-weight: bold;
-  color: black;
+  color: var(--font-color);
   padding: var(--gap-step);
   user-select: none;
   border: unset;
   cursor: pointer;
 
   & svg {
-    fill: black;
+    fill: var(--font-color);
     height: 1.3rem;
     width: 1.3rem;
   }
 
   &:hover:not([disabled]) {
-    background-color: lightgray
+    background-color: var(--grey-low-cont)
   }
 
   &:active:not([disabled]) {
     filter: brightness(97%);
-    color: dodgerblue;
+    color: var(--dodgerblue);
     svg {
-      fill: dodgerblue;
+      fill: var(--dodgerblue);
     }
   }
 
   & [disabled] {
-    color: grey;
+    color: var(--grey-low-cont);;
     
     & svg {
-      fill: grey;
+      fill: var(--grey-low-cont);;
     }
   }
   & [data-enabled="true"]:not([disabled]) {
-    background-color: darkgray;
-    color: white;
+    background-color: var(--grey-hi-cont);
+    color: var(--light-font);
 
     & svg {
-      fill: white;
+      fill: var(--light-font);
     }
   }
 
@@ -105,8 +105,8 @@ header {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  background-color:lightseagreen;
-  color: white;
+  background-color:var(--app-color);
+  color: var(--light-font);
   padding-left: var(--gap-step);
   padding-right: var(--gap-step);
 
@@ -127,7 +127,7 @@ header {
       padding: var(--gap-step) 0;
     }
     
-    > a:hover, a.active {border-color: white transparent transparent ;}
+    > a:hover, a.active {border-color: var(--light-font) transparent transparent ;}
     /* & a:active {
       color: orange;
     } */
@@ -152,7 +152,7 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgb(234, 234, 234);
+  background-color: var(--grey-low-cont);
   border-radius: var(--app-border-radius);
   padding: calc(var(--gap-step) * 3);
 }
@@ -166,12 +166,12 @@ header {
 }
 
 .auth-error-text {
-  color: crimson;
+  color: var(--red-hi-cont);
   margin-top: var(--gap-step);
   margin-bottom: var(--gap-step);
 }
 .auth-message-text {
-  color: darkolivegreen;
+  color: var(--green-hi-cont);
   margin-top: var(--gap-step);
   margin-bottom: var(--gap-step);
 }
@@ -188,20 +188,20 @@ header {
   white-space: nowrap;
   gap: var(--gap-step);
   align-items: center;
-  background-color: rgb(234, 234, 234);
-  color: black;
+  background-color: var(--grey-low-cont);
+  color: var(--font-color);
 
   & svg {
-    fill: rgb(234, 234, 234);
+    fill: var(--grey-low-cont);
     height: 1.2rem;
     width: 1.2rem;
   }
 
   &:hover {
-    filter: brightness(103%);
+    filter: brightness(106%);
   }
   &:active {
-    filter: brightness(97%);
+    filter: brightness(93%);
   }
 }
 
@@ -221,7 +221,15 @@ header {
   padding: calc(var(--gap-step) * 2);
 }
 
-
+.settings-section-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: calc(var(--gap-step) * 2);
+  background-color: var(--grey-low-cont);
+  border-radius: var(--app-border-radius);
+  padding: calc(var(--gap-step) * 3);
+}
 
 
 
@@ -229,7 +237,7 @@ header {
   width: 0.9rem;
   height: 0.9rem;
   border: 0.2rem solid;
-  border-color: black transparent black transparent;
+  border-color: var(--font-color) transparent var(--font-color) transparent;
   border-radius: 50%;
   animation: spin-anim 0.6s linear infinite;
 }

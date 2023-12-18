@@ -1,6 +1,6 @@
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
-import { GoogleIcon } from "../../common/svg/google"
+import { GoogleIcon } from "../common/svg/google"
 
 export const UnlinkGoogle = () => {
   const { currentUser, setCurrentUser, utils } = useAuth()

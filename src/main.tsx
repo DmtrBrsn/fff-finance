@@ -4,6 +4,7 @@ import App from './components/app-statics/app.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import './styles/reset.css'
 import './styles/root.css'
+import './styles/colors.css'
 import './styles/index.css'
 
 
