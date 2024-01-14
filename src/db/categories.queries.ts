@@ -1,22 +1,13 @@
-import { db } from "../../../firebase"
+import { db } from "../firebase"
 import { getDocs, collection, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore'
 
 const getAllCategories = async () => {
-  const categoriesCollectionRef = collection(db, 'categories')
+  const collectionRef = collection(db, 'categories')
   try {
-    const querySnapshot = await getDocs(categoriesCollectionRef)
-
-    const docs: CategoryDoc[] = querySnapshot.docs.map((doc) => {
-      const { name, isIncome } = doc.data()
-
-      return {
-        id: doc.id,
-        name,
-        isIncome,
-      }
+    const querySnapshot = await getDocs(collectionRef)
+    return querySnapshot.docs.map(doc => {
+      return { id: doc.id, ...doc.data() } as CategoryDoc
     })
-
-    return docs
   }
   catch(err) {
     console.error(err)
@@ -25,9 +16,9 @@ const getAllCategories = async () => {
 }
 
 const addCategory = async (doc: Omit<CategoryDoc, "id">): Promise<CategoryDoc | null>  => {
-  const categoriesCollectionRef = collection(db, 'categories')
+  const collectionRef = collection(db, 'categories')
   try {
-    const docRef = await addDoc(categoriesCollectionRef, doc)
+    const docRef = await addDoc(collectionRef, doc)
     const addedDoc = { id: docRef.id, ...doc }
     return addedDoc
   }

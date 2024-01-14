@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth"
 import { UnlinkGoogle } from "../auth/unlink-google"
 import { UnlinkEmailAndPassword } from "../auth/unlink-email-and-password"
 import { SignInWithGoogle } from "../auth/sign-in-with-google"
-import { AppThemeSwitcher } from "./app-theme/app-theme-switcher"
+import { AppThemeSwitcher } from "./app-theme-switcher"
 
 export const Settings = () => {
   const { currentUser } = getAuth()

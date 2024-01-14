@@ -1,3 +1,3 @@
-import { Categories } from '../widgets/categories/categories'
+import { CategoriesList } from '../widgets/categories-list'
 
-export const CategoriesPage = () => <Categories/>
+export const CategoriesPage = () => <CategoriesList/>

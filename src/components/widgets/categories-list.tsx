@@ -1,10 +1,11 @@
 import { useState, useEffect, ReactNode } from 'react'
-import { getAllCategories, addCategory, deleteCategory, updateCategory } from './categories.queries'
-import { BtnIcon } from '../../common/btn-icon';
-import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../../common/svg';
-import { Spinner } from '../../common/spinner';
+import { getAllCategories, addCategory, deleteCategory, updateCategory } from '../../db/categories.queries'
+import { BtnIcon } from '../common/btn-icon';
+import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../common/svg';
+import { Spinner } from '../common/spinner';
+import { DateUtils } from '../../utils/dateUtils';
 
-export const Categories = () => {
+export const CategoriesList = () => {
   const [categories, setCategories] = useState<CategoryDoc[]>([])
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined)
@@ -32,7 +33,7 @@ export const Categories = () => {
     const handleAddClick = () => {
       if (name === '') return
       setAddNewLoading(true)
-      addCategory({ name, isIncome })
+      addCategory({ name, isIncome, created: DateUtils.getCurIsoStr() })
         .then(addedDoc => {
           setAddNewLoading(false)
           if (addedDoc !== null) {
