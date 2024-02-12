@@ -1,6 +1,7 @@
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify"
 
 export const DeleteUser = () => {
   const { utils, currentUser } = useAuth()
@@ -23,6 +24,7 @@ export const DeleteUser = () => {
     event.preventDefault()
     if (currentUser == undefined) throw 'No current user'
     if (currentUser.email !== formState.confirmEmail) {
+      toast('Incorrect email')
       setError('Incorrect email')
       return
     }
@@ -33,7 +35,8 @@ export const DeleteUser = () => {
       navigate('/signup')
     }
     catch (err) {
-      setError(`Delete user failed:${err}`)
+      toast(`Delete user failed: ${err}`)
+      setError(`Delete user failed: ${err}`)
     }
     setLoading(false)
   }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
 import { GoogleIcon } from '../common/svg'
 import { Spinner } from '../common/spinner'
+import { toast } from 'react-toastify'
 
 
 export const SignInWithGoogle = () => {
@@ -16,7 +17,8 @@ export const SignInWithGoogle = () => {
       await utils.loginWithGoogle()
       setCurrentUser && currentUser && setCurrentUser({ ...currentUser })
     }
-    catch(err) {
+    catch (err) {
+      toast.error(`Sign in failed: ${err}`)
       setError(`Sign in failed: ${err}`)
     }
     setLoading(false)

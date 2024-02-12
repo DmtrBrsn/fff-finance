@@ -5,7 +5,7 @@ import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../commo
 import { Spinner } from '../common/spinner';
 import { DateUtils } from '../../utils/dateUtils';
 
-export const CategoriesList = () => {
+export const CategoriesDataGrid = () => {
   const [categories, setCategories] = useState<CategoryDoc[]>([])
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined)

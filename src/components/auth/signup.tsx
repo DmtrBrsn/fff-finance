@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
 import {NavLink, useNavigate} from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const Signup = () => {
   const { signup } = useAuth().utils
@@ -27,7 +28,8 @@ export const Signup = () => {
       await signup(formState.email, formState.password)
       navigate('/')
     }
-    catch(err) {
+    catch (err) {
+      toast.error(`Sign up failed: ${err}`)
       setError(`Sign up failed: ${err}`)
     }
     setLoading(false)

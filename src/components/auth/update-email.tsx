@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
+import { toast } from 'react-toastify'
 
 export const UpdateEmail = () => {
   const { utils, currentUser } = useAuth()
@@ -27,7 +28,8 @@ export const UpdateEmail = () => {
       setFormState({ newEmail: '' })
       setActive(false)
     }
-    catch(err) {
+    catch (err) {
+      toast.error(`Email update failed: ${err}`)
       setError(`Email update failed: ${err}`)
     }
     setLoading(false)

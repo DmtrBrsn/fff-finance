@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 
@@ -15,6 +16,7 @@ export const UnlinkEmailAndPassword = () => {
       setCurrentUser && currentUser && setCurrentUser({...currentUser})
     }
     catch (err) {
+      toast.error(`Unlink failed: ${err}`)
       setError(`Unlink failed: ${err}`)
     }
     setLoading(false)

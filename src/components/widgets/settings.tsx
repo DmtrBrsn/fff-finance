@@ -7,6 +7,7 @@ import { UnlinkGoogle } from "../auth/unlink-google"
 import { UnlinkEmailAndPassword } from "../auth/unlink-email-and-password"
 import { SignInWithGoogle } from "../auth/sign-in-with-google"
 import { AppThemeSwitcher } from "./app-theme-switcher"
+import { toast } from "react-toastify"
 
 export const Settings = () => {
   const { currentUser } = getAuth()
@@ -28,7 +29,9 @@ export const Settings = () => {
         :
         <></>
       }
-      <DeleteUser/>
+      <DeleteUser />
+      <button onClick={()=>toast('Test...')}>Test toast</button>
+      <button onClick={()=>toast.error('Error!')}>Test error toast</button>
     </div>
   )
 }

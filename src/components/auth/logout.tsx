@@ -1,6 +1,7 @@
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify"
 
 export const Logout = () => {
   const { logout } = useAuth().utils
@@ -16,6 +17,7 @@ export const Logout = () => {
       navigate('/login')
     }
     catch (err) {
+      toast(`Log out failed: ${err}`)
       setError(`Log out failed: ${err}`)
     }
     setLoading(false)

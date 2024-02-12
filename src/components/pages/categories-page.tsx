@@ -1,3 +1,3 @@
-import { CategoriesList } from '../widgets/categories-list'
+import { CategoriesDataGrid } from '../widgets/categories-data-grid'
 
-export const CategoriesPage = () => <CategoriesList/>
+export const CategoriesPage = () => <CategoriesDataGrid/>

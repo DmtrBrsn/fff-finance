@@ -51,8 +51,8 @@ html {
   background-color: inherit;
   outline: none;
   cursor: pointer;
-  min-width: 2rem;
-  min-height: 2rem;
+  width: 2rem;
+  height: 2rem;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   font-weight: bold;

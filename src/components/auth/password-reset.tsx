@@ -1,6 +1,7 @@
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { toast } from "react-toastify"
 
 
 export const PasswordReset = () => {
@@ -28,7 +29,8 @@ export const PasswordReset = () => {
       await resetPassword(formState.email)
       setMessage('Check your inbox')
     }
-    catch(err) {
+    catch (err) {
+      toast.error(`Reset password failed: ${err}`)
       setError(`Reset password failed: ${err}`)
     }
     setLoading(false)

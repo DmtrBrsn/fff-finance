@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/auth-context'
+import { toast } from 'react-toastify'
 
 export const UpdatePassword = () => {
   const { utils, currentUser } = useAuth()
@@ -28,7 +29,8 @@ export const UpdatePassword = () => {
       setFormState({ newPassword: '' })
       setActive(false)
     }
-    catch(err) {
+    catch (err) {
+      toast.error(`Password update failed: ${err}`)
       setError(`Password update failed: ${err}`)
     }
     setLoading(false)

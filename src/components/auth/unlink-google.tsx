@@ -1,6 +1,7 @@
 import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 import { GoogleIcon } from "../common/svg/google"
+import { toast } from "react-toastify"
 
 export const UnlinkGoogle = () => {
   const { currentUser, setCurrentUser, utils } = useAuth()
@@ -16,6 +17,7 @@ export const UnlinkGoogle = () => {
       setCurrentUser && setCurrentUser({...currentUser})
     }
     catch (err) {
+      toast.error(`Unlink failed: ${err}`)
       setError(`Unlink failed: ${err}`)
     }
     setLoading(false)

@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
+      localStorage.setItem('uid', user?.uid ?? '')
       setLoading(false)
     })
     return unsubscribe

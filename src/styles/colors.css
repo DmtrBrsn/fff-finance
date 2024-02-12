@@ -62,3 +62,9 @@
   --grey-med-cont: rgb(100, 100, 100);
   --grey-hi-cont: rgb(160, 160, 160);
 }
+
+:root {
+  --toastify-color-light: var(--bg-color);
+  --toastify-text-color-light: var(--font-color);
+  
+}
