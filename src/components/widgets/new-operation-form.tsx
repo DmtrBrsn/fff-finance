@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useState } from "react"
 import { getAllCategories } from "../../db/categories.queries"
 import { DateUtils } from "../../utils/dateUtils"
 import { Spinner } from "../common/spinner"
-import { toast } from "react-toastify"
 import { addOperation } from "../../db/operations.queries"
 import { BtnIcon } from "../common/btn-icon"
 
@@ -51,12 +50,13 @@ export const NewOperationForm = () => {
   const saveOp = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setAddNewLoading(true)
-    addOperation({...op, created: DateUtils.getCurIsoStr()})
+    setOp(initOp)
+    const newOp = {...op, created: DateUtils.getCurIsoStr()}
+    addOperation(newOp)
     .then(addedDoc => {
       setAddNewLoading(false)
-      if (addedDoc !== null) {
-        toast('Operation saved')
-        setOp(initOp)
+      if (addedDoc === null) {
+        setOp(newOp)
       }
     })
   }
@@ -73,7 +73,6 @@ export const NewOperationForm = () => {
           type="date"
           id="opDate"
           value={op.date}
-          disabled={addNewLoading}
           required
           onChange={(e) => setOp({...op, date: e.target.value})}
         />
@@ -85,7 +84,6 @@ export const NewOperationForm = () => {
           id="opDescription"
           name="description"
           value={op.description}
-          disabled={addNewLoading}
           required
           onChange={(e)=> setOp({...op, description: e.target.value})}
         />
@@ -97,7 +95,6 @@ export const NewOperationForm = () => {
           id="opSum"
           min="0"
           value={op.sum}
-          disabled={addNewLoading}
           required
           onChange={(e)=> setOp({...op, sum: parseFloat(e.target.value)})}
         />
@@ -112,10 +109,9 @@ export const NewOperationForm = () => {
               id="opCat"
               multiple={true}
               size={categories.length>=3 ? 3 : categories.length}
-              value={(op.idCategory !== '') ? op.idCategory : undefined}
-              disabled={addNewLoading}
+              value={(op.idCategory !== '') ? [op.idCategory] : ['']}
               required
-              onChange={(e)=> setOp({...op, idCategory: categories.find(cat=>cat.id === e.target.value)?.id ?? ''})}
+              onChange={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.value)?.id ?? '' })}
             >
               {
                 categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
@@ -133,17 +129,10 @@ export const NewOperationForm = () => {
           type="checkbox"
           id="opIsPlan"
           checked={op.isPlan}
-          disabled={addNewLoading}
           onChange={(e)=> setOp({...op, isPlan: e.target.checked})}
         />
       </span>
-      <button
-        type="submit"
-        disabled={addNewLoading}
-        className="btn-std"
-      >
-        {addNewLoading ? <Spinner/> : 'Save'}
-      </button>
+      <button type="submit" disabled={addNewLoading} className="btn-std">Save</button>
     </form>
   )
 }

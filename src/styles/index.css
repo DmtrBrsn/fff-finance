@@ -15,7 +15,7 @@ input[type="checkbox"] {
   color: var(--light-font);
   border-radius: var(--app-border-radius);
   border: none;
-  padding: calc(var(--gap-step) * 2) calc(var(--gap-step) * 3);
+  padding: calc(var(--gap-step) * 2.5) calc(var(--gap-step) * 3);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -190,7 +190,7 @@ header {
   flex-wrap: nowrap;
   border-radius: var(--app-border-radius);
   border: none;
-  padding: calc(var(--gap-step) * 2) calc(var(--gap-step) * 3);
+  padding: calc(var(--gap-step) * 2.5) calc(var(--gap-step) * 3);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -261,14 +261,14 @@ header {
 
 
 .new-operation-form {
-  margin: 0.3rem;
+  margin: var(--gap-step);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: calc(var(--gap-step) * 2);
   width: 15rem;
 
   .field {
-    gap: 0.3rem;
+    gap: var(--gap-step);
   }
 
   .hor {
