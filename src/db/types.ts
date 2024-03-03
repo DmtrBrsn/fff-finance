@@ -1,11 +1,11 @@
-type CategoryDoc = {
+type Category = {
   id: string
   name: string
   isIncome: boolean
   created?: string
 }
 
-type OperationDoc = {
+type Operation = {
   id: string
   idCategory: string
   date?: string

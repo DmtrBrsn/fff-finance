@@ -8,7 +8,7 @@ const getAllCategories = async () => {
   try {
     const querySnapshot = await getDocs(collectionRef)
     return querySnapshot.docs.map(doc => {
-      return { id: doc.id, ...doc.data() } as CategoryDoc
+      return { id: doc.id, ...doc.data() } as Category
     })
   }
   catch(err) {
@@ -17,7 +17,7 @@ const getAllCategories = async () => {
   }
 }
 
-const addCategory = async (doc: Omit<CategoryDoc, "id">): Promise<CategoryDoc | null>  => {
+const addCategory = async (doc: Omit<Category, "id">): Promise<Category | null>  => {
   const collectionRef = collection(db, getColPath('categories'))
   try {
     const docRef = await addDoc(collectionRef, doc)
@@ -43,7 +43,7 @@ const deleteCategory = async (id: string) => {
   }
 }
 
-const updateCategory = async (updDoc: CategoryDoc) => {
+const updateCategory = async (updDoc: Category) => {
   const docRef = doc(db, getColPath('categories'), updDoc.id)
   try {
     await setDoc(docRef, updDoc)

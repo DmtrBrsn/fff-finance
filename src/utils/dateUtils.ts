@@ -13,6 +13,18 @@ export class DateUtils {
     return DateUtils.dateToIsoStr(curDate)
   }
 
+  static getCurInpDate() {
+    const curDate = new Date()
+    return DateUtils.formatDateForInput(curDate)
+  }
+
+  static formatDateForInput(date: Date, offset: number | undefined = DateUtils.tzs.msk.offset) {
+    offset = offset===undefined ? date.getTimezoneOffset() : offset;
+		return new Date(date.getTime() - (offset * 60000))
+			.toISOString()
+			.split('T')[0]
+	}
+
   static isoStrToDate(isoDate: string) {
     return new Date(isoDate)
   }
@@ -25,7 +37,7 @@ export class DateUtils {
   static isoStrToInpDate(isoDate: string, offset: number | undefined  = DateUtils.tzs.msk.offset) {
     const date = DateUtils.isoStrToDate(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
-    return new Date(date.getTime() - (offset * 60000 ))
+    return new Date(date.getTime() - (offset * 60000))
        .toISOString()
        .split("T")[0];
   }
@@ -53,5 +65,61 @@ export class DateUtils {
       :
       date.toLocaleString('ru-RU', { timeZone })
   }
+
+  static incrementDatePeriod(date: Date, per: string) {
+		switch (per) {
+			case 'День':
+			case 'D' :
+				date.setDate(date.getDate() + 1)
+				break
+			case 'Неделя':
+			case 'W' :
+				date.setDate(date.getDate() + 7)
+				break
+			case 'Месяц':
+				date.setMonth(date.getMonth() + 1)
+				break
+			case 'Квартал':
+			case 'Q' :
+				date.setMonth(date.getMonth() + 3)
+				break
+			case 'Полгода':
+			case 'HY' :
+				date.setMonth(date.getMonth() + 6)
+				break
+			case 'Год':
+			case 'Y' :
+				date.setMonth(date.getMonth() + 12)
+		}
+		return date
+  }
+  
+  static decrementDatePeriod(date: Date, per: string) {
+		switch (per) {
+			case 'День':
+			case 'D' :
+				date.setDate(date.getDate() - 1)
+				break
+			case 'Неделя':
+			case 'W' :
+				date.setDate(date.getDate() - 7)
+				break
+			case 'Месяц':
+				date.setMonth(date.getMonth() - 1)
+				break
+			case 'Квартал':
+			case 'Q' :
+				date.setMonth(date.getMonth() - 3)
+				break
+			case 'Полгода':
+			case 'HY' :
+				date.setMonth(date.getMonth() - 6)
+				break
+			case 'Год':
+			case 'Y' :
+				date.setMonth(date.getMonth() - 12)
+		}
+		return date
+	}
 
 }

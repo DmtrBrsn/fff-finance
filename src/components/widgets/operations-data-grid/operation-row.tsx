@@ -6,10 +6,10 @@ import { SpinnerCell } from "./operations-table-parts"
 import { BtnIcon } from "../../common/btn-icon"
 
 type OperationsRowProps = {
-  op: OperationDoc
-  operations: [] | OperationDoc[]
-  setOperations: React.Dispatch<React.SetStateAction<[] | OperationDoc[]>>
-  categories: [] | CategoryDoc[]
+  op: Operation
+  operations: [] | Operation[]
+  setOperations: React.Dispatch<React.SetStateAction<[] | Operation[]>>
+  categories: [] | Category[]
   setAddNew: React.Dispatch<React.SetStateAction<boolean>>
   setEditId: React.Dispatch<React.SetStateAction<string | undefined>>
 }

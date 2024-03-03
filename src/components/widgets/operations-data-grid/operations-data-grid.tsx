@@ -10,8 +10,8 @@ import { AddOperationRow } from './operation-add-row'
 import { OperationRow } from './operation-row'
 
 export const OperationsDataGrid = () => {
-  const [operations, setOperations] = useState<OperationDoc[] | []>([])
-  const [categories, setCategories] = useState<CategoryDoc[] | []>([])
+  const [operations, setOperations] = useState<Operation[] | []>([])
+  const [categories, setCategories] = useState<Category[] | []>([])
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined)
   const [addNew, setAddNew] = useState(false)

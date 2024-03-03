@@ -1,3 +1,5 @@
+import { NewOperationForm } from "../widgets/new-operation-form"
+
 export const NewOperation = () => {
-  return <h1>New operation page</h1>
+  return <main className="page-centered-content"><NewOperationForm/></main>
 }

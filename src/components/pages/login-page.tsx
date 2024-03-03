@@ -3,7 +3,7 @@ import { SignInWithGoogle } from "../auth/sign-in-with-google"
 
 export const LoginPage = () => {
   return (
-    <main className="auth-page">
+    <main className="page-centered-content">
       <h1>Log In</h1>
       <SignInWithGoogle/>
       <span className='auth-or'>Or</span>

@@ -6,9 +6,9 @@ import { BtnIcon } from "../../common/btn-icon"
 import { CancelIcon, DoneIcon } from "../../common/svg"
 
 type AddOperationRowProps = {
-  operations: [] | OperationDoc[]
-  setOperations: React.Dispatch<React.SetStateAction<[] | OperationDoc[]>>
-  categories: [] | CategoryDoc[]
+  operations: [] | Operation[]
+  setOperations: React.Dispatch<React.SetStateAction<[] | Operation[]>>
+  categories: [] | Category[]
   setAddNew: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -18,7 +18,7 @@ export const AddOperationRow = ({operations, setOperations, categories, setAddNe
   const [isPlan, setIsPlan] = useState(false)
   const [sum, setSum] = useState(0)
   const [addNewLoading, setAddNewLoading] = useState(false)
-  const [category, setCategory] = useState<CategoryDoc | {}>({})
+  const [category, setCategory] = useState<Category | {}>({})
 
   const handleAddClick = () => {
     if (description === '' || !('id' in category)) return
@@ -52,7 +52,7 @@ export const AddOperationRow = ({operations, setOperations, categories, setAddNe
         categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
       }
     </select></td>
-    <td>{('isIncome' in category) ? category.isIncome ? 'Доход' : 'Расход' : '' }</td>
+    <td>{('isIncome' in category) ? category.isIncome ? 'Income' : 'Expense' : '' }</td>
     <td><input type="checkbox" checked={isPlan} onChange={(e) => setIsPlan(e.target.checked)} /></td>
 
     {addNewLoading ? <SpinnerCell /> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}

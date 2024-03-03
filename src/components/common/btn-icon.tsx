@@ -6,6 +6,7 @@ export const BtnIcon = ({ onClick, content }: {onClick:(event: React.MouseEvent<
     <button
       className="btn-icon"
       onClick={onClick}
+      type="button"
     >
       {content}
     </button>

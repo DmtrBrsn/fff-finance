@@ -6,7 +6,7 @@ import { Spinner } from '../common/spinner';
 import { DateUtils } from '../../utils/dateUtils';
 
 export const CategoriesDataGrid = () => {
-  const [categories, setCategories] = useState<CategoryDoc[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState<string | undefined>(undefined)
   const [addNew, setAddNew] = useState(false)
@@ -51,7 +51,7 @@ export const CategoriesDataGrid = () => {
     </>)
   }
 
-  const EditCells = ({ cat }: { cat: CategoryDoc }) => {
+  const EditCells = ({ cat }: { cat: Category }) => {
     const [name, setName] = useState(cat.name)
     const [isIncome, setIsIncome] = useState(cat.isIncome)
     const [updLoading, setUpdLoading] = useState(false)
@@ -78,7 +78,7 @@ export const CategoriesDataGrid = () => {
     </>)
   }
 
-  const NonEditCells = ({ cat }: { cat: CategoryDoc }) => {
+  const NonEditCells = ({ cat }: { cat: Category }) => {
     const [deleteLoading, setDeleteLoading] = useState(false)
 
     const handleDeleteClick = () => {

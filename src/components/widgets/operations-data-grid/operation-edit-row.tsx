@@ -6,10 +6,10 @@ import { CancelIcon, DoneIcon } from "../../common/svg"
 import { SpinnerCell } from "./operations-table-parts"
 
 type EditOperationRowProps = {
-  op: OperationDoc,
-  operations: [] | OperationDoc[],
-  setOperations: React.Dispatch<React.SetStateAction<[] | OperationDoc[]>>,
-  categories: [] | CategoryDoc[],
+  op: Operation,
+  operations: [] | Operation[],
+  setOperations: React.Dispatch<React.SetStateAction<[] | Operation[]>>,
+  categories: [] | Category[],
   setEditId: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
@@ -20,7 +20,7 @@ export const EditOperationRow = ({ op, operations, setOperations, categories, se
   const [isPlan, setIsPlan] = useState(op.isPlan)
   const [sum, setSum] = useState(op.sum)
   const [updLoading, setUpdLoading] = useState(false)
-  const [category, setCategory] = useState<CategoryDoc | {}>(categories.find(cat => cat.id === op.idCategory) ?? {})
+  const [category, setCategory] = useState<Category | {}>(categories.find(cat => cat.id === op.idCategory) ?? {})
 
   const handleUpdate = () => {
     if (description === '' || !('id' in category)) return

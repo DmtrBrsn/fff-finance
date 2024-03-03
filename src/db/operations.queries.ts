@@ -8,7 +8,7 @@ const getAllOperations = async () => {
   try {
     const querySnapshot = await getDocs(collectionRef)
     return querySnapshot.docs.map(doc => {
-      return { id: doc.id, ...doc.data() } as OperationDoc
+      return { id: doc.id, ...doc.data() } as Operation
     })
   }
   catch (err) {
@@ -18,7 +18,7 @@ const getAllOperations = async () => {
   }
 }
 
-const addOperation = async (doc: Omit<OperationDoc, "id">): Promise<OperationDoc | null>  => {
+const addOperation = async (doc: Omit<Operation, "id">): Promise<Operation | null>  => {
   const collectionRef = collection(db, getColPath('operations'))
   try {
     const docRef = await addDoc(collectionRef, doc)
@@ -44,7 +44,7 @@ const deleteOperation = async (id: string) => {
   }
 }
 
-const updateOperation = async (updDoc: OperationDoc) => {
+const updateOperation = async (updDoc: Operation) => {
   const docRef = doc(db, getColPath('operations'), updDoc.id)
   try {
     await setDoc(docRef, updDoc)
