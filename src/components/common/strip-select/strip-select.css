@@ -1,0 +1,24 @@
+.strip-select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  padding: var(--gap-step);
+  user-select: none;
+  border: 1px solid var(--grey-hi-cont);
+  border-radius: 1px;
+  white-space: nowrap;
+
+  .item {
+    padding: var(--gap-step);
+    word-wrap: none;
+    &:active {
+      filter: brightness(97%);
+    }
+  }
+  .selected {
+    background-color: var(--dodgerblue);
+    color: var(--light-font);
+  }
+}

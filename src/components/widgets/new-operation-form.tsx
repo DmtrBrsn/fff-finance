@@ -1,9 +1,11 @@
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect, useState, useRef } from "react"
 import { getAllCategories } from "../../db/categories.queries"
 import { DateUtils } from "../../utils/dateUtils"
 import { Spinner } from "../common/spinner"
 import { addOperation } from "../../db/operations.queries"
 import { BtnIcon } from "../common/btn-icon"
+import { StripSelect } from "../common/strip-select/strip-select"
+import { toast } from "react-toastify"
 
 export const NewOperationForm = () => {
 
@@ -20,6 +22,9 @@ export const NewOperationForm = () => {
   const [catsLoading, setCatsLoading] = useState(false)
   const [addNewLoading, setAddNewLoading] = useState(false)
   const [categories, setCategories] = useState<Category[] | []>([])
+
+  const sumInpRef = useRef<HTMLInputElement>(null);
+  const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.select()
 
   const fetchCats = async () => {
     setCatsLoading(true)
@@ -49,6 +54,10 @@ export const NewOperationForm = () => {
 
   const saveOp = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (op.idCategory === '') {
+      toast.error('Необходимо выбрать категорию')
+      return
+    }
     setAddNewLoading(true)
     setOp(initOp)
     const newOp = {...op, created: DateUtils.getCurIsoStr()}
@@ -78,6 +87,19 @@ export const NewOperationForm = () => {
         />
       </span>
       <span className="field vert">
+        <label htmlFor="opSum">Sum</label>
+        <input
+          type="number"
+          id="opSum"
+          min="0"
+          value={op.sum}
+          required
+          onChange={(e) => setOp({ ...op, sum: parseFloat(e.target.value) })}
+          onClick={selectSum}
+          ref={sumInpRef}
+        />
+      </span>
+      <span className="field vert">
         <label htmlFor="opDescription">Description</label>
         <input
           type="text"
@@ -88,24 +110,18 @@ export const NewOperationForm = () => {
           onChange={(e)=> setOp({...op, description: e.target.value})}
         />
       </span>
-      <span className="field vert">
-        <label htmlFor="opSum">Sum</label>
-        <input
-          type="number"
-          id="opSum"
-          min="0"
-          value={op.sum}
-          required
-          onChange={(e)=> setOp({...op, sum: parseFloat(e.target.value)})}
-        />
-      </span>
+      
       <span className="field vert">
         <label htmlFor="opCat">Category</label>
         {catsLoading ? 
           <Spinner/>
           :
           <>
-            <select
+            <StripSelect
+              items={categories.map(c => [c.id, c.name])}
+              onSelect={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.selectedKey)?.id ?? '' })}
+            />
+            {/* <select
               id="opCat"
               multiple={true}
               size={categories.length>=3 ? 3 : categories.length}
@@ -116,7 +132,7 @@ export const NewOperationForm = () => {
               {
                 categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
               }
-            </select>
+            </select> */}
             <span>
               {getIncExpStr()}
             </span>
