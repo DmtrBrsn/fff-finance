@@ -92,6 +92,7 @@ export const NewOperationForm = () => {
           type="number"
           id="opSum"
           min="0"
+          step="0.01"
           value={op.sum}
           required
           onChange={(e) => setOp({ ...op, sum: parseFloat(e.target.value) })}

@@ -45,8 +45,8 @@ export const EditOperationRow = ({ op, operations, setOperations, categories, se
 
   return (<>
     <td><input type='date' value={date} onChange={(e) => setDate(e.target.value)} /></td>
-    <td><input type='text' value={description} onChange={(e) => setDescription(e.target.value)} /></td>
-    <td><input type='number' value={sum} onChange={(e) => setSum(parseFloat(e.target.value))} /></td>
+    <td><input type='text' name="description" value={description} onChange={(e) => setDescription(e.target.value)} /></td>
+    <td><input type='number' min="0" step="0.01" value={sum} onChange={(e) => setSum(parseFloat(e.target.value))} /></td>
     <td><select
       value={('id' in category) ? category.id : undefined}
       onChange={(e)=> setCategory(categories.find(cat=>cat.id === e.target.value) ?? {})}
