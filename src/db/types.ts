@@ -1,11 +1,11 @@
-type Category = {
+export type Category = {
   id: string
   name: string
   isIncome: boolean
   created?: string
 }
 
-type Operation = {
+export type Operation = {
   id: string
   idCategory: string
   date?: string
@@ -14,3 +14,5 @@ type Operation = {
   sum: number
   created?: string
 }
+
+export type ApiCb = ()=> void

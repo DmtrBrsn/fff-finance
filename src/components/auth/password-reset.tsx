@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 
 
 export const PasswordReset = () => {
-  const { resetPassword } = useAuth().utils
+  const { resetPassword } = useAuth().service
 
   const [formState, setFormState] = useState({ email: ''})
   const [error, setError] = useState('')

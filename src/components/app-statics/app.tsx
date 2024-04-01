@@ -1,12 +1,14 @@
 import { Header } from './header'
 import { Router } from './router'
 import { AuthProvider } from '../../contexts/auth-context'
-import { updateRootThemeAttr } from '../../utils/styleUtils'
+import { updateRootThemeAttr } from '../../utils/style-utils'
 import { ToastContainerDefault } from '../common/toast-container-default'
+import { useCategoriesGet } from '../../db'
 
 function App() {
   
   useApptheme()
+  useCategoriesGet(true)
 
   return (
     <>

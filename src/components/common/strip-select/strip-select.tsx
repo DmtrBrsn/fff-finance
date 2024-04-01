@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import './strip-select.css'
 
 type Key = number | string
@@ -11,7 +11,7 @@ type StripSelectEvent = {
 
 type StripSelectEventTarget = {
   value: string | undefined,
-  selectedKey: Key | undefined
+  key: Key | undefined
 }
 
 type Props = {
@@ -21,23 +21,29 @@ type Props = {
 }
 
 export const StripSelect = ({ items, selectedKeyByDefault, onSelect }: Props) => {
-  const selectedKeyValid = (
+  const selectedKeyDefValid = (
     selectedKeyByDefault !== undefined &&
     items.find(i=>i[0]===selectedKeyByDefault)!==undefined
   )
-  const [selectedKey, setSelectedKey] = useState(selectedKeyValid ? selectedKeyByDefault : undefined)
 
+  const [selectedKey, setSelectedKey] = useState(selectedKeyDefValid ? selectedKeyByDefault : undefined)
+  
   const handleClick = (kv: Kv) => {
     if (selectedKey === kv[0]) {
       setSelectedKey(undefined)
-      onSelect && onSelect({ target: { value: undefined, selectedKey: undefined } })
+      onSelect && onSelect({ target: { value: undefined, key: undefined } })
     }
     else {
       setSelectedKey(kv[0])
-      onSelect && onSelect({ target: { value: kv[1], selectedKey: kv[0] } })
+      onSelect && onSelect({ target: { value: kv[1], key: kv[0] } })
     }
   }
   
+  useEffect(() => {
+    setSelectedKey(selectedKeyDefValid ? selectedKeyByDefault : undefined)
+    return ()=>{}
+  }, [selectedKeyByDefault])
+
   return (
     <span className="strip-select">
       {

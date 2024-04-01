@@ -6,10 +6,8 @@ import { getAuth } from "firebase/auth"
 import { UnlinkGoogle } from "../auth/unlink-google"
 import { UnlinkEmailAndPassword } from "../auth/unlink-email-and-password"
 import { SignInWithGoogle } from "../auth/sign-in-with-google"
-import { AppThemeSwitcher } from "./app-theme-switcher"
-import { toast } from "react-toastify"
 
-export const Settings = () => {
+export const UserSettingsPage = () => {
   const { currentUser } = getAuth()
   const providers = currentUser?.providerData
   const userLoggedInUsingEmailAndPass = !!providers?.some(prov => prov.providerId === 'password')
@@ -17,7 +15,6 @@ export const Settings = () => {
 
   return (
     <div className="settings-container">
-      <AppThemeSwitcher/>
       <Logout />
       {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
       {(userLoggedInUsingEmailAndPass && (providers && providers.length > 0)) ? <UnlinkEmailAndPassword /> : <></>}
@@ -30,8 +27,6 @@ export const Settings = () => {
         <></>
       }
       <DeleteUser />
-      <button onClick={()=>toast('Test...')}>Test toast</button>
-      <button onClick={()=>toast.error('Error!')}>Test error toast</button>
     </div>
   )
 }

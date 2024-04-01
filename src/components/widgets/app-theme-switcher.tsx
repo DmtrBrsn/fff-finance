@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { updateRootThemeAttr } from '../../utils/styleUtils';
+import { updateRootThemeAttr } from '../../utils/style-utils';
 
 export const AppThemeSwitcher = () => {
 	

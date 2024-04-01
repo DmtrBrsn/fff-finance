@@ -3,17 +3,19 @@ import { useAuth } from "../../contexts/auth-context"
 import { useState } from 'react'
 
 export const UnlinkEmailAndPassword = () => {
-  const { currentUser, setCurrentUser, utils } = useAuth()
+  const { userService } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   
   const handleUnlink = async () => {
-    if (currentUser==undefined) throw 'No current user'
+    if (userService == undefined) {
+      toast.error('No current user')
+      return
+    }
     setError('')
     setLoading(true)
     try {
-      await utils.unlinkEmailAndPassword(currentUser)
-      setCurrentUser && currentUser && setCurrentUser({...currentUser})
+      await userService.unlinkEmailAndPassword()
     }
     catch (err) {
       toast.error(`Unlink failed: ${err}`)

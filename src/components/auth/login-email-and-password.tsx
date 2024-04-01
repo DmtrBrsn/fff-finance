@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/auth-context'
 
 
 export const LoginWithEmailAndPassword = () => {
-  const { loginWithEmailAndPassword } = useAuth().utils
+  const { loginWithEmailAndPassword } = useAuth().service
 
   const navigate = useNavigate()
 

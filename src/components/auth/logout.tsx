@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 
 export const Logout = () => {
-  const { logout } = useAuth().utils
+  const { logout } = useAuth().service
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()

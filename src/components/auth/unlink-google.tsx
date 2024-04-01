@@ -4,17 +4,19 @@ import { GoogleIcon } from "../common/svg/google"
 import { toast } from "react-toastify"
 
 export const UnlinkGoogle = () => {
-  const { currentUser, setCurrentUser, utils } = useAuth()
+  const { userService } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   
   const handleUnlink = async () => {
-    if (currentUser==undefined) throw 'No current user'
+    if (userService == undefined) {
+      toast.error('No current user')
+      return
+    }
     setError('')
     setLoading(true)
     try {
-      await utils.unlinkGoogle(currentUser)
-      setCurrentUser && setCurrentUser({...currentUser})
+      await userService.unlinkGoogle()
     }
     catch (err) {
       toast.error(`Unlink failed: ${err}`)

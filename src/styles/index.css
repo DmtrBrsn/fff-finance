@@ -50,6 +50,9 @@ input[type="checkbox"] {
   }
 }
 
+.svg-icon {
+  fill: var(--font-color);
+}
 
 .txt-inp-std {
   padding: var(--gap-step);
@@ -143,9 +146,14 @@ header {
     } */
   }
 
-  .cur-user-email {
+  .cur-user-icon {
     padding: var(--gap-step) 0;
   }
+  .cur-user-icon>svg {
+    height: 2rem;
+  }
+
+
 }
 
 

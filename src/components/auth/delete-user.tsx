@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 
 export const DeleteUser = () => {
-  const { utils, currentUser } = useAuth()
+  const { userService, currentUser } = useAuth()
   const [active, setActive] = useState(false)
   const [formState, setFormState] = useState({ confirmEmail: '' })
   const [error, setError] = useState('')
@@ -22,7 +22,11 @@ export const DeleteUser = () => {
 
   const handleLogout = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (currentUser == undefined) throw 'No current user'
+    if (currentUser == undefined || userService == undefined) {
+      toast.error('No current user')
+      return
+    } 
+    
     if (currentUser.email !== formState.confirmEmail) {
       toast('Incorrect email')
       setError('Incorrect email')
@@ -31,7 +35,7 @@ export const DeleteUser = () => {
     setError('')
     setLoading(true)
     try {
-      await utils.deleteUser(currentUser)
+      await userService.delete()
       navigate('/signup')
     }
     catch (err) {

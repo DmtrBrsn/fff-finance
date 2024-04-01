@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 
 
 export const SignInWithGoogle = () => {
-  const { utils, currentUser, setCurrentUser } = useAuth()
+  const { loginWithGoogle } = useAuth().service
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -14,8 +14,7 @@ export const SignInWithGoogle = () => {
     try {
       setError('')
       setLoading(true)
-      await utils.loginWithGoogle()
-      setCurrentUser && currentUser && setCurrentUser({ ...currentUser })
+      await loginWithGoogle()
     }
     catch (err) {
       toast.error(`Sign in failed: ${err}`)

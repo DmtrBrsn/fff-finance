@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/auth-context'
 import { toast } from 'react-toastify'
 
 export const UpdatePassword = () => {
-  const { utils, currentUser } = useAuth()
+  const { userService } = useAuth()
 
   const [active, setActive] = useState(false)
   const [formState, setFormState] = useState({ newPassword: '' })
@@ -22,10 +22,13 @@ export const UpdatePassword = () => {
     event.preventDefault()
     try {
       setError('')
+      if (userService == undefined) {
+        toast.error('No current user')
+        return
+      }
       if (formState.newPassword === '') throw 'Provide new email'
-      if (currentUser==undefined) throw 'No current user'
       setLoading(true)
-      await utils.updatePassword(currentUser, formState.newPassword)
+      await userService.updatePassword(formState.newPassword)
       setFormState({ newPassword: '' })
       setActive(false)
     }

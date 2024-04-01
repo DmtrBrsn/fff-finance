@@ -4,7 +4,7 @@ import {NavLink, useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export const Signup = () => {
-  const { signup } = useAuth().utils
+  const { signup } = useAuth().service
 
   const navigate = useNavigate()
 

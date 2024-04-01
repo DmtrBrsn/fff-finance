@@ -1,11 +1,11 @@
-import { FormEvent, useEffect, useState, useRef } from "react"
-import { getAllCategories } from "../../db/categories.queries"
+import { FormEvent, useState, useRef } from "react"
 import { DateUtils } from "../../utils/dateUtils"
 import { Spinner } from "../common/spinner"
-import { addOperation } from "../../db/operations.queries"
 import { BtnIcon } from "../common/btn-icon"
 import { StripSelect } from "../common/strip-select/strip-select"
 import { toast } from "react-toastify"
+import { Operation, useCategoriesGet } from "../../db"
+import { useOperationsAdd } from "../../db/operations"
 
 export const NewOperationForm = () => {
 
@@ -19,29 +19,17 @@ export const NewOperationForm = () => {
   }
 
   const [op, setOp] = useState<Omit<Operation, "id">>(initOp)
-  const [catsLoading, setCatsLoading] = useState(false)
-  const [addNewLoading, setAddNewLoading] = useState(false)
-  const [categories, setCategories] = useState<Category[] | []>([])
 
   const sumInpRef = useRef<HTMLInputElement>(null);
-  const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.select()
+  const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.value==='0' && sumInpRef.current.select()
 
-  const fetchCats = async () => {
-    setCatsLoading(true)
-    const categoriesArr = await getAllCategories()
-    setCategories(categoriesArr)
-    setCatsLoading(false)
-  }
+  const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
+  const addHook = useOperationsAdd()
 
   const getIncExpStr = () => {
-    const isIncome = categories.find(cat => cat.id === op.idCategory)?.isIncome
+    const isIncome = categories?.find(cat => cat.id === op.idCategory)?.isIncome
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
-
-  useEffect(() => {
-    fetchCats()
-    return () => { }
-  }, [])
 
   const shiftDay = (sign: '+' | '-') => {
     if (op.date)
@@ -52,21 +40,16 @@ export const NewOperationForm = () => {
       setOp({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
   }
 
-  const saveOp = (e:FormEvent<HTMLFormElement>) => {
+  const saveOp = async (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (op.idCategory === '') {
       toast.error('Необходимо выбрать категорию')
       return
     }
-    setAddNewLoading(true)
-    setOp(initOp)
-    const newOp = {...op, created: DateUtils.getCurIsoStr()}
-    addOperation(newOp)
-    .then(addedDoc => {
-      setAddNewLoading(false)
-      if (addedDoc === null) {
-        setOp(newOp)
-      }
+    const newDoc = { ...op, created: DateUtils.getCurIsoStr() }
+    await addHook.mutateAsync({
+      newDoc,
+      onSuccess: () => setOp(initOp)
     })
   }
 
@@ -114,13 +97,14 @@ export const NewOperationForm = () => {
       
       <span className="field vert">
         <label htmlFor="opCat">Category</label>
-        {catsLoading ? 
+        {catsFetching || categories===undefined ? 
           <Spinner/>
           :
           <>
             <StripSelect
               items={categories.map(c => [c.id, c.name])}
-              onSelect={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.selectedKey)?.id ?? '' })}
+              selectedKeyByDefault={op.idCategory!=='' ? op.idCategory : undefined}
+              onSelect={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.key)?.id ?? '' })}
             />
             {/* <select
               id="opCat"
@@ -149,7 +133,7 @@ export const NewOperationForm = () => {
           onChange={(e)=> setOp({...op, isPlan: e.target.checked})}
         />
       </span>
-      <button type="submit" disabled={addNewLoading} className="btn-std">Save</button>
+      <button type="submit" disabled={addHook.isPending} className="btn-std">Save</button>
     </form>
   )
 }

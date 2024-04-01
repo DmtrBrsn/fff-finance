@@ -1,52 +1,34 @@
-import { useState, useEffect, ReactNode } from 'react'
-import { getAllCategories, addCategory, deleteCategory, updateCategory } from '../../db/categories.queries'
-import { BtnIcon } from '../common/btn-icon';
-import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../common/svg';
-import { Spinner } from '../common/spinner';
-import { DateUtils } from '../../utils/dateUtils';
+import { useState, ReactNode } from 'react'
+import { BtnIcon } from '../common/btn-icon'
+import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../common/svg'
+import { Spinner } from '../common/spinner'
+import { DateUtils } from '../../utils/dateUtils'
+import { Category, useCategoriesAdd, useCategoriesDelete, useCategoriesGet, useCategoriesUpdate } from '../../db'
 
 export const CategoriesDataGrid = () => {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(false);
+  const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
+  
   const [editId, setEditId] = useState<string | undefined>(undefined)
   const [addNew, setAddNew] = useState(false)
-
-  const fetchData = () => {
-    setLoading(true)
-    getAllCategories().then(arr => {
-      setLoading(false)
-      setCategories(arr)
-    })
-  }
-
-  useEffect(() => {
-    fetchData()
-    return () => { }
-  }, [])
-
 
   const AddNewCells = () => {
     const [name, setName] = useState('')
     const [isIncome, setIsIncome] = useState(false)
-    const [addNewLoading, setAddNewLoading] = useState(false)
+
+    const addHook = useCategoriesAdd()
 
     const handleAddClick = () => {
       if (name === '') return
-      setAddNewLoading(true)
-      addCategory({ name, isIncome, created: DateUtils.getCurIsoStr() })
-        .then(addedDoc => {
-          setAddNewLoading(false)
-          if (addedDoc !== null) {
-            setAddNew(false)
-            setCategories([addedDoc, ...categories])
-          }
-        })
+      addHook.mutate({
+        newDoc: { name, isIncome, created: DateUtils.getCurIsoStr() },
+        onSuccess: ()=>setAddNew(false)
+      })
     }
   
     return (<>
       <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} /></td>
       <td><input type="checkbox" checked={isIncome} onChange={(e) => setIsIncome(e.target.checked)} /></td>
-      {addNewLoading ? <SpinnerCell /> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}
+      {addHook.isPending ? <SpinnerCell /> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}
       <td><BtnIcon content={<CancelIcon />} onClick={() => setAddNew(false)}/></td>
     </>)
   }
@@ -54,41 +36,28 @@ export const CategoriesDataGrid = () => {
   const EditCells = ({ cat }: { cat: Category }) => {
     const [name, setName] = useState(cat.name)
     const [isIncome, setIsIncome] = useState(cat.isIncome)
-    const [updLoading, setUpdLoading] = useState(false)
+    const updHook = useCategoriesUpdate()
 
     const handleUpdate = () => {
       if (name === '' || (name === cat.name && isIncome === cat.isIncome)) return
-      setUpdLoading(true)
-      const updCat = { id: cat.id, name, isIncome }
-      updateCategory(updCat)
-        .then(res => { 
-          setUpdLoading(false)
-          if (res !== null) {
-            setCategories(categories.map(c => c.id === cat.id ? updCat : c))
-            setEditId(undefined)
-          }
-        })
+      const updDoc = { id: cat.id, name, isIncome }
+      updHook.mutate({
+        updDoc,
+        onSuccess: ()=>setEditId(undefined)
+      })
     }
 
     return (<>
       <td><input type='text' value={name} onChange={(e)=>setName(e.target.value)} /></td>
       <td><input type="checkbox" checked={isIncome} onChange={(e)=>setIsIncome(e.target.checked)} /></td>
-      {updLoading ? <SpinnerCell/> : <td><BtnIcon content={<DoneIcon />} onClick={handleUpdate} /></td>}
+      {updHook.isPending ? <SpinnerCell/> : <td><BtnIcon content={<DoneIcon />} onClick={handleUpdate} /></td>}
       <td><BtnIcon content={<CancelIcon />} onClick={() => setEditId(undefined)}/></td>
     </>)
   }
 
   const NonEditCells = ({ cat }: { cat: Category }) => {
-    const [deleteLoading, setDeleteLoading] = useState(false)
-
-    const handleDeleteClick = () => {
-      setDeleteLoading(true)
-      deleteCategory(cat.id)
-        .then(result => {
-          setDeleteLoading(false)
-          if (result !== null) setCategories(categories.filter(c => c.id !== cat.id))
-        })
-    }
+    const deleteHook = useCategoriesDelete()
+    const handleDeleteClick = () => deleteHook.mutate({ id: cat.id })
 
     return (<>
       <td>{cat.name}</td>
@@ -97,11 +66,11 @@ export const CategoriesDataGrid = () => {
         setAddNew(false)
         setEditId(cat.id)
       }} /></td>
-      {deleteLoading ? <SpinnerCell/> : <td><BtnIcon content={<DeleteIcon />} onClick={handleDeleteClick} /></td>}
+      {deleteHook.isPending ? <SpinnerCell/> : <td><BtnIcon content={<DeleteIcon />} onClick={handleDeleteClick} /></td>}
     </>)
   }
 
-  return loading ?
+  return catsFetching || categories===undefined ?
     <Spinner/>
     :
     <>

@@ -4,10 +4,11 @@ import { LoginPage } from '../pages/login-page'
 import { NotFound } from '../pages/not-found'
 import { NewOperation } from '../pages/new-operation'
 import { useAuth } from '../../contexts/auth-context'
-import { Settings } from '../widgets/settings'
 import { PasswordResetPage } from '../pages/password-reset-page'
 import { CategoriesPage } from '../pages/categories-page'
 import { OperationsPage } from '../pages/operations-page'
+import { SettingsPage } from '../pages/settings-page'
+import { UserSettingsPage } from '../pages/user-settings-page'
 
 export const Router = () => {
   const { currentUser } = useAuth()
@@ -30,7 +31,8 @@ export const Router = () => {
         <Route path="/" element={<NewOperation />} />
         <Route path="/operations" element={<OperationsPage/>} />
         <Route path="/categories" element={<CategoriesPage/>} />
-        <Route path="/settings" element={<Settings/>} />
+        <Route path="/settings" element={<SettingsPage/>} />
+        <Route path="/user-settings" element={<UserSettingsPage/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     )
