@@ -1,0 +1,23 @@
+import { getAuth } from "firebase/auth"
+
+export const UserData = () => {
+  const { currentUser } = getAuth()
+  if (currentUser==undefined) return <></>
+    
+  return (
+    <div className="settings-section-container">
+      <ul>
+        <li>email: {currentUser.email}</li>
+        <li>name: {currentUser.displayName}</li>
+        {
+          currentUser.metadata.creationTime != undefined &&
+          <li>user created: {new Date(currentUser.metadata.creationTime).toLocaleString('RU-ru')}</li>
+        }
+        {
+          currentUser.metadata.lastSignInTime != undefined &&
+          <li>last sign in: {new Date(currentUser.metadata.lastSignInTime).toLocaleString('RU-ru')}</li>
+        }
+      </ul>
+    </div>
+  )
+}

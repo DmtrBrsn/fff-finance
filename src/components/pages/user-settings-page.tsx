@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth"
 import { UnlinkGoogle } from "../auth/unlink-google"
 import { UnlinkEmailAndPassword } from "../auth/unlink-email-and-password"
 import { SignInWithGoogle } from "../auth/sign-in-with-google"
+import { UserData } from "../widgets/user-data"
 
 export const UserSettingsPage = () => {
   const { currentUser } = getAuth()
@@ -15,7 +16,7 @@ export const UserSettingsPage = () => {
 
   return (
     <main className="settings-container">
-      <h1>{ currentUser?.email }</h1>
+      <UserData/>
       <Logout />
       {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
       {(userLoggedInUsingEmailAndPass && (providers && providers.length > 0)) ? <UnlinkEmailAndPassword /> : <></>}
