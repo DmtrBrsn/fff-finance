@@ -14,7 +14,7 @@ export type Operation = {
   description: string
   isPlan: boolean
   sum: number
-  created?: string
+  created: string
 }
 
 type Add<T> = Omit<T, "id">

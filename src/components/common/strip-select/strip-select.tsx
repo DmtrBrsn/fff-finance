@@ -45,7 +45,7 @@ export const StripSelect = ({ items, selectedKeyByDefault, onSelect }: Props) =>
   }, [selectedKeyByDefault])
 
   return (
-    <span className="strip-select">
+    <span className="strip-select custom-scrollbar">
       {
         items.map(kv =>
             <span

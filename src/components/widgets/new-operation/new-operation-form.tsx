@@ -41,14 +41,8 @@ export const NewOperationForm = () => {
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
 
-  const shiftDay = (sign: '+' | '-') => {
-    if (op.date)
-      return sign === '+'
-      ?
-      setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.incrementDatePeriod(new Date(op.date),'D'))})
-      :
-      setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
-  }
+  const plusDay = () => setOpAndDraft({ ...op, date: DateUtils.formatDateForInput(DateUtils.incrementDatePeriod(new Date(op.date), 'D')) })
+  const minusDay = ()=> setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
 
   const reset = () => {
     setOp(initOp)
@@ -72,8 +66,8 @@ export const NewOperationForm = () => {
       <span className="field vert">
         <span className="hor">
           <label htmlFor="opDate">Date</label>
-          <BtnIcon content={"-"} onClick={()=>shiftDay('-')}/>
-          <BtnIcon content={"+"} onClick={()=>shiftDay('+')}/>
+          <BtnIcon content={"-"} onClick={plusDay}/>
+          <BtnIcon content={"+"} onClick={minusDay}/>
         </span>
         <input
           type="date"

@@ -9,12 +9,6 @@ html {
   box-sizing: inherit;
 }
 
-body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
 main {
   overflow-x: auto;
   height: calc(100vh - var(--header-height));

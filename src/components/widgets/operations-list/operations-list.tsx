@@ -8,7 +8,7 @@ import './operations-list.css'
 import { OperationSectionEdit } from "../operation-section/operation-section-edit"
 
 export const OperationsList = () => {
-  const { data: ops, isFetching: opsFetching } = useOperationsGet(true)
+  const { data: ops, isFetching: opsFetching } = useOperationsGet(false)
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
   const disableUpd = ()=> setUpdId(null)
   if (opsFetching) return <Spinner/>
@@ -16,7 +16,6 @@ export const OperationsList = () => {
   return (
     <div className="operations-list">
       <OperationHeaderSection />
-
       {
         ops?.map(op => {
           return op.id !== updId ?

@@ -7,6 +7,7 @@ import { Spinner } from "../../common/spinner";
 import { toast } from "react-toastify";
 
 import './operation-section.css'
+import { DateUtils } from "../../../utils";
 
 export const OperationSectionEdit = (
   { op, disableUpd }: { op: Operation, disableUpd: () => void }
@@ -31,7 +32,7 @@ export const OperationSectionEdit = (
   }
 
   return (
-    <div className="op-section">
+    <div className={isInc==undefined || !isInc ? 'op-section' : 'op-section income-section' }>
       <span className="field date">
         <input type='date'
           value={updOp.date}
@@ -75,6 +76,7 @@ export const OperationSectionEdit = (
           onChange={(e) => setUpdOp({ ...updOp, isPlan: e.target.checked })}
         />
       </span>
+      <span className="field date">{DateUtils.isoStrToTzDateStr(op.created)}</span>
       <span className="field buttons">
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} />}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>

@@ -7,6 +7,7 @@ export const OperationHeaderSection = () => {
       <span className="field category">Category</span>
       <span className="field is-income">Is income</span>
       <span className="field is-plan">Is plan</span>
+      <span className="field date">Created</span>
       <span className="buttons"></span>
     </div>
   )

@@ -17,6 +17,7 @@
 
   .date {
     width: 10rem;
+    align-items: center;
   }
 
   .description {
@@ -50,8 +51,12 @@
 
 }
 
+.income-section {
+  background-color: var(--green-low-cont);
+}
+
 .header {
-  background-color: var(--grey-med-cont);
+  background-color: var(--grey-hi-cont);
   position: sticky;
   top: 0;
   z-index: 1;
