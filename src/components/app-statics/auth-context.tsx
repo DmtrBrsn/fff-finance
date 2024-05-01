@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
-import { auth } from '../firebase'
-import { onAuthStateChanged, User, } from "firebase/auth";
-import { AuthService, UserService } from "../utils";
+import { auth } from '../../firebase'
+import { onAuthStateChanged, User, } from "firebase/auth"
+import { AuthService, UserService } from "../../utils"
 
 type Props = { children?: React.ReactNode }
 type CurrentUser = User | null

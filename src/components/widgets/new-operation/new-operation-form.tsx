@@ -1,13 +1,18 @@
 import { FormEvent, useState, useRef } from "react"
-import { DateUtils } from "../../utils/dateUtils"
-import { Spinner } from "../common/spinner"
-import { BtnIcon } from "../common/btn-icon"
-import { StripSelect } from "../common/strip-select/strip-select"
+import { DateUtils } from "../../../utils/dateUtils"
+import { Spinner } from "../../common/spinner"
+import { BtnIcon } from "../../common/btn-icon"
+import { StripSelect } from "../../common/strip-select/strip-select"
 import { toast } from "react-toastify"
-import { Operation, useCategoriesGet } from "../../db"
-import { useOperationsAdd } from "../../db/operations"
+import { OperationAdd, useCategoriesGet } from "../../../db"
+import { useOperationsAdd } from "../../../db/operations"
+import { getOpDraft, removeOpDraft, updateOpDraft } from "./operation-draft"
+
+import './new-operation-form.css'
 
 export const NewOperationForm = () => {
+
+  const operationDraft = getOpDraft()
 
   const initOp = {
     date: DateUtils.getCurInpDate(),
@@ -18,9 +23,14 @@ export const NewOperationForm = () => {
     sum:0
   }
 
-  const [op, setOp] = useState<Omit<Operation, "id">>(initOp)
+  const [op, setOp] = useState<OperationAdd>(operationDraft != null ? JSON.parse(operationDraft) as OperationAdd : initOp)
+  
+  const setOpAndDraft = (newValues: OperationAdd) => {
+    setOp(newValues)
+    updateOpDraft(newValues)
+  }
 
-  const sumInpRef = useRef<HTMLInputElement>(null);
+  const sumInpRef = useRef<HTMLInputElement>(null)
   const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.value==='0' && sumInpRef.current.select()
 
   const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
@@ -35,9 +45,14 @@ export const NewOperationForm = () => {
     if (op.date)
       return sign === '+'
       ?
-      setOp({...op, date: DateUtils.formatDateForInput(DateUtils.incrementDatePeriod(new Date(op.date),'D'))})
+      setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.incrementDatePeriod(new Date(op.date),'D'))})
       :
-      setOp({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
+      setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
+  }
+
+  const reset = () => {
+    setOp(initOp)
+    removeOpDraft()
   }
 
   const saveOp = async (e:FormEvent<HTMLFormElement>) => {
@@ -47,14 +62,13 @@ export const NewOperationForm = () => {
       return
     }
     const newDoc = { ...op, created: DateUtils.getCurIsoStr() }
-    await addHook.mutateAsync({
-      newDoc,
-      onSuccess: () => setOp(initOp)
-    })
+    await addHook.mutateAsync({ newDoc })
+    reset()
   }
 
   return (
     <form onSubmit={saveOp} className="new-operation-form">
+      <label>Adding operation{operationDraft ? ' (draft saved)' : '' }</label>
       <span className="field vert">
         <span className="hor">
           <label htmlFor="opDate">Date</label>
@@ -66,7 +80,7 @@ export const NewOperationForm = () => {
           id="opDate"
           value={op.date}
           required
-          onChange={(e) => setOp({...op, date: e.target.value})}
+          onChange={(e) => setOpAndDraft({...op, date: e.target.value})}
         />
       </span>
       <span className="field vert">
@@ -78,7 +92,7 @@ export const NewOperationForm = () => {
           step="0.01"
           value={op.sum}
           required
-          onChange={(e) => setOp({ ...op, sum: parseFloat(e.target.value) })}
+          onChange={(e) => setOpAndDraft({ ...op, sum: parseFloat(e.target.value) })}
           onClick={selectSum}
           ref={sumInpRef}
         />
@@ -91,7 +105,7 @@ export const NewOperationForm = () => {
           name="description"
           value={op.description}
           required
-          onChange={(e)=> setOp({...op, description: e.target.value})}
+          onChange={(e)=> setOpAndDraft({...op, description: e.target.value})}
         />
       </span>
       
@@ -104,7 +118,7 @@ export const NewOperationForm = () => {
             <StripSelect
               items={categories.map(c => [c.id, c.name])}
               selectedKeyByDefault={op.idCategory!=='' ? op.idCategory : undefined}
-              onSelect={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.key)?.id ?? '' })}
+              onSelect={(e) => setOpAndDraft({ ...op, idCategory: categories.find(cat => cat.id === e.target.key)?.id ?? '' })}
             />
             {/* <select
               id="opCat"
@@ -112,7 +126,7 @@ export const NewOperationForm = () => {
               size={categories.length>=3 ? 3 : categories.length}
               value={(op.idCategory !== '') ? [op.idCategory] : ['']}
               required
-              onChange={(e) => setOp({ ...op, idCategory: categories.find(cat => cat.id === e.target.value)?.id ?? '' })}
+              onChange={(e) => setOpAndDraft({ ...op, idCategory: categories.find(cat => cat.id === e.target.value)?.id ?? '' })}
             >
               {
                 categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
@@ -130,10 +144,11 @@ export const NewOperationForm = () => {
           type="checkbox"
           id="opIsPlan"
           checked={op.isPlan}
-          onChange={(e)=> setOp({...op, isPlan: e.target.checked})}
+          onChange={(e)=> setOpAndDraft({...op, isPlan: e.target.checked})}
         />
       </span>
       <button type="submit" disabled={addHook.isPending} className="btn-std">Save</button>
+      <button type="reset" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
     </form>
   )
 }

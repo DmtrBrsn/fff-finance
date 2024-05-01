@@ -1,6 +1,6 @@
-import { Header } from './header'
+import { Header } from './header/header'
 import { Router } from './router'
-import { AuthProvider } from '../../contexts/auth-context'
+import { AuthProvider } from './auth-context'
 import { updateRootThemeAttr } from '../../utils/style-utils'
 import { ToastContainerDefault } from '../common/toast-container-default'
 import { useCategoriesGet } from '../../db'

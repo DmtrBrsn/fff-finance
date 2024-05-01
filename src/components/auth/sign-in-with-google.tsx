@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '../../contexts/auth-context'
+import { useAuth } from '../app-statics/auth-context'
 import { GoogleIcon } from '../common/svg'
 import { Spinner } from '../common/spinner'
 import { toast } from 'react-toastify'

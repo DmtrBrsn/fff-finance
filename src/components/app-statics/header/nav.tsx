@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useAuth } from "../../contexts/auth-context"
+import { useAuth } from "../auth-context"
 
 export const Nav = () => {
   const { currentUser } = useAuth()

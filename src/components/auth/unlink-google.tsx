@@ -1,4 +1,4 @@
-import { useAuth } from "../../contexts/auth-context"
+import { useAuth } from "../app-statics/auth-context"
 import { useState } from 'react'
 import { GoogleIcon } from "../common/svg/google"
 import { toast } from "react-toastify"

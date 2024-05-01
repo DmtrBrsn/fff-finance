@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '../../contexts/auth-context'
+import { useAuth } from '../app-statics/auth-context'
 import { toast } from 'react-toastify'
 
 export const UpdateEmail = () => {

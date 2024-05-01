@@ -1,0 +1,62 @@
+
+.auth-container {
+  gap: var(--gap-step);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--grey-low-cont);
+  border-radius: var(--app-border-radius);
+  padding: calc(var(--gap-step) * 3);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: var(--gap-step);
+}
+
+.auth-error-text {
+  color: var(--red-hi-cont);
+  margin-top: var(--gap-step);
+  margin-bottom: var(--gap-step);
+}
+.auth-message-text {
+  color: var(--green-hi-cont);
+  margin-top: var(--gap-step);
+  margin-bottom: var(--gap-step);
+}
+
+.google-sign-in-btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: var(--app-border-radius);
+  border: none;
+  padding: calc(var(--gap-step) * 2.5) calc(var(--gap-step) * 3);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  gap: var(--gap-step);
+  align-items: center;
+  background-color: var(--grey-low-cont);
+  color: var(--font-color);
+
+  & svg {
+    fill: var(--grey-low-cont);
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+
+  &:hover {
+    filter: brightness(106%);
+  }
+  &:active {
+    filter: brightness(93%);
+  }
+}
+
+.auth-or {
+  align-self: center;
+  margin: calc(var(--gap-step) * 2) 0
+}

@@ -1,7 +1,7 @@
 import { db } from "../../firebase"
 import { getDocs, collection, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore'
 import { getColPath } from "../db-utils"
-import { ApiCb, Category } from ".."
+import { ApiCb, Category, CategoryAdd, CategoryUpd } from ".."
 
 export const getAllCategories = async () => {
   const collectionRef = collection(db, getColPath('categories'))
@@ -14,7 +14,7 @@ export const getAllCategories = async () => {
 export const addCategory = async (
   { newDoc }:
   {
-    newDoc: Omit<Category, "id">
+    newDoc: CategoryAdd
     onSuccess?: ApiCb
     onFail?: ApiCb
   }
@@ -28,7 +28,7 @@ export const addCategory = async (
 export const updateCategory = async (
   { updDoc }: 
   {
-    updDoc: Category
+    updDoc: CategoryUpd
     onSuccess?: ApiCb
     onFail?: ApiCb
   }

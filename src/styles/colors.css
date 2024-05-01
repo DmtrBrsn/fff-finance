@@ -1,7 +1,7 @@
 :root, :root[data-theme="light"] {
   color-scheme: light;
 
-  --app-color: lightseagreen;
+  --app-color: #00AC47;
   --dodgerblue: dodgerblue;
 
   --bg-color: white;
@@ -17,16 +17,17 @@
   --grey-low-cont: rgb(240, 240, 240);
   --grey-med-cont: rgb(190, 190, 190);
   --grey-hi-cont: rgb(111, 110, 110);
+  --grey-highlight: hsla(0, 0%, 85%, 0.3);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(:root[data-theme]) {
     color-scheme: dark;
 
-    --app-color: lightseagreen;
+    --app-color: #00AC47;
     --dodgerblue: dodgerblue;
   
-    --bg-color: rgb(35, 35, 35);
+    --bg-color: #1F1F1F;
     --font-color: rgb(235, 235, 235);
     --light-font: rgb(235, 235, 235);
 
@@ -39,16 +40,17 @@
     --grey-low-cont: rgb(49, 49, 49);
     --grey-med-cont: rgb(100, 100, 100);
     --grey-hi-cont: rgb(160, 160, 160);
+    --grey-highlight: hsla(0, 1%, 53%, 0.3);
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
   
-  --app-color: lightseagreen;
+  --app-color: #00AC47;
   --dodgerblue: dodgerblue;
 
-  --bg-color: rgb(35, 35, 35);
+  --bg-color: #1F1F1F;
   --font-color: rgb(235, 235, 235);
   --light-font: rgb(235, 235, 235);
 
@@ -61,10 +63,11 @@
   --grey-low-cont: rgb(49, 49, 49);
   --grey-med-cont: rgb(100, 100, 100);
   --grey-hi-cont: rgb(160, 160, 160);
+  --grey-highlight: hsla(0, 1%, 53%, 0.3);
 }
 
 :root {
-  --toastify-color-light: var(--bg-color);
+  --toastify-color-light: var(--grey-low-cont);
   --toastify-text-color-light: var(--font-color);
   
 }

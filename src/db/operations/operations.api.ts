@@ -1,7 +1,7 @@
 import { db } from "../../firebase"
 import { getDocs, collection, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore'
 import { getColPath } from "../db-utils"
-import { ApiCb, Operation } from ".."
+import { ApiCb, Id, Operation, OperationAdd, OperationUpd } from ".."
 
 export const getAllOperations = async () => {
   const collectionRef = collection(db, getColPath('operations'))
@@ -14,7 +14,7 @@ export const getAllOperations = async () => {
 export const addOperation = async (
   { newDoc }:
   {
-    newDoc: Omit<Operation, "id">
+    newDoc: OperationAdd
     onSuccess?: ApiCb
     onFail?: ApiCb
   }
@@ -28,7 +28,7 @@ export const addOperation = async (
 export const updateOperation = async (
   { updDoc }: 
   {
-    updDoc: Operation
+    updDoc: OperationUpd
     onSuccess?: ApiCb
     onFail?: ApiCb
   }
@@ -41,7 +41,7 @@ export const updateOperation = async (
 export const deleteOperation = async (
   { id }:
   {
-    id: string
+    id: Id
     onSuccess?: ApiCb
     onFail?: ApiCb
   }

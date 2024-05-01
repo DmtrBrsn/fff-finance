@@ -1,0 +1,22 @@
+.new-operation-form {
+  margin: var(--gap-step);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap-step) * 2);
+  width: 15rem;
+
+  .field {
+    gap: var(--gap-step);
+  }
+
+  .hor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .vert {
+    display: flex;
+    flex-direction: column;
+  }
+}

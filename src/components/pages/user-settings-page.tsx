@@ -14,7 +14,8 @@ export const UserSettingsPage = () => {
   const userLoggedInUsingGoogle = !!providers?.some(prov => prov.providerId === 'google.com')
 
   return (
-    <div className="settings-container">
+    <main className="settings-container">
+      <h1>{ currentUser?.email }</h1>
       <Logout />
       {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
       {(userLoggedInUsingEmailAndPass && (providers && providers.length > 0)) ? <UnlinkEmailAndPassword /> : <></>}
@@ -27,6 +28,6 @@ export const UserSettingsPage = () => {
         <></>
       }
       <DeleteUser />
-    </div>
+    </main>
   )
 }

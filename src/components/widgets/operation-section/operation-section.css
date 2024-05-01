@@ -1,0 +1,58 @@
+.op-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: calc(var(--gap-step)*3);
+  border-radius: var(--app-border-radius);
+  background-color: var(--grey-low-cont);
+  gap: var(--gap-step);
+  align-items: center;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+
+
+  }
+
+  .date {
+    width: 10rem;
+  }
+
+  .description {
+    width: 12rem;
+
+  }
+
+  .sum {
+    width: 7rem;
+  }
+
+  .category {
+    width: 16rem;
+  }
+
+  .is-income {
+    width: 4rem;
+  }
+
+  .is-plan {
+    width: 2rem;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 4rem;
+  }
+
+
+}
+
+.header {
+  background-color: var(--grey-med-cont);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

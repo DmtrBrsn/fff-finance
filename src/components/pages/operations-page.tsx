@@ -1,3 +1,3 @@
-import { OperationsDataGrid } from "../widgets/operations-data-grid/operations-data-grid";
+import { OperationsList } from "../widgets/operations-list/operations-list";
 
-export const OperationsPage = () => <main><OperationsDataGrid/></main>
+export const OperationsPage = () => <main><OperationsList/></main>

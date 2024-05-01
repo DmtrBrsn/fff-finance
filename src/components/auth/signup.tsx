@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAuth } from '../../contexts/auth-context'
+import { useAuth } from '../app-statics/auth-context'
 import {NavLink, useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 

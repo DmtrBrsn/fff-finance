@@ -8,7 +8,9 @@ import { toast } from 'react-toastify'
 import './styles/reset.css'
 import './styles/root.css'
 import './styles/colors.css'
-import './styles/index.css'
+import './styles/global.css'
+import './styles/inputs-buttons.css'
+import './styles/auth.css'
 
 registerSW({
   onOfflineReady() {

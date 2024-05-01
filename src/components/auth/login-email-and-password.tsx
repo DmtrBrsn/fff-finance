@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/auth-context'
+import { useAuth } from '../app-statics/auth-context'
 
 
 export const LoginWithEmailAndPassword = () => {

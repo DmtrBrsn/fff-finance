@@ -3,4 +3,6 @@
   --max-line-length: 75ch;
   --app-border-radius: 5px;
   --gap-step: 0.3rem;
+  --header-height: 2.25rem;
+  --scrollbar-width: 0.6rem;
 }

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify"
-import { useAuth } from "../../contexts/auth-context"
+import { useAuth } from "../app-statics/auth-context"
 import { useState } from 'react'
 
 export const UnlinkEmailAndPassword = () => {
