@@ -2,8 +2,8 @@ import { useState, ReactNode } from 'react'
 import { BtnIcon } from '../common/btn-icon'
 import { DeleteIcon, EditIcon, DoneIcon, CancelIcon, CreateIcon } from '../common/svg'
 import { Spinner } from '../common/spinner'
-import { DateUtils } from '../../utils/dateUtils'
 import { Category, useCategoriesAdd, useCategoriesDelete, useCategoriesGet, useCategoriesUpdate } from '../../db'
+import { Timestamp } from 'firebase/firestore'
 
 export const CategoriesDataGrid = () => {
   const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
@@ -19,10 +19,9 @@ export const CategoriesDataGrid = () => {
 
     const handleAddClick = () => {
       if (name === '') return
-      addHook.mutate({
-        newDoc: { name, isIncome, created: DateUtils.getCurIsoStr() },
-        onSuccess: ()=>setAddNew(false)
-      })
+      addHook.mutateAsync({
+        newDoc: { name, isIncome, created: Timestamp.now() }
+      }).then(()=>setAddNew(false))
     }
   
     return (<>
@@ -41,10 +40,7 @@ export const CategoriesDataGrid = () => {
     const handleUpdate = () => {
       if (name === '' || (name === cat.name && isIncome === cat.isIncome)) return
       const updDoc = { id: cat.id, name, isIncome }
-      updHook.mutate({
-        updDoc,
-        onSuccess: ()=>setEditId(undefined)
-      })
+      updHook.mutateAsync({updDoc}).then(()=>setEditId(undefined))
     }
 
     return (<>

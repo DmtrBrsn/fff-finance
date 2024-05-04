@@ -1,11 +1,11 @@
 import { db } from "../../firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy } from 'firebase/firestore'
 import { getColPath } from "../db-utils"
-import { ApiCb, Category, CategoryAdd, CategoryUpd } from ".."
+import { Category, CategoryAdd, CategoryUpd } from ".."
 
 export const getAllCategories = async () => {
-  const collectionRef = collection(db, getColPath('categories'))
-  const querySnapshot = await getDocs(collectionRef)
+  const q = query(collection(db, getColPath('categories')), orderBy('isIncome'));
+  const querySnapshot = await getDocs(q)
   return querySnapshot.docs.map(doc => {
     return { id: doc.id, ...doc.data() } as Category
   })
@@ -13,11 +13,7 @@ export const getAllCategories = async () => {
 
 export const addCategory = async (
   { newDoc }:
-  {
-    newDoc: CategoryAdd
-    onSuccess?: ApiCb
-    onFail?: ApiCb
-  }
+  {newDoc: CategoryAdd}
 ): Promise<Category> => {
   const collectionRef = collection(db, getColPath('categories'))
   const docRef = await addDoc(collectionRef, newDoc)
@@ -27,11 +23,7 @@ export const addCategory = async (
 
 export const updateCategory = async (
   { updDoc }: 
-  {
-    updDoc: CategoryUpd
-    onSuccess?: ApiCb
-    onFail?: ApiCb
-  }
+  {updDoc: CategoryUpd}
 ) => {
   const docRef = doc(db, getColPath('categories'), updDoc.id)
   await setDoc(docRef, updDoc)
@@ -41,11 +33,7 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   { id }:
-  {
-    id: string
-    onSuccess?: ApiCb
-    onFail?: ApiCb
-  }
+  {id: string}
 ) => {
   const docRef = doc(db, getColPath('categories'), id)
   await deleteDoc(docRef)

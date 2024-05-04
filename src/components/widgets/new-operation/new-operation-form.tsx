@@ -9,21 +9,22 @@ import { useOperationsAdd } from "../../../db/operations"
 import { getOpDraft, removeOpDraft, updateOpDraft } from "./operation-draft"
 
 import './new-operation-form.css'
+import { Timestamp } from "firebase/firestore"
 
 export const NewOperationForm = () => {
 
   const operationDraft = getOpDraft()
 
   const initOp = {
-    date: DateUtils.getCurInpDate(),
+    date: Timestamp.now(),
     description: '',
     idCategory:'',
-    created: '',
+    created: Timestamp.now(),
     isPlan: false,
     sum:0
   }
 
-  const [op, setOp] = useState<OperationAdd>(operationDraft != null ? JSON.parse(operationDraft) as OperationAdd : initOp)
+  const [op, setOp] = useState<OperationAdd>(operationDraft != null ? JSON.parse(operationDraft) : initOp)
   
   const setOpAndDraft = (newValues: OperationAdd) => {
     setOp(newValues)
@@ -41,8 +42,8 @@ export const NewOperationForm = () => {
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
 
-  const plusDay = () => setOpAndDraft({ ...op, date: DateUtils.formatDateForInput(DateUtils.incrementDatePeriod(new Date(op.date), 'D')) })
-  const minusDay = ()=> setOpAndDraft({...op, date: DateUtils.formatDateForInput(DateUtils.decrementDatePeriod(new Date(op.date),'D'))})
+  const plusDay = () => setOpAndDraft({ ...op, date: Timestamp.fromDate(DateUtils.incrementDatePeriod(op.date.toDate(), 'D')) })
+  const minusDay = ()=> setOpAndDraft({...op, date: Timestamp.fromDate(DateUtils.decrementDatePeriod(op.date.toDate(), 'D')) })
 
   const reset = () => {
     setOp(initOp)
@@ -55,7 +56,7 @@ export const NewOperationForm = () => {
       toast.error('Необходимо выбрать категорию')
       return
     }
-    const newDoc = { ...op, created: DateUtils.getCurIsoStr() }
+    const newDoc = { ...op, created: Timestamp.now() }
     await addHook.mutateAsync({ newDoc })
     reset()
   }
@@ -66,15 +67,16 @@ export const NewOperationForm = () => {
       <span className="field vert">
         <span className="hor">
           <label htmlFor="opDate">Date</label>
-          <BtnIcon content={"-"} onClick={plusDay}/>
-          <BtnIcon content={"+"} onClick={minusDay}/>
+          <BtnIcon content={"-"} onClick={minusDay}/>
+          <BtnIcon content={"+"} onClick={plusDay}/>
         </span>
         <input
           type="date"
+          lang="ru-RU"
           id="opDate"
-          value={op.date}
+          value={DateUtils.tsToIsoStr(op.date)}
           required
-          onChange={(e) => setOpAndDraft({...op, date: e.target.value})}
+          onChange={(e) => setOpAndDraft({...op, date: DateUtils.isoStrToTs(e.target.value) })}
         />
       </span>
       <span className="field vert">

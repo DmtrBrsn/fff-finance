@@ -12,20 +12,9 @@ html {
 main {
   overflow-x: auto;
   height: calc(100vh - var(--header-height));
-  &::-webkit-scrollbar {
-    width: var(--scrollbar-width);
-    height: var(--scrollbar-width);
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--grey-med-cont);
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--grey-med-cont);
-  }
 }
 
-.custom-scrollbar {
+.custom-scrollbar, main {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);

@@ -11,7 +11,7 @@
   --red-low-cont: rgb(255 240 240);
   --red-hi-cont: crimson;
 
-  --green-low-cont: rgb(224 243 192);
+  --green-low-cont: rgb(238 246 225);
   --green-hi-cont: darkolivegreen;
 
   --grey-low-cont: rgb(240, 240, 240);
@@ -34,7 +34,7 @@
     --red-low-cont: rgb(82, 8, 8);
     --red-hi-cont: crimson;
 
-    --green-low-cont: #2f3525;
+    --green-low-cont: #32372b;
     --green-hi-cont: rgb(166, 209, 92);
   
     --grey-low-cont: rgb(49, 49, 49);
@@ -57,7 +57,7 @@
   --red-low-cont: rgb(82, 8, 8);
   --red-hi-cont: crimson;
 
-  --green-low-cont: #2f3525;
+  --green-low-cont: #32372b;
   --green-hi-cont: rgb(166, 209, 92);
 
   --grey-low-cont: rgb(49, 49, 49);

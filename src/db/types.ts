@@ -1,20 +1,22 @@
+import { Timestamp } from "firebase/firestore"
+
 export type Id = string
 
 export type Category = {
   id: Id
   name: string
   isIncome: boolean
-  created?: string
+  created?: Timestamp
 }
 
 export type Operation = {
   id: Id
   idCategory: string
-  date: string
+  date: Timestamp
   description: string
   isPlan: boolean
   sum: number
-  created: string
+  created: Timestamp
 }
 
 type Add<T> = Omit<T, "id">
@@ -24,5 +26,3 @@ export type OperationUpd = Upd<Operation>
 export type OperationAdd = Add<Operation>
 export type CategoryUpd = Upd<Category>
 export type CategoryAdd = Add<Category>
-
-export type ApiCb = ()=> void

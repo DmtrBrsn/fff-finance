@@ -11,8 +11,8 @@ export const OperationsList = () => {
   const { data: ops, isFetching: opsFetching } = useOperationsGet(false)
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
   const disableUpd = ()=> setUpdId(null)
-  if (opsFetching) return <Spinner/>
 
+  if (opsFetching) return <Spinner />
   return (
     <div className="operations-list">
       <OperationHeaderSection />

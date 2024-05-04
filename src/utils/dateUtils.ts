@@ -1,8 +1,26 @@
+import { Timestamp } from "firebase/firestore"
+
 export class DateUtils {
 
   static tzs = {
     msk: { name:'Europe/Moscow', offset: -180}
-  }
+	}
+	
+	static tsToDateStr(ts: Timestamp) {
+		return ts.toDate().toLocaleDateString('ru-RU')
+	}
+
+	static tsToDateTimeStr(ts: Timestamp) {
+		return ts.toDate().toLocaleString('ru-RU')
+	}
+
+	static isoStrToTs(isoStr: string) {
+		return Timestamp.fromDate(new Date(isoStr))
+	}
+
+	static tsToIsoStr(ts: Timestamp) {
+		return DateUtils.formatDateForInput(ts.toDate())
+	}
 
   static dateToIsoStr(date: Date) {
     return date.toISOString()

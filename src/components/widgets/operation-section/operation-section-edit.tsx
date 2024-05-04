@@ -35,8 +35,8 @@ export const OperationSectionEdit = (
     <div className={isInc==undefined || !isInc ? 'op-section' : 'op-section income-section' }>
       <span className="field date">
         <input type='date'
-          value={updOp.date}
-          onChange={(e) => setUpdOp({...updOp, date: e.target.value})}
+          value={updOp.date==undefined ? '' : DateUtils.tsToIsoStr(updOp.date)}
+          onChange={(e) => setUpdOp({...updOp, date: DateUtils.isoStrToTs(e.target.value)})}
         />
       </span>
       <span className="field sum">
@@ -76,7 +76,7 @@ export const OperationSectionEdit = (
           onChange={(e) => setUpdOp({ ...updOp, isPlan: e.target.checked })}
         />
       </span>
-      <span className="field date">{DateUtils.isoStrToTzDateStr(op.created)}</span>
+      <span className="field date">{DateUtils.tsToDateStr(op.created)}</span>
       <span className="field buttons">
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} />}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
