@@ -1,17 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Operation } from "..";
 import { toast } from "react-toastify";
-import { addOperation, deleteOperation, getAllOperations, updateOperation } from "./operations.api";
+import { addOperation, deleteOperation, getOperations, updateOperation } from "./operations.api";
+import { GetOpsParams } from "./operations-params";
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
 
-export function useOperationsGet(enabled: boolean) {
-  const { isPending, isFetching, isError, data, error } = useQuery({
-    queryKey: [QUERY_KEY_OPERATIONS],
-    queryFn: getAllOperations,
-    enabled
+export function useOperationsGet(params: GetOpsParams,  enabled=false) {
+  const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+    queryKey: [QUERY_KEY_OPERATIONS, params],
+    queryFn: ()=>getOperations(params),
+    enabled,
+    staleTime: Infinity
   })
-  return { isPending, isFetching, isError, data, error }
+  return { isPending, isFetching, isError, data, error, refetch }
 }
 
 export function useOperationsAdd() {
@@ -19,10 +21,19 @@ export function useOperationsAdd() {
   return useMutation({
     mutationFn: addOperation,
     onSuccess: (op) => {
-      queryClient.setQueryData<Operation[]>(
-				[QUERY_KEY_OPERATIONS],
-				cache => cache ? [...cache, op] : [op]
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+      for (const query of queries) {
+        let params = query[0][1] as GetOpsParams
+        if (
+          params?.from != undefined && params?.to != undefined &&
+          (op.date.seconds < params?.from.seconds || op.date.seconds > params?.to.seconds)) {
+          continue
+        }
+        queryClient.setQueryData<Operation[]>(
+          query[0],
+          cache => cache ? [...cache, op] : [op]
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)
@@ -36,11 +47,14 @@ export function useOperationsUpdate() {
   return useMutation({
     mutationFn: updateOperation,
     onSuccess: (updatedOp) => {
-      queryClient.setQueryData<Operation[]>(
-				[QUERY_KEY_OPERATIONS],
-				cache =>
-					cache?.map(op => op.id === updatedOp.id ? {...op, ...updatedOp} : op)
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Operation[]>(
+          query[0],
+          cache =>
+            cache?.map(op => op.id === updatedOp.id ? {...op, ...updatedOp} : op)
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)
@@ -54,10 +68,13 @@ export function useOperationsDelete() {
   return useMutation({
     mutationFn: deleteOperation,
     onSuccess: (id) => {
-      queryClient.setQueryData<Operation[]>(
-				[QUERY_KEY_OPERATIONS],
-				cache => cache?.filter(op => op.id !== id)
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Operation[]>(
+          query[0],
+          cache => cache?.filter(op => op.id !== id)
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)

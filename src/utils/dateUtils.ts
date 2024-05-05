@@ -1,6 +1,13 @@
 import { Timestamp } from "firebase/firestore"
 
+type PeriodString = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Квартал' | 'Q' | 'Полгода' | 'HY' | 'Год' | 'Y'
+
 export class DateUtils {
+	static second = 1000
+  static min = this.second * 60
+  static hour = this.min * 60
+  static day = 24 * this.hour
+  static week = 7 * this.day
 
   static tzs = {
     msk: { name:'Europe/Moscow', offset: -180}
@@ -19,7 +26,7 @@ export class DateUtils {
 	}
 
 	static tsToIsoStr(ts: Timestamp) {
-		return DateUtils.formatDateForInput(ts.toDate())
+		return this.formatDateForInput(ts.toDate())
 	}
 
   static dateToIsoStr(date: Date) {
@@ -28,15 +35,15 @@ export class DateUtils {
   
   static getCurIsoStr() {
     const curDate = new Date()
-    return DateUtils.dateToIsoStr(curDate)
+    return this.dateToIsoStr(curDate)
   }
 
   static getCurInpDate() {
     const curDate = new Date()
-    return DateUtils.formatDateForInput(curDate)
+    return this.formatDateForInput(curDate)
   }
 
-  static formatDateForInput(date: Date, offset: number | undefined = DateUtils.tzs.msk.offset) {
+  static formatDateForInput(date: Date, offset: number | undefined = this.tzs.msk.offset) {
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
 		return new Date(date.getTime() - (offset * 60000))
 			.toISOString()
@@ -49,42 +56,42 @@ export class DateUtils {
 
   static inpDateToIsoDate(inpDate: string) {
     const date = new Date(inpDate)
-    return DateUtils.dateToIsoStr(date)
+    return this.dateToIsoStr(date)
   }
 
-  static isoStrToInpDate(isoDate: string, offset: number | undefined  = DateUtils.tzs.msk.offset) {
-    const date = DateUtils.isoStrToDate(isoDate)
+  static isoStrToInpDate(isoDate: string, offset: number | undefined  = this.tzs.msk.offset) {
+    const date = this.isoStrToDate(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
     return new Date(date.getTime() - (offset * 60000))
        .toISOString()
        .split("T")[0];
   }
 
-  static isoStrToInpDateTime(isoDate: string, offset: number | undefined  = DateUtils.tzs.msk.offset) {
-    const date = DateUtils.isoStrToDate(isoDate)
+  static isoStrToInpDateTime(isoDate: string, offset: number | undefined  = this.tzs.msk.offset) {
+    const date = this.isoStrToDate(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
     return new Date(date.getTime() - (offset * 60000 ))
       .toISOString()
      .split("Z")[0];
    }
 
-  static isoStrToTzDateStr(isoDate: string, timeZone: string | undefined = DateUtils.tzs.msk.name) {
-    const date = DateUtils.isoStrToDate(isoDate)
+  static isoStrToTzDateStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) {
+    const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
       date.toLocaleDateString('ru-RU')
       :
       date.toLocaleDateString('ru-RU', { timeZone })
   }
 
-  static isoStrToTzDateTimeStr(isoDate: string, timeZone: string | undefined = DateUtils.tzs.msk.name) { 
-    const date = DateUtils.isoStrToDate(isoDate)
+  static isoStrToTzDateTimeStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) { 
+    const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
       date.toLocaleString('ru-RU')
       :
       date.toLocaleString('ru-RU', { timeZone })
   }
 
-  static incrementDatePeriod(date: Date, per: string) {
+  static incrementDatePeriod(date: Date, per: PeriodString) {
 		switch (per) {
 			case 'День':
 			case 'D' :
@@ -95,6 +102,7 @@ export class DateUtils {
 				date.setDate(date.getDate() + 7)
 				break
 			case 'Месяц':
+			case 'M':
 				date.setMonth(date.getMonth() + 1)
 				break
 			case 'Квартал':
@@ -112,7 +120,7 @@ export class DateUtils {
 		return date
   }
   
-  static decrementDatePeriod(date: Date, per: string) {
+  static decrementDatePeriod(date: Date, per: PeriodString) {
 		switch (per) {
 			case 'День':
 			case 'D' :
@@ -123,6 +131,7 @@ export class DateUtils {
 				date.setDate(date.getDate() - 7)
 				break
 			case 'Месяц':
+			case 'M':
 				date.setMonth(date.getMonth() - 1)
 				break
 			case 'Квартал':
@@ -140,4 +149,110 @@ export class DateUtils {
 		return date
 	}
 
+	static getLastDayOfPeriod(date: Date, period: PeriodString) {
+		const FD = this.getFirstDayOfPeriod(date, period)
+		const LD = this.incrementDatePeriod(FD, period)
+		LD.setDate(LD.getDate() - 1)
+		return LD
+	}
+	
+	static getFirstDayOfPeriod(date: Date, period: PeriodString) {
+		switch (period) {
+			case 'День' :
+			case 'D' : {
+				return new Date(date)
+			}
+			case 'Неделя' :
+			case 'W' : {
+				const weekNum = this.getWeekNum(date)
+				const dayNum = date.getDate()
+				const weekBelongsToPreviousYear = (weekNum > 51 && dayNum < 7)
+				const year = weekBelongsToPreviousYear ? date.getFullYear() - 1 : date.getFullYear()
+				return this.getDateOfISOWeek(year + '-W' + weekNum)
+			}
+			case 'Месяц' :
+			case 'M' : {
+				const FD = new Date(date)
+				FD.setDate(1)
+				return FD
+			}
+			case 'Квартал' :
+			case 'Q' : {
+				const quarter = Math.floor((date.getMonth() / 3))
+				return new Date(date.getFullYear(), quarter * 3, 1)
+			}
+			case 'Полгода' :
+			case 'HY' : {
+				const fdMonth = date.getMonth() > 5 ? 6 : 0
+				return new Date(date.getFullYear(), fdMonth, 1)
+			}
+			case 'Год' :
+			case 'Y' : {
+				return new Date(date.getFullYear(), 0, 1)
+			}
+		}
+	}
+
+	static getWeekNum(date: Date) {
+		const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+		const dayNum = d.getUTCDay() || 7
+		d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+		const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+		return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+	}
+
+	static getDateOfISOWeek(yearAndWeek: string) {
+		// получает номер и год (2020-W06), возвращает дату начала недели
+		const w = parseInt(yearAndWeek.substring(6, 8))
+		const y = parseInt(yearAndWeek.substring(0, 4))
+		const simple = new Date(y, 0, 1 + (w - 1) * 7)
+		const dow = simple.getDay()
+		const ISOweekStart = simple
+		if (dow <= 4) {
+			ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1)
+		} else {
+			ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay())
+		}
+		return ISOweekStart
+	}
+
+	static roundTimeToDay(t: number) {
+    const d = new Date(t)
+    const dz = new Date(t)
+    dz.setUTCHours(0, 0, 0, 0)
+    return d.getTime() - dz.getTime() <= this.day / 2
+      ? dz.getTime()
+      : this.incrementDatePeriod(dz, 'D').getTime()
+	}
+
+	static ceilTimeToDay(t: number) {
+		const floored = this.floorTimeToDay(t)
+		return this.incrementDatePeriod(new Date(floored), 'D').getTime()
+	}
+
+	static floorTimeToDay(t: number) {
+		const d = new Date(t)
+		d.setUTCHours(0, 0, 0, 0)
+		return d.getTime()
+	}
+	static floorDateToDay(date: Date) {
+		return new Date(this.floorTimeToDay(date.getTime()))
+	}
+
+
+}
+
+export function addTsInstanseToParsedJson(parsedJson: any, key: string) {
+  if (key in parsedJson) {
+    if (
+      (!('seconds' in parsedJson[key]) || !('nanoseconds' in parsedJson[key]))
+        ||
+        (typeof parsedJson?.[key]?.seconds !== 'number' ||
+          typeof parsedJson?.[key]?.nanoseconds !== 'number')
+    ) return null
+    const { seconds, nanoseconds} = parsedJson[key]
+    const ts = new Timestamp(seconds, nanoseconds)
+    parsedJson[key] = ts
+  }
+  return parsedJson
 }

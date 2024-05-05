@@ -4,17 +4,20 @@ import { Operation } from "../../../db/types"
 import { Spinner } from "../../common/spinner"
 import { OperationHeaderSection } from "../operation-section/operation-header-section"
 import { OperationSection } from "../operation-section/operation-section"
-import './operations-list.css'
 import { OperationSectionEdit } from "../operation-section/operation-section-edit"
+import { useOpsListContext } from "../operations-list-context"
+
+import './operations-list.css'
 
 export const OperationsList = () => {
-  const { data: ops, isFetching: opsFetching } = useOperationsGet(false)
+  const { params } = useOpsListContext()
+  const { data: ops, isFetching: opsFetching } = useOperationsGet(params)
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
-  const disableUpd = ()=> setUpdId(null)
+  const disableUpd = () => setUpdId(null)
 
   if (opsFetching) return <Spinner />
   return (
-    <div className="operations-list">
+    <div className="op-list">
       <OperationHeaderSection />
       {
         ops?.map(op => {

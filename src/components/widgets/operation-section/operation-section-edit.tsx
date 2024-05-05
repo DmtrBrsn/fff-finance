@@ -76,7 +76,7 @@ export const OperationSectionEdit = (
           onChange={(e) => setUpdOp({ ...updOp, isPlan: e.target.checked })}
         />
       </span>
-      <span className="field date">{DateUtils.tsToDateStr(op.created)}</span>
+      <span className="field date">{DateUtils.tsToDateTimeStr(op.created)}</span>
       <span className="field buttons">
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} />}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>

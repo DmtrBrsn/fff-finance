@@ -1,14 +1,27 @@
 import { db } from "../../firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit } from 'firebase/firestore'
 import { getColPath } from "../db-utils"
 import { Id, Operation, OperationAdd, OperationUpd } from ".."
+import { GetOpsParams } from "./operations-params"
 
-export const getAllOperations = async () => {
-  // const collectionRef = collection(db, getColPath('operations'))
+const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams ) => {
+  let queryArr: QueryConstraint[] = []
 
-  const q = query(collection(db, getColPath('operations')), orderBy('date', 'desc'));
+  if (params?.from !== undefined) queryArr.push(where('date', '>=', params.from))
+  if (params?.to!==undefined) queryArr.push(where('date', '<=', params.to))
+  if (params?.orderBy !== undefined) queryArr.push(orderBy(params.orderBy, params.orderByDirection ?? undefined))
+  if (params?.limit !== undefined) queryArr.push(limit(params.limit))
+  if (params?.isPlan !== undefined) queryArr.push(where('isPlan', '==', params.isPlan))
   
+  if (params && queryArr.length>0) return query(collectionRef, ...queryArr)
+  else return query(collectionRef)
+}
+
+export const getOperations = async (params?: GetOpsParams) => {
+  const collectionRef = collection(db, getColPath('operations'))
+  const q = opParamsToQuery(collectionRef, params)
   const querySnapshot = await getDocs(q)
+  console.log(`read operations: ${querySnapshot.docs.length}`)
   return querySnapshot.docs.map(doc => {
     return { id: doc.id, ...doc.data() } as Operation
   })

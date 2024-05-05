@@ -24,7 +24,7 @@ export const NewOperationForm = () => {
     sum:0
   }
 
-  const [op, setOp] = useState<OperationAdd>(operationDraft != null ? JSON.parse(operationDraft) : initOp)
+  const [op, setOp] = useState<OperationAdd>(operationDraft != null ? operationDraft : initOp)
   
   const setOpAndDraft = (newValues: OperationAdd) => {
     setOp(newValues)
@@ -148,4 +148,5 @@ export const NewOperationForm = () => {
     </form>
   )
 }
+
 

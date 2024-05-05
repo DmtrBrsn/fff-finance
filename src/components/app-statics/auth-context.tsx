@@ -5,13 +5,13 @@ import { AuthService, UserService } from "../../utils"
 
 type Props = { children?: React.ReactNode }
 type CurrentUser = User | null
-type AuthContext = {
+type AuthContextValue = {
   service: typeof AuthService
   currentUser?: CurrentUser
   userService?: UserService
 }
 
-export const AuthContext = React.createContext<AuthContext>({service: AuthService})
+export const AuthContext = React.createContext<AuthContextValue>({service: AuthService})
 
 export function useAuth() {
   return useContext(AuthContext)

@@ -4,13 +4,11 @@ import { AuthProvider } from './auth-context'
 import { updateRootThemeAttr } from '../../utils/style-utils'
 import { ToastContainerDefault } from '../common/toast-container-default'
 import { useCategoriesGet } from '../../db'
-import { useOperationsGet } from '../../db/operations'
 
 function App() {
-  
+
   useApptheme()
   useCategoriesGet(true)
-  useOperationsGet(true)
 
   return (
     <>
