@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Operation, OperationUpd, useCategoriesGet } from "../../../db";
 import { useOperationsUpdate } from "../../../db/operations";
-import { CancelIcon, DoneIcon } from "../../common/svg";
+import { CancelIcon, DoneIcon, RepeatIcon } from "../../common/svg";
 import { BtnIcon } from "../../common/btn-icon";
 import { Spinner } from "../../common/spinner";
 import { toast } from "react-toastify";
+import { formatISO } from "date-fns";
+import { Timestamp } from "firebase/firestore";
 
-import './operation-section.css'
-import { DateUtils } from "../../../utils";
+import './operation-section.style.css'
 
 export const OperationSectionEdit = (
   { op, disableUpd }: { op: Operation, disableUpd: () => void }
@@ -26,7 +27,7 @@ export const OperationSectionEdit = (
       disableUpd()
       return
     }
-    await updateHook.mutateAsync({ updDoc: updOp })
+    await updateHook.mutateAsync(updOp)
     toast('Запись изменена')
     disableUpd()
   }
@@ -35,8 +36,8 @@ export const OperationSectionEdit = (
     <div className={isInc==undefined || !isInc ? 'op-section' : 'op-section income-section' }>
       <span className="field date">
         <input type='date'
-          value={updOp.date==undefined ? '' : DateUtils.tsToIsoStr(updOp.date)}
-          onChange={(e) => setUpdOp({...updOp, date: DateUtils.isoStrToTs(e.target.value)})}
+          value={updOp.date==undefined ? '' : formatISO(updOp.date.toDate(), {representation: 'date'})}
+          onChange={(e) => setUpdOp({ ...updOp, date: Timestamp.fromDate(new Date(e.target.value)) })}
         />
       </span>
       <span className="field sum">
@@ -76,11 +77,13 @@ export const OperationSectionEdit = (
           onChange={(e) => setUpdOp({ ...updOp, isPlan: e.target.checked })}
         />
       </span>
-      <span className="field date">{DateUtils.tsToDateTimeStr(op.created)}</span>
+      <span className="field date">{op.created.toDate().toLocaleString()}</span>
       <span className="field buttons">
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} />}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
       </span>
+      {op.idRecurrent && <span className="recurrent-badge"><RepeatIcon/></span>}
     </div>
+
   )
 }

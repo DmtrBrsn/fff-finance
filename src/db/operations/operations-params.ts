@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore"
-import { DateUtils, addTsInstanseToParsedJson } from "../../utils"
+import { addTsInstanseToParsedJson } from "../../utils"
 import { Operation } from "../types"
+import { endOfMonth, startOfMonth } from "date-fns"
 
 export type GetOpsParams = {
   from?: Timestamp
@@ -19,30 +20,29 @@ export type GetOpsDatesParams = {
 }
 
 export const getThisMonthOpParams = (): GetOpsDatesParams => {
-  const thisDay = DateUtils.floorDateToDay(new Date())
   return ({
-    from: Timestamp.fromDate(DateUtils.getFirstDayOfPeriod(thisDay, 'M')),
-    to: Timestamp.fromDate(DateUtils.getLastDayOfPeriod(thisDay, 'M'))
+    from: Timestamp.fromDate(startOfMonth(new Date)),
+    to: Timestamp.fromDate(endOfMonth(new Date))
   })
 }
 
 
-export const getLatestOpsParams = ():GetOpsParams => {
+export const getLatestOpsParams = (): GetOpsParams => {
   return ({
-    limit: 4,
+    limit: 10,
     orderBy: 'created',
     orderByDirection: 'desc'
   })
 }
 
-const opDatesParamsKey = 'operationsDatesParams'
+const opListParamsKey = 'operationsListParams'
 
-export const setOpDatesParamsToSs = (params: GetOpsParams) => {
-  sessionStorage.setItem(opDatesParamsKey, JSON.stringify(params))
+export const setOpListParamsToSs = (params: GetOpsParams) => {
+  sessionStorage.setItem(opListParamsKey, JSON.stringify(params))
 }
 
-export const getOpDatesParamsFromSs = () => {
-  const value = sessionStorage.getItem(opDatesParamsKey)
+export const getOpListParamsFromSs = () => {
+  const value = sessionStorage.getItem(opListParamsKey)
   if (value == null) return null
   let parsedObj = JSON.parse(value)
   parsedObj = addTsInstanseToParsedJson(parsedObj, 'from')

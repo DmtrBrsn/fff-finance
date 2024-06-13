@@ -1,4 +1,5 @@
 .op-section {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -48,6 +49,14 @@
     width: 4rem;
   }
 
+  .recurrent-badge {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+  }
+  .recurrent-badge>svg {
+    fill: var(--grey-hi-cont);
+  }
 
 }
 

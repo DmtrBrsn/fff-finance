@@ -19,9 +19,9 @@ export const CategoriesDataGrid = () => {
 
     const handleAddClick = () => {
       if (name === '') return
-      addHook.mutateAsync({
-        newDoc: { name, isIncome, created: Timestamp.now() }
-      }).then(()=>setAddNew(false))
+      addHook.mutateAsync(
+        { name, isIncome, created: Timestamp.now() }
+      ).then(() => setAddNew(false))
     }
   
     return (<>
@@ -40,7 +40,7 @@ export const CategoriesDataGrid = () => {
     const handleUpdate = () => {
       if (name === '' || (name === cat.name && isIncome === cat.isIncome)) return
       const updDoc = { id: cat.id, name, isIncome }
-      updHook.mutateAsync({updDoc}).then(()=>setEditId(undefined))
+      updHook.mutateAsync(updDoc).then(()=>setEditId(undefined))
     }
 
     return (<>
@@ -53,7 +53,7 @@ export const CategoriesDataGrid = () => {
 
   const NonEditCells = ({ cat }: { cat: Category }) => {
     const deleteHook = useCategoriesDelete()
-    const handleDeleteClick = () => deleteHook.mutate({ id: cat.id })
+    const handleDeleteClick = () => deleteHook.mutate(cat.id)
 
     return (<>
       <td>{cat.name}</td>

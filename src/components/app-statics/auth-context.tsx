@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { auth } from '../../firebase'
 import { onAuthStateChanged, User, } from "firebase/auth"
 import { AuthService, UserService } from "../../utils"
@@ -11,7 +11,7 @@ type AuthContextValue = {
   userService?: UserService
 }
 
-export const AuthContext = React.createContext<AuthContextValue>({service: AuthService})
+export const AuthContext = createContext<AuthContextValue>({service: AuthService})
 
 export function useAuth() {
   return useContext(AuthContext)

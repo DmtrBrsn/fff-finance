@@ -12,7 +12,7 @@ import './styles/global.css'
 import './styles/inputs-buttons.css'
 import './styles/auth.css'
 
-// import '../../db/create-test-data' //dev
+// import './db/create-test-data.ts' //dev
 
 // registerSW({
 //   onOfflineReady() {

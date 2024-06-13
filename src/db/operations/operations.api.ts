@@ -1,5 +1,5 @@
 import { db } from "../../firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch } from 'firebase/firestore'
 import { getColPath } from "../db-utils"
 import { Id, Operation, OperationAdd, OperationUpd } from ".."
 import { GetOpsParams } from "./operations-params"
@@ -27,30 +27,48 @@ export const getOperations = async (params?: GetOpsParams) => {
   })
 }
 
-export const addOperation = async (
-  { newDoc }:
-  {newDoc: OperationAdd}
-): Promise<Operation> => {
+export const addOperation = async (newDoc: OperationAdd): Promise<Operation> => {
   const collectionRef = collection(db, getColPath('operations'))
   const docRef = await addDoc(collectionRef, newDoc)
   const addedDoc = { id: docRef.id, ...newDoc }
   return addedDoc
 }
 
-export const updateOperation = async (
-  { updDoc }: 
-  {updDoc: OperationUpd}
-) => {
+export const batchAddOperations = (newDocs: OperationAdd[]) => {
+  let batch = writeBatch(db)
+  for (const newDoc of newDocs) {
+    const ref = doc(collection(db, getColPath('operations')))
+    batch.set(ref, newDoc)
+  }
+  return batch.commit()
+}
+
+export const updateOperation = async (updDoc :OperationUpd) => {
   const docRef = doc(db, getColPath('operations'), updDoc.id)
   await setDoc(docRef, updDoc)
   return updDoc
 }
 
-export const deleteOperation = async (
-  { id }:
-  {id: Id}
-) => {
+export const batchUpdateOperations = (updDocs: OperationUpd[]) => {
+  let batch = writeBatch(db)
+  for (const updDoc of updDocs) {
+    const ref = doc(collection(db, getColPath('operations')),  updDoc.id)
+    batch.update(ref, updDoc)
+  }
+  return batch.commit()
+}
+
+export const deleteOperation = async (id: Id) => {
   const docRef = doc(db, getColPath('operations'), id)
   await deleteDoc(docRef)
   return id
+}
+
+export const batchDeleteOperations = async (ids: Id[]) => { 
+  let batch = writeBatch(db)
+  for (const id of ids) {
+    const ref = doc(collection(db, getColPath('operations')), id)
+    batch.delete(ref)
+  }
+  return batch.commit()
 }

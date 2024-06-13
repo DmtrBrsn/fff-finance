@@ -1,0 +1,4 @@
+.recurrent-op-setup-container {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,34 +1,35 @@
-import { DateUtils } from '../../../utils'
 import { useOperationsGet } from '../../../db/operations'
 import { useOpsListContext } from '../operations-list-context'
 import { useState } from 'react'
-import { getThisMonthOpParams, setOpDatesParamsToSs } from '../../../db/operations/operations-params'
+import { getThisMonthOpParams, setOpListParamsToSs } from '../../../db/operations/operations-params'
+import { formatISO } from 'date-fns'
 
-import './operations-toolbar.css'
+import './operations-toolbar.style.css'
+import { Timestamp } from 'firebase/firestore'
 
 export const OperationsListToolBar = () => {
 
   const { params, setParams } = useOpsListContext()
-  const [from, setFrom] = useState(DateUtils.tsToIsoStr(params.from))
-  const [to, setTo] = useState(DateUtils.tsToIsoStr(params.to))
+  const [from, setFrom] = useState(formatISO(params.from.toDate(), {representation: 'date'}))
+  const [to, setTo] = useState(formatISO(params.to.toDate(), {representation: 'date'}))
 
   const { data: ops, refetch } = useOperationsGet(params, true)
 
-
   const fetch = () => {
     const newParams = {
-      from: DateUtils.isoStrToTs(from),
-      to: DateUtils.isoStrToTs(to)
+      from: Timestamp.fromDate(new Date(from)),
+      to: Timestamp.fromDate(new Date(to))
     }
-    setOpDatesParamsToSs(newParams)
+    setOpListParamsToSs(newParams)
     setParams && setParams(newParams)
     refetch()
   }
 
   const setThisM = () => {
     const thisMparams = getThisMonthOpParams()
-    setFrom(DateUtils.tsToIsoStr(thisMparams.from))
-    setTo(DateUtils.tsToIsoStr(thisMparams.to))
+    setOpListParamsToSs(thisMparams)
+    setFrom(formatISO(thisMparams.from.toDate(), {representation: 'date'}))
+    setTo(formatISO(thisMparams.to.toDate(), {representation: 'date'}))
     setParams && setParams(thisMparams)
   }
 
@@ -47,7 +48,7 @@ export const OperationsListToolBar = () => {
         onChange={(e)=> setTo(e.target.value)}
       />
       <button onClick={fetch}>Fetch</button>
-      <button onClick={setThisM}>Set this month</button>
+      <button onClick={setThisM}>This M</button>
       {ops && 'operations: '+ops.length }
 
     </div>

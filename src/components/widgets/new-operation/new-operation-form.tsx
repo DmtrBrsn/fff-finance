@@ -1,18 +1,21 @@
 import { FormEvent, useState, useRef } from "react"
-import { DateUtils } from "../../../utils/dateUtils"
 import { Spinner } from "../../common/spinner"
 import { BtnIcon } from "../../common/btn-icon"
 import { StripSelect } from "../../common/strip-select/strip-select"
 import { toast } from "react-toastify"
 import { OperationAdd, useCategoriesGet } from "../../../db"
-import { useOperationsAdd } from "../../../db/operations"
+import { useOperationsAdd, useOperationsBatchAdd } from "../../../db/operations"
 import { getOpDraft, removeOpDraft, updateOpDraft } from "./operation-draft"
 
-import './new-operation-form.css'
+
 import { Timestamp } from "firebase/firestore"
+import { RecurrentOpSetup } from "../../common/recurrent-op-setup/recurrent-op-setup"
+import { RepeatOptions, weekdays } from "../../../db/operations/operation-constants"
+import './new-operation-form.style.css'
+import { getRecurrentOps } from "./get-recurrent-ops"
+import { addDays, addMonths, formatISO, getDay, subDays } from "date-fns"
 
 export const NewOperationForm = () => {
-
   const operationDraft = getOpDraft()
 
   const initOp = {
@@ -23,12 +26,30 @@ export const NewOperationForm = () => {
     isPlan: false,
     sum:0
   }
-
+  
   const [op, setOp] = useState<OperationAdd>(operationDraft != null ? operationDraft : initOp)
+
+  const initRepeatOptions: RepeatOptions = {
+    every: undefined,
+    everyNumber: 1,
+    times: 1,
+    endsOn: formatISO(addMonths(op.date.toDate(), 1), {representation: 'date'}),
+    weekdays: [weekdays[getDay(op.date.toDate())]],
+    useTimes: true
+  }
+
+  const [repeatOptions, setRepeatOptions] = useState(initRepeatOptions)
   
   const setOpAndDraft = (newValues: OperationAdd) => {
     setOp(newValues)
     updateOpDraft(newValues)
+  }
+
+  const updateOpDate = (date: Timestamp) => {
+    setOpAndDraft({ ...op, date })
+    if (op.isPlan && repeatOptions.every === 'week' && repeatOptions.weekdays != undefined) {
+      setRepeatOptions({ ...repeatOptions, weekdays: [weekdays[getDay(date.toDate())]] })
+    }
   }
 
   const sumInpRef = useRef<HTMLInputElement>(null)
@@ -36,33 +57,44 @@ export const NewOperationForm = () => {
 
   const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
   const addHook = useOperationsAdd()
+  const addBatchHook = useOperationsBatchAdd()
 
   const getIncExpStr = () => {
     const isIncome = categories?.find(cat => cat.id === op.idCategory)?.isIncome
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
 
-  const plusDay = () => setOpAndDraft({ ...op, date: Timestamp.fromDate(DateUtils.incrementDatePeriod(op.date.toDate(), 'D')) })
-  const minusDay = ()=> setOpAndDraft({...op, date: Timestamp.fromDate(DateUtils.decrementDatePeriod(op.date.toDate(), 'D')) })
+  const plusDay = () => updateOpDate(Timestamp.fromDate(addDays(op.date.toDate(), 1)))
+  const minusDay = ()=> updateOpDate(Timestamp.fromDate(subDays(op.date.toDate(), 1)))
 
   const reset = () => {
     setOp(initOp)
+    setRepeatOptions(initRepeatOptions)
     removeOpDraft()
   }
 
-  const saveOp = async (e:FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (op.idCategory === '') {
       toast.error('Необходимо выбрать категорию')
       return
     }
-    const newDoc = { ...op, created: Timestamp.now() }
-    await addHook.mutateAsync({ newDoc })
+    if (op.isPlan && repeatOptions.every) saveRepeatingOps()
+    else saveOp()
+  }
+
+  const saveOp = async () => {
+    await addHook.mutateAsync({ ...op, created: Timestamp.now() })
     reset()
   }
 
+  const saveRepeatingOps = async () => {
+    const newOps = getRecurrentOps(op, repeatOptions)
+    await addBatchHook.mutateAsync(newOps)
+  }
+
   return (
-    <form onSubmit={saveOp} className="new-operation-form">
+    <form onSubmit={handleSubmit} className="new-operation-form">
       <label>Adding operation{operationDraft ? ' (draft saved)' : '' }</label>
       <span className="field vert">
         <span className="hor">
@@ -72,11 +104,10 @@ export const NewOperationForm = () => {
         </span>
         <input
           type="date"
-          lang="ru-RU"
           id="opDate"
-          value={DateUtils.tsToIsoStr(op.date)}
+          value={formatISO(op.date.toDate(), { representation: 'date' })}
           required
-          onChange={(e) => setOpAndDraft({...op, date: DateUtils.isoStrToTs(e.target.value) })}
+          onChange={(e) => updateOpDate(Timestamp.fromDate(new Date(e.target.value)))}
         />
       </span>
       <span className="field vert">
@@ -116,18 +147,6 @@ export const NewOperationForm = () => {
               selectedKeyByDefault={op.idCategory!=='' ? op.idCategory : undefined}
               onSelect={(e) => setOpAndDraft({ ...op, idCategory: categories.find(cat => cat.id === e.target.key)?.id ?? '' })}
             />
-            {/* <select
-              id="opCat"
-              multiple={true}
-              size={categories.length>=3 ? 3 : categories.length}
-              value={(op.idCategory !== '') ? [op.idCategory] : ['']}
-              required
-              onChange={(e) => setOpAndDraft({ ...op, idCategory: categories.find(cat => cat.id === e.target.value)?.id ?? '' })}
-            >
-              {
-                categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
-              }
-            </select> */}
             <span>
               {getIncExpStr()}
             </span>
@@ -135,7 +154,7 @@ export const NewOperationForm = () => {
         }
       </span>
       <span className="field hor">
-        <label htmlFor="opIsPlan">Is plan</label>
+        <label htmlFor="opIsPlan">Plan</label>
         <input
           type="checkbox"
           id="opIsPlan"
@@ -143,10 +162,9 @@ export const NewOperationForm = () => {
           onChange={(e)=> setOpAndDraft({...op, isPlan: e.target.checked})}
         />
       </span>
+      {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
       <button type="submit" disabled={addHook.isPending} className="btn-std">Save</button>
       <button type="reset" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
     </form>
   )
 }
-
-

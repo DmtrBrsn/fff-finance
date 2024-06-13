@@ -25,7 +25,7 @@ export const UnlinkEmailAndPassword = () => {
   }
 
   return (
-    <div className="auth-container">
+    <div>
       {error && <><span className='auth-error-text'>{error}</span><br /></>}
       <input
         className="btn-std"

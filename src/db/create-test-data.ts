@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore"
 import { addCategory, getAllCategories } from "./categories/categories.api"
 import { addOperation } from "./operations/operations.api"
 import { CategoryAdd, OperationAdd } from "./types"
+import { addDays } from "date-fns"
 
 (async function () {
   const existingCats = await getAllCategories()
@@ -26,7 +27,7 @@ import { CategoryAdd, OperationAdd } from "./types"
       created: Timestamp.now()
     },
   ]
-  for (let cat of cats) await addCategory({ newDoc: cat })
+  for (let cat of cats) await addCategory(cat)
   
   const createdCats = await getAllCategories()
   
@@ -39,12 +40,13 @@ import { CategoryAdd, OperationAdd } from "./types"
       description: `TEST_${count}`,
       sum: Math.floor(Math.random() * 1000),
       idCategory: createdCats[catIndex].id,
-      date: Timestamp.fromMillis(new Date().getTime() + Math.floor((Math.random() * 100 * 86400000))),
+      date: Timestamp.fromDate(addDays(new Date, Math.floor((Math.random() * 100)))),
       created: Timestamp.now(),
       isPlan: false
     })
     count++
   }
-  for (let op of ops) await addOperation({ newDoc: op })
+  for (let op of ops) await addOperation(op)
   console.log(`${createdCats.length} cats created; ${ops.length} ops created`)
+  window.location.reload()
 })()

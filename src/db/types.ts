@@ -6,7 +6,7 @@ export type Category = {
   id: Id
   name: string
   isIncome: boolean
-  created?: Timestamp
+  created: Timestamp
 }
 
 export type Operation = {
@@ -14,8 +14,9 @@ export type Operation = {
   idCategory: string
   date: Timestamp
   description: string
-  isPlan: boolean
   sum: number
+  isPlan: boolean
+  idRecurrent?: string
   created: Timestamp
 }
 

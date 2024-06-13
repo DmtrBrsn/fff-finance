@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 // import { getAnalytics } from "firebase/analytics"
-import { getAuth } from "firebase/auth"
-import { getFirestore } from 'firebase/firestore'
+import { connectAuthEmulator, getAuth } from "firebase/auth"
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -16,10 +16,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
-// connectAuthEmulator(auth, "http://127.0.0.1:9099")
+connectAuthEmulator(auth, "http://127.0.0.1:9099")
 
 // const analytics = getAnalytics(app)
 export const db = getFirestore(app)
-// connectFirestoreEmulator(db, '127.0.0.1', 8080);
+connectFirestoreEmulator(db, '127.0.0.1', 8080);
 
 export default app

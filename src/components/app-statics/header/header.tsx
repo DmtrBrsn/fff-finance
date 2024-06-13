@@ -2,7 +2,7 @@ import { Nav } from "./nav"
 import { useAuth } from "../auth-context"
 import { AccountCircleIcon } from "../../common/svg"
 import { NavLink } from "react-router-dom"
-import './header.css'
+import './header.style.css'
 
 export const Header = () => {
   const { currentUser } = useAuth()

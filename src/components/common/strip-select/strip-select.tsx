@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import './strip-select.css'
+import './strip-select.style.css'
 
 type Key = number | string
 

@@ -7,7 +7,7 @@ import { OperationSection } from "../operation-section/operation-section"
 import { OperationSectionEdit } from "../operation-section/operation-section-edit"
 import { useOpsListContext } from "../operations-list-context"
 
-import './operations-list.css'
+import './operations-list.style.css'
 
 export const OperationsList = () => {
   const { params } = useOpsListContext()

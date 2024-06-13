@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Operation } from "..";
 import { toast } from "react-toastify";
-import { addOperation, deleteOperation, getOperations, updateOperation } from "./operations.api";
+import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperations, updateOperation } from "./operations.api";
 import { GetOpsParams } from "./operations-params";
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
@@ -35,6 +35,48 @@ export function useOperationsAdd() {
         )
       }
     },
+    onError: (err) => {
+      toast.error(err.message)
+      console.error(err)
+    }
+  })
+}
+
+export function useOperationsBatchAdd() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: batchAddOperations,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
+     },
+    onError: (err) => {
+      toast.error(err.message)
+      console.error(err)
+    }
+  })
+}
+
+export function useOperationsBatchUpdate() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: batchUpdateOperations,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
+     },
+    onError: (err) => {
+      toast.error(err.message)
+      console.error(err)
+    }
+  })
+}
+
+export function useOperationsBatchDelete() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: batchDeleteOperations,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
+     },
     onError: (err) => {
       toast.error(err.message)
       console.error(err)

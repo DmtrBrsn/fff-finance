@@ -6,7 +6,7 @@ import { Operation } from "../../db"
 import { OperationSection } from "./operation-section/operation-section"
 import { OperationSectionEdit } from "./operation-section/operation-section-edit"
 
-export const OperationLatest = () => {
+export const OperationsLatest = () => {
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
   const disableUpd = ()=> setUpdId(null)
 

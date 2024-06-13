@@ -239,6 +239,15 @@ export class DateUtils {
 		return new Date(this.floorTimeToDay(date.getTime()))
 	}
 
+	static isDateValid = (date: Date | string) => {
+    const invalidStr = 'Invalid Date'
+    return typeof date === 'string'
+      ? new Date(date).toString() !== invalidStr
+      : date instanceof Date
+        ? date.toString() !== invalidStr
+        : false
+  }
+
 
 }
 

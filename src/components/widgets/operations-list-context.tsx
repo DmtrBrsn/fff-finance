@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react"
-import { GetOpsDatesParams, getOpDatesParamsFromSs, getThisMonthOpParams } from "../../db/operations/operations-params"
+import { GetOpsDatesParams, getOpListParamsFromSs, getThisMonthOpParams } from "../../db/operations/operations-params"
 
 type OpsContextValue = {
   params: GetOpsDatesParams
@@ -8,7 +8,7 @@ type OpsContextValue = {
 
 
 export const OpsListContext = createContext<OpsContextValue>(
-  { params: getOpDatesParamsFromSs() ?? getThisMonthOpParams(), setParams: null }
+  { params: getOpListParamsFromSs() ?? getThisMonthOpParams(), setParams: null }
 )
 
 export function useOpsListContext() {
@@ -16,7 +16,7 @@ export function useOpsListContext() {
 }
 
 export const OpsListProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {
-  const [params, setParams] = useState(getOpDatesParamsFromSs() ?? getThisMonthOpParams())
+  const [params, setParams] = useState(getOpListParamsFromSs() ?? getThisMonthOpParams())
 
   return (
     <OpsListContext.Provider

@@ -32,7 +32,6 @@ main {
 .page-centered-content  {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -55,6 +54,17 @@ main {
   background-color: var(--grey-low-cont);
   border-radius: var(--app-border-radius);
   padding: calc(var(--gap-step) * 3);
+}
+.settings-section-container>label {
+  color: var(--grey-hi-cont);
+}
+
+.settings-section-container-import {
+  width: 25rem;
+}
+
+.settings-section-container-center {
+  align-items: center;
 }
 
 
