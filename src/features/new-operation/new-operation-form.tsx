@@ -4,7 +4,6 @@ import { addDays, addMonths, formatISO, getDay, subDays } from "date-fns"
 import { Timestamp } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { getOpDraft, updateOpDraft, removeOpDraft } from './operation-draft'
-import './new-operation-form.style.css'
 import { useCategoriesGet } from '@entities/categories'
 import { OperationAdd, useOperationsAdd, useOperationsBatchAdd, createRecurrentOps } from '@entities/operations'
 import { RecurrentOpSettingsAdd, weekdays, useRecurrentOpSettingsAdd } from '@entities/recurrent-op-settings'
@@ -12,6 +11,7 @@ import { BtnIcon } from '@shared/btn-icon'
 import { RecurrentOpSetup } from '@shared/recurrent-op-setup'
 import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
+import './new-operation-form.style.css'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
@@ -163,7 +163,7 @@ export const NewOperationForm = () => {
         />
       </span>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
-      <button type="submit" disabled={addHook.isPending} className="btn-std">Save</button>
+      <button type="submit" disabled={addHook.isPending} className="btn-std"> {addHook.isPending ? <Spinner /> : 'Save'}</button>
       <button type="reset" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
     </form>
   )

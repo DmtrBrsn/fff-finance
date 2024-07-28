@@ -11,7 +11,7 @@ export type Operation = {
   description: string
   sum: number
   isPlan: boolean
-  idRecurrent?: RecurrentOpSettings['id']
+  idRecurrent?: RecurrentOpSettings['id'] | null
   created: Timestamp
 }
 

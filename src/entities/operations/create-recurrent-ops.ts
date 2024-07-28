@@ -14,7 +14,7 @@ export function createRecurrentOps(op: OperationAdd, repeatOptions: RecurrentOpS
 
   const ops: OperationAdd[] = []
   const idRecurrent = repeatOptions.id
-
+  
   const pushOp = (date: Date) => ops.push({
     ...op,
     idRecurrent,

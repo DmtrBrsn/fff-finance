@@ -2,13 +2,13 @@ import { formatISO, getDay } from "date-fns"
 import { WeekdayPicker } from "../weekday-picker/weekday-picker"
 import { Timestamp } from "firebase/firestore"
 import { OperationAdd } from "@entities/operations"
-import { RecurrentOpSettings, RecurrentOpSettingsAdd, RepeatEvery, repeatEvery, weekdays } from "@entities/recurrent-op-settings"
+import { RecurrentOpSettings, RecurrentOpSettingsAdd, RecurrentOpSettingsUpd, RepeatEvery, repeatEvery, weekdays } from "@entities/recurrent-op-settings"
 import './recurrent-op-setup.style.css'
 
 type RecurrentOpSetupProps = {
   op: OperationAdd
-  repeatOptions: RecurrentOpSettings | RecurrentOpSettingsAdd
-  setRepeatOptions: React.Dispatch<React.SetStateAction<RecurrentOpSettings | RecurrentOpSettingsAdd>>
+  repeatOptions: RecurrentOpSettings | RecurrentOpSettingsAdd | RecurrentOpSettingsUpd
+  setRepeatOptions: React.Dispatch<React.SetStateAction<RecurrentOpSettings | RecurrentOpSettingsAdd | RecurrentOpSettingsUpd>>
 }
 
 export const RecurrentOpSetup = (props: RecurrentOpSetupProps) => {

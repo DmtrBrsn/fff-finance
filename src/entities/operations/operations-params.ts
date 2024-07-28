@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore"
 import { endOfMonth, startOfMonth } from "date-fns"
 import { Operation } from "./operations-types"
 import { addTsInstanseToParsedJson } from "@shared/utils"
+import { Id } from "@entities/api-types"
 
 export type GetOpsParams = {
   from?: Timestamp
@@ -10,6 +11,7 @@ export type GetOpsParams = {
   orderBy?: keyof Operation
   orderByDirection?: 'asc' | 'desc'
   isPlan?: boolean
+  idRecurrent?: Id
   // createdTo?: Timestamp
   // createdFrom?: Timestamp
 }

@@ -13,6 +13,7 @@ const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, Docume
   if (params?.orderBy !== undefined) queryArr.push(orderBy(params.orderBy, params.orderByDirection ?? undefined))
   if (params?.limit !== undefined) queryArr.push(limit(params.limit))
   if (params?.isPlan !== undefined) queryArr.push(where('isPlan', '==', params.isPlan))
+  if (params?.idRecurrent !== undefined) queryArr.push(where('idRecurrent', '==', params.idRecurrent))
   
   if (params && queryArr.length>0) return query(collectionRef, ...queryArr)
   else return query(collectionRef)

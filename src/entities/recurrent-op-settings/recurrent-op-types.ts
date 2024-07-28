@@ -13,7 +13,7 @@ export type RecurrentOpSettings = {
   times?: number
   endsOn?: Timestamp
   weekdays?: Weekdays[]
-  useTimes: boolean
+  useTimes?: boolean
 }
 
 export type RecurrentOpSettingsAdd = Add<RecurrentOpSettings>

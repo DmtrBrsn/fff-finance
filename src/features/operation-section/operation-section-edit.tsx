@@ -1,34 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { formatISO } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import { useCategoriesGet } from "@entities/categories";
-import { Operation, useOperationsUpdate, OperationUpd } from "@entities/operations";
+import { Operation, useOperationsUpdate, OperationUpd, createRecurrentOps, useOperationsGet, useOperationsBatchDelete, useOperationsBatchAdd } from "@entities/operations";
 import { BtnIcon } from "@shared/btn-icon";
 import { Spinner } from "@shared/spinner";
-import { DoneIcon, CancelIcon, RepeatIcon } from "@shared/svg";
-
+import { DoneIcon, CancelIcon, RepeatIcon, DeleteIcon } from "@shared/svg";
+import { RecurrentOpSetup } from "@shared/recurrent-op-setup";
+import { RecurrentOpSettingsUpd, useRecurrentOpSettingsDelete, useRecurrentOpSettingsGet, useRecurrentOpSettingsUpdate } from "@entities/recurrent-op-settings";
 import './operation-section.style.css'
 
 export const OperationSectionEdit = (
   { op, disableUpd }: { op: Operation, disableUpd: () => void }
 ) => {
+  const [recurrentMode, setRecurrentMode] = useState(false)
   const { data: cats } = useCategoriesGet(false)
+  const { data: recurrentOptions, isFetching: recurrentOptionsFetching } = useRecurrentOpSettingsGet(op.idRecurrent ?? '', op.idRecurrent != undefined && recurrentMode)
+  const { data: recurrentOps, isFetching: recurrentOpsFetching } = useOperationsGet({ idRecurrent: op.idRecurrent ?? '' }, op.idRecurrent != undefined && recurrentMode)
+  const [recurrentOptionsUpdated, setRecurrentOptionsUpdated] = useState<RecurrentOpSettingsUpd | null | undefined>(undefined)
   const updateHook = useOperationsUpdate()
+  const updateRecurrentHook = useRecurrentOpSettingsUpdate()
+  const deleteRecurrentHook = useRecurrentOpSettingsDelete()
+  const deleteBatchOpHook = useOperationsBatchDelete()
   const [updOp, setUpdOp] = useState<OperationUpd>(op)
+  const addBatchOpHook = useOperationsBatchAdd()
   const isInc = cats?.find(c => c.id === updOp.idCategory)?.isIncome
+
+  useEffect(() => {
+    setRecurrentOptionsUpdated(recurrentOptions)
+  },[recurrentOptions])
+
+  const handleIsPlanUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isPlan = e.target.checked
+    if (!isPlan && op.idRecurrent) {
+      setRecurrentMode(false)
+      setUpdOp({ ...updOp, isPlan, idRecurrent: null })
+    }
+    else if (isPlan && op.idRecurrent) {
+      setUpdOp({ ...updOp, isPlan, idRecurrent: op.idRecurrent })
+    }
+    else {
+      setUpdOp({ ...updOp, isPlan })
+    }
+  }
+
+  const updateRecurrentOptionsAndOps = async () => {
+    if (recurrentOptionsUpdated == null || recurrentOps == null) return
+    const newOpProto = { ...op, ...updOp }
+    let {id, ...newOpProtoWithoutId} = newOpProto
+    const newRecurrentOps = createRecurrentOps(newOpProtoWithoutId, recurrentOptionsUpdated)
+    //объединить в один batch или транзакцию
+    await updateRecurrentHook.mutateAsync(recurrentOptionsUpdated)
+    await deleteBatchOpHook.mutateAsync(recurrentOps.map(op => op.id))
+    await addBatchOpHook.mutateAsync(newRecurrentOps)
+  }
+
+  const deleteReccurentOptionsAndOps = async () => {
+    if (recurrentOptionsUpdated == null || recurrentOps == null) return
+    //объединить в один batch или транзакцию
+    await deleteBatchOpHook.mutateAsync(recurrentOps.map(op => op.id))
+    await deleteRecurrentHook.mutateAsync(recurrentOptionsUpdated.id)
+  }
 
   const handleUpdate = async () => {
     if (updOp.idCategory == undefined || updOp.idCategory==='') {
       toast.error('Не выбрана категория!')
       return
     }
-    if (JSON.stringify(op) === JSON.stringify(updOp)) {
-      disableUpd()
-      return
+    if (recurrentMode) {
+      await updateRecurrentOptionsAndOps()
+      toast('Записи обновлены')
     }
-    await updateHook.mutateAsync(updOp)
-    toast('Запись изменена')
+    else {
+      if (JSON.stringify(op) === JSON.stringify(updOp)) {
+        disableUpd()
+        return
+      }
+      await updateHook.mutateAsync(updOp)
+      toast('Запись изменена')
+    }
     disableUpd()
   }
 
@@ -63,9 +114,7 @@ export const OperationSectionEdit = (
           value={updOp.idCategory}
           onChange={(e) => setUpdOp({ ...updOp, idCategory: cats?.find(c=>c.id===e.target.value)?.id})}
         >
-          {
-            cats?.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)
-          }
+          {cats?.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
         </select>
       </span>
       <span className="field is-income">
@@ -74,15 +123,42 @@ export const OperationSectionEdit = (
       <span className="field is-plan">
         <input type="checkbox"
           checked={updOp.isPlan}
-          onChange={(e) => setUpdOp({ ...updOp, isPlan: e.target.checked })}
+          onChange={handleIsPlanUpdate}
         />
       </span>
       <span className="field date">{op.created.toDate().toLocaleString()}</span>
       <span className="field buttons">
-        {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} />}
+        {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} title={recurrentMode ? 'Update recurrent' : 'Update' }/>}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
       </span>
-      {op.idRecurrent && <BtnIcon content={<RepeatIcon />} title="Change recurrent"/>}
+    
+      {(op.idRecurrent && updOp.isPlan) &&
+        <span className="buttons">
+          <BtnIcon
+            content={<RepeatIcon />}
+            title="Recurrent editing mode"
+            onClick={() => setRecurrentMode(!recurrentMode)}
+          />
+        </span>
+      }
+      {recurrentOptionsFetching || recurrentOpsFetching ? <Spinner /> :
+        (op.idRecurrent && recurrentMode && recurrentOptionsUpdated) ?
+        <>
+          Recurrent count: {recurrentOps?.length}
+            {
+              <span className="buttons">
+                <BtnIcon
+                  content={<DeleteIcon />}
+                  title={'Delete recurrent'}
+                  onClick={deleteReccurentOptionsAndOps}
+                />
+              </span>
+          }
+          {//@ts-ignore
+            <RecurrentOpSetup op={op} repeatOptions={recurrentOptionsUpdated} setRepeatOptions={setRecurrentOptionsUpdated} />
+          }
+        </> : <></>
+      }
     </div>
   )
 }
