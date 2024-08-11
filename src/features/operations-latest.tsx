@@ -3,6 +3,7 @@ import { OperationSection } from "./operation-section/operation-section"
 import { OperationSectionEdit } from "./operation-section/operation-section-edit"
 import { Operation, useOperationsGet, getLatestOpsParams } from "@entities/operations"
 import { Spinner } from "@shared/spinner"
+import { FlBody, FlList, FlTitle } from "@shared/fl-list"
 
 export const OperationsLatest = () => {
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
@@ -16,16 +17,18 @@ export const OperationsLatest = () => {
   if (latestOps.length===0) return <></>
 
   return (
-    <>
-      Last operations:
-      {
-        latestOps.map(op => {
-          return op.id !== updId ?
-            <OperationSection op={op} setUpdId={setUpdId} key={op.id} />
-            :
-            <OperationSectionEdit op={op} disableUpd={disableUpd} key={op.id} />
-        })
-      }
-    </>
+    <FlList>
+      <FlTitle>Last operations:</FlTitle>
+      <FlBody>
+        {
+          latestOps.map(op => {
+            return op.id !== updId ?
+              <OperationSection op={op} setUpdId={setUpdId} key={op.id} />
+              :
+              <OperationSectionEdit op={op} disableUpd={disableUpd} key={op.id} />
+          })
+        }
+      </FlBody>
+    </FlList>
   )
 }

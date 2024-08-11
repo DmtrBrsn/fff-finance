@@ -164,7 +164,7 @@ export const NewOperationForm = () => {
       </span>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
       <button type="submit" disabled={addHook.isPending} className="btn-std"> {addHook.isPending ? <Spinner /> : 'Save'}</button>
-      <button type="reset" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
+      <button type="button" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
     </form>
   )
 }

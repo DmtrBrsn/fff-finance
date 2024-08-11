@@ -1,5 +1,5 @@
-.op-section {
-  position: relative;
+/* .op-section { */
+  /* position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -7,70 +7,66 @@
   border-radius: var(--app-border-radius);
   background-color: var(--grey-low-cont);
   gap: var(--gap-step);
+  align-items: center; */
+/* } */
+
+.op-date {
+  width: 11rem;
   align-items: center;
+}
 
-  .field {
-    display: flex;
-    flex-direction: column;
+.op-description {
+  width: 12rem;
 
-
-  }
-
-  .date {
-    width: 10rem;
-    align-items: center;
-  }
-
-  .description {
+  input[type="text"] {
     width: 12rem;
-
   }
+}
 
-  .sum {
+.op-sum {
+  width: 7rem;
+
+  input[type="number"] {
     width: 7rem;
   }
+}
 
-  .category {
+.op-category {
+  width: 16rem;
+
+  select {
     width: 16rem;
   }
-
-  .is-income {
-    width: 4rem;
-  }
-
-  .is-plan {
-    width: 2rem;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 4rem;
-  }
-
-  .recurrent-badge {
-    position: absolute;
-    top: 0.1rem;
-    right: 0.1rem;
-  }
-  .recurrent-badge>svg {
-    fill: var(--grey-hi-cont);
-  }
-
 }
 
-.op-section:hover:not(.header) {
+.op-is-income {
+  width: 6rem;
+}
+
+.op-is-plan {
+  width: 5rem;
+}
+
+.op-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 4rem;
+}
+
+.op-recurrent-badge {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+}
+.op-recurrent-badge>svg {
+  fill: var(--grey-hi-cont);
+}
+
+/* .op-section:hover:not(.header) {
   background-color: var(--grey-highlight);
-}
+} */
 
-.income-section {
+.op-income-section {
   background-color: var(--green-low-cont);
-}
-
-.header {
-  background-color: var(--grey-hi-cont);
-  position: sticky;
-  top: 2.5rem;
-  z-index: 1;
 }

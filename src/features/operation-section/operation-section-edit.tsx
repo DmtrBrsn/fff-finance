@@ -10,6 +10,7 @@ import { DoneIcon, CancelIcon, RepeatIcon, DeleteIcon } from "@shared/svg";
 import { RecurrentOpSetup } from "@shared/recurrent-op-setup";
 import { RecurrentOpSettingsUpd, useRecurrentOpSettingsDelete, useRecurrentOpSettingsGet, useRecurrentOpSettingsUpdate } from "@entities/recurrent-op-settings";
 import './operation-section.style.css'
+import { FlCell, FlRow } from "@shared/fl-list";
 
 export const OperationSectionEdit = (
   { op, disableUpd }: { op: Operation, disableUpd: () => void }
@@ -84,14 +85,14 @@ export const OperationSectionEdit = (
   }
 
   return (
-    <div className={isInc==undefined || !isInc ? 'op-section' : 'op-section income-section' }>
-      <span className="field date">
+    <FlRow className={isInc ? 'op-income-section' : ''}>
+      <FlCell className="op-date">
         <input type='date'
           value={updOp.date==undefined ? '' : formatISO(updOp.date.toDate(), {representation: 'date'})}
           onChange={(e) => setUpdOp({ ...updOp, date: Timestamp.fromDate(new Date(e.target.value)) })}
         />
-      </span>
-      <span className="field sum">
+      </FlCell>
+      <FlCell className="op-sum">
         <input
           type='number'
           min="0"
@@ -99,8 +100,8 @@ export const OperationSectionEdit = (
           value={updOp.sum}
           onChange={(e) => setUpdOp({...updOp, sum: parseFloat(e.target.value)})}
         />
-      </span>
-      <span className="field description">
+      </FlCell>
+      <FlCell className="op-description">
         <input
           type='text'
           name="description"
@@ -108,32 +109,32 @@ export const OperationSectionEdit = (
           value={updOp.description}
           onChange={(e) => setUpdOp({ ...updOp, description: e.target.value })}
         />
-      </span>
-      <span className="field category">
+      </FlCell>
+      <FlCell className="op-category">
         <select
           value={updOp.idCategory}
           onChange={(e) => setUpdOp({ ...updOp, idCategory: cats?.find(c=>c.id===e.target.value)?.id})}
         >
           {cats?.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
         </select>
-      </span>
-      <span className="field is-income">
+      </FlCell>
+      <FlCell className="op-is-income">
         {isInc==undefined ? '' : isInc ? 'Income' : 'Expense'}
-      </span>
-      <span className="field is-plan">
+      </FlCell>
+      <FlCell className="op-is-plan">
         <input type="checkbox"
           checked={updOp.isPlan}
           onChange={handleIsPlanUpdate}
         />
-      </span>
-      <span className="field date">{op.created.toDate().toLocaleString()}</span>
-      <span className="field buttons">
+      </FlCell>
+      <FlCell className="op-date">{op.created.toDate().toLocaleString()}</FlCell>
+      <FlCell className="op-buttons" withIcon={true} showIconOnlyOnHover={false}>
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} title={recurrentMode ? 'Update recurrent' : 'Update' }/>}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
-      </span>
+      </FlCell>
     
       {(op.idRecurrent && updOp.isPlan) &&
-        <span className="buttons">
+        <span className="op-buttons">
           <BtnIcon
             content={<RepeatIcon />}
             title="Recurrent editing mode"
@@ -146,7 +147,7 @@ export const OperationSectionEdit = (
         <>
           Recurrent count: {recurrentOps?.length}
             {
-              <span className="buttons">
+              <span className="op-buttons">
                 <BtnIcon
                   content={<DeleteIcon />}
                   title={'Delete recurrent'}
@@ -159,6 +160,6 @@ export const OperationSectionEdit = (
           }
         </> : <></>
       }
-    </div>
+    </FlRow>
   )
 }

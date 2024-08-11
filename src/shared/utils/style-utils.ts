@@ -10,4 +10,6 @@ export function updateRootThemeAttr(newTheme: string) {
     :
     document.documentElement.setAttribute('data-theme', newTheme)
 }
-  
+
+export const remToPx = (rem: number) =>
+	parseInt(getRootCssProperty('--font-size-html').replace('px', '')) * rem
