@@ -1,13 +1,11 @@
-import { Timestamp } from "firebase/firestore"
-import { Id } from "../api-types"
-import { Upd, Add } from "../api-types"
+import { Id, Upd, Add } from "@shared/types/api-types"
 
 export type Category = {
   id: Id
   name: string
   isIncome: boolean
-  created: Timestamp
+  created: string
 }
 
-export type CategoryUpd = Upd<Category>
+export type CategoryUpd = Omit<Upd<Category>, 'created'>
 export type CategoryAdd = Add<Category>

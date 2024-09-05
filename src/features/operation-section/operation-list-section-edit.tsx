@@ -9,12 +9,15 @@ import { RecurrentOpSetup } from "@shared/recurrent-op-setup";
 import { RecurrentOpSettingsUpd, useRecurrentOpSettingsDelete, useRecurrentOpSettingsGet, useRecurrentOpSettingsUpdate } from "@entities/recurrent-op-settings";
 import './operation-section.style.css'
 import { FlCell, FlRow } from "@shared/fl-list";
+import { useOpsListStore } from "@widgets/operations-list/operations-list-store";
 import { DateUtils } from "@shared/utils";
 
-export const OperationSectionEdit = (
-  { op, disableUpd }: { op: Operation, disableUpd: () => void }
+export const OperationListSectionEdit = (
+  { op }: { op: Operation }
 ) => {
   const [recurrentMode, setRecurrentMode] = useState(false)
+  const { selected, selectMode, setSelected, setBeingEdited } = useOpsListStore()
+  const isSelected = selected.includes(op.id)
   const { data: cats } = useCategoriesGet(false)
   const { data: recurrentOptions, isFetching: recurrentOptionsFetching } = useRecurrentOpSettingsGet(op.idRecurrent ?? '', op.idRecurrent != undefined && recurrentMode)
   const { data: recurrentOps, isFetching: recurrentOpsFetching } = useOperationsGet({ idRecurrent: op.idRecurrent ?? '' }, op.idRecurrent != undefined && recurrentMode)
@@ -29,7 +32,7 @@ export const OperationSectionEdit = (
 
   useEffect(() => {
     setRecurrentOptionsUpdated(recurrentOptions)
-  },[recurrentOptions])
+  }, [recurrentOptions])
 
   const handleIsPlanUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isPlan = e.target.checked
@@ -43,6 +46,15 @@ export const OperationSectionEdit = (
     else {
       setUpdOp({ ...updOp, isPlan })
     }
+  }
+
+  const disableUpd = () => setBeingEdited(null)
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.checked ?
+      setSelected([...selected, op.id])
+      :
+      setSelected(selected.filter(id => id !== op.id))
   }
 
   const updateRecurrentOptionsAndOps = async () => {
@@ -85,6 +97,10 @@ export const OperationSectionEdit = (
 
   return (
     <FlRow className={isInc ? 'op-income-section' : ''}>
+      {selectMode &&
+        <FlCell className="op-checkbox">
+          <input type="checkbox" checked={isSelected} onChange={handleCheckboxChange} />
+        </FlCell>}
       <FlCell className="op-date">
         <input type='date'
           value={updOp.date==undefined ? '' : updOp.date}
@@ -127,7 +143,7 @@ export const OperationSectionEdit = (
         />
       </FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
-      <FlCell className="op-buttons">
+      <FlCell className="op-buttons" withIcon={true} showIconOnlyOnHover={false}>
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} title={recurrentMode ? 'Update recurrent' : 'Update' }/>}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
       </FlCell>

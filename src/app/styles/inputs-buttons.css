@@ -16,31 +16,31 @@ input[type="checkbox"] {
   user-select: none;
   white-space: nowrap;
 
-  &.danger {
+  .danger {
     background-color: var(--red-hi-cont);
   }
 
-  &.secondary {
+  .secondary {
     color: var(--font-color);
     background-color: var(--grey-low-cont);
   }
 
-  &.large {
+  .large {
     padding: calc(var(--gap-step) * 4) calc(var(--gap-step) * 5);
   }
 
-  &.small {
+  .small {
     padding: calc(var(--gap-step) * 1) calc(var(--gap-step) * 2);
   }
 
-  &:hover:not([disabled]) {
+  :hover:not([disabled]) {
     filter: brightness(90%);
   }
-  &:active:not([disabled]) {
+  :active:not([disabled]) {
     filter: brightness(105%);
   }
 
-  &[disabled] {
+  [disabled] {
     background-color: var(--grey-low-cont);
     color: var(--grey-hi-cont);
   }
@@ -69,39 +69,39 @@ input[type="checkbox"] {
   border: unset;
   cursor: pointer;
 
-  & svg {
+  svg {
     fill: var(--font-color);
     height: 1.3rem;
     width: 1.3rem;
   }
+}
 
-  &:hover:not([disabled]) {
-    background-color: var(--grey-highlight);
-    
+.btn-icon:active:not([disabled]) {
+  filter: brightness(97%);
+  color: var(--dodgerblue);
+  svg {
+    fill: var(--dodgerblue);
   }
+}
 
-  &:active:not([disabled]) {
-    filter: brightness(97%);
-    color: var(--dodgerblue);
-    svg {
-      fill: var(--dodgerblue);
-    }
+.btn-icon:hover:not([disabled]) {
+  background-color: var(--grey-highlight);
+}
+
+
+.btn-icon[data-enabled="true"]:not([disabled]) {
+  background-color: var(--grey-hi-cont);
+  color: var(--light-font);
+
+  svg {
+    fill: var(--light-font);
   }
+}
 
-  & [disabled] {
-    color: var(--grey-highlight);;
-    
-    & svg {
-      fill: var(--grey-highlight);;
-    }
+.btn-icon[disabled] {
+  color: var(--grey-med-cont);
+  
+  svg {
+    fill: var(--grey-med-cont);
   }
-  & [data-enabled="true"]:not([disabled]) {
-    background-color: var(--grey-hi-cont);
-    color: var(--light-font);
-
-    & svg {
-      fill: var(--light-font);
-    }
-  }
-
 }

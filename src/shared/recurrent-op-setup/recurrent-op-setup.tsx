@@ -1,9 +1,8 @@
-import { formatISO, getDay } from "date-fns"
 import { WeekdayPicker } from "../weekday-picker/weekday-picker"
-import { Timestamp } from "firebase/firestore"
 import { OperationAdd } from "@entities/operations"
 import { RecurrentOpSettings, RecurrentOpSettingsAdd, RecurrentOpSettingsUpd, RepeatEvery, repeatEvery, weekdays } from "@entities/recurrent-op-settings"
 import './recurrent-op-setup.style.css'
+import { getDay } from "date-fns"
 
 type RecurrentOpSetupProps = {
   op: OperationAdd
@@ -42,7 +41,7 @@ export const RecurrentOpSetup = (props: RecurrentOpSetupProps) => {
         <WeekdayPicker
           value={options.weekdays ?? []}
           onChange={(weekdays) => setOptions({ ...options, weekdays })}
-          persistValue={[weekdays[getDay(op.date.toDate())]]}
+          persistValue={[weekdays[getDay(op.date)]]}
         />
       }
       {
@@ -76,9 +75,9 @@ export const RecurrentOpSetup = (props: RecurrentOpSetupProps) => {
           <input
             type="date"
             disabled={options.useTimes}
-            value={options.endsOn && formatISO(options.endsOn.toDate(), {representation: 'date'})}
-            min={formatISO(op.date.toDate(), {representation: 'date'})}
-            onChange={(e) => setOptions({...options, endsOn: Timestamp.fromDate(new Date(e.target.value))})}
+            value={options.endsOn && options.endsOn}
+            min={op.date}
+            onChange={(e) => setOptions({...options, endsOn: e.target.value})}
           />
         </>
       }

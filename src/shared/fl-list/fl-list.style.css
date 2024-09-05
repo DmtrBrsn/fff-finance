@@ -3,6 +3,13 @@
   flex-direction: column;
   gap: var(--gap-step);
   border-radius: var(--app-border-radius);
+  
+  [data-testid="virtuoso-item-list"] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-right: 0.3rem;
+  }
 }
 
 .fl-list-header {
@@ -11,12 +18,12 @@
 }
 .fl-list-row, .fl-list-header, .fl-list-title {
   position: relative;
-  display: inherit;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   padding: var(--gap-step);
-  gap: inherit;
+  gap: var(--gap-step);
   /* >* {padding: 0 var(--gap-step);} */
 }
 .fl-list-title {
@@ -29,10 +36,6 @@
 }
 .fl-list-row:hover {
   background-color: var(--grey-highlight);
-}
-.fl-list-row:hover .fl-hov-vis button,
-.fl-list-header>.fl-cell.fl-hov-vis:hover>button {
-  visibility: visible;
 }
 .fl-list-row.selected, .fl-list-row.fl-row-selected:hover {
   background-color: var(--dodgerblue);
@@ -57,9 +60,5 @@
   display: flex;
   align-items: center;
 }
-
-.fl-cell.fl-hov-vis>button {
-  visibility: hidden;
-} 
 
 .fl-center {text-align: center;}

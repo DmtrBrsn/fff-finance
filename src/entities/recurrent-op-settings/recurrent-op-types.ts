@@ -1,6 +1,5 @@
-import { Timestamp } from "firebase/firestore"
-import { Id } from "../api-types"
-import { Add, Upd } from "../api-types"
+import { Id } from "@shared/types/api-types"
+import { Add, Upd } from "@shared/types/api-types"
 import { repeatEvery, weekdays } from "./recurrent-op-constants"
 
 export type RepeatEvery = typeof repeatEvery[number]
@@ -11,7 +10,7 @@ export type RecurrentOpSettings = {
   every?: RepeatEvery
   everyNumber?: number
   times?: number
-  endsOn?: Timestamp
+  endsOn?: string
   weekdays?: Weekdays[]
   useTimes?: boolean
 }

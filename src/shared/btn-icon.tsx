@@ -1,6 +1,16 @@
 import { ReactElement } from "react"
 
-export const BtnIcon = ({ onClick, content, title }: {onClick?:(event: React.MouseEvent<HTMLElement>)=>void, content: ReactElement | string, title?:string}) => {
+type Props = {
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void
+  content: ReactElement | string
+  title?: string
+  disabled?: boolean
+  dataEnabled?: boolean
+}
+
+export const BtnIcon = (
+  { onClick, content, title, disabled=false, dataEnabled=false }: Props
+) => {
   
   return (
     <button
@@ -8,6 +18,8 @@ export const BtnIcon = ({ onClick, content, title }: {onClick?:(event: React.Mou
       onClick={onClick}
       type="button"
       title={title}
+      disabled={disabled}
+      data-enabled={dataEnabled}
     >
       {content}
     </button>

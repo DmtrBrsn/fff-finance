@@ -1,5 +1,14 @@
 export type FilterCondition = 'eq' | 'contains' | 'gt' | 'lt' | 'gte' | 'lte' | 'neq' | 'ncontains' | 'between' | 'startswith' | 'endswith'
 
+export type FilterableValue = string | number | boolean
+
+export type FilterBy<FilterableField extends string> = {
+  field: FilterableField
+  condition: FilterCondition
+  value: FilterableValue
+  value1?: FilterableValue
+}
+
 export class FilterUtils {
 
   public static getStringFiltering<T>(
@@ -7,7 +16,7 @@ export class FilterUtils {
     value: string,
     condition: FilterCondition
   ) {
-    return (elem:T, index: number, arr:T[]) => {
+    return (elem:T, _: number, __:T[]) => {
       const elemValue = fieldExtractor(elem)
       switch (condition) {
         case 'eq': return elemValue === value
@@ -27,7 +36,7 @@ export class FilterUtils {
     condition: FilterCondition,
     value1?: number
   ) {
-    return (elem: T, index: number, arr: T[]) => {
+    return (elem: T, _: number, __: T[]) => {
       if (elem == undefined) return false
       const elemValue = fieldExtractor(elem)
       switch (condition) {
@@ -52,7 +61,7 @@ export class FilterUtils {
     condition: FilterCondition,
     value1?: string | Date
   ) {
-    return (elem: T, index: number, arr: T[]) => {
+    return (elem: T, _: number, __: T[]) => {
       if (elem == undefined) return false
       const elemValue = fieldExtractor(elem)
       const elTime = new Date(elemValue).getTime()
@@ -68,6 +77,22 @@ export class FilterUtils {
           return value1 == undefined ?
             false : (elTime >= valTime && elTime <= new Date(value1).getTime())
         }
+        default: return false
+      }
+    }
+  }
+
+  public static getBooleanFiltering<T>(
+    fieldExtractor: (obj: T) => unknown,
+    value: boolean,
+    condition: FilterCondition
+  ) {
+    return (elem: T, _: number, __: T[]) => {
+      if (elem == undefined) return false
+      const elemValue = fieldExtractor(elem)
+      switch (condition) {
+        case 'eq': return elemValue === value
+        case 'neq': return elemValue !== value
         default: return false
       }
     }

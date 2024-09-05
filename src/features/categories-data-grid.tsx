@@ -1,9 +1,9 @@
 import { useState, ReactNode } from 'react'
-import { Timestamp } from 'firebase/firestore'
 import { useCategoriesGet, useCategoriesAdd, Category, useCategoriesUpdate, useCategoriesDelete } from '@entities/categories'
 import { BtnIcon } from '@shared/btn-icon'
 import { Spinner } from '@shared/spinner'
 import { DoneIcon, CancelIcon, EditIcon, DeleteIcon, CreateIcon } from '@shared/svg'
+import { DateUtils } from '@shared/utils'
 
 export const CategoriesDataGrid = () => {
   const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
@@ -20,7 +20,7 @@ export const CategoriesDataGrid = () => {
     const handleAddClick = () => {
       if (name === '') return
       addHook.mutateAsync(
-        { name, isIncome, created: Timestamp.now() }
+        { name, isIncome, created: DateUtils.getCurIsoStr() }
       ).then(() => setAddNew(false))
     }
   

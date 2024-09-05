@@ -1,0 +1,26 @@
+.filter-form-popup {
+  position: absolute;
+  top: 1.8rem;
+  background-color: var(--grey-low-cont);
+  box-shadow: 0 0 6px 2px var(--grey-highlight);
+  border: 1px solid var(--grey-med-cont);
+  padding: 0.6rem;
+  border-radius: var(--app-border-radius);
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  
+  >span {
+    display: inherit;
+    flex-direction: row;
+    gap: inherit;
+    justify-content: space-between;
+  }
+
+  input, select {
+    padding: 0.3rem;
+  }
+  
+}

@@ -1,10 +1,8 @@
-import { isValid, formatISO } from "date-fns"
-import { writeBatch, doc, collection, Timestamp } from "firebase/firestore"
+import { writeBatch, doc, collection } from "firebase/firestore"
 import { toast } from "react-toastify"
 import { getAllCategories } from "./categories.api"
-import { CategoryAdd } from "./categories-types"
 import { db } from "@app/firebase"
-import { getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/utils"
 
 export async function importCategories(json: string) {
   const catsParsed = JSON.parse(json)
@@ -31,16 +29,16 @@ function validateImportCategory(catParsed: any, index: number) {
   if (catParsed.isIncome == undefined && typeof catParsed.isIncome !== 'boolean') {
     throw new Error(`incorrect isIncome at ${index}`)
   }
-  if (catParsed.created != undefined && !isValid(new Date(catParsed.created))) {
+  if (catParsed.created != undefined && !DateUtils.isDateValid(new Date(catParsed.created))) {
     throw new Error(`incorrect created at ${index}`)
   }
 }
 
-function parsedImportCatToCat(catParsed: any): CategoryAdd {
+function parsedImportCatToCat(catParsed: any) {
   return {
     name: catParsed.name,
     isIncome: catParsed.isIncome,
-    created: catParsed.created ? Timestamp.fromDate(new Date(catParsed.created)) : Timestamp.now(),
+    created: catParsed.created ? DateUtils.isoStrToTs(catParsed.created) :  DateUtils.getCurTs(),
   }
 }
 
@@ -49,14 +47,12 @@ export async function exportCategories() {
   const catsForExport: any[] = []
 
   for (let cat of cats) {
-    catsForExport.push({
-      ...cat, created: formatISO(cat.created.toDate())
-    })
+    catsForExport.push({...cat})
   }
 
   const json = JSON.stringify(cats)
   const blob = new Blob([json], { type: 'text/plain' })
 
-  const name = new Date().toISOString()+'_categories.json'
+  const name = DateUtils.getCurIsoStr()+'_categories.json'
   return {blob, name}
 }

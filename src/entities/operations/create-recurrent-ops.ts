@@ -1,8 +1,8 @@
-import { add, getTime, isValid, setDay } from "date-fns";
-import { Timestamp } from "firebase/firestore";
+import { add, getTime, setDay } from "date-fns";
 import { OperationAdd } from "./operations-types";
 import { weekdays } from "../recurrent-op-settings/recurrent-op-constants";
 import { RecurrentOpSettings } from "../recurrent-op-settings/recurrent-op-types";
+import { DateUtils } from "@shared/utils";
 
 export function createRecurrentOps(op: OperationAdd, repeatOptions: RecurrentOpSettings) {
   if (
@@ -18,15 +18,15 @@ export function createRecurrentOps(op: OperationAdd, repeatOptions: RecurrentOpS
   const pushOp = (date: Date) => ops.push({
     ...op,
     idRecurrent,
-    date: Timestamp.fromDate(date),
-    created: Timestamp.now()
+    date: DateUtils.dateToIsoStr(date),
+    created: DateUtils.getCurIsoStr()
   })
 
-  let curDate = op.date.toDate()
+  let curDate = new Date(op.date)
   const times = repeatOptions.every === 'week' && repeatOptions.useTimes && repeatOptions.times && repeatOptions.weekdays ? repeatOptions.times * repeatOptions.weekdays.length : repeatOptions.times
   
   const pushConditionTimes = () => times && ops.length < times
-  const pushConditionEndsOn = () => repeatOptions.endsOn && getTime(curDate) <= getTime(repeatOptions.endsOn.toDate())
+  const pushConditionEndsOn = () => repeatOptions.endsOn && getTime(curDate) <= getTime(new Date(repeatOptions.endsOn))
   const pushCondition = repeatOptions.useTimes ? pushConditionTimes : pushConditionEndsOn
 
   const incrementCurDate = () => {
@@ -67,7 +67,7 @@ function validateRepeatOptions(opts: RecurrentOpSettings) {
     isNaN(opts.everyNumber) ||
     opts.everyNumber<=0 ||
     (opts.useTimes===true && (!opts.times || isNaN(opts.times) || opts.times<=0)) ||
-    (opts.useTimes===false && opts.endsOn && !isValid(new Date(opts.endsOn.toDate() ?? '')))
+    (opts.useTimes===false && opts.endsOn && !DateUtils.isDateValid(new Date(opts.endsOn)))
   ) {
     return false
   } else return true

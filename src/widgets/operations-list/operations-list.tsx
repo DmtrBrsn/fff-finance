@@ -1,32 +1,46 @@
-import { useState } from "react"
-import { OperationHeaderSection, OperationSection, OperationSectionEdit } from "@features/operation-section"
-import { useOperationsGet, Operation } from "@entities/operations"
+import { useEffect, useMemo } from "react"
+import { OperationListHeaderSection, OperationListSection, OperationListSectionEdit } from "@features/operation-section"
+import { OpUtils, useOperationsGet } from "@entities/operations"
 import { Spinner } from "@shared/spinner"
-import { useOpsListContext } from "./operations-list-context"
-import { OperationsListToolBar } from "./operations-toolbar"
-import { FlBody, FlList } from "@shared/fl-list"
+import { OperationsListToolbar } from "./operations-toolbar"
+import { FlList } from "@shared/fl-list"
+import { Virtuoso } from "react-virtuoso"
+import { useOpsListStore } from "./operations-list-store"
+import { useKeyDown } from "@shared/hooks"
+import { useCategoriesGet } from "@entities/categories"
 import './operations-list.style.css'
 
 export const OperationsList = () => {
-  const { params } = useOpsListContext()
+  const { params, beingEdited, filterSelected, filterOptions, sortOptions, setBeingEdited, setFilterFormOpenFor } = useOpsListStore()
   const { data: ops, isFetching: opsFetching } = useOperationsGet(params)
-  const [updId, setUpdId] = useState<Operation['id'] | null>(null)
-  const disableUpd = () => setUpdId(null)
+  const {data: cats} = useCategoriesGet(false)
+   
+  const filteredOps = useMemo(() => OpUtils.filterOps(ops ?? [], filterOptions, cats ?? []), [ops, filterOptions])
+  const sortedOps = useMemo(() => OpUtils.sortOps(filteredOps, sortOptions, cats ?? [] ), [ops, sortOptions, filterOptions])
+
+  useEffect(() => filterSelected(filteredOps.map(p => p.id)), [filteredOps])
+  
+  useKeyDown(e => {
+    if (e.key === 'Escape') {
+      setBeingEdited(null)
+      setFilterFormOpenFor(null)
+    }
+  })
 
   return (
     <FlList className="op-list">
-      <OperationsListToolBar />
-      <OperationHeaderSection />
-      <FlBody>
-        {opsFetching ? <Spinner /> :
-          ops?.map(op => {
-            return op.id !== updId ?
-              <OperationSection op={op} setUpdId={setUpdId} key={op.id} />
-              :
-              <OperationSectionEdit op={op} disableUpd={disableUpd} key={op.id} />
-          })
-        }
-      </FlBody>
+      <OperationsListToolbar />
+      <OperationListHeaderSection />
+      {opsFetching || ops==null ? <Spinner /> :
+        <Virtuoso
+          data={sortedOps}
+          itemContent={(_, op) => {
+            return op.id !== beingEdited ?
+            <OperationListSection op={op} key={op.id} />
+            :
+            <OperationListSectionEdit op={op} key={op.id} />
+          }}
+        />}
     </FlList>
   )
 }

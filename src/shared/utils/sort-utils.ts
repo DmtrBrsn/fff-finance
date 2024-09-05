@@ -1,8 +1,10 @@
-export type SortTypes = 'asc' | 'desc'
+export type SortDirection = 'asc' | 'desc'
+
+export type SortBy<SortableField extends string> = { field: SortableField, dir: SortDirection }
 
 export class SortUtils {
 
-  public static getDateSorting<T>(fieldExtractor: (obj: T) => string | Date, dir: SortTypes) {
+  public static getDateSorting<T>(fieldExtractor: (obj: T) => string | Date, dir: SortDirection) {
     return (a: T, b: T) => {
       if (a==undefined || b==undefined) return 0
       let aTime = new Date(fieldExtractor(a)).getTime()
@@ -11,7 +13,7 @@ export class SortUtils {
     }
   }
 
-  public static getNumSorting<T>(fieldExtractor: (obj: T) => number, dir: SortTypes) {
+  public static getNumSorting<T>(fieldExtractor: (obj: T) => number, dir: SortDirection) {
     return (a: T, b: T) => {
       if (a==undefined || b==undefined) return 0
       const aVal = fieldExtractor(a)
@@ -20,7 +22,21 @@ export class SortUtils {
     }
   }
 
-  public static getStringSorting<T>(fieldExtractor: ((obj: T) => string), dir: SortTypes) {
+  public static getBooleanSorting<T>(fieldExtractor: (obj: T) => unknown, dir: SortDirection) {
+    return (a: T, b: T) => {
+      if (a==undefined || b==undefined) return 0
+      const valA = fieldExtractor(a)
+      const valB = fieldExtractor(b)
+      if (dir === 'asc') {
+        return valA === valB ? 0 : valA ? -1 : 1
+      }
+      else {
+        return valA === valB ? 0 : valA ? 1 : -1
+      }
+    }
+  }
+
+  public static getStringSorting<T>(fieldExtractor: ((obj: T) => string), dir: SortDirection) {
     return (a: T, b: T) => {
       if (a==undefined || b==undefined) return 0
       const valA = fieldExtractor(a).toLowerCase();

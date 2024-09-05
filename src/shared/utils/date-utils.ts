@@ -4,17 +4,21 @@ type PeriodString = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M'
 
 export class DateUtils {
 	static second = 1000
-  static min = this.second * 60
-  static hour = this.min * 60
-  static day = 24 * this.hour
-  static week = 7 * this.day
+	static min = this.second * 60
+	static hour = this.min * 60
+	static day = 24 * this.hour
+	static week = 7 * this.day
 
-  static tzs = {
-    msk: { name:'Europe/Moscow', offset: -180}
+	static tzs = {
+		msk: { name: 'Europe/Moscow', offset: -180 }
 	}
 	
 	static tsToDateStr(ts: Timestamp) {
 		return ts.toDate().toLocaleDateString('ru-RU')
+	}
+
+	static isoStrToLocal(isoStr: string) {
+		return new Date(isoStr).toLocaleDateString('ru-RU')
 	}
 
 	static tsToDateTimeStr(ts: Timestamp) {
@@ -29,19 +33,28 @@ export class DateUtils {
 		return this.formatDateForInput(ts.toDate())
 	}
 
-  static dateToIsoStr(date: Date) {
-    return date.toISOString()
-  }
+	static dateToIsoStr(date: Date) {
+		return date.toISOString()
+	}
   
-  static getCurIsoStr() {
-    const curDate = new Date()
-    return this.dateToIsoStr(curDate)
-  }
+	static getCurIsoStr() {
+		const curDate = new Date()
+		return this.dateToIsoStr(curDate)
+	}
 
-  static getCurInpDate() {
-    const curDate = new Date()
-    return this.formatDateForInput(curDate)
-  }
+	static getCurInpDate() {
+		const curDate = new Date()
+		return this.formatDateForInput(curDate)
+	}
+
+	static getCurTs() {
+		return Timestamp.now()
+	}
+
+	
+	static isoStrToTime(isoStr: string) {
+		return new Date(isoStr).getTime()
+	}
 
   static formatDateForInput(date: Date, offset: number | undefined = this.tzs.msk.offset) {
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
@@ -193,6 +206,14 @@ export class DateUtils {
 		}
 	}
 
+	static getFirstDayOfPeriodIsoStr(date: Date, period: PeriodString) {
+		return this.dateToIsoStr(this.getFirstDayOfPeriod(date, period))
+	}
+
+	static getLastDayOfPeriodIsoStr(date: Date, period: PeriodString) {
+		return this.dateToIsoStr(this.getLastDayOfPeriod(date, period))
+	}
+
 	static getWeekNum(date: Date) {
 		const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
 		const dayNum = d.getUTCDay() || 7
@@ -247,21 +268,4 @@ export class DateUtils {
         ? date.toString() !== invalidStr
         : false
   }
-
-
-}
-
-export function addTsInstanseToParsedJson(parsedJson: any, key: string) {
-  if (key in parsedJson) {
-    if (
-      (!('seconds' in parsedJson[key]) || !('nanoseconds' in parsedJson[key]))
-        ||
-        (typeof parsedJson?.[key]?.seconds !== 'number' ||
-          typeof parsedJson?.[key]?.nanoseconds !== 'number')
-    ) return null
-    const { seconds, nanoseconds} = parsedJson[key]
-    const ts = new Timestamp(seconds, nanoseconds)
-    parsedJson[key] = ts
-  }
-  return parsedJson
 }

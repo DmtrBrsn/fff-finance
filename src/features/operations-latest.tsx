@@ -4,6 +4,7 @@ import { OperationSectionEdit } from "./operation-section/operation-section-edit
 import { Operation, useOperationsGet, getLatestOpsParams } from "@entities/operations"
 import { Spinner } from "@shared/spinner"
 import { FlBody, FlList, FlTitle } from "@shared/fl-list"
+import { DateUtils } from "@shared/utils"
 
 export const OperationsLatest = () => {
   const [updId, setUpdId] = useState<Operation['id'] | null>(null)
@@ -13,7 +14,7 @@ export const OperationsLatest = () => {
   
   if (isFetching || ops===undefined) return <Spinner />
 
-  const latestOps = [...ops].sort((a, b) => b.created.seconds - a.created.seconds).slice(0, 4)
+  const latestOps = [...ops].sort((a, b) => DateUtils.isoStrToTime(b.created) - DateUtils.isoStrToTime(a.created)).slice(0, 4)
   if (latestOps.length===0) return <></>
 
   return (

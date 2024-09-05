@@ -9,3 +9,11 @@ export * from "./account-circle"
 export * from "./download"
 export * from "./upload"
 export * from "./repeat"
+export * from './checkbox'
+export * from './filter-list-off'
+export * from './arrow-up'
+export * from './arrow-down'
+export * from './swap-vert'
+export * from './filter-alt'
+export * from './filter-alt-filled'
+export * from './filter-alt-off'

@@ -10,9 +10,6 @@ type FlRowProps = {
 }
 type FlCellProps = {
   children: ReactNode,
-  withIcon?: boolean
-  showIconOnlyOnHover?: boolean
-  onDoubleClick?: (e:React.MouseEvent<HTMLSpanElement, MouseEvent>) => void
   center?: boolean
   className?: string
 }
@@ -66,11 +63,8 @@ export const FlHeader = ({ children, className }: FlProps) => {
 
 export const FlCell = (
   { children,
-    onDoubleClick,
     center,
-    className,
-    withIcon = false,
-    showIconOnlyOnHover = true,
+    className
   }: FlCellProps
 ) => {
   return (
@@ -78,11 +72,8 @@ export const FlCell = (
       className={
         'fl-cell' +
         (center ? ' ' + 'fl-center' : '') +
-        (className ? ' ' + className : '') +
-        (withIcon ? ' ' + 'fl-with-icon' : '') +
-        (showIconOnlyOnHover ? ' ' + 'fl-hov-vis' : '')
+        (className ? ' ' + className : '')
       }
-      onDoubleClick={onDoubleClick}
     >
       {children}
     </span>

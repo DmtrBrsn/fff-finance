@@ -1,14 +1,6 @@
-/* .op-section { */
-  /* position: relative;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: calc(var(--gap-step)*3);
-  border-radius: var(--app-border-radius);
-  background-color: var(--grey-low-cont);
-  gap: var(--gap-step);
-  align-items: center; */
-/* } */
+.op-checkbox {
+  width: 2rem;
+}
 
 .op-date {
   width: 11rem;
@@ -62,10 +54,6 @@
 .op-recurrent-badge>svg {
   fill: var(--grey-hi-cont);
 }
-
-/* .op-section:hover:not(.header) {
-  background-color: var(--grey-highlight);
-} */
 
 .op-income-section {
   background-color: var(--green-low-cont);

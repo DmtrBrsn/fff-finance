@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperations, updateOperation } from "./operations.api";
 import { GetOpsParams } from "./operations-params";
 import { Operation } from "./operations-types";
+import { DateUtils } from "@shared/utils";
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
 
@@ -27,7 +28,9 @@ export function useOperationsAdd() {
         let params = query[0][1] as GetOpsParams
         if (
           params?.from != undefined && params?.to != undefined &&
-          (op.date.seconds < params?.from.seconds || op.date.seconds > params?.to.seconds)) {
+          (DateUtils.isoStrToTime(op.date) < DateUtils.isoStrToTime(params.from) ||
+            DateUtils.isoStrToTime(op.date) > DateUtils.isoStrToTime(params.to))
+        ) {
           continue
         }
         queryClient.setQueryData<Operation[]>(
@@ -61,8 +64,17 @@ export function useOperationsBatchUpdate() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: batchUpdateOperations,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
+    onSuccess: (updDocs) => {
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Operation[]>(
+          query[0],
+          cache => cache?.map(op => {
+            const updatedOp = updDocs.find(d => d.id === op.id)
+            return op.id === updatedOp?.id ? { ...op, ...updatedOp } : op
+          })
+        )
+      }
      },
     onError: (err) => {
       toast.error(err.message)
@@ -75,8 +87,14 @@ export function useOperationsBatchDelete() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: batchDeleteOperations,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
+    onSuccess: (ids) => {
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Operation[]>(
+          query[0],
+          cache => cache?.filter(op => !ids.includes(op.id))
+        )
+      }
      },
     onError: (err) => {
       toast.error(err.message)

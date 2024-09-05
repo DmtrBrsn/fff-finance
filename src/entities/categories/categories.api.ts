@@ -1,21 +1,26 @@
 import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy } from 'firebase/firestore'
-import { Id } from "../api-types"
+import { Id } from "@shared/types/api-types"
 import { Category, CategoryAdd, CategoryUpd } from "./categories-types";
 import { db } from '@app/firebase';
-import { getColPath } from '@shared/utils';
+import { DateUtils, getColPath } from '@shared/utils';
 
 export const getAllCategories = async () => {
   const q = query(collection(db, getColPath('categories')), orderBy('isIncome'));
   const querySnapshot = await getDocs(q)
   return querySnapshot.docs.map(doc => {
-    return { id: doc.id, ...doc.data() } as Category
+    const rawDoc = doc.data()
+    return {id: doc.id, ...rawDoc, created: DateUtils.tsToIsoStr(rawDoc.created)} as Category
   })
 }
 
 export const addCategory = async (newDoc: CategoryAdd): Promise<Category> => {
   const collectionRef = collection(db, getColPath('categories'))
-  const docRef = await addDoc(collectionRef, newDoc)
-  const addedDoc = { id: docRef.id, ...newDoc }
+  const { created, ...rest } = newDoc
+  const docRef = await addDoc(
+    collectionRef,
+    { ...rest, created: DateUtils.isoStrToTs(newDoc.created) }
+  )
+  const addedDoc = { id: docRef.id, ...newDoc}
   return addedDoc
 }
 

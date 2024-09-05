@@ -1,11 +1,9 @@
-import { isValid, formatISO } from "date-fns"
-import { writeBatch, doc, collection, Timestamp } from "firebase/firestore"
+import { writeBatch, doc, collection } from "firebase/firestore"
 import { toast } from "react-toastify"
 import { getOperations } from "./operations.api"
 import { Category } from "../categories/categories-types"
-import { OperationAdd } from "./operations-types"
 import { db } from "@app/firebase"
-import { getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/utils"
 
 export async function importOperations(json: string, cats: Category[]) {
   const opsParsed = JSON.parse(json)
@@ -32,7 +30,7 @@ export async function importOperations(json: string, cats: Category[]) {
 }
 
 function validateImportOperation(opParsed: any, index: number, cats: Category[]) {
-  if (opParsed.date == undefined || !isValid(new Date(opParsed.date))) {
+  if (opParsed.date == undefined || !DateUtils.isDateValid(new Date(opParsed.date))) {
     throw new Error(`incorrect date at ${index}`)
   }
   if (opParsed.description == undefined || typeof opParsed.description !== 'string') {
@@ -50,7 +48,7 @@ function validateImportOperation(opParsed: any, index: number, cats: Category[])
   if (opParsed.sum == undefined || typeof opParsed.sum !== 'number' || opParsed.sum<0) {
     throw new Error(`incorrect sum at ${index}}`)
   }
-  if (opParsed.created != undefined && !isValid(new Date(opParsed.created))) {
+  if (opParsed.created != undefined && !DateUtils.isDateValid(new Date(opParsed.created))) {
     throw new Error(`incorrect created at ${index}`)
   }
   if (opParsed.isPlan != undefined && typeof opParsed.isPlan !== 'boolean') {
@@ -58,18 +56,18 @@ function validateImportOperation(opParsed: any, index: number, cats: Category[])
   }
 }
 
-function parsedImportOpToOp(opParsed: any, cats: Category[]): OperationAdd {
+function parsedImportOpToOp(opParsed: any, cats: Category[]) {
   const cat = opParsed.idCategory ?
     cats.find(c => c.id === opParsed.idCategory) : 
     cats.find(c => c.name === opParsed.categoryName)
   
   if (!cat) throw new Error('category not found')
   else return {
-    date: Timestamp.fromDate(new Date(opParsed.date)),
+    date: DateUtils.isoStrToTs(opParsed.date) ,
     description: opParsed.description,
     idCategory: cat.id,
     sum: opParsed.sum,
-    created: opParsed.created ? Timestamp.fromDate(new Date(opParsed.created)) : Timestamp.now(),
+    created: opParsed.created ? DateUtils.isoStrToTs(opParsed.created) :  DateUtils.getCurTs(),
     isPlan: opParsed.isPlan!=undefined ? opParsed.isPlan : false
   }
 }
@@ -79,9 +77,7 @@ export async function exportOperations() {
   const opsForExport: any[] = []
 
   for (let op of ops) {
-    opsForExport.push({
-      ...op, date: formatISO(op.date.toDate()), created: formatISO(op.created.toDate())
-    })
+    opsForExport.push({...op})
   }
 
   const json = JSON.stringify(opsForExport)

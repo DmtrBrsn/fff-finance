@@ -1,7 +1,7 @@
-import { db } from "../../app/firebase"
+import { db } from "@app/firebase"
 import { addDoc, collection, deleteDoc, doc, getDoc, setDoc} from "firebase/firestore"
 import { RecurrentOpSettings, RecurrentOpSettingsAdd, RecurrentOpSettingsUpd } from "./recurrent-op-types"
-import { getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/utils"
 
 export const getRecurrentOpSettings = async (id: RecurrentOpSettings['id']) => {
   const collectionRef = collection(db, getColPath('recurrent-op-settings'))
@@ -9,7 +9,11 @@ export const getRecurrentOpSettings = async (id: RecurrentOpSettings['id']) => {
   const docSnap = await getDoc(docRef)
 
   if (docSnap.exists()) {
-    return { id, ...docSnap.data() } as RecurrentOpSettings
+    const rawDoc = docSnap.data()
+    return {
+      id, ...rawDoc,
+      endsOn: rawDoc.endsOn ? DateUtils.tsToIsoStr(rawDoc.endsOn) : undefined,
+    } as RecurrentOpSettings
   } else {
     console.error("No such document!");
     return null
@@ -18,14 +22,22 @@ export const getRecurrentOpSettings = async (id: RecurrentOpSettings['id']) => {
 
 export const addRecurrentOpSettings = async (newDoc: RecurrentOpSettingsAdd): Promise<RecurrentOpSettings> => {
   const collectionRef = collection(db, getColPath('recurrent-op-settings'))
-  const docRef = await addDoc(collectionRef, newDoc)
+  const { endsOn, ...rest } = newDoc
+  const docRef = await addDoc(
+    collectionRef,
+    {...rest, endsOn: endsOn ? DateUtils.isoStrToTs(endsOn) : undefined}
+  )
   const addedDoc = { id: docRef.id, ...newDoc }
   return addedDoc
 }
 
 export const updateRecurrentOpSettings = async (updDoc: RecurrentOpSettingsUpd) => {
   const docRef = doc(db, getColPath('recurrent-op-settings'), updDoc.id)
-  await setDoc(docRef, updDoc)
+  const { endsOn, ...rest } = updDoc
+  await setDoc(
+    docRef,
+    {...rest, endsOn: endsOn ? DateUtils.isoStrToTs(endsOn) : undefined}
+  )
   return updDoc
 }
 

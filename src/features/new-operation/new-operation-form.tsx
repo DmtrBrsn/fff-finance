@@ -1,9 +1,8 @@
 
 import { useState, useRef, FormEvent } from 'react'
-import { addDays, addMonths, formatISO, getDay, subDays } from "date-fns"
-import { Timestamp } from 'firebase/firestore'
+import { addDays, addMonths, getDay, subDays } from "date-fns"
 import { toast } from 'react-toastify'
-import { getOpDraft, updateOpDraft, removeOpDraft } from './operation-draft'
+import { getOpDraft, updateOpDraft, removeOpDraft } from '@entities/operations/operation-draft'
 import { useCategoriesGet } from '@entities/categories'
 import { OperationAdd, useOperationsAdd, useOperationsBatchAdd, createRecurrentOps } from '@entities/operations'
 import { RecurrentOpSettingsAdd, weekdays, useRecurrentOpSettingsAdd } from '@entities/recurrent-op-settings'
@@ -12,15 +11,16 @@ import { RecurrentOpSetup } from '@shared/recurrent-op-setup'
 import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
 import './new-operation-form.style.css'
+import { DateUtils } from '@shared/utils'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
 
   const initOp = {
-    date: Timestamp.now(),
+    date: DateUtils.getCurInpDate(),
     description: '',
     idCategory:'',
-    created: Timestamp.now(),
+    created: DateUtils.getCurInpDate(),
     isPlan: false,
     sum:0
   }
@@ -31,8 +31,8 @@ export const NewOperationForm = () => {
     every: undefined,
     everyNumber: 1,
     times: 1,
-    endsOn: Timestamp.fromDate(addMonths(op.date.toDate(), 1)),
-    weekdays: [weekdays[getDay(op.date.toDate())]],
+    endsOn: DateUtils.dateToIsoStr(addMonths(op.date, 1)),
+    weekdays: [weekdays[getDay(op.date)]],
     useTimes: true
   }
 
@@ -43,10 +43,10 @@ export const NewOperationForm = () => {
     updateOpDraft(newValues)
   }
 
-  const updateOpDate = (date: Timestamp) => {
+  const updateOpDate = (date: string) => {
     setOpAndDraft({ ...op, date })
     if (op.isPlan && repeatOptions.every === 'week' && repeatOptions.weekdays != undefined) {
-      setRepeatOptions({ ...repeatOptions, weekdays: [weekdays[getDay(date.toDate())]] })
+      setRepeatOptions({ ...repeatOptions, weekdays: [weekdays[getDay(date)]] })
     }
   }
 
@@ -63,8 +63,8 @@ export const NewOperationForm = () => {
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
 
-  const plusDay = () => updateOpDate(Timestamp.fromDate(addDays(op.date.toDate(), 1)))
-  const minusDay = ()=> updateOpDate(Timestamp.fromDate(subDays(op.date.toDate(), 1)))
+  const plusDay = () => updateOpDate(DateUtils.dateToIsoStr(addDays(op.date, 1)))
+  const minusDay = ()=> updateOpDate(DateUtils.dateToIsoStr(subDays(op.date, 1)))
 
   const reset = () => {
     setOp(initOp)
@@ -83,7 +83,7 @@ export const NewOperationForm = () => {
   }
 
   const saveOp = async () => {
-    await addHook.mutateAsync({ ...op, created: Timestamp.now() })
+    await addHook.mutateAsync({ ...op, created: DateUtils.getCurIsoStr() })
     reset()
   }
 
@@ -105,9 +105,9 @@ export const NewOperationForm = () => {
         <input
           type="date"
           id="opDate"
-          value={formatISO(op.date.toDate(), { representation: 'date' })}
+          value={op.date}
           required
-          onChange={(e) => updateOpDate(Timestamp.fromDate(new Date(e.target.value)))}
+          onChange={(e) => updateOpDate(e.target.value)}
         />
       </span>
       <span className="field vert">
