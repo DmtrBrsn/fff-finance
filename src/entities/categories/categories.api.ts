@@ -9,7 +9,11 @@ export const getAllCategories = async () => {
   const querySnapshot = await getDocs(q)
   return querySnapshot.docs.map(doc => {
     const rawDoc = doc.data()
-    return {id: doc.id, ...rawDoc, created: DateUtils.tsToIsoStr(rawDoc.created)} as Category
+    return {
+      id: doc.id,
+      ...rawDoc,
+      created: rawDoc.created ?DateUtils.tsToIsoStr(rawDoc.created) : undefined
+    } as Category
   })
 }
 
