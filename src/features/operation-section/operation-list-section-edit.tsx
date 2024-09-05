@@ -143,7 +143,7 @@ export const OperationListSectionEdit = (
         />
       </FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
-      <FlCell className="op-buttons" withIcon={true} showIconOnlyOnHover={false}>
+      <FlCell className="op-buttons">
         {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} title={recurrentMode ? 'Update recurrent' : 'Update' }/>}
         <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
       </FlCell>

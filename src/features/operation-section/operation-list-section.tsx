@@ -42,11 +42,7 @@ export const OperationListSection = (
       <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
       <FlCell className="op-is-plan">{op.isPlan ? 'Plan' : '-' }</FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
-      <FlCell
-        className="op-buttons"
-        withIcon={true}
-        showIconOnlyOnHover={true}
-      >
+      <FlCell className="op-buttons">
         <BtnIcon
           content={<EditIcon />}
           onClick={() => setBeingEdited(op.id)}
