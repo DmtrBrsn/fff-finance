@@ -14,8 +14,8 @@ export const SettingsPage = () => {
       <ImportOperations/>
       <ExportCategories/>
       <ExportOperations/>
-      <button onClick={()=>toast('Test...')}>Test toast</button>
-      <button onClick={()=>toast.error('Error!')}>Test error toast</button>
+      <button className="btn-std" onClick={()=>toast('Test...')}>Test toast</button>
+      <button className="btn-std" onClick={() => toast.error('Error!')}>Test error toast</button>
     </main>
   )
 }

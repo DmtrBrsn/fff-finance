@@ -6,7 +6,7 @@ import { importOperations, QUERY_KEY_OPERATIONS } from '@entities/operations'
 import { Spinner } from '@shared/spinner'
 
 export const ImportOperations = () => {
-  const {data: cats} = useCategoriesGet(false)
+  const {data: cats} = useCategoriesGet()
   const queryClient = useQueryClient()
   const ref = useRef<HTMLInputElement>(null)
   const resetInput = ()=>ref.current!= null && (ref.current.value = '')

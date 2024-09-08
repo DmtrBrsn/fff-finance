@@ -6,7 +6,7 @@ import { Category } from "./categories-types"
 
 export const QUERY_KEY_CATEGORIES = 'CATEGORIES' as const
 
-export function useCategoriesGet(enabled: boolean) {
+export function useCategoriesGet(enabled: boolean = true) {
   const { isPending, isFetching, isError, data, error } = useQuery({
     queryKey: [QUERY_KEY_CATEGORIES],
     queryFn: getAllCategories,

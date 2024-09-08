@@ -1,7 +1,4 @@
 import { initializeApp } from "firebase/app"
-// import { getAnalytics } from "firebase/analytics"
-// import { connectAuthEmulator} from "firebase/auth"
-// import { connectFirestoreEmulator } from 'firebase/firestore'
 import { getAuth } from "firebase/auth"
 import { getFirestore } from 'firebase/firestore'
 
@@ -15,13 +12,33 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASURMENT_ID
 }
 
+const isEmulation = (
+  import.meta.env.VITE_FIREBASE_EMULATION &&
+  import.meta.env.VITE_FIREBASE_EMULATION === "true" &&
+  import.meta.env.VITE_FIREBASE_EMULATION_AUTH_URL &&
+  import.meta.env.VITE_FIREBASE_EMULATION_FIRESTORE_HOST &&
+  import.meta.env.VITE_FIREBASE_EMULATION_FIRESTORE_PORT
+)
 
 const firebaseApp = initializeApp(firebaseConfig)
-export const auth = getAuth(firebaseApp)
-// connectAuthEmulator(auth, "http://127.0.0.1:9099")
+export const auth = getAuth(firebaseApp);
+(async () => {
+  if (isEmulation) {
+    const { connectAuthEmulator } = await import("firebase/auth")
+    connectAuthEmulator(auth, import.meta.env.VITE_FIREBASE_EMULATION_AUTH_URL)
+  }
+})();
 
-// const analytics = getAnalytics(app)
-export const db = getFirestore(firebaseApp)
-// connectFirestoreEmulator(db, '127.0.0.1', 8080);
+export const db = getFirestore(firebaseApp);
+(async () => {
+  if (isEmulation) {
+    const { connectFirestoreEmulator } = await import('firebase/firestore')
+    connectFirestoreEmulator(
+      db,
+      import.meta.env.VITE_FIREBASE_EMULATION_FIRESTORE_HOST,
+      import.meta.env.VITE_FIREBASE_EMULATION_FIRESTORE_PORT
+    )
+  }
+})();
 
 export default firebaseApp

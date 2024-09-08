@@ -6,7 +6,7 @@ import { DoneIcon, CancelIcon, EditIcon, DeleteIcon, CreateIcon } from '@shared/
 import { DateUtils } from '@shared/utils'
 
 export const CategoriesDataGrid = () => {
-  const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
+  const { data: categories, isFetching: catsFetching } = useCategoriesGet()
   
   const [editId, setEditId] = useState<string | undefined>(undefined)
   const [addNew, setAddNew] = useState(false)

@@ -13,7 +13,7 @@ import './operations-list.style.css'
 export const OperationsList = () => {
   const { params, beingEdited, filterSelected, filterOptions, sortOptions, setBeingEdited, setFilterFormOpenFor } = useOpsListStore()
   const { data: ops, isFetching: opsFetching } = useOperationsGet(params)
-  const {data: cats} = useCategoriesGet(false)
+  const {data: cats} = useCategoriesGet()
    
   const filteredOps = useMemo(() => OpUtils.filterOps(ops ?? [], filterOptions, cats ?? []), [ops, filterOptions])
   const sortedOps = useMemo(() => OpUtils.sortOps(filteredOps, sortOptions, cats ?? [] ), [ops, sortOptions, filterOptions])

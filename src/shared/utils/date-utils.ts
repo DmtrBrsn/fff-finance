@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-type PeriodString = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Квартал' | 'Q' | 'Полгода' | 'HY' | 'Год' | 'Y'
+type Period = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Квартал' | 'Q' | 'Полгода' | 'HY' | 'Год' | 'Y'
 
 export class DateUtils {
 	static second = 1000
@@ -104,7 +104,7 @@ export class DateUtils {
       date.toLocaleString('ru-RU', { timeZone })
   }
 
-  static incrementDatePeriod(date: Date, per: PeriodString) {
+  static incrementDatePeriod(date: Date, per: Period) {
 		switch (per) {
 			case 'День':
 			case 'D' :
@@ -131,9 +131,15 @@ export class DateUtils {
 				date.setMonth(date.getMonth() + 12)
 		}
 		return date
-  }
+	}
+	
+	static toIncrementedDatePeriod(date: Date | string, per: Period) { 
+		let d = new Date(date)
+		DateUtils.incrementDatePeriod(d, per)
+		return d
+	}
   
-  static decrementDatePeriod(date: Date, per: PeriodString) {
+  static decrementDatePeriod(date: Date, per: Period) {
 		switch (per) {
 			case 'День':
 			case 'D' :
@@ -162,14 +168,20 @@ export class DateUtils {
 		return date
 	}
 
-	static getLastDayOfPeriod(date: Date, period: PeriodString) {
+	static toDecrementedDatePeriod(date: Date | string, per: Period) { 
+		let d = new Date(date)
+		DateUtils.decrementDatePeriod(d, per)
+		return d
+	}
+
+	static getLastDayOfPeriod(date: Date, period: Period) {
 		const FD = this.getFirstDayOfPeriod(date, period)
 		const LD = this.incrementDatePeriod(FD, period)
 		LD.setDate(LD.getDate() - 1)
 		return LD
 	}
 	
-	static getFirstDayOfPeriod(date: Date, period: PeriodString) {
+	static getFirstDayOfPeriod(date: Date, period: Period) {
 		switch (period) {
 			case 'День' :
 			case 'D' : {
@@ -206,11 +218,11 @@ export class DateUtils {
 		}
 	}
 
-	static getFirstDayOfPeriodIsoStr(date: Date, period: PeriodString) {
+	static getFirstDayOfPeriodIsoStr(date: Date, period: Period) {
 		return this.dateToIsoStr(this.getFirstDayOfPeriod(date, period))
 	}
 
-	static getLastDayOfPeriodIsoStr(date: Date, period: PeriodString) {
+	static getLastDayOfPeriodIsoStr(date: Date, period: Period) {
 		return this.dateToIsoStr(this.getLastDayOfPeriod(date, period))
 	}
 

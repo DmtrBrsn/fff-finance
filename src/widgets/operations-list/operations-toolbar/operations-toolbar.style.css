@@ -1,12 +1,9 @@
 .op-list-toolbar {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   gap: var(--gap-step);
   padding: var(--gap-step);
-  height: 2.5rem;
-  /* position: sticky;
-  top: 0;
-  z-index: 1; */
   background-color: var(--grey-low-cont);
   align-items: center;
 }

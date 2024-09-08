@@ -7,6 +7,7 @@ import { DateUtils, getColPath } from '@shared/utils';
 export const getAllCategories = async () => {
   const q = query(collection(db, getColPath('categories')), orderBy('isIncome'));
   const querySnapshot = await getDocs(q)
+  console.log(`read categories: ${querySnapshot.docs.length}`)
   return querySnapshot.docs.map(doc => {
     const rawDoc = doc.data()
     return {

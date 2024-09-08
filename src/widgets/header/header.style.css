@@ -1,17 +1,15 @@
 header {
   z-index: 1;
-  position: sticky; 
-  top: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+
   background-color:var(--app-color);
   color: var(--light-font);
   padding-left: var(--gap-step);
   padding-right: var(--gap-step);
-  height: var(--header-height);
 
   .app-nav {
     display: flex;
@@ -21,7 +19,7 @@ header {
     gap: calc(var(--gap-step) * 2);
     padding: 0 var(--gap-step);
     
-    & a {
+    a {
       color: inherit;
       text-decoration: none;
       border-bottom: 3px solid;

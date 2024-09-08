@@ -10,8 +10,9 @@ import { BtnIcon } from '@shared/btn-icon'
 import { RecurrentOpSetup } from '@shared/recurrent-op-setup'
 import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
-import './new-operation-form.style.css'
 import { DateUtils } from '@shared/utils'
+
+import './new-operation-form.style.css'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
@@ -53,7 +54,7 @@ export const NewOperationForm = () => {
   const sumInpRef = useRef<HTMLInputElement>(null)
   const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.value==='0' && sumInpRef.current.select()
 
-  const { data: categories, isFetching: catsFetching } = useCategoriesGet(false)
+  const { data: categories, isFetching: catsFetching } = useCategoriesGet(true)
   const addHook = useOperationsAdd()
   const addBatchHook = useOperationsBatchAdd()
   const addRecurrentOpSettingsHook = useRecurrentOpSettingsAdd()
@@ -63,8 +64,8 @@ export const NewOperationForm = () => {
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
 
-  const plusDay = () => updateOpDate(DateUtils.dateToIsoStr(addDays(op.date, 1)))
-  const minusDay = ()=> updateOpDate(DateUtils.dateToIsoStr(subDays(op.date, 1)))
+  const plusDay = () => updateOpDate(DateUtils.formatDateForInput(addDays(op.date, 1)))
+  const minusDay = ()=> updateOpDate(DateUtils.formatDateForInput(subDays(op.date, 1)))
 
   const reset = () => {
     setOp(initOp)

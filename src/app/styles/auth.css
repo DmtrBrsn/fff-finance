@@ -42,7 +42,7 @@
   background-color: var(--grey-low-cont);
   color: var(--font-color);
 
-  & svg {
+  svg {
     fill: var(--grey-low-cont);
     height: 1.2rem;
     width: 1.2rem;

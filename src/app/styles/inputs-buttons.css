@@ -33,10 +33,10 @@ input[type="checkbox"] {
     padding: calc(var(--gap-step) * 1) calc(var(--gap-step) * 2);
   }
 
-  :hover:not([disabled]) {
+  &:hover:not([disabled]) {
     filter: brightness(90%);
   }
-  :active:not([disabled]) {
+  &:active:not([disabled]) {
     filter: brightness(105%);
   }
 
