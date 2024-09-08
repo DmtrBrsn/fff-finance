@@ -1,42 +1,42 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
+import { firebasePasswordMinLength } from '@shared/contants'
 
 export const UpdatePassword = () => {
   const { userService } = useAuth()
-
   const [active, setActive] = useState(false)
   const [formState, setFormState] = useState({ newPassword: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  if (userService == undefined) return <></>
+
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }))
+    setFormState((prevProps) => ({...prevProps, [name]: value}))
   }
 
-  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleCancel = () => {
+    setActive(false)
+    setFormState({ newPassword: '' })
+    setError('')
+  }
+
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    try {
-      setError('')
-      if (userService == undefined) {
-        toast.error('No current user')
-        return
-      }
-      if (formState.newPassword === '') throw 'Provide new email'
-      setLoading(true)
-      await userService.updatePassword(formState.newPassword)
+    setError('')
+    setLoading(true)
+
+    userService.updatePassword(formState.newPassword)
+    .then(() => {
+      toast.success('Password updated')
       setFormState({ newPassword: '' })
       setActive(false)
-    }
-    catch (err) {
+    }).catch(err => {
       toast.error(`Password update failed: ${err}`)
       setError(`Password update failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
   return active ? 
@@ -45,13 +45,12 @@ export const UpdatePassword = () => {
       <form className="auth-form" onSubmit={handleSubmit}>
         <label htmlFor='newPassword'>New password:</label>
         <input
-          name="newPassword"
-          id="newPassword"
-          type="password"
+          type="password" name="newPassword" id="newPassword"
           className="txt-inp-std"
           value={formState.newPassword}
           onChange={handleInputChange}
           disabled={loading}
+          minLength={firebasePasswordMinLength} required
         />
         <input
           type="submit"
@@ -63,10 +62,7 @@ export const UpdatePassword = () => {
           type="button"
           className="btn-std"
           value="Cancel"
-          onClick={() => {
-            setError('')
-            setActive(false)
-          }}
+          onClick={handleCancel}
         />
       </form>
     </div>)

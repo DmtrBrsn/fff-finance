@@ -4,8 +4,8 @@ import { Operation, useOperationsDelete } from "@entities/operations"
 import { BtnIcon } from "@shared/btn-icon"
 import { EditIcon, DeleteIcon, RepeatIcon } from "@shared/svg"
 import { FlCell, FlRow } from "@shared/fl-list"
-import { useOpsListStore } from "@widgets/operations-list/operations-list-store"
-import './operation-section.style.css'
+import { useOpsListStore } from "@features/operations-list/operations-list-store"
+import '../operation-section/operation-section.style.css'
 import { DateUtils } from "@shared/utils"
 
 type Props = {
@@ -40,7 +40,7 @@ export const OperationListSection = (
       <FlCell className="op-description">{op.description}</FlCell>
       <FlCell className="op-category">{cat===undefined ? 'No category found' : cat.name}</FlCell>
       <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
-      <FlCell className="op-is-plan">{op.isPlan ? 'Plan' : '-' }</FlCell>
+      <FlCell className="op-is-plan"><input type="checkbox" checked={op.isPlan} disabled/></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
         <BtnIcon

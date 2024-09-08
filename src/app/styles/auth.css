@@ -20,11 +20,7 @@
   color: var(--red-hi-cont);
   margin-top: var(--gap-step);
   margin-bottom: var(--gap-step);
-}
-.auth-message-text {
-  color: var(--green-hi-cont);
-  margin-top: var(--gap-step);
-  margin-bottom: var(--gap-step);
+  max-width: 10rem;
 }
 
 .google-sign-in-btn {
@@ -59,4 +55,8 @@
 .auth-or {
   align-self: center;
   margin: calc(var(--gap-step) * 2) 0
+}
+
+.auth-container>a {
+  align-self: flex-start;
 }

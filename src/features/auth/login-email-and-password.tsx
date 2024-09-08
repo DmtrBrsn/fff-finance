@@ -1,38 +1,32 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from './auth-context'
-
+import { toast } from 'react-toastify'
+import { firebasePasswordMinLength } from '@shared/contants'
 
 export const LoginWithEmailAndPassword = () => {
   const { loginWithEmailAndPassword } = useAuth().service
-
   const navigate = useNavigate()
-
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }))
+    setFormState((prevProps) => ({ ...prevProps, [name]: value }))
   }
 
-  const handleEmailAndPasswordSingInSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleEmailAndPasswordSingInSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    try {
-      setError('')
-      if (formState.email==='' || formState.password==='') throw 'Fill the form'
-      setLoading(true)
-      await loginWithEmailAndPassword(formState.email, formState.password)
+    setError('')
+    setLoading(true)
+    loginWithEmailAndPassword(formState.email, formState.password)
+    .then(() => {
       navigate('/')
-    }
-    catch(err) {
+    }).catch(err => {
+      toast.error(`Sign in failed: ${err}`)
       setError(`Sign in failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
   return (
@@ -48,6 +42,7 @@ export const LoginWithEmailAndPassword = () => {
           value={formState.email}
           onChange={handleInputChange}
           disabled={loading}
+          required
         />
         <label htmlFor='password'>Password</label>
         <input
@@ -58,6 +53,8 @@ export const LoginWithEmailAndPassword = () => {
           value={formState.password}
           onChange={handleInputChange}
           disabled={loading}
+          minLength={firebasePasswordMinLength}
+          required
         />
         <input
           type="submit"
@@ -66,7 +63,7 @@ export const LoginWithEmailAndPassword = () => {
           disabled={loading}
         />
       </form>
-      <NavLink to="/password-reset">Forgot password?</NavLink>
+      <NavLink to="/password-reset">Password reset</NavLink>
       <NavLink to="/signup">Sign Up</NavLink>
     </div>
   )

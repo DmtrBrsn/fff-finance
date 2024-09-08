@@ -7,9 +7,9 @@ import { Spinner } from "@shared/spinner";
 import { DoneIcon, CancelIcon, RepeatIcon, DeleteIcon } from "@shared/svg";
 import { RecurrentOpSetup } from "@shared/recurrent-op-setup";
 import { RecurrentOpSettingsUpd, useRecurrentOpSettingsDelete, useRecurrentOpSettingsGet, useRecurrentOpSettingsUpdate } from "@entities/recurrent-op-settings";
-import './operation-section.style.css'
+import '../operation-section/operation-section.style.css'
 import { FlCell, FlRow } from "@shared/fl-list";
-import { useOpsListStore } from "@widgets/operations-list/operations-list-store";
+import { useOpsListStore } from "@features/operations-list/operations-list-store";
 import { DateUtils } from "@shared/utils";
 
 export const OperationListSectionEdit = (

@@ -1,4 +1,4 @@
-import { OperationsList } from "@widgets/operations-list";
+import { OperationsList } from "@features/operations-list";
 
 export const OperationsPage = () => (
   <main>

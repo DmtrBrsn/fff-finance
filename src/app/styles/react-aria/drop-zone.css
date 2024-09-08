@@ -1,0 +1,15 @@
+.react-aria-DropZone {
+  min-width: 10rem;
+  min-height: 5rem;
+  border: 2px dashed var(--grey-med-cont);
+  border-radius: var(--app-border-radius);
+  gap: var(--gap-step);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.react-aria-DropZone[data-drop-target] {
+  background-color: var(--grey-highlight);
+}

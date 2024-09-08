@@ -1,6 +1,6 @@
 import { OpSortableFields } from "@entities/operations"
 import { ArrowDown, ArrowUp, SwapVert } from "@shared/svg"
-import { useOpsListStore } from "@widgets/operations-list/operations-list-store"
+import { useOpsListStore } from "@features/operations-list/operations-list-store"
 
 export const SortControls = ({field}: {field: OpSortableFields}) => {
   const { sortOptions, setSort, removeSort } = useOpsListStore()

@@ -1,8 +1,9 @@
 import { AppThemeSwitcher } from "@features/app-theme-switcher"
 import { ExportCategories } from "@features/export-categories"
 import { ExportOperations } from "@features/export-operations"
-import { ImportCategories } from "@features/import-categories"
-import { ImportOperations } from "@features/import-operations"
+import { ImportCategories } from "@features/import/import-categories"
+import { ImportOperations } from "@features/import/import-operations"
+import { Button } from "react-aria-components"
 import { toast } from "react-toastify"
 
 export const SettingsPage = () => {
@@ -13,9 +14,9 @@ export const SettingsPage = () => {
       <ImportCategories/>
       <ImportOperations/>
       <ExportCategories/>
-      <ExportOperations/>
-      <button className="btn-std" onClick={()=>toast('Test...')}>Test toast</button>
-      <button className="btn-std" onClick={() => toast.error('Error!')}>Test error toast</button>
+      <ExportOperations />
+      <Button onPress={()=>toast('Test...')}>Test toast</Button>
+      <Button onPress={() => toast.error('Error!')}>Test error toast</Button>
     </main>
   )
 }

@@ -56,7 +56,6 @@ input[type="checkbox"] {
 
 .btn-icon {
   background-color: inherit;
-  outline: none;
   cursor: pointer;
   width: 2rem;
   height: 2rem;

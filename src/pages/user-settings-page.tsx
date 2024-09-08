@@ -13,8 +13,8 @@ export const UserSettingsPage = () => {
       <UserData/>
       <Logout />
       {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
-      {(userLoggedInUsingEmailAndPass && (providers && providers.length > 0)) ? <UnlinkEmailAndPassword /> : <></>}
-      {(providers && providers.length === 0) ? (
+      {userLoggedInUsingEmailAndPass ? <UnlinkEmailAndPassword /> : <></>}
+      {userLoggedInUsingEmailAndPass ? (
         <>
           <UpdateEmail/>
           <UpdatePassword/>

@@ -1,6 +1,6 @@
 import { useOperationsGet } from "@entities/operations"
 import { FlCell, FlHeader, ListHeaderCheckBox } from "@shared/fl-list"
-import { useOpsListStore } from "@widgets/operations-list/operations-list-store"
+import { useOpsListStore } from "@features/operations-list/operations-list-store"
 import { SortControls } from "./header-sort-controls"
 import { FilterControls } from "./header-filter-controls"
 

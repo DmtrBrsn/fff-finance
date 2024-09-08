@@ -59,14 +59,9 @@ main {
   color: var(--grey-hi-cont);
 }
 
-.settings-section-container-import {
-  width: 25rem;
-}
-
 .settings-section-container-center {
   align-items: center;
 }
-
 
 
 .spinner {

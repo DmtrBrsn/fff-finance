@@ -1,48 +1,57 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCategoriesGet } from '@entities/categories'
 import { importOperations, QUERY_KEY_OPERATIONS } from '@entities/operations'
 import { Spinner } from '@shared/spinner'
+import { Button, DropZone, FileTrigger } from 'react-aria-components'
 
 export const ImportOperations = () => {
-  const {data: cats} = useCategoriesGet()
   const queryClient = useQueryClient()
+  const {data: cats} = useCategoriesGet()
   const ref = useRef<HTMLInputElement>(null)
-  const resetInput = ()=>ref.current!= null && (ref.current.value = '')
   const [inProgress, setInProgress] = useState(false)
+  const resetInput = ()=>ref.current!= null && (ref.current.value = '')
 
-  async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (
-      e.target.files === null ||
-      e.target.files[0] === undefined ||
-      cats == undefined
-    ) return
+  const importFile = async (file: File) => {
+    if (cats == undefined) return
     setInProgress(true)
-    const file = e.target.files[0]
     const json = await file.text()
-    resetInput()
     try {
       await importOperations(json, cats)
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_OPERATIONS] })
     }
     catch (err) {
-      console.log(err)
-      toast(`${err}`)
+      console.error(err)
+      toast.error(`${err}`)
     }
     setInProgress(false)
   }
   
   return (
-    <div className='settings-section-container settings-section-container-import'>
+    <div className='settings-section-container settings-section-container-center'>
       <label>Import operations</label>
       {cats === undefined || cats.length === 0 ? 'Create categories first' :
         <>
           {
             inProgress ? <Spinner /> :
-              <input ref={ref} type="file" accept='.json' onChange={handleChange} />
+            <DropZone
+              onDrop={e => {
+                const fileItem = e.items.filter(i => i.kind === 'file')[0]
+                if (fileItem) fileItem.getFile().then(file => importFile(file))
+              }}
+            >
+              <FileTrigger
+                onSelect={e => e !== null && e.length > 0 && importFile(e[0]).then(() => resetInput())}
+                ref={ref}
+                acceptedFileTypes={['.json']}
+              >
+                <Button>Select a file</Button>
+                Or drop
+              </FileTrigger>
+            </DropZone>
           }
-          <details>
+          <details style={{ width: '10rem' }}>
             <summary>Requirements</summary>
             <code>{JSON.stringify([{
               date: 'iso date',

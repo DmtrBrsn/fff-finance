@@ -2,37 +2,31 @@ import React, { useState } from 'react'
 import {NavLink, useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
+import { firebasePasswordMinLength } from '@shared/contants'
 
 export const Signup = () => {
   const { signup } = useAuth().service
-
   const navigate = useNavigate()
-
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }))
+    setFormState((prevProps) => ({ ...prevProps, [name]: value }))
   }
 
-  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    try {
-      setError('')
-      setLoading(true)
-      await signup(formState.email, formState.password)
+    setError('')
+    setLoading(true)
+    signup(formState.email, formState.password).then(() => {
+      toast.success('Sign up successful. Welcome!')
       navigate('/')
-    }
-    catch (err) {
+    }).catch(err => {
       toast.error(`Sign up failed: ${err}`)
       setError(`Sign up failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
   return (
@@ -41,28 +35,24 @@ export const Signup = () => {
         {error && <span className='auth-error-text'>{ error }</span>}
         <label htmlFor='email'>Email</label>
         <input
-          name="email"
-          id="email"
-          type="email"
+          type="email" name="email" id="email"
           className="txt-inp-std"
-          autoComplete='off'
           value={formState.email}
           onChange={handleInputChange}
-          disabled={loading}
+          disabled={loading} required
         />
         <label htmlFor='password'>Password</label>
         <input
-          name="password"
-          id="password"
-          type="password"
+          type="password" name="password" id="password"
           className="txt-inp-std"
           value={formState.password}
           onChange={handleInputChange}
-          disabled={loading}
+          disabled={loading} required
+          minLength={firebasePasswordMinLength}
         />
         <input
-          className="btn-std"
           type="submit"
+          className="btn-std"
           value={loading ? 'Loading...' : 'Sign up'}
           disabled={loading}
         />

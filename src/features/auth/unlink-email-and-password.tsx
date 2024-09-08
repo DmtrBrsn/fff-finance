@@ -4,34 +4,26 @@ import { useAuth } from "./auth-context"
 
 export const UnlinkEmailAndPassword = () => {
   const { userService } = useAuth()
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  if (userService == undefined) return <></>
   
-  const handleUnlink = async () => {
-    if (userService == undefined) {
-      toast.error('No current user')
-      return
-    }
-    setError('')
+  const handleClick = () => {
     setLoading(true)
-    try {
-      await userService.unlinkEmailAndPassword()
-    }
-    catch (err) {
+    userService.unlinkEmailAndPassword().then(() => {
+      toast.success('Unlink successful')
+    }).catch(err => {
       toast.error(`Unlink failed: ${err}`)
-      setError(`Unlink failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
   return (
     <div>
-      {error && <><span className='auth-error-text'>{error}</span><br /></>}
       <input
-        className="btn-std"
         type="button"
-        onClick={handleUnlink}
-        value="Unlink Email and password"
+        className="btn-std"
+        onClick={handleClick}
+        value={loading ? "...Unlinking" : "Unlink Email and password"}
         disabled={loading}
       />
     </div>

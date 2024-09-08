@@ -2,7 +2,7 @@ import { useState } from "react"
 import { type OpFilterFields } from "@entities/operations"
 import { FilterAlt, FilterAltFilled, FilterAltOff } from "@shared/svg"
 import { type FilterableValue, type FilterCondition } from "@shared/utils"
-import { useOpsListStore } from "@widgets/operations-list/operations-list-store"
+import { useOpsListStore } from "@features/operations-list/operations-list-store"
 import { BtnIcon } from "@shared/btn-icon"
 
 import './header-filter-controls.css'

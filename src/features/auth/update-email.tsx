@@ -9,48 +9,44 @@ export const UpdateEmail = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  if (userService == undefined) return <></>
+
+  const handleCancel = () => {
+    setActive(false)
+    setFormState({ newEmail: '' })
+    setError('')
+  }
+
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }))
+    setFormState((prevProps) => ({ ...prevProps, [name]: value }))
   }
 
-  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    try {
-      setError('')
-      if (userService == undefined) {
-        toast.error('No current user')
-        return
-      }
-      if (formState.newEmail === '') throw 'Provide new email'
-      setLoading(true)
-      await userService.updateEmail(formState.newEmail)
+    setError('')
+    setLoading(true)
+    userService.updateEmail(formState.newEmail).then(() => {
+      toast.success('Email updated')
       setFormState({ newEmail: '' })
       setActive(false)
-    }
-    catch (err) {
+    }).catch(err => {
       toast.error(`Email update failed: ${err}`)
       setError(`Email update failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
-  return active ? 
+  return active ?
     (<div className="auth-container">
       {error && <span className='auth-error-text'>{ error }</span>}
       <form className="auth-form" onSubmit={handleSubmit}>
         <label htmlFor='newEmail'>New email:</label>
         <input
-          name="newEmail"
-          id="newEmail"
-          type="email"
+          type="email" name="newEmail" id="newEmail"
           className="txt-inp-std"
           value={formState.newEmail}
           onChange={handleInputChange}
-          disabled={loading}
+          disabled={loading} required
         />
         <input
           type="submit"
@@ -62,10 +58,7 @@ export const UpdateEmail = () => {
           type="button"
           className="btn-std"
           value="Cancel"
-          onClick={() => {
-            setError('')
-            setActive(false)
-          }}
+          onClick={handleCancel}
         />
       </form>
     </div>)

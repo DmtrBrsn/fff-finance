@@ -5,34 +5,23 @@ import { useAuth } from './auth-context'
 
 export const Logout = () => {
   const { logout } = useAuth().service
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    setError('')
+  const handleClick = () => {
     setLoading(true)
-    try {
-      await logout()
+    logout().then(() => {
       navigate('/login')
-    }
-    catch (err) {
+    }).catch(err => {
       toast(`Log out failed: ${err}`)
-      setError(`Log out failed: ${err}`)
-    }
-    setLoading(false)
+    }).finally(() => setLoading(false))
   }
 
-  return (
-    <div>
-      {error && <><span className='auth-error-text'>{ error }</span><br/></>}
-      <input
-        className="btn-std"
-        type="button"
-        onClick={handleLogout}
-        value={loading ? "...Logging out" : "Log out"}
-        disabled={loading}
-      />
-    </div>
-  )
+  return <input
+    className="btn-std"
+    type="button"
+    onClick={handleClick}
+    value={loading ? "...Logging out" : "Log out"}
+    disabled={loading}
+  />
 }
