@@ -1,9 +1,9 @@
 import { useState, ReactNode } from 'react'
 import { useCategoriesGet, useCategoriesAdd, Category, useCategoriesUpdate, useCategoriesDelete } from '@entities/categories'
-import { BtnIcon } from '@shared/btn-icon'
 import { Spinner } from '@shared/spinner'
 import { DoneIcon, CancelIcon, EditIcon, DeleteIcon, CreateIcon } from '@shared/svg'
 import { DateUtils } from '@shared/utils'
+import { ButtonIcon } from '@shared/react-aria'
 
 export const CategoriesDataGrid = () => {
   const { data: categories, isFetching: catsFetching } = useCategoriesGet()
@@ -27,8 +27,8 @@ export const CategoriesDataGrid = () => {
     return (<>
       <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} /></td>
       <td><input type="checkbox" checked={isIncome} onChange={(e) => setIsIncome(e.target.checked)} /></td>
-      {addHook.isPending ? <SpinnerCell /> : <td><BtnIcon content={<DoneIcon />} onClick={handleAddClick} /></td>}
-      <td><BtnIcon content={<CancelIcon />} onClick={() => setAddNew(false)}/></td>
+      {addHook.isPending ? <SpinnerCell /> : <td><ButtonIcon onPress={handleAddClick} ><DoneIcon /></ButtonIcon></td>}
+      <td><ButtonIcon onPress={() => setAddNew(false)}><CancelIcon /></ButtonIcon></td>
     </>)
   }
 
@@ -46,8 +46,8 @@ export const CategoriesDataGrid = () => {
     return (<>
       <td><input type='text' value={name} onChange={(e)=>setName(e.target.value)} /></td>
       <td><input type="checkbox" checked={isIncome} onChange={(e)=>setIsIncome(e.target.checked)} /></td>
-      {updHook.isPending ? <SpinnerCell/> : <td><BtnIcon content={<DoneIcon />} onClick={handleUpdate} /></td>}
-      <td><BtnIcon content={<CancelIcon />} onClick={() => setEditId(undefined)}/></td>
+      {updHook.isPending ? <SpinnerCell/> : <td><ButtonIcon onPress={handleUpdate} ><DoneIcon /></ButtonIcon></td>}
+      <td><ButtonIcon onPress={() => setEditId(undefined)}><CancelIcon /></ButtonIcon></td>
     </>)
   }
 
@@ -58,11 +58,24 @@ export const CategoriesDataGrid = () => {
     return (<>
       <td>{cat.name}</td>
       <td><input type="checkbox" checked={cat.isIncome} disabled /></td>
-      <td><BtnIcon content={<EditIcon />} onClick={() => {
-        setAddNew(false)
-        setEditId(cat.id)
-      }} /></td>
-      {deleteHook.isPending ? <SpinnerCell/> : <td><BtnIcon content={<DeleteIcon />} onClick={handleDeleteClick} /></td>}
+      <td>
+        <ButtonIcon
+          onPress={() => {
+            setAddNew(false)
+            setEditId(cat.id)
+          }} >
+          <EditIcon />
+        </ButtonIcon>
+      </td>
+      {deleteHook.isPending ?
+        <SpinnerCell /> :
+        <td>
+          <ButtonIcon
+            onPress={handleDeleteClick}
+          >
+            <DeleteIcon />
+          </ButtonIcon>
+        </td>}
     </>)
   }
 
@@ -71,10 +84,10 @@ export const CategoriesDataGrid = () => {
     :
     <>
       <label>Create category</label>
-      <BtnIcon content={<CreateIcon />} onClick={() => {
+      <ButtonIcon onPress={() => {
         setEditId(undefined)
         setAddNew(true)
-      }} />
+      }} ><CreateIcon /></ButtonIcon>
       <CatTable>
         {addNew ? <tr key={'new'}><AddNewCells/></tr> : <></>}
         {

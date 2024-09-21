@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Weekdays, weekdays } from "@entities/recurrent-op-settings"
-import './weekday-picker.style.css'
+import './weekday-picker.css'
 
 export const WeekdayPicker = ({ value, onChange, persistValue }: { value: Weekdays[], onChange: (newValue: Weekdays[]) => void, persistValue?: Weekdays[] }) => {
   const initialValue = persistValue ? [...new Set([...value, ...persistValue])] : value

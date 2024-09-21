@@ -6,13 +6,14 @@ import { getOpDraft, updateOpDraft, removeOpDraft } from '@entities/operations/o
 import { useCategoriesGet } from '@entities/categories'
 import { OperationAdd, useOperationsAdd, useOperationsBatchAdd, createRecurrentOps } from '@entities/operations'
 import { RecurrentOpSettingsAdd, weekdays, useRecurrentOpSettingsAdd } from '@entities/recurrent-op-settings'
-import { BtnIcon } from '@shared/btn-icon'
 import { RecurrentOpSetup } from '@shared/recurrent-op-setup'
 import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
 import { DateUtils } from '@shared/utils'
+import { Button } from 'react-aria-components'
 
-import './new-operation-form.style.css'
+import './new-operation-form.css'
+import { ButtonIcon } from '@shared/react-aria'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
@@ -54,7 +55,7 @@ export const NewOperationForm = () => {
   const sumInpRef = useRef<HTMLInputElement>(null)
   const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.value==='0' && sumInpRef.current.select()
 
-  const { data: categories, isFetching: catsFetching } = useCategoriesGet(true)
+  const { data: categories, isFetching: catsFetching, error: catError } = useCategoriesGet(true)
   const addHook = useOperationsAdd()
   const addBatchHook = useOperationsBatchAdd()
   const addRecurrentOpSettingsHook = useRecurrentOpSettingsAdd()
@@ -100,8 +101,8 @@ export const NewOperationForm = () => {
       <span className="field vert">
         <span className="hor">
           <label htmlFor="opDate">Date</label>
-          <BtnIcon content={"-"} onClick={minusDay}/>
-          <BtnIcon content={"+"} onClick={plusDay}/>
+          <ButtonIcon onPress={minusDay}>➖</ButtonIcon>
+          <ButtonIcon onPress={plusDay}>➕</ButtonIcon>
         </span>
         <input
           type="date"
@@ -139,7 +140,7 @@ export const NewOperationForm = () => {
       
       <span className="field vert">
         <label htmlFor="opCat">Category</label>
-        {catsFetching || categories===undefined ? 
+        {catError ? `Error: ${catError.message}` : catsFetching || categories===undefined ? 
           <Spinner/>
           :
           <>
@@ -164,8 +165,8 @@ export const NewOperationForm = () => {
         />
       </span>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
-      <button type="submit" disabled={addHook.isPending} className="btn-std"> {addHook.isPending ? <Spinner /> : 'Save'}</button>
-      <button type="button" disabled={addHook.isPending} className="btn-std" onClick={reset}>Reset</button>
+      <Button type="submit" isDisabled={addHook.isPending}> {addHook.isPending ? <Spinner /> : 'Save'}</Button>
+      <Button type="button" isDisabled={addHook.isPending} onPress={reset}>Reset</Button>
     </form>
   )
 }

@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--grey-low-cont);
+  background-color: var(--gray-50);
   border-radius: var(--app-border-radius);
   padding: calc(var(--gap-step) * 3);
 }
@@ -17,7 +17,7 @@
 }
 
 .auth-error-text {
-  color: var(--red-hi-cont);
+  color: var(--red-500);
   margin-top: var(--gap-step);
   margin-bottom: var(--gap-step);
   max-width: 10rem;
@@ -35,20 +35,20 @@
   white-space: nowrap;
   gap: var(--gap-step);
   align-items: center;
-  background-color: var(--grey-low-cont);
-  color: var(--font-color);
+  background-color: var(--gray-50);
+  color: var(--text-color);
 
   svg {
-    fill: var(--grey-low-cont);
+    fill: var(--gray-50);
     height: 1.2rem;
     width: 1.2rem;
   }
 
   &:hover {
-    filter: brightness(106%);
+    background: var(--highlight-hover);
   }
   &:active {
-    filter: brightness(93%);
+    background: var(--highlight-pressed); 
   }
 }
 

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import './fl-list.style.css'
+import './fl-list.css'
 
 type FlProps = { children: ReactNode | ReactNode[], className?: string }
 type FlRowProps = {

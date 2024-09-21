@@ -31,17 +31,17 @@
   text-align: center;
 }
 .fl-list-row, .fl-list-header {
-  background-color: var(--grey-low-cont);
+  background-color: var(--gray-50);
   border-radius: var(--app-border-radius);
 }
 .fl-list-row:hover {
-  background-color: var(--grey-highlight);
+  background-color: var(--highlight-hover);
 }
 .fl-list-row.selected, .fl-list-row.fl-row-selected:hover {
-  background-color: var(--dodgerblue);
+  background-color: var(--blue-300);
 }
 .fl-list-row.fl-row-active, .fl-list-row:focus {
-  background-color: var(--grey-highlight);
+  background-color: var(--highlight-hover);
   outline: none;
 }
 .fl-list-body {

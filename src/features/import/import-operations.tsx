@@ -8,10 +8,12 @@ import { Button, DropZone, FileTrigger } from 'react-aria-components'
 
 export const ImportOperations = () => {
   const queryClient = useQueryClient()
-  const {data: cats} = useCategoriesGet()
+  const {data: cats, error} = useCategoriesGet()
   const ref = useRef<HTMLInputElement>(null)
   const [inProgress, setInProgress] = useState(false)
-  const resetInput = ()=>ref.current!= null && (ref.current.value = '')
+  const resetInput = () => ref.current != null && (ref.current.value = '')
+  
+  if (error) return <p>Unable to get categories: {error.message}</p>
 
   const importFile = async (file: File) => {
     if (cats == undefined) return

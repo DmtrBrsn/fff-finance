@@ -1,8 +1,8 @@
 import { WeekdayPicker } from "../weekday-picker/weekday-picker"
 import { OperationAdd } from "@entities/operations"
 import { RecurrentOpSettings, RecurrentOpSettingsAdd, RecurrentOpSettingsUpd, RepeatEvery, repeatEvery, weekdays } from "@entities/recurrent-op-settings"
-import './recurrent-op-setup.style.css'
 import { getDay } from "date-fns"
+import './recurrent-op-setup.css'
 
 type RecurrentOpSetupProps = {
   op: OperationAdd

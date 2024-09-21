@@ -1,0 +1,59 @@
+.react-aria-Button-icon {
+  width: 2rem;
+  height: 2rem;
+  background-color: inherit;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  font-weight: bold;
+  color: var(--text-color);
+  padding: var(--gap-step);
+  user-select: none;
+  border: unset;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    fill: var(--text-color);
+    height: 1.3rem;
+    width: 1.3rem;
+  }
+
+  &[data-hovered] {
+    background-color: var(--highlight-hover);
+  }
+
+  &[data-pressed] {
+    background: var(--highlight-pressed);
+  }
+
+  &[data-focus-visible] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: -1px;
+  }
+
+  &[data-disabled]{
+    border-color: var(--border-color-disabled);
+    color: var(--text-color-disabled);
+
+    svg {
+      fill: var(--text-color-disabled);
+    }
+  }
+
+  &.pinned {
+    background-color: var(--gray-300);
+    color: var(--gray-50);
+  
+    svg {
+      fill: var(--gray-50);
+    }
+    &[data-hovered] {
+      background-color: var(--gray-400);
+    }
+    &[data-pressed] {
+      background-color: var(--gray-500);
+    }
+  }
+}

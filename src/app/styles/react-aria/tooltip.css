@@ -1,8 +1,8 @@
 .react-aria-Tooltip {
   box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);
   border-radius: var(--app-border-radius);
-  background: var(--grey-hi-cont);
-  color: var(--font-color);
+  background: var(--background-color);
+  color: var(--text-color);
   forced-color-adjust: none;
   outline: none;
   padding: var(--gap-step);
@@ -41,7 +41,7 @@
 
   & .react-aria-OverlayArrow svg {
     display: block;
-    fill: var(--grey-hi-cont);
+    fill: var(--gray-500);
   }
 
   &[data-entering] {

@@ -6,7 +6,7 @@
   overflow-x: auto;
   padding: var(--gap-step);
   user-select: none;
-  border: 1px solid var(--grey-hi-cont);
+  border: 1px solid var(--border-color);
   border-radius: 1px;
   white-space: nowrap;
 
@@ -18,7 +18,7 @@
     }
   }
   .selected {
-    background-color: var(--dodgerblue);
-    color: var(--light-font);
+    background-color: var(--blue-300);
+    color: white;
   }
 }

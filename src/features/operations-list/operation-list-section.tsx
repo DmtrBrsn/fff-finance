@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { useCategoriesGet } from "@entities/categories"
 import { Operation, useOperationsDelete } from "@entities/operations"
-import { BtnIcon } from "@shared/btn-icon"
 import { EditIcon, DeleteIcon, RepeatIcon } from "@shared/svg"
 import { FlCell, FlRow } from "@shared/fl-list"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
-import '../operation-section/operation-section.style.css'
 import { DateUtils } from "@shared/utils"
+
+import '../operation-section/operation-section.css'
+import { ButtonIcon } from "@shared/react-aria"
 
 type Props = {
   op: Operation,
@@ -43,14 +44,12 @@ export const OperationListSection = (
       <FlCell className="op-is-plan"><input type="checkbox" checked={op.isPlan} disabled/></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
-        <BtnIcon
-          content={<EditIcon />}
-          onClick={() => setBeingEdited(op.id)}
-        />
-        <BtnIcon
-          content={<DeleteIcon />}
-          onClick={handleDeleteClick}
-        />
+        <ButtonIcon
+          onPress={() => setBeingEdited(op.id)}
+        ><EditIcon /></ButtonIcon>
+        <ButtonIcon
+          onPress={handleDeleteClick}
+        ><DeleteIcon /></ButtonIcon>
       </FlCell>
       {op.idRecurrent && <span className="op-recurrent-badge"><RepeatIcon/></span>}
     </FlRow>

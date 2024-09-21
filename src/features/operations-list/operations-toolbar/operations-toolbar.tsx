@@ -2,10 +2,11 @@ import { useMemo, useState } from 'react'
 import { useOperationsGet, getThisMonthOpParams, useOperationsBatchDelete } from '@entities/operations'
 import { useOpsListStore } from "../operations-list-store"
 import { Checkbox, DeleteIcon, FilterListOff } from '@shared/svg'
-import { BtnIcon } from '@shared/btn-icon'
 import { toast } from 'react-toastify'
 import './operations-toolbar.style.css'
 import { numToFixedStr } from '@shared/utils'
+import { Button } from 'react-aria-components'
+import { ButtonIcon } from '@shared/react-aria'
 
 export const OperationsListToolbar = () => {
   const {
@@ -49,12 +50,11 @@ export const OperationsListToolbar = () => {
 
   return (
     <div className="op-list-toolbar">
-      <BtnIcon
-        content={<Checkbox />}
-        title={(selectMode ? 'Скрыть' : 'Показать')+ ' выбор позиций'}
-        onClick={() => setSelectMode(!selectMode)}
-        dataEnabled={selectMode}
-      />
+      <ButtonIcon
+        aria-label={(selectMode ? 'Скрыть' : 'Показать')+ ' выбор позиций'}
+        onPress={() => setSelectMode(!selectMode)}
+        isPinned={selectMode}
+      ><Checkbox /></ButtonIcon>
       <label htmlFor="from">From</label>
       <input id="from" type="date"
         value={from}
@@ -67,20 +67,18 @@ export const OperationsListToolbar = () => {
         min={from}
         onChange={(e)=> setTo(e.target.value)}
       />
-      <button onClick={fetch}>Fetch</button>
-      <button onClick={setThisM}>This M</button>
-      <BtnIcon
-        content={<FilterListOff/>}
-        onClick={resetFiltersAndSort}
-        title={'Сбросить фильтры и сортировку'}
-        disabled={filterOptions.length === 0 && sortOptions.length === 0}
-      />
-      <BtnIcon
-        content={<DeleteIcon />}
-        onClick={deleteSelected}
-        disabled={selected.length === 0}
-        title={'Удалить выбранные записи'}
-      />
+      <Button onPress={fetch}>Fetch</Button>
+      <Button onPress={setThisM}>This M</Button>
+      <ButtonIcon
+        onPress={resetFiltersAndSort}
+        aria-label={'Сбросить фильтры и сортировку'}
+        isDisabled={filterOptions.length === 0 && sortOptions.length === 0}
+      ><FilterListOff/></ButtonIcon>
+      <ButtonIcon
+        onPress={deleteSelected}
+        isDisabled={selected.length === 0}
+        aria-label={'Удалить выбранные записи'}
+      ><DeleteIcon /></ButtonIcon>
       {ops && 'operations: ' + ops.length}
       {ops && ' sum: ' + numToFixedStr(opsSum)}
       {selected.length > 0 && ' selected: ' + selected.length}

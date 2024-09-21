@@ -4,6 +4,6 @@
   flex-direction: row;
   gap: var(--gap-step);
   padding: var(--gap-step);
-  background-color: var(--grey-low-cont);
+  background-color: var(--gray-50);
   align-items: center;
 }

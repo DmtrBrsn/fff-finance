@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useCategoriesGet } from "@entities/categories";
 import { Operation, useOperationsUpdate, OperationUpd, createRecurrentOps, useOperationsGet, useOperationsBatchDelete, useOperationsBatchAdd } from "@entities/operations";
-import { BtnIcon } from "@shared/btn-icon";
 import { Spinner } from "@shared/spinner";
 import { DoneIcon, CancelIcon, RepeatIcon, DeleteIcon } from "@shared/svg";
 import { RecurrentOpSetup } from "@shared/recurrent-op-setup";
 import { RecurrentOpSettingsUpd, useRecurrentOpSettingsDelete, useRecurrentOpSettingsGet, useRecurrentOpSettingsUpdate } from "@entities/recurrent-op-settings";
-import '../operation-section/operation-section.style.css'
 import { FlCell, FlRow } from "@shared/fl-list";
 import { useOpsListStore } from "@features/operations-list/operations-list-store";
 import { DateUtils } from "@shared/utils";
+
+import '../operation-section/operation-section.css'
+import { ButtonIcon } from "@shared/react-aria";
 
 export const OperationListSectionEdit = (
   { op }: { op: Operation }
@@ -144,17 +145,16 @@ export const OperationListSectionEdit = (
       </FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
-        {updateHook.isPending ? <Spinner /> : <BtnIcon content={<DoneIcon />} onClick={handleUpdate} title={recurrentMode ? 'Update recurrent' : 'Update' }/>}
-        <BtnIcon content={<CancelIcon />} onClick={disableUpd}/>
+        {updateHook.isPending ? <Spinner /> : <ButtonIcon onPress={handleUpdate} aria-label={recurrentMode ? 'Update recurrent' : 'Update' }><DoneIcon /></ButtonIcon>}
+        <ButtonIcon onPress={disableUpd}><CancelIcon /></ButtonIcon>
       </FlCell>
     
       {(op.idRecurrent && updOp.isPlan) &&
         <span className="op-buttons">
-          <BtnIcon
-            content={<RepeatIcon />}
-            title="Recurrent editing mode"
-            onClick={() => setRecurrentMode(!recurrentMode)}
-          />
+          <ButtonIcon
+            aria-label="Recurrent editing mode"
+            onPress={() => setRecurrentMode(!recurrentMode)}
+          ><RepeatIcon /></ButtonIcon>
         </span>
       }
       {recurrentOptionsFetching || recurrentOpsFetching ? <Spinner /> :
@@ -163,11 +163,10 @@ export const OperationListSectionEdit = (
           Recurrent count: {recurrentOps?.length}
             {
               <span className="op-buttons">
-                <BtnIcon
-                  content={<DeleteIcon />}
-                  title={'Delete recurrent'}
-                  onClick={deleteReccurentOptionsAndOps}
-                />
+                <ButtonIcon
+                  aria-label={'Delete recurrent'}
+                  onPress={deleteReccurentOptionsAndOps}
+                ><DeleteIcon /></ButtonIcon>
               </span>
           }
           {//@ts-ignore

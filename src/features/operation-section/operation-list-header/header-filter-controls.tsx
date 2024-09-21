@@ -3,7 +3,8 @@ import { type OpFilterFields } from "@entities/operations"
 import { FilterAlt, FilterAltFilled, FilterAltOff } from "@shared/svg"
 import { type FilterableValue, type FilterCondition } from "@shared/utils"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
-import { BtnIcon } from "@shared/btn-icon"
+import { ButtonIcon } from "@shared/react-aria"
+import { Button } from "react-aria-components"
 
 import './header-filter-controls.css'
 
@@ -18,14 +19,13 @@ export const FilterControls = ({field}: {field: OpFilterFields}) => {
 
   return (
     <>
-      <button
-        className='btn-icon'
-        data-enabled={!disabled}
-        onClick={() => setFilterFormOpenFor(open ? null : field)}
-        title={disabled && !open ? 'Фильтр' : open ? undefined : filterTip}
+      <ButtonIcon
+        isPinned={!disabled}
+        onPress={() => setFilterFormOpenFor(open ? null : field)}
+        aria-label={disabled && !open ? 'Фильтр' : open ? undefined : filterTip}
       >
         {disabled ? <FilterAlt /> : <FilterAltFilled />}
-      </button>
+      </ButtonIcon>
       {open && <FilterFormPopup field={field}/>}
     </>
   )
@@ -82,15 +82,15 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
             </>
           }
         </select>
-        {!disabled && <BtnIcon content={<FilterAltOff />} onClick={remove} title="Удалить фильтр" />}
+        {!disabled && <ButtonIcon onPress={remove} aria-label="Удалить фильтр" ><FilterAltOff /></ButtonIcon>}
       </span>
       <input type={type} autoFocus={true} value={filterValue} onChange={(e) => setFilterValue(e.target.value)} />
       {condition === 'between' &&
         <input type={type} value={filterValue1} onChange={(e) => setFilterValue1(e.target.value)}/>
       }
       <span>
-        <button onClick={apply}>Применить</button>
-        <button onClick={cancel}>Отменить</button>
+        <Button onPress={apply}>Применить</Button>
+        <Button onPress={cancel}>Отменить</Button>
       </span>
     </div>
   )

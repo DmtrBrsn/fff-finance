@@ -1,4 +1,5 @@
 import { exportCategories } from "@entities/categories";
+import { ButtonIcon } from "@shared/react-aria";
 import { Spinner } from "@shared/spinner";
 import { DownloadIcon } from "@shared/svg";
 import { saveFile } from "@shared/utils";
@@ -24,9 +25,9 @@ export const ExportCategories = () => {
   return (
     <div className='settings-section-container settings-section-container-center'>
       <label>Export Categories</label>
-      <button className="btn-icon" onClick={saveCats}>
+      <ButtonIcon onPress={saveCats}>
         {inProgress ? <Spinner/> : <DownloadIcon/>}
-      </button>
+      </ButtonIcon>
     </div>
   )
 }

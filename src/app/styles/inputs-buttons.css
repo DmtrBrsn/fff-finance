@@ -1,3 +1,14 @@
+button {
+  color: inherit;
+  font: inherit;
+}
+
+input, select {
+  font-size: inherit;
+  color: inherit;
+  font-family: inherit;
+}
+
 input:not([type="button"], [type="submit"], [type="reset"]), select {
   padding: var(--gap-step);
 }
@@ -7,8 +18,8 @@ input[type="checkbox"] {
 }
 
 .btn-std {
-  background-color: var(--dodgerblue);
-  color: var(--light-font);
+  background-color: var(--blue-300);
+  color: white;
   border-radius: var(--app-border-radius);
   border: none;
   padding: calc(var(--gap-step) * 2.5) calc(var(--gap-step) * 3);
@@ -17,12 +28,12 @@ input[type="checkbox"] {
   white-space: nowrap;
 
   .danger {
-    background-color: var(--red-hi-cont);
+    background-color: var(--red-500);
   }
 
   .secondary {
-    color: var(--font-color);
-    background-color: var(--grey-low-cont);
+    color: var(--text-color);
+    background-color: var(--gray-100);
   }
 
   .large {
@@ -41,66 +52,12 @@ input[type="checkbox"] {
   }
 
   [disabled] {
-    background-color: var(--grey-low-cont);
-    color: var(--grey-hi-cont);
+    background-color: var(--gray-100);
+    color: var(--gray-500);
   }
-}
-
-.svg-icon {
-  fill: var(--font-color);
 }
 
 .txt-inp-std {
   padding: var(--gap-step);
 }
 
-.btn-icon {
-  background-color: inherit;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  font-weight: bold;
-  color: var(--font-color);
-  padding: var(--gap-step);
-  user-select: none;
-  border: unset;
-  cursor: pointer;
-
-  svg {
-    fill: var(--font-color);
-    height: 1.3rem;
-    width: 1.3rem;
-  }
-}
-
-.btn-icon:active:not([disabled]) {
-  filter: brightness(97%);
-  color: var(--dodgerblue);
-  svg {
-    fill: var(--dodgerblue);
-  }
-}
-
-.btn-icon:hover:not([disabled]) {
-  background-color: var(--grey-highlight);
-}
-
-
-.btn-icon[data-enabled="true"]:not([disabled]) {
-  background-color: var(--grey-hi-cont);
-  color: var(--light-font);
-
-  svg {
-    fill: var(--light-font);
-  }
-}
-
-.btn-icon[disabled] {
-  color: var(--grey-med-cont);
-  
-  svg {
-    fill: var(--grey-med-cont);
-  }
-}

@@ -1,10 +1,11 @@
 import { Slide, ToastContainer } from 'react-toastify'
-import { BtnIcon } from './btn-icon'
 import { CloseIcon } from './svg'
 import 'react-toastify/dist/ReactToastify.css'
+import { ButtonIcon } from './react-aria'
+import { PressEvent } from 'react-aria-components'
 
-const CloseBtn = ({ closeToast }: { closeToast: (e: React.MouseEvent<HTMLElement>) => void }) => {
-  return <BtnIcon onClick={closeToast} content={<CloseIcon />}/>
+const CloseBtn = ({ closeToast }: { closeToast: (e: PressEvent) => void }) => {
+  return <ButtonIcon onPress={closeToast} ><CloseIcon /></ButtonIcon>
 }
 
 export const ToastContainerDefault = () => <ToastContainer
@@ -12,5 +13,6 @@ export const ToastContainerDefault = () => <ToastContainer
   hideProgressBar={true}
   transition={Slide}
   theme="light"
+  //@ts-ignore
   closeButton={CloseBtn}
 />

@@ -1,4 +1,5 @@
 import { exportOperations } from "@entities/operations";
+import { ButtonIcon } from "@shared/react-aria";
 import { Spinner } from "@shared/spinner";
 import { DownloadIcon } from "@shared/svg";
 import { saveFile } from "@shared/utils";
@@ -24,9 +25,9 @@ export const ExportOperations = () => {
   return (
     <div className='settings-section-container settings-section-container-center'>
       <label>Export Operations</label>
-      <button className="btn-icon" onClick={saveOps}>
+      <ButtonIcon onPress={saveOps}>
         {inProgress ? <Spinner/> : <DownloadIcon/>}
-      </button>
+      </ButtonIcon>
     </div>
   )
 }

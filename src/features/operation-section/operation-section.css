@@ -52,9 +52,9 @@
   right: 0.1rem;
 }
 .op-recurrent-badge>svg {
-  fill: var(--grey-hi-cont);
+  fill: var(--gray-500);
 }
 
 .op-income-section {
-  background-color: var(--green-low-cont);
+  background-color: var(--green-100);
 }

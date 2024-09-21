@@ -1,24 +1,21 @@
-import { Nav } from "./nav"
-import { NavLink } from "react-router-dom"
 import { useAuth } from "@features/auth"
-import { AccountCircleIcon } from "@shared/svg"
-import './header.style.css'
+import { NavLink } from "react-router-dom"
+
+import './header.css'
 
 export const Header = () => {
   const { currentUser } = useAuth()
-
+  if (!currentUser) return <></>
+  
   return (
     <header>
-      <Nav />
-      {currentUser &&
-        <NavLink to="/user-settings">
-          <span
-            className="cur-user-icon svg-icon"
-            title={currentUser.email ?? ''}
-          >
-            <AccountCircleIcon />
-          </span>
-        </NavLink>}
+      <nav className='app-nav'>
+        <NavLink to="/">New operation</NavLink>
+        <NavLink to="/operations">Operations</NavLink>
+        <NavLink to="/categories">Categories</NavLink>
+        <NavLink to="/settings">Settings</NavLink>
+        <NavLink to="/user-settings">Account</NavLink>
+      </nav >
     </header>
   )
 }

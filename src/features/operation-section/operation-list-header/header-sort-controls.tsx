@@ -1,6 +1,7 @@
 import { OpSortableFields } from "@entities/operations"
 import { ArrowDown, ArrowUp, SwapVert } from "@shared/svg"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
+import { ButtonIcon } from "@shared/react-aria"
 
 export const SortControls = ({field}: {field: OpSortableFields}) => {
   const { sortOptions, setSort, removeSort } = useOpsListStore()
@@ -20,16 +21,15 @@ export const SortControls = ({field}: {field: OpSortableFields}) => {
   }
 
   return (
-    <button
-      onClick={handleClick}
-      className='btn-icon'
-      data-enabled={!disabled}
-      title={disabled ? 'Сортировать' : sortBy.dir === 'desc' ? 'Сортировать по убыванию' : 'Сортировать по возрастанию'}
+    <ButtonIcon
+      onPress={handleClick}
+      isPinned={!disabled}
+      aria-label={disabled ? 'Сортировать' : sortBy.dir === 'desc' ? 'Сортировать по убыванию' : 'Сортировать по возрастанию'}
     >
       {disabled ? <SwapVert /> :
         sortBy.dir === 'desc' ? <ArrowDown /> : <ArrowUp />
       }
       {displayedOrder}
-    </button>
+    </ButtonIcon>
   )
 }

@@ -7,11 +7,12 @@ header {
   align-items: center;
 
   background-color:var(--app-color);
-  color: var(--light-font);
+  color: white;
   padding-left: var(--gap-step);
   padding-right: var(--gap-step);
 
   .app-nav {
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -29,19 +30,7 @@ header {
     }
     
     > a:hover, a.active {
-      border-color: var(--light-font) transparent transparent;
+      border-color: white transparent transparent;
     }
   }
-
-  /* .cur-user-icon {
-    padding: var(--gap-step) 0;
-  } */
-  .cur-user-icon>svg {
-    height: 2rem;
-  }
-
-  .cur-user-icon:hover {
-    fill: var(--grey-low-cont);
-  }
-
 }
