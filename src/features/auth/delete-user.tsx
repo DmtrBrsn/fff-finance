@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { useAuth } from './auth-context'
+import { Button, Form } from 'react-aria-components'
+import { TextField } from '@shared/react-aria'
+import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const DeleteUser = () => {
   const { userService, currentUser } = useAuth()
@@ -17,11 +20,6 @@ export const DeleteUser = () => {
     setActive(false)
     setFormState({ confirmEmail: '' })
     setError('')
-  }
-
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((prevProps) => ({...prevProps,[name]: value}))
   }
 
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
@@ -43,36 +41,37 @@ export const DeleteUser = () => {
   }
 
   return active ?
-    (<div className="auth-container">
-      {error && <span className='auth-error-text'>{ error }</span>}
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label htmlFor='confirmEmail'>Please enter your email:</label>
-        <input
-          type="email" name="confirmEmail" id="confirmEmail"
-          className="txt-inp-std"
+    <div className="auth-form-container">
+      <Form onSubmit={handleSubmit}>
+        {error && <div role="alert">{error}</div>}
+        <TextField
+          label="Please enter your email:"
+          name="confirmEmail"
+          type="email"
+          inputMode="email"
           value={formState.confirmEmail}
-          onChange={handleInputChange}
-          autoComplete='off' disabled={loading} required
+          onChange={
+            (confirmEmail) => setFormState((prevProps) => ({ ...prevProps, confirmEmail }))
+          }
+          isDisabled={loading}
+          isRequired
+          autoComplete='off'
         />
-        <input
-          type="submit"
-          className="btn-std danger"
-          value={loading ? 'Deleting user...' : 'Delete user'}
-          disabled={loading}
-        />
-        <input
-          type="button"
-          className="btn-std"
-          value="Cancel"
-          onClick={handleCancel}
-        />
-      </form>
-    </div>)
+        <ButtonGroup isDisabled={loading}>
+          <Button type='submit'>
+            {loading ? 'Deleting user...' : 'Delete user'}
+          </Button>
+          <Button onPress={handleCancel}>
+            Cancel
+          </Button>
+        </ButtonGroup>
+      </Form>
+    </div>
     :
-    <input
-      className="btn-std"
-      type="button"
-      onClick={()=>setActive(true)}
-      value="Delete user"
-    />
+    <Button
+      onPress={()=>setActive(true)}
+      isDisabled={loading}
+    >
+      Delete user
+    </Button>
 }

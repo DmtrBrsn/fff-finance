@@ -1,4 +1,5 @@
 import { SignInWithGoogle, Signup } from "@features/auth"
+import { NavLink } from "react-router-dom"
 
 export const SignupPage = () => {
   return (
@@ -6,7 +7,10 @@ export const SignupPage = () => {
       <h1>Sign Up</h1>
       <SignInWithGoogle/>
       <span className='auth-or'>Or</span>
-      <Signup/>
+      <Signup />
+      <div className="auth-nav-links">
+        <NavLink to="/login">Log in</NavLink>
+      </div>
     </main>
   )
 }

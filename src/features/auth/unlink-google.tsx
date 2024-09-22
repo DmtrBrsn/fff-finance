@@ -2,6 +2,7 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 import { useAuth } from "./auth-context"
 import { GoogleIcon } from "@shared/svg"
+import { Button } from "react-aria-components"
 
 export const UnlinkGoogle = () => {
   const { userService } = useAuth()
@@ -19,12 +20,14 @@ export const UnlinkGoogle = () => {
     setLoading(false)
   }
 
-  return <button
-    disabled={loading}
-    className='google-sign-in-btn'
-    onClick={handleClick}
-  >
-    <GoogleIcon />
-    <span>{loading ? 'Unlinking...':'Unlink Google'}</span>
-  </button>
+  return (
+    <Button
+      isDisabled={loading}
+      className='react-aria-Button google-sign-in-btn'
+      onPress={handleClick}
+    >
+      <GoogleIcon/>
+      <span>{loading ? 'Unlinking...':'Unlink Google'}</span>
+    </Button>
+  )
 }

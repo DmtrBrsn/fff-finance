@@ -1,0 +1,103 @@
+.react-aria-DateField {
+  color: var(--text-color);
+
+  .react-aria-Group {
+    display: flex;
+    width: fit-content;
+    border-radius: var(--app-border-radius);
+
+    &[data-focus-within] {
+      outline: 1px solid var(--focus-ring-color);
+      .react-aria-Input,
+      .react-aria-Button {
+        border-color: var(--focus-ring-color);
+      }
+    }
+
+    .react-aria-DateInput {
+      border-radius: 0;
+
+      &[data-focus-within] {
+        outline: 1px solid var(--focus-ring-color);
+        outline-offset: -1px;
+      }
+    }
+
+    .react-aria-Button {
+      font-size: 1.4rem;
+      width: 2.3rem;
+      padding: 0;
+  
+      &[data-type=decrement] {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+      }
+  
+      &[data-type=increment] {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+      }
+    }
+  }
+}
+
+.react-aria-DateInput {
+  display: flex;
+  padding: var(--gap-step);
+  border: 1px solid var(--border-color);
+  border-radius: var(--app-border-radius);
+  background: var(--field-background);
+  width: fit-content;
+  min-width: 10rem;
+  white-space: nowrap;
+  forced-color-adjust: none;
+
+  &[data-focus-within] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: -1px;
+  }
+}
+
+.react-aria-DateSegment {
+  padding: 0 2px;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--text-color);
+
+  &[data-type=literal] {
+    padding: 0;
+  }
+
+  &[data-placeholder] {
+    color: var(--text-color-placeholder);
+    font-style: italic;
+  }
+
+  &:focus {
+    color: var(--highlight-foreground);
+    background: var(--highlight-background);
+    outline: none;
+    border-radius: calc(var(--app-border-radius) - 2px);
+    caret-color: transparent;
+  }
+
+  &[data-invalid] {
+    color: var(--invalid-color);
+
+    &:focus {
+      background: var(--highlight-background-invalid);
+      color: var(--highlight-foreground);
+    }
+  }
+}
+
+.react-aria-DateField {
+  .react-aria-FieldError {
+    font-size: 0.9rem;
+    color: var(--invalid-color);
+  }
+
+  [slot=description] {
+    font-size: 0.9rem;
+  }
+}

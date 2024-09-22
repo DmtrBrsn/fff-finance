@@ -1,6 +1,6 @@
 
-import { useState, useRef, FormEvent } from 'react'
-import { addDays, addMonths, getDay, subDays } from "date-fns"
+import { useState, FormEvent } from 'react'
+import { addMonths, getDay} from "date-fns"
 import { toast } from 'react-toastify'
 import { getOpDraft, updateOpDraft, removeOpDraft } from '@entities/operations/operation-draft'
 import { useCategoriesGet } from '@entities/categories'
@@ -11,9 +11,10 @@ import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
 import { DateUtils } from '@shared/utils'
 import { Button } from 'react-aria-components'
+import { DateField, NumberField, TextField } from '@shared/react-aria'
+import { parseDate } from '@internationalized/date'
 
 import './new-operation-form.css'
-import { ButtonIcon } from '@shared/react-aria'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
@@ -51,10 +52,6 @@ export const NewOperationForm = () => {
       setRepeatOptions({ ...repeatOptions, weekdays: [weekdays[getDay(date)]] })
     }
   }
-
-  const sumInpRef = useRef<HTMLInputElement>(null)
-  const selectSum = ()=>sumInpRef.current!==null && sumInpRef.current.value==='0' && sumInpRef.current.select()
-
   const { data: categories, isFetching: catsFetching, error: catError } = useCategoriesGet(true)
   const addHook = useOperationsAdd()
   const addBatchHook = useOperationsBatchAdd()
@@ -64,9 +61,6 @@ export const NewOperationForm = () => {
     const isIncome = categories?.find(cat => cat.id === op.idCategory)?.isIncome
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
   }
-
-  const plusDay = () => updateOpDate(DateUtils.formatDateForInput(addDays(op.date, 1)))
-  const minusDay = ()=> updateOpDate(DateUtils.formatDateForInput(subDays(op.date, 1)))
 
   const reset = () => {
     setOp(initOp)
@@ -97,47 +91,31 @@ export const NewOperationForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="new-operation-form">
-      <label>Adding operation{operationDraft ? ' (draft saved)' : '' }</label>
-      <span className="field vert">
-        <span className="hor">
-          <label htmlFor="opDate">Date</label>
-          <ButtonIcon onPress={minusDay}>➖</ButtonIcon>
-          <ButtonIcon onPress={plusDay}>➕</ButtonIcon>
-        </span>
-        <input
-          type="date"
-          id="opDate"
-          value={op.date}
-          required
-          onChange={(e) => updateOpDate(e.target.value)}
-        />
-      </span>
-      <span className="field vert">
-        <label htmlFor="opSum">Sum</label>
-        <input
-          type="number"
-          id="opSum"
-          min="0"
-          step="0.01"
-          value={op.sum}
-          required
-          onChange={(e) => setOpAndDraft({ ...op, sum: parseFloat(e.target.value) })}
-          onClick={selectSum}
-          ref={sumInpRef}
-        />
-      </span>
-      <span className="field vert">
-        <label htmlFor="opDescription">Description</label>
-        <input
-          type="text"
-          id="opDescription"
-          name="description"
-          value={op.description}
-          required
-          onChange={(e)=> setOpAndDraft({...op, description: e.target.value})}
-        />
-      </span>
-      
+      <h2>Adding operation</h2>
+      <DateField
+        label='Date'
+        value={parseDate(op.date)}
+        isRequired
+        withButtons
+        onChange={(d) => updateOpDate(d.toString())}
+      />
+      <NumberField
+        label='Sum'
+        minValue={0}
+        step={0.01}
+        value={op.sum}
+        isRequired
+        onChange={(e) => setOpAndDraft({ ...op, sum: e })}
+      />
+      <TextField
+        label='Description'
+        name="opDescription"
+        value={op.description}
+        isRequired
+        maxLength={300}
+        onChange={(e) => setOpAndDraft({ ...op, description: e })}
+      />
+
       <span className="field vert">
         <label htmlFor="opCat">Category</label>
         {catError ? `Error: ${catError.message}` : catsFetching || categories===undefined ? 
@@ -166,7 +144,7 @@ export const NewOperationForm = () => {
       </span>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
       <Button type="submit" isDisabled={addHook.isPending}> {addHook.isPending ? <Spinner /> : 'Save'}</Button>
-      <Button type="button" isDisabled={addHook.isPending} onPress={reset}>Reset</Button>
+      <Button type="button" isDisabled={addHook.isPending || operationDraft==null} onPress={reset}>Reset</Button>
     </form>
   )
 }

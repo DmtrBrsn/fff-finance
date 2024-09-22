@@ -7,12 +7,8 @@ import { Header } from '@widgets/header'
 import './styles/root.css'
 import './styles/colors.css'
 import './styles/global.css'
-import './styles/inputs-buttons.css'
 import './styles/auth.css'
-
-import './styles/react-aria/tooltip.css'
-import './styles/react-aria/drop-zone.css'
-import './styles/react-aria/button.css'
+import '@shared/react-aria/default-styles'
 
 function App() {
   useApptheme()

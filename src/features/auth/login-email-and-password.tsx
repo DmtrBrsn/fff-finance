@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from './auth-context'
 import { toast } from 'react-toastify'
 import { firebasePasswordMinLength } from '@shared/contants'
+import { Button, Form } from 'react-aria-components'
+import { TextField } from '@shared/react-aria'
 
 export const LoginWithEmailAndPassword = () => {
   const { loginWithEmailAndPassword } = useAuth().service
@@ -10,11 +12,6 @@ export const LoginWithEmailAndPassword = () => {
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((prevProps) => ({ ...prevProps, [name]: value }))
-  }
 
   const handleEmailAndPasswordSingInSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -30,41 +27,41 @@ export const LoginWithEmailAndPassword = () => {
   }
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleEmailAndPasswordSingInSubmit}>
-        {error && <span className='auth-error-text'>{ error }</span>}
-        <label htmlFor='email'>Email</label>
-        <input
+    <div className="auth-form-container">
+      <Form onSubmit={handleEmailAndPasswordSingInSubmit}>
+        {error && <div role="alert">{error}</div>}
+        <TextField
+          label="Email"
           name="email"
-          id="email"
           type="email"
-          className="txt-inp-std"
+          inputMode="email"
           value={formState.email}
-          onChange={handleInputChange}
-          disabled={loading}
-          required
+          onChange={
+            (email) => setFormState((prevProps) => ({ ...prevProps, email }))
+          }
+          isDisabled={loading}
+          isRequired
         />
-        <label htmlFor='password'>Password</label>
-        <input
+        <TextField
+          label="Password"
           name="password"
-          id="password"
           type="password"
-          className="txt-inp-std"
+          inputMode="text"
           value={formState.password}
-          onChange={handleInputChange}
-          disabled={loading}
+          onChange={
+            (password) => setFormState((prevProps) => ({ ...prevProps, password }))
+          }
           minLength={firebasePasswordMinLength}
-          required
+          isDisabled={loading}
+          isRequired
         />
-        <input
-          type="submit"
-          className='btn-std'
-          value={loading ? 'Logging in...' : 'Log in'}
-          disabled={loading}
-        />
-      </form>
-      <NavLink to="/password-reset">Password reset</NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
+        <Button
+          type='submit'
+          isDisabled={loading}
+        >
+          {loading ? 'Logging in...' : 'Log in'}
+        </Button>
+      </Form>
     </div>
   )
 }

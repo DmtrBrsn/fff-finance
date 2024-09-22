@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { useAuth } from './auth-context'
+import { Button } from 'react-aria-components'
 
 export const Logout = () => {
   const { logout } = useAuth().service
@@ -17,11 +18,10 @@ export const Logout = () => {
     }).finally(() => setLoading(false))
   }
 
-  return <input
-    className="btn-std"
-    type="button"
-    onClick={handleClick}
-    value={loading ? "...Logging out" : "Log out"}
-    disabled={loading}
-  />
+  return <Button
+    onPress={handleClick}
+    isDisabled={loading}
+  >
+    {loading ? "...Logging out" : "Log out"}
+  </Button>
 }

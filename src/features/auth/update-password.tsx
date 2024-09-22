@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
 import { firebasePasswordMinLength } from '@shared/contants'
+import { Button, Form } from 'react-aria-components'
+import { TextField } from '@shared/react-aria'
+import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const UpdatePassword = () => {
   const { userService } = useAuth()
@@ -11,11 +14,6 @@ export const UpdatePassword = () => {
   const [loading, setLoading] = useState(false)
 
   if (userService == undefined) return <></>
-
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((prevProps) => ({...prevProps, [name]: value}))
-  }
 
   const handleCancel = () => {
     setActive(false)
@@ -40,39 +38,37 @@ export const UpdatePassword = () => {
   }
 
   return active ? 
-    (<div className="auth-container">
-      {error && <span className='auth-error-text'>{ error }</span>}
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label htmlFor='newPassword'>New password:</label>
-        <input
-          type="password" name="newPassword" id="newPassword"
-          className="txt-inp-std"
+    <div className="auth-form-container">
+      <Form onSubmit={handleSubmit}>
+        {error && <div role="alert">{error}</div>}
+        <TextField
+          label="New password"
+          name="newPassword"
+          type="password"
+          inputMode="text"
           value={formState.newPassword}
-          onChange={handleInputChange}
-          disabled={loading}
-          minLength={firebasePasswordMinLength} required
+          onChange={
+            (newPassword) => setFormState((prevProps) => ({ ...prevProps, newPassword }))
+          }
+          minLength={firebasePasswordMinLength}
+          isDisabled={loading}
+          isRequired
         />
-        <input
-          type="submit"
-          className="btn-std"
-          value={loading ? 'Updating...' : 'Update'}
-          disabled={loading}
-        />
-        <input
-          type="button"
-          className="btn-std"
-          value="Cancel"
-          onClick={handleCancel}
-        />
-      </form>
-    </div>)
+        <ButtonGroup isDisabled={loading}>
+          <Button type='submit'>
+            {loading ? 'Updating...' : 'Update'}
+          </Button>
+          <Button onPress={handleCancel}>
+            Cancel
+          </Button>
+        </ButtonGroup>
+      </Form>
+    </div>
     :
-    (<div>
-      <input
-        type="button"
-        className="btn-std"
-        onClick={()=>setActive(true)}
-        value="Update Password"
-      />
-    </div>)
+    <Button
+      onPress={()=>setActive(true)}
+      isDisabled={loading}
+    >
+      Update Password
+    </Button>
 }

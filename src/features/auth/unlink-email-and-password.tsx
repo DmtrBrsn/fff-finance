@@ -1,6 +1,7 @@
 import { toast } from "react-toastify"
 import { useState } from 'react'
 import { useAuth } from "./auth-context"
+import { Button } from "react-aria-components"
 
 export const UnlinkEmailAndPassword = () => {
   const { userService } = useAuth()
@@ -18,14 +19,11 @@ export const UnlinkEmailAndPassword = () => {
   }
 
   return (
-    <div>
-      <input
-        type="button"
-        className="btn-std"
-        onClick={handleClick}
-        value={loading ? "...Unlinking" : "Unlink Email and password"}
-        disabled={loading}
-      />
-    </div>
+    <Button
+      onPress={handleClick}
+      isDisabled={loading}
+    >
+      {loading ? "...Unlinking" : "Unlink Email and password"}
+    </Button>
   )
 }

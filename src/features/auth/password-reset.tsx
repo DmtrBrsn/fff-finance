@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { useAuth } from './auth-context'
+import { Button, Form } from 'react-aria-components'
+import { TextField } from '@shared/react-aria'
 
 export const PasswordReset = () => {
   const { resetPassword } = useAuth().service
@@ -9,11 +11,6 @@ export const PasswordReset = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((prevProps) => ({ ...prevProps, [name]: value }))
-  }
 
   const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,29 +29,29 @@ export const PasswordReset = () => {
   }
 
   return (
-    <div className="auth-container">
+    <div className="auth-form-container">
       {error && <span className='auth-error-text'>{ error }</span>}
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label htmlFor='email'>Email</label>
-        <input
+      <Form onSubmit={handleSubmit}>
+        <TextField
+          label="Email"
           name="email"
-          id="email"
           type="email"
-          className="txt-inp-std"
+          inputMode="email"
           value={formState.email}
-          onChange={handleInputChange}
-          disabled={loading}
-          required
+          onChange={
+            (email) => setFormState((prevProps) => ({ ...prevProps, email }))
+          }
+          isDisabled={loading}
+          isRequired
         />
-        <input
-          type="submit"
-          className="btn-std"
-          value={loading ? 'Loading...' : 'Reset Password'}
-          disabled={loading}
-        />
-      </form>
-      <NavLink to="/login">Log in</NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
+        <Button
+          type='submit'
+          isDisabled={loading}
+        >
+          {loading ? 'Loading...' : 'Reset Password'}
+        </Button>
+      </Form>
+
     </div>
   )
 }

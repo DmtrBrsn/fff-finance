@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
 import { GoogleIcon } from '@shared/svg'
+import { Button } from 'react-aria-components'
 
 export const SignInWithGoogle = () => {
   const { loginWithGoogle } = useAuth().service
@@ -19,13 +20,13 @@ export const SignInWithGoogle = () => {
   }
 
   return (
-    <button
-      disabled={loading}
-      className='google-sign-in-btn'
-      onClick={handleClick}
+    <Button
+      isDisabled={loading}
+      className='react-aria-Button google-sign-in-btn'
+      onPress={handleClick}
     >
       <GoogleIcon/>
       <span>{loading ? '...Signing in' :'Sign in with Google'}</span>
-    </button>
+    </Button>
   )
 }
