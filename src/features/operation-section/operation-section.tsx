@@ -6,7 +6,7 @@ import { FlCell, FlRow } from "@shared/fl-list"
 import { DateUtils } from "@shared/utils"
 
 import '../operation-section/operation-section.css'
-import { ButtonIcon } from "@shared/react-aria"
+import { ButtonIcon, Checkbox } from "@shared/react-aria"
 
 type Props = {
   op: Operation,
@@ -29,7 +29,7 @@ export const OperationSection = (
       <FlCell className="op-description">{op.description}</FlCell>
       <FlCell className="op-category">{cat===undefined ? 'No category found' : cat.name}</FlCell>
       <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
-      <FlCell className="op-is-plan"><input type="checkbox" checked={op.isPlan} disabled/></FlCell>
+      <FlCell className="op-is-plan"><Checkbox isSelected={op.isPlan} isDisabled aria-label="Is plan" /></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
         <ButtonIcon

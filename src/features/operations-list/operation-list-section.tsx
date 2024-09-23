@@ -7,7 +7,7 @@ import { useOpsListStore } from "@features/operations-list/operations-list-store
 import { DateUtils } from "@shared/utils"
 
 import '../operation-section/operation-section.css'
-import { ButtonIcon } from "@shared/react-aria"
+import { ButtonIcon, Checkbox } from "@shared/react-aria"
 
 type Props = {
   op: Operation,
@@ -23,8 +23,8 @@ export const OperationListSection = (
   const deleteHook = useOperationsDelete()
 
   const handleDeleteClick = () => deleteHook.mutate(op.id)
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.checked ?
+  const handleCheckboxChange = (e: boolean) => {
+    e ?
       setSelected([...selected, op.id])
       :
       setSelected(selected.filter(id => id !== op.id))
@@ -34,14 +34,14 @@ export const OperationListSection = (
     <FlRow className={cat?.isIncome ? 'op-income-section' : ''}>
       {selectMode &&
         <FlCell className="op-checkbox">
-          <input type="checkbox" checked={isSelected} onChange={handleCheckboxChange} />
+          <Checkbox isSelected={isSelected} onChange={handleCheckboxChange} />
         </FlCell>}
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.date)}</FlCell>
       <FlCell className="op-sum">{op.sum.toLocaleString()}</FlCell>
       <FlCell className="op-description">{op.description}</FlCell>
       <FlCell className="op-category">{cat===undefined ? 'No category found' : cat.name}</FlCell>
       <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
-      <FlCell className="op-is-plan"><input type="checkbox" checked={op.isPlan} disabled/></FlCell>
+      <FlCell className="op-is-plan"><Checkbox isSelected={op.isPlan} isDisabled aria-label="Is plan" /></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
         <ButtonIcon

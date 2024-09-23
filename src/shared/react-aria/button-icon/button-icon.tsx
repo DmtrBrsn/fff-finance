@@ -2,14 +2,14 @@ import { ReactNode } from "react"
 import { Button, ButtonProps } from "react-aria-components"
 import './button-icon.css'
 
-type ButtonIconProps = { children: ReactNode, isPinned?: boolean } & ButtonProps
+type ButtonIconProps = { children: ReactNode} & ButtonProps
 
 export const ButtonIcon = (
-  { children, isPinned = false, ...props }: ButtonIconProps
+  { children, ...props }: ButtonIconProps
 ) => {
   return (
     <Button
-      className={'react-aria-Button-icon' + (isPinned ? ' pinned' : '')}
+      className={'react-aria-Button-icon'}
       {...props}
     >
       {children}

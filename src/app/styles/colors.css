@@ -152,7 +152,7 @@
   --border-color-hover: var(--gray-400);
   --border-color-pressed: var(--gray-400);
   --border-color-disabled: var(--gray-100);
-  --field-background: var(--gray-50);
+  --field-background: var(--background-color);
   --field-text-color: var(--gray-650);
   --overlay-background: var(--gray-50);
   --button-background: var(--gray-50);

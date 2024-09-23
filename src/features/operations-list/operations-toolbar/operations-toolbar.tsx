@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import './operations-toolbar.style.css'
 import { numToFixedStr } from '@shared/utils'
 import { Button } from 'react-aria-components'
-import { ButtonIcon } from '@shared/react-aria'
+import { ButtonIcon, ToggleButtonIcon } from '@shared/react-aria'
 
 export const OperationsListToolbar = () => {
   const {
@@ -50,11 +50,11 @@ export const OperationsListToolbar = () => {
 
   return (
     <div className="op-list-toolbar">
-      <ButtonIcon
+      <ToggleButtonIcon
         aria-label={(selectMode ? 'Скрыть' : 'Показать')+ ' выбор позиций'}
         onPress={() => setSelectMode(!selectMode)}
-        isPinned={selectMode}
-      ><Checkbox /></ButtonIcon>
+        isSelected={selectMode}
+      ><Checkbox /></ToggleButtonIcon>
       <label htmlFor="from">From</label>
       <input id="from" type="date"
         value={from}

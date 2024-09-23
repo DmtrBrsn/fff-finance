@@ -1,5 +1,7 @@
 export * from './button-icon/button-icon'
+export * from './button-icon/toggle-button-icon'
 export * from './number-field/number-field'
 export * from './text-field/text-field'
 export * from './default-styles'
 export * from './date-field/date-field'
+export * from './checkbox/checkbox'

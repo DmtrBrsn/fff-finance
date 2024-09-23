@@ -16,6 +16,7 @@
 
     .react-aria-DateInput {
       border-radius: 0;
+      margin: 0 -1px;
 
       &[data-focus-within] {
         outline: 1px solid var(--focus-ring-color);

@@ -11,7 +11,7 @@ import { Spinner } from '@shared/spinner'
 import { StripSelect } from '@shared/strip-select'
 import { DateUtils } from '@shared/utils'
 import { Button } from 'react-aria-components'
-import { DateField, NumberField, TextField } from '@shared/react-aria'
+import { Checkbox, DateField, NumberField, TextField } from '@shared/react-aria'
 import { parseDate } from '@internationalized/date'
 
 import './new-operation-form.css'
@@ -133,15 +133,10 @@ export const NewOperationForm = () => {
           </>
         }
       </span>
-      <span className="field hor">
-        <label htmlFor="opIsPlan">Plan</label>
-        <input
-          type="checkbox"
-          id="opIsPlan"
-          checked={op.isPlan}
-          onChange={(e)=> setOpAndDraft({...op, isPlan: e.target.checked})}
-        />
-      </span>
+      <Checkbox
+        isSelected={op.isPlan}
+        onChange={(isPlan)=> setOpAndDraft({...op, isPlan})}
+      >Plan</Checkbox>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
       <Button type="submit" isDisabled={addHook.isPending}> {addHook.isPending ? <Spinner /> : 'Save'}</Button>
       <Button type="button" isDisabled={addHook.isPending || operationDraft==null} onPress={reset}>Reset</Button>

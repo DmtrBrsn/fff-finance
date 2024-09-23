@@ -11,7 +11,7 @@ import { useOpsListStore } from "@features/operations-list/operations-list-store
 import { DateUtils } from "@shared/utils";
 
 import '../operation-section/operation-section.css'
-import { ButtonIcon } from "@shared/react-aria";
+import { ButtonIcon, Checkbox } from "@shared/react-aria";
 
 export const OperationListSectionEdit = (
   { op }: { op: Operation }
@@ -35,8 +35,8 @@ export const OperationListSectionEdit = (
     setRecurrentOptionsUpdated(recurrentOptions)
   }, [recurrentOptions])
 
-  const handleIsPlanUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isPlan = e.target.checked
+  const handleIsPlanUpdate = (e: boolean) => {
+    const isPlan = e
     if (!isPlan && op.idRecurrent) {
       setRecurrentMode(false)
       setUpdOp({ ...updOp, isPlan, idRecurrent: null })
@@ -51,8 +51,8 @@ export const OperationListSectionEdit = (
 
   const disableUpd = () => setBeingEdited(null)
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.checked ?
+  const handleCheckboxChange = (e: boolean) => {
+    e ?
       setSelected([...selected, op.id])
       :
       setSelected(selected.filter(id => id !== op.id))
@@ -100,7 +100,7 @@ export const OperationListSectionEdit = (
     <FlRow className={isInc ? 'op-income-section' : ''}>
       {selectMode &&
         <FlCell className="op-checkbox">
-          <input type="checkbox" checked={isSelected} onChange={handleCheckboxChange} />
+          <Checkbox isSelected={isSelected} aria-label='is selected' onChange={handleCheckboxChange}/>
         </FlCell>}
       <FlCell className="op-date">
         <input type='date'
@@ -138,10 +138,7 @@ export const OperationListSectionEdit = (
         {isInc==undefined ? '' : isInc ? 'Income' : 'Expense'}
       </FlCell>
       <FlCell className="op-is-plan">
-        <input type="checkbox"
-          checked={updOp.isPlan}
-          onChange={handleIsPlanUpdate}
-        />
+        <Checkbox isSelected={updOp.isPlan} aria-label='is plan' onChange={handleIsPlanUpdate}/>
       </FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">

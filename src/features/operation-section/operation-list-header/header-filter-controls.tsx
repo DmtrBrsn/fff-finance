@@ -3,7 +3,7 @@ import { type OpFilterFields } from "@entities/operations"
 import { FilterAlt, FilterAltFilled, FilterAltOff } from "@shared/svg"
 import { type FilterableValue, type FilterCondition } from "@shared/utils"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
-import { ButtonIcon } from "@shared/react-aria"
+import { ButtonIcon, ToggleButtonIcon } from "@shared/react-aria"
 import { Button } from "react-aria-components"
 
 import './header-filter-controls.css'
@@ -19,13 +19,13 @@ export const FilterControls = ({field}: {field: OpFilterFields}) => {
 
   return (
     <>
-      <ButtonIcon
-        isPinned={!disabled}
+      <ToggleButtonIcon
+        isSelected={!disabled}
         onPress={() => setFilterFormOpenFor(open ? null : field)}
         aria-label={disabled && !open ? 'Фильтр' : open ? undefined : filterTip}
       >
         {disabled ? <FilterAlt /> : <FilterAltFilled />}
-      </ButtonIcon>
+      </ToggleButtonIcon>
       {open && <FilterFormPopup field={field}/>}
     </>
   )
