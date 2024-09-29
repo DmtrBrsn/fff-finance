@@ -3,12 +3,14 @@ import { useOperationsGet, getThisMonthOpParams, useOperationsBatchDelete } from
 import { useOpsListStore } from "../operations-list-store"
 import { Checkbox, DeleteIcon, FilterListOff } from '@shared/svg'
 import { toast } from 'react-toastify'
-import './operations-toolbar.style.css'
 import { numToFixedStr } from '@shared/utils'
-import { Button } from 'react-aria-components'
-import { ButtonIcon, ToggleButtonIcon } from '@shared/react-aria'
+import { Toolbar } from 'react-aria-components'
+import { Button, ButtonIcon, DatePicker, ToggleButtonIcon } from '@shared/react-aria'
+import { useQueryClient } from '@tanstack/react-query'
+import { parseDate } from '@internationalized/date'
 
 export const OperationsListToolbar = () => {
+  const queryClient = useQueryClient()
   const {
     params,
     setParams,
@@ -48,24 +50,28 @@ export const OperationsListToolbar = () => {
     setParams(thisMparams)
   }
 
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['operations'] })
+  }
+
   return (
-    <div className="op-list-toolbar">
+    <Toolbar>
       <ToggleButtonIcon
         aria-label={(selectMode ? 'Скрыть' : 'Показать')+ ' выбор позиций'}
         onPress={() => setSelectMode(!selectMode)}
         isSelected={selectMode}
       ><Checkbox /></ToggleButtonIcon>
       <label htmlFor="from">From</label>
-      <input id="from" type="date"
-        value={from}
-        max={to}
-        onChange={(e)=> setFrom(e.target.value)}
+      <DatePicker
+        id='from'
+        value={parseDate(from)}
+        onChange={e => setFrom(e.toString())}
       />
       <label htmlFor="to">To</label>
-      <input id="to" type="date"
-        value={to}
-        min={from}
-        onChange={(e)=> setTo(e.target.value)}
+      <DatePicker
+        id='to'
+        value={parseDate(to)}
+        onChange={e => setTo(e.toString())}
       />
       <Button onPress={fetch}>Fetch</Button>
       <Button onPress={setThisM}>This M</Button>
@@ -83,6 +89,10 @@ export const OperationsListToolbar = () => {
       {ops && ' sum: ' + numToFixedStr(opsSum)}
       {selected.length > 0 && ' selected: ' + selected.length}
       {selected.length > 0 && ' sum: ' + numToFixedStr(selectedSum)}
-    </div>
+      <ButtonIcon
+        onPress={refresh}
+        aria-label={'Обновить'}
+      >o</ButtonIcon>
+    </Toolbar>
   )
 }

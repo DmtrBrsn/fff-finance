@@ -12,8 +12,6 @@ import {
   ValidationResult
 } from 'react-aria-components'
 
-import './date-field.css'
-
 export interface DateFieldProps<T extends DateValue>
   extends AriaDateFieldProps<T> {
   label?: string
@@ -53,6 +51,7 @@ export function DateField<T extends DateValue>(
       <Group>
         {withButtons && <Button
           data-type="decrement"
+          excludeFromTabOrder
           aria-label="minus day"
           isDisabled={isMin}
           onPress={inc}
@@ -64,6 +63,7 @@ export function DateField<T extends DateValue>(
       </DateInput>
         {withButtons && <Button
           data-type="increment"
+          excludeFromTabOrder
           aria-label="plus day"
           isDisabled={isMax}
           onPress={dec}

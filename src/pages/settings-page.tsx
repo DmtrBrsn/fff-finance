@@ -3,7 +3,7 @@ import { ExportCategories } from "@features/export-categories"
 import { ExportOperations } from "@features/export-operations"
 import { ImportCategories } from "@features/import/import-categories"
 import { ImportOperations } from "@features/import/import-operations"
-import { Button } from "react-aria-components"
+import { Button } from "@shared/react-aria"
 import { toast } from "react-toastify"
 
 export const SettingsPage = () => {

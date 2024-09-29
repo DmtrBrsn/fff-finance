@@ -4,7 +4,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useCategoriesGet } from '@entities/categories'
 import { importOperations, QUERY_KEY_OPERATIONS } from '@entities/operations'
 import { Spinner } from '@shared/spinner'
-import { Button, DropZone, FileTrigger } from 'react-aria-components'
+import { DropZone, FileTrigger } from 'react-aria-components'
+import { Button } from '@shared/react-aria'
 
 export const ImportOperations = () => {
   const queryClient = useQueryClient()

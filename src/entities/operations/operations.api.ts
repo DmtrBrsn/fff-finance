@@ -24,6 +24,7 @@ export const getOperations = async (params?: GetOpsParams) => {
   const q = opParamsToQuery(collectionRef, params)
   const querySnapshot = await getDocs(q)
   console.log(`read operations: ${querySnapshot.docs.length}`)
+  querySnapshot.metadata.fromCache && console.log('fromCache')
   return querySnapshot.docs.map(doc => {
     const rawDoc = doc.data()
     return {

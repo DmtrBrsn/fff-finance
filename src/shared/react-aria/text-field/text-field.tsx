@@ -8,8 +8,6 @@ import {
   ValidationResult
 } from 'react-aria-components'
 
-import './text-field.css'
-
 export interface TextFieldProps extends AriaTextFieldProps {
   label?: string
   description?: string

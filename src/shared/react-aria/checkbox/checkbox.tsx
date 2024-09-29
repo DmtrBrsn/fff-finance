@@ -1,7 +1,5 @@
 import {Checkbox as AriaCheckbox, CheckboxProps} from 'react-aria-components';
 
-import './checkbox.css';
-
 export function Checkbox({ children, ...props }: CheckboxProps) {
   return (
     (

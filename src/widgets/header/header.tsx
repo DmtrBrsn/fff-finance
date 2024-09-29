@@ -8,7 +8,7 @@ export const Header = () => {
   if (!currentUser) return <></>
   
   return (
-    <header>
+    <header className="app-header">
       <nav className='app-nav'>
         <NavLink to="/">New operation</NavLink>
         <NavLink to="/operations">Operations</NavLink>

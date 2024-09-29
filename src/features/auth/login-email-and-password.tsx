@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from './auth-context'
 import { toast } from 'react-toastify'
 import { firebasePasswordMinLength } from '@shared/contants'
-import { Button, Form } from 'react-aria-components'
-import { TextField } from '@shared/react-aria'
+import { Form } from 'react-aria-components'
+import { Button, TextField } from '@shared/react-aria'
 
 export const LoginWithEmailAndPassword = () => {
   const { loginWithEmailAndPassword } = useAuth().service

@@ -1,17 +1,40 @@
-import { ReactNode } from "react"
-import { ToggleButton, ToggleButtonProps } from "react-aria-components"
+import {ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipTrigger} from 'react-aria-components'
+import { Tooltip } from '../tooltip/tooltip'
 
-type ButtonIconProps = { children: ReactNode} & ToggleButtonProps 
+type ToggleButtonIconProps = {
+  size?: 's' | 'm' | 'l',
+  tooltip?: string
+} & RACToggleButtonProps
 
-export const ToggleButtonIcon = (
-  { children, ...props }: ButtonIconProps
-) => {
-  return (
-    <ToggleButton
-      className={'react-aria-Button-icon'}
+export function ToggleButtonIcon(
+  { size = 'm', tooltip, ...props }: ToggleButtonIconProps
+) {
+  if (!tooltip) return (
+    <RACToggleButton
+      className={
+        'react-aria-Button-icon' + ' ' +
+        size +
+        (props.className ? ' ' + props.className : '')
+      }
       {...props}
     >
-      {children}
-    </ToggleButton>
+      {props.children}
+    </RACToggleButton>
+  )
+  else return (
+    <TooltipTrigger>
+      <RACToggleButton
+        className={
+          'react-aria-Button-icon' + ' ' +
+          size +
+          (props.className ? ' ' + props.className : '')
+        }
+        aria-label={tooltip+(props['aria-label'] ? ' '+props['aria-label'] : '')}
+        {...props}
+      >
+        {props.children}
+      </RACToggleButton>
+      <Tooltip>{tooltip}</Tooltip>
+    </TooltipTrigger>
   )
 }

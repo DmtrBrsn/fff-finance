@@ -3,16 +3,15 @@ import { useState, FormEvent } from 'react'
 import { addMonths, getDay} from "date-fns"
 import { toast } from 'react-toastify'
 import { getOpDraft, updateOpDraft, removeOpDraft } from '@entities/operations/operation-draft'
-import { useCategoriesGet } from '@entities/categories'
 import { OperationAdd, useOperationsAdd, useOperationsBatchAdd, createRecurrentOps } from '@entities/operations'
 import { RecurrentOpSettingsAdd, weekdays, useRecurrentOpSettingsAdd } from '@entities/recurrent-op-settings'
 import { RecurrentOpSetup } from '@shared/recurrent-op-setup'
 import { Spinner } from '@shared/spinner'
-import { StripSelect } from '@shared/strip-select'
 import { DateUtils } from '@shared/utils'
-import { Button } from 'react-aria-components'
+import { Button } from '@shared/react-aria'
 import { Checkbox, DateField, NumberField, TextField } from '@shared/react-aria'
 import { parseDate } from '@internationalized/date'
+import { CatSelect } from '@shared/cat-select'
 
 import './new-operation-form.css'
 
@@ -52,15 +51,9 @@ export const NewOperationForm = () => {
       setRepeatOptions({ ...repeatOptions, weekdays: [weekdays[getDay(date)]] })
     }
   }
-  const { data: categories, isFetching: catsFetching, error: catError } = useCategoriesGet(true)
   const addHook = useOperationsAdd()
   const addBatchHook = useOperationsBatchAdd()
   const addRecurrentOpSettingsHook = useRecurrentOpSettingsAdd()
-
-  const getIncExpStr = () => {
-    const isIncome = categories?.find(cat => cat.id === op.idCategory)?.isIncome
-    return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
-  }
 
   const reset = () => {
     setOp(initOp)
@@ -115,24 +108,10 @@ export const NewOperationForm = () => {
         maxLength={300}
         onChange={(e) => setOpAndDraft({ ...op, description: e })}
       />
-
-      <span className="field vert">
-        <label htmlFor="opCat">Category</label>
-        {catError ? `Error: ${catError.message}` : catsFetching || categories===undefined ? 
-          <Spinner/>
-          :
-          <>
-            <StripSelect
-              items={categories.map(c => [c.id, c.name])}
-              selectedKeyByDefault={op.idCategory!=='' ? op.idCategory : undefined}
-              onSelect={(e) => setOpAndDraft({ ...op, idCategory: categories.find(cat => cat.id === e.target.key)?.id ?? '' })}
-            />
-            <span>
-              {getIncExpStr()}
-            </span>
-          </>
-        }
-      </span>
+      <CatSelect
+        selectedId={op.idCategory}
+        onSelect={(idCategory: string) => setOpAndDraft({ ...op, idCategory })}
+      />
       <Checkbox
         isSelected={op.isPlan}
         onChange={(isPlan)=> setOpAndDraft({...op, isPlan})}

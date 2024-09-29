@@ -1,9 +1,0 @@
-.op-list-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  gap: var(--gap-step);
-  padding: var(--gap-step);
-  background-color: var(--gray-50);
-  align-items: center;
-}

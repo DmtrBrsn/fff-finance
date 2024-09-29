@@ -3,8 +3,8 @@ import { type OpFilterFields } from "@entities/operations"
 import { FilterAlt, FilterAltFilled, FilterAltOff } from "@shared/svg"
 import { type FilterableValue, type FilterCondition } from "@shared/utils"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
-import { ButtonIcon, ToggleButtonIcon } from "@shared/react-aria"
-import { Button } from "react-aria-components"
+import { Button, ButtonIcon, ToggleButtonIcon } from "@shared/react-aria"
+
 
 import './header-filter-controls.css'
 

@@ -3,7 +3,8 @@ import { toast } from 'react-toastify'
 import { useQueryClient } from '@tanstack/react-query'
 import { importCategories, QUERY_KEY_CATEGORIES } from '@entities/categories'
 import { Spinner } from '@shared/spinner'
-import { Button, DropZone, FileTrigger } from 'react-aria-components'
+import { DropZone, FileTrigger } from 'react-aria-components'
+import { Button } from '@shared/react-aria'
 
 export const ImportCategories = () => {
   const queryClient = useQueryClient()

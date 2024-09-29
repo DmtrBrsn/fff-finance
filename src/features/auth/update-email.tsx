@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
-import { Button, Form } from 'react-aria-components'
-import { TextField } from '@shared/react-aria'
+import { Form } from 'react-aria-components'
+import { Button, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const UpdateEmail = () => {

@@ -31,11 +31,6 @@ input:not([type="button"], [type="submit"], [type="reset"]), select {
   padding: var(--gap-step);
 }
 
-header {
-  height: var(--header-height);
-  order: 1;
-}
-
 main {
   order: 2;
   overflow-x: auto;

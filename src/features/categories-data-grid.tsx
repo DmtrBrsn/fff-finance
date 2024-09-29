@@ -3,7 +3,7 @@ import { useCategoriesGet, useCategoriesAdd, Category, useCategoriesUpdate, useC
 import { Spinner } from '@shared/spinner'
 import { DoneIcon, CancelIcon, EditIcon, DeleteIcon, CreateIcon } from '@shared/svg'
 import { DateUtils } from '@shared/utils'
-import { ButtonIcon, Checkbox } from '@shared/react-aria'
+import { ButtonIcon, Checkbox, TextField } from '@shared/react-aria'
 
 export const CategoriesDataGrid = () => {
   const { data: categories, isFetching: catsFetching } = useCategoriesGet()
@@ -25,7 +25,7 @@ export const CategoriesDataGrid = () => {
     }
   
     return (<>
-      <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} /></td>
+      <td><TextField value={name} onChange={(name) => setName(name)}/></td>
       <td><Checkbox isSelected={isIncome} aria-label='is income' onChange={(e) => setIsIncome(e)}></Checkbox></td>
       {addHook.isPending ? <SpinnerCell /> : <td><ButtonIcon onPress={handleAddClick} ><DoneIcon /></ButtonIcon></td>}
       <td><ButtonIcon onPress={() => setAddNew(false)}><CancelIcon /></ButtonIcon></td>
@@ -44,7 +44,7 @@ export const CategoriesDataGrid = () => {
     }
 
     return (<>
-      <td><input type='text' value={name} onChange={(e)=>setName(e.target.value)} /></td>
+      <td><TextField value={name} onChange={(name) => setName(name)}/></td>
       <td><Checkbox isSelected={isIncome} aria-label='is income' onChange={(e) => setIsIncome(e)}></Checkbox></td>
       {updHook.isPending ? <SpinnerCell/> : <td><ButtonIcon onPress={handleUpdate} ><DoneIcon /></ButtonIcon></td>}
       <td><ButtonIcon onPress={() => setEditId(undefined)}><CancelIcon /></ButtonIcon></td>

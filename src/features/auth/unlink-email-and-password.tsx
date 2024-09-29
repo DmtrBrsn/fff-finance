@@ -1,7 +1,7 @@
 import { toast } from "react-toastify"
 import { useState } from 'react'
 import { useAuth } from "./auth-context"
-import { Button } from "react-aria-components"
+import { Button } from "@shared/react-aria"
 
 export const UnlinkEmailAndPassword = () => {
   const { userService } = useAuth()

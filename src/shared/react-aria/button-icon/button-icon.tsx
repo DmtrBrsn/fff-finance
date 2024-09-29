@@ -1,18 +1,41 @@
-import { ReactNode } from "react"
-import { Button, ButtonProps } from "react-aria-components"
-import './button-icon.css'
+import {Button as RACButton, ButtonProps as RACButtonProps, TooltipTrigger} from 'react-aria-components'
+import { Tooltip } from '../tooltip/tooltip'
 
-type ButtonIconProps = { children: ReactNode} & ButtonProps
+type ButtonIconProps = {
+  size?: 's' | 'm' | 'l'
+  tooltip?: string
+} & RACButtonProps
 
-export const ButtonIcon = (
-  { children, ...props }: ButtonIconProps
-) => {
-  return (
-    <Button
-      className={'react-aria-Button-icon'}
+export function ButtonIcon(
+  { size = 'm', tooltip, ...props }: ButtonIconProps
+) {
+  if (!tooltip) return (
+    <RACButton
+      className={
+        'react-aria-Button-icon' + ' ' +
+        size +
+        (props.className ? ' ' + props.className : '')
+      }
       {...props}
     >
-      {children}
-    </Button>
+      {props.children}
+    </RACButton>
+  )
+  else return (
+    <TooltipTrigger>
+      <RACButton
+        className={
+          'react-aria-Button-icon' + ' ' +
+          size +
+          (props.className ? ' ' + props.className : '')
+        }
+        aria-label={tooltip+(props['aria-label'] ? ' '+props['aria-label'] : '')}
+        {...props}
+        >
+        {props.children}
+        </RACButton>
+      <Tooltip>{tooltip}</Tooltip>
+    </TooltipTrigger>
   )
 }
+

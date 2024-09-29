@@ -1,0 +1,46 @@
+.react-aria-Toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--gap-step) * 2);
+  padding: var(--gap-step);
+  margin: var(--gap-step);
+
+  background-color: var(--gray-50);
+  border-radius: var(--app-border-radius);
+
+  &[data-orientation=horizontal] {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .react-aria-Group {
+    display: contents;
+  }
+}
+
+.react-aria-Separator {
+  align-self: stretch;
+  background-color: var(--gray-300);
+
+  &[aria-orientation=vertical] {
+    width: 0.1rem;
+    margin: 0 var(--gap-step);
+  }
+}
+
+.react-aria-Toolbar {
+
+  &[data-orientation=vertical] {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+.react-aria-Separator {
+  &:not([aria-orientation=vertical]) {
+    border: none;
+    height: 0.07rem;
+    width: 100%;
+    margin: var(--gap-step) 0;
+  }
+}

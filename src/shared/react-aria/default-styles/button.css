@@ -1,15 +1,27 @@
 .react-aria-Button {
+  
+  &.primary {
+    --background: var(--button-background);
+  }
+  &.danger {
+    --background: var(--red-200);
+  }
+
+  &.s {--size: 0.8rem;}
+  &.m {--size: 1rem;}
+  &.l {--size: 1.5rem;}
+
   color: var(--text-color);
-  background: var(--button-background);
+  background: var(--background);
   border: 1px solid var(--border-color);
   border-radius: var(--app-border-radius);
   appearance: none;
   vertical-align: middle;
-  font-size: 1rem;
+  font-size: var(--size);
   text-align: center;
   margin: 0;
   outline: none;
-  padding: var(--gap-step) calc(var(--gap-step) * 2.5);
+  padding: calc(var(--size) * 0.3) calc(var(--size) * 0.9);
   text-decoration: none;
 
 
@@ -31,5 +43,16 @@
   &[data-disabled]{
     border-color: var(--border-color-disabled);
     color: var(--text-color-disabled);
+  }
+
+  &[data-selected] {
+    &.primary {
+      background: var(--grey-hi-cont);
+      color: var(--grey-very-low-cont)
+    }
+    &.danger {
+      background: var(--red-500);
+      color: var(--gray-100)
+    }
   }
 }

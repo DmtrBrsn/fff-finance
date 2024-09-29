@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
 import { GoogleIcon } from '@shared/svg'
-import { Button } from 'react-aria-components'
+import { Button } from '@shared/react-aria'
 
 export const SignInWithGoogle = () => {
   const { loginWithGoogle } = useAuth().service
