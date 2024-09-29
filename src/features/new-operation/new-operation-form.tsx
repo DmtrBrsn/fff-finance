@@ -99,6 +99,8 @@ export const NewOperationForm = () => {
         value={op.sum}
         isRequired
         onChange={(e) => setOpAndDraft({ ...op, sum: e })}
+        // @ts-ignore
+        onFocus={e=>e.target.value=='0' && e.target.select()}
       />
       <TextField
         label='Description'

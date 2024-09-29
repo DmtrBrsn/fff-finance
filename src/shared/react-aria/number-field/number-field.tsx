@@ -25,7 +25,7 @@ export function NumberField(
         <Label>{label}</Label>
         <Group>
           <Button slot="decrement">-</Button>
-          <Input />
+          <Input/>
           <Button slot="increment">+</Button>
         </Group>
         {description && <Text slot="description">{description}</Text>}
