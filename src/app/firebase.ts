@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
-import {  getFirestore, initializeFirestore, memoryLocalCache, persistentLocalCache, persistentMultipleTabManager, persistentSingleTabManager } from 'firebase/firestore'
+import {  initializeFirestore, memoryLocalCache } from 'firebase/firestore'
 
 
 const firebaseConfig = {

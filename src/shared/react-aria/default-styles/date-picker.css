@@ -1,40 +1,24 @@
 .react-aria-DatePicker {
   color: var(--text-color);
 
+  .react-aria-Label {
+    cursor: default;
+  }
+
   .react-aria-Group {
     display: flex;
     width: fit-content;
     align-items: center;
   }
 
-  .react-aria-Button {
-    background: var(--highlight-background);
-    color: var(--highlight-foreground);
-    border: 2px solid var(--field-background);
-    forced-color-adjust: none;
-    border-radius: 4px;
-    border: none;
+  .react-aria-Button-icon {
     margin-left: -1.929rem;
     margin-right: calc(1.929rem - 1.429rem);
-    width: 1.429rem;
-    height: 1.429rem;
-    padding: 0;
-    font-size: 0.857rem;
-    box-sizing: content-box;
-
-    &[data-pressed] {
-      box-shadow: none;
-      background: var(--highlight-background);
-    }
-
-    &[data-focus-visible] {
-      outline: 2px solid var(--focus-ring-color);
-      outline-offset: 2px;
-    }
+    padding: 0.1rem;
   }
 
   .react-aria-DateInput {
-    padding: var(--gap-step);
+    padding: 0.3rem 1.929rem 0.3rem 0.3rem;
   }
 }
 

@@ -1,0 +1,97 @@
+.react-aria-Switch {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-step);
+  color: var(--text-color);
+  forced-color-adjust: none;
+
+  .indicator.s {
+    --height: 1.1rem;
+  }
+  .indicator.m {
+    --height: 1.3rem;
+  }
+  .indicator.l {
+    --height: 1.5rem;
+  }
+
+  .indicator {
+    --width: calc(var(--height) * 1.7);
+    --border: calc(var(--height) * 0.13);
+    width: var(--width);
+    height: var(--height);
+    border: var(--border) solid var(--gray-600);
+    background: var(--background-color);
+    border-radius: var(--height);
+    transition: all 200ms;
+    position: relative;
+    box-sizing: content-box;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      width: var(--height);
+      height: var(--height);
+      background: var(--gray-600);
+      border-radius: 50%;
+      transition: all 150ms;
+    }
+  }
+  
+  &[data-hovered] .indicator {
+    background-color: var(--highlight-hover);
+  }
+
+  &[data-pressed] .indicator {
+    border-color: var(--gray-300);
+    background: var(--gray-300);
+
+    &:before {
+      background-color: var(--gray-600);
+    }
+  }
+
+  &[data-selected] {
+    &[data-hovered] {
+      .indicator {
+        background-color: var(--gray-300);
+      }
+    }
+
+    .indicator {
+      border-color: var(--gray-600);
+      background: var(--gray-600);
+
+      &:before {
+        background: var(--background-color);
+        transform: translateX(calc(var(--width) - var(--height)));
+      }
+      
+    }
+
+    &[data-pressed] {
+      .indicator {
+        border-color: var(--gray-300);
+        background-color: var(--gray-300);
+      }
+    }
+  }
+
+  &[data-focus-visible] .indicator {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    color: var(--gray-300);
+
+    .indicator {
+      border-color: var(--gray-600);
+
+      &:before {
+        background: var(--gray-300);
+      }
+    }
+  }
+
+}

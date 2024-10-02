@@ -43,4 +43,19 @@
       color: var(--text-color-disabled);
     }
   }
+
+  .react-aria-TextArea {
+    &.none {
+      resize: none;
+    }
+    &.both {
+      resize: both;
+    }
+    &.vertical {
+      resize: vertical;
+    }
+    &.horizontal {
+      resize: horizontal;
+    }
+  }
 }

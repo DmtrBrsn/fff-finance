@@ -23,7 +23,7 @@
   background-color: var(--gray-300);
 
   &[aria-orientation=vertical] {
-    width: 0.1rem;
+    width: 0.15rem;
     margin: 0 var(--gap-step);
   }
 }
@@ -39,7 +39,7 @@
 .react-aria-Separator {
   &:not([aria-orientation=vertical]) {
     border: none;
-    height: 0.07rem;
+    height: 0.15rem;
     width: 100%;
     margin: var(--gap-step) 0;
   }

@@ -14,6 +14,11 @@ export interface TextFieldProps extends AriaTextFieldProps {
   errorMessage?: string | ((validation: ValidationResult) => string)
 }
 
+export interface TextAreaFieldProps extends TextFieldProps {
+  rows?: number,
+  resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+}
+
 export function TextField(
   { label, description, errorMessage, ...props }: TextFieldProps
 ) {
@@ -22,6 +27,24 @@ export function TextField(
       <AriaTextField {...props}>
         <Label>{label}</Label>
         <Input />
+        {description && <Text slot="description">{description}</Text>}
+        <FieldError>{errorMessage}</FieldError>
+      </AriaTextField>
+    )
+  )
+}
+
+export function TextAreaField(
+  { label, description, errorMessage, rows=4, resize='none', ...props }: TextAreaFieldProps
+) {
+  return (
+    (
+      <AriaTextField {...props}>
+        <Label>{label}</Label>
+        <TextArea
+          rows={rows}
+          className={'react-aria-TextArea' + ' ' + resize}
+        />
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaTextField>

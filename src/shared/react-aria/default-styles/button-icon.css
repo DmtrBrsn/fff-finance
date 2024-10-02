@@ -1,18 +1,18 @@
 .react-aria-Button-icon {
 
-  &.s {--size: 1.3rem;}
-  &.m {--size: 2rem;}
+  --size: 2rem;
+  &.s {--size: 1.5rem;}
   &.l {--size: 2.7rem;}
 
   width: var(--size);
   height: var(--size);
-  font-size: calc(var(--size) * 0.7);
+  font-size: calc(var(--size) * 0.6);
   background-color: transparent;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   font-weight: bold;
   color: var(--text-color);
-  padding: calc(var(--gap-step) / 2);
+  padding: calc(var(--size) * 0.15);
   user-select: none;
   border: unset;
   outline: none;
@@ -23,8 +23,8 @@
 
   svg {
     fill: var(--text-color);
-    height: calc(var(--size) * 0.7);
-    width: calc(var(--size) * 0.7);
+    height: calc(var(--size) * 0.75);
+    width: calc(var(--size) * 0.75);
   }
 
   &[data-hovered] {

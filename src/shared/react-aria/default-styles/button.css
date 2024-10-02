@@ -1,14 +1,13 @@
 .react-aria-Button {
   
-  &.primary {
-    --background: var(--button-background);
-  }
+  --background: var(--button-background);
+
   &.danger {
     --background: var(--red-200);
   }
 
+  --size: 1rem;
   &.s {--size: 0.8rem;}
-  &.m {--size: 1rem;}
   &.l {--size: 1.5rem;}
 
   color: var(--text-color);
@@ -23,7 +22,16 @@
   outline: none;
   padding: calc(var(--size) * 0.3) calc(var(--size) * 0.9);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
 
+  >svg {
+    fill: var(--color);
+    height: calc(var(--size) * 1.1);
+    width: calc(var(--size) * 1.1);
+  }
 
   &[data-hovered] {
     background: var(--highlight-hover);
@@ -43,16 +51,23 @@
   &[data-disabled]{
     border-color: var(--border-color-disabled);
     color: var(--text-color-disabled);
+    >svg {
+      fill: var(--text-color-disabled);
+    }
   }
 
   &[data-selected] {
-    &.primary {
-      background: var(--grey-hi-cont);
-      color: var(--grey-very-low-cont)
+    background: var(--gray-600);
+    color: var(--gray-50);
+    >svg {
+      fill: var(--gray-50);
     }
     &.danger {
       background: var(--red-500);
-      color: var(--gray-100)
+      color: var(--gray-100);
+      >svg {
+        fill: var(--gray-100);
+      }
     }
   }
 }

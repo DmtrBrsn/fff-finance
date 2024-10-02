@@ -1,4 +1,3 @@
-import { CancelIcon } from '@shared/svg'
 import {
   Label,
   Tag as AriaTag,
@@ -7,9 +6,9 @@ import {
   TagList,
   TagListProps,
   TagProps,
-  Text
+  Text,
+  Button
 } from 'react-aria-components'
-import { ButtonIcon } from '../button-icon/button-icon'
 
 export interface TagGroupProps<T>
   extends
@@ -59,7 +58,7 @@ export function Tag({ children, ...props }: TagProps) {
         {({ allowsRemoving }) => (
           <>
             {children}
-            {allowsRemoving && <ButtonIcon size='s' slot="remove"><CancelIcon/></ButtonIcon>}
+            {allowsRemoving && <Button slot="remove">✖</Button>}
           </>
         )}
       </AriaTag>

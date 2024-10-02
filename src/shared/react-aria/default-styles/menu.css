@@ -1,0 +1,114 @@
+.react-aria-Menu {
+  max-height: inherit;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 0.1rem;
+  min-width: 10rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.react-aria-MenuItem {
+  margin: 0.1rem;
+  padding: var(--gap-step) calc(var(--gap-step) * 2);
+  border-radius: calc(var(--app-border-radius) * 0.8);
+  outline: none;
+  cursor: default;
+  color: var(--text-color);
+  font-size: 1rem;
+  position: relative;
+  display: grid;
+  grid-template-areas: "label kbd"
+                      "desc  kbd";
+  align-items: center;
+  column-gap: 1.5rem;
+  forced-color-adjust: none;
+
+  &[data-focused] {
+    background: var(--highlight-background);
+    color: var(--highlight-foreground);
+  }
+  >svg {
+    fill: var(--text-color);
+  }
+}
+
+.react-aria-MenuItem {
+  &[data-selection-mode] {
+    padding-left: 2rem;
+
+    &::before {
+      position: absolute;
+      left: var(--gap-step);
+      font-weight: 600;
+    }
+
+    &[data-selection-mode=multiple][data-selected]::before {
+      content: '✓';
+      content: '✓' / '';
+      alt: ' ';
+      position: absolute;
+      left: var(--gap-step);
+      font-weight: 600;
+    }
+
+    &[data-selection-mode=single][data-selected]::before {
+      content: '●';
+      content: '●' / '';
+      transform: scale(0.7)
+    }
+  }
+}
+
+.react-aria-MenuItem[href] {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.react-aria-Menu {
+  .react-aria-Section:not(:first-child) {
+    margin-top: 0.9rem;
+  }
+
+  .react-aria-Header {
+    font-size: 1.143rem;
+    font-weight: bold;
+    padding: 0 0.714rem;
+  }
+
+  .react-aria-Separator {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.1rem 0.3rem;
+  }
+}
+
+.react-aria-MenuItem {
+  [slot=label] {
+    font-weight: bold;
+    grid-area: label;
+  }
+
+  [slot=description] {
+    font-size: small;
+    grid-area: desc;
+  }
+
+  kbd {
+    grid-area: kbd;
+    font-family: monospace;
+    text-align: end;
+  }
+
+  &[data-disabled] {
+    color: var(--text-color-disabled);
+  }
+}
+
+.react-aria-Popover[data-trigger=SubmenuTrigger][data-placement="right"] {
+  margin-left: -5px;
+}
+
+.react-aria-Popover[data-trigger=SubmenuTrigger][data-placement="left"] {
+  margin-right: -5px;
+}

@@ -1,5 +1,4 @@
 import {
-  Button,
   Calendar,
   CalendarCell,
   CalendarGrid,
@@ -16,7 +15,9 @@ import {
   Popover,
   Text,
   ValidationResult
-} from 'react-aria-components';
+} from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon';
+import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/svg'
 
 export interface DatePickerProps<T extends DateValue>
   extends AriaDatePickerProps<T> {
@@ -36,7 +37,7 @@ export function DatePicker<T extends DateValue>(
           <DateInput>
             {(segment) => <DateSegment segment={segment} />}
           </DateInput>
-          <Button>▼</Button>
+          <ButtonIcon size='s'><CalendarMonth/></ButtonIcon>
         </Group>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
@@ -44,11 +45,11 @@ export function DatePicker<T extends DateValue>(
           <Dialog>
             <Calendar>
               <header>
-                <Button slot="previous">◀</Button>
+                <ButtonIcon slot="previous"><ChevronBack/></ButtonIcon>
                 <Heading />
-                <Button slot="next">▶</Button>
+                <ButtonIcon slot="next"><ChevronForward/></ButtonIcon>
               </header>
-              <CalendarGrid>
+              <CalendarGrid weekdayStyle='short'>
                 {(date) => <CalendarCell date={date} />}
               </CalendarGrid>
             </Calendar>
@@ -56,5 +57,5 @@ export function DatePicker<T extends DateValue>(
         </Popover>
       </AriaDatePicker>
     )
-  );
+  )
 }
