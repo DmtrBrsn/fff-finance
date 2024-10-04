@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
-import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
+import { DialogTrigger, Form } from 'react-aria-components'
+import { Button, Popover, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const UpdateEmail = () => {
@@ -34,11 +34,15 @@ export const UpdateEmail = () => {
     }).finally(() => setLoading(false))
   }
 
-  return active ?
-    <div className="auth-form-container">
-      <Form onSubmit={handleSubmit}>
-        {error && <div role="alert">{error}</div>}
-        <TextField
+  return (
+    <DialogTrigger isOpen={active} onOpenChange={setActive}>
+    <Button onPress={()=>setActive(true)} isDisabled={loading}>
+      Update Email
+    </Button>
+      <Popover>
+        <Form onSubmit={handleSubmit}>
+          {error && <div role="alert">{error}</div>}
+          <TextField
           label="New email"
           name="newEmail"
           type="email"
@@ -50,21 +54,16 @@ export const UpdateEmail = () => {
           isDisabled={loading}
           isRequired
         />
-        <ButtonGroup isDisabled={loading}>
-          <Button type='submit'>
-            {loading ? 'Updating...' : 'Update'}
-          </Button>
-          <Button onPress={handleCancel}>
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </Form>
-    </div>
-    :
-    <Button
-      onPress={()=>setActive(true)}
-      isDisabled={loading}
-    >
-      Update Email
-    </Button>
+          <ButtonGroup isDisabled={loading}>
+            <Button type='submit'>
+              {loading ? 'Updating...' : 'Update'}
+            </Button>
+            <Button onPress={handleCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </Form>
+      </Popover>
+    </DialogTrigger>
+  )
 }

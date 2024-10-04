@@ -4,23 +4,14 @@
 
 .op-date {
   width: 11rem;
-  align-items: center;
 }
 
 .op-description {
   width: 12rem;
-
-  input[type="text"] {
-    width: 12rem;
-  }
 }
 
 .op-sum {
-  width: 7rem;
-
-  input[type="number"] {
-    width: 7rem;
-  }
+  width: 12rem;
 }
 
 .op-category {
@@ -40,9 +31,6 @@
 }
 
 .op-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   width: 4rem;
 }
 
@@ -56,5 +44,5 @@
 }
 
 .op-income-section {
-  background-color: var(--green-100);
+  background-color: var(--income-background);
 }

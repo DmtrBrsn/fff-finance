@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { useAuth } from './auth-context'
-import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
+import { DialogTrigger, Form } from 'react-aria-components'
+import { Button, Popover, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'
+import { PersonOff } from '@shared/svg'
 
 export const DeleteUser = () => {
   const { userService, currentUser } = useAuth()
@@ -40,38 +41,37 @@ export const DeleteUser = () => {
     }).finally(() => setLoading(false))
   }
 
-  return active ?
-    <div className="auth-form-container">
-      <Form onSubmit={handleSubmit}>
-        {error && <div role="alert">{error}</div>}
-        <TextField
-          label="Please enter your email:"
-          name="confirmEmail"
-          type="email"
-          inputMode="email"
-          value={formState.confirmEmail}
-          onChange={
-            (confirmEmail) => setFormState((prevProps) => ({ ...prevProps, confirmEmail }))
-          }
-          isDisabled={loading}
-          isRequired
-          autoComplete='off'
-        />
-        <ButtonGroup isDisabled={loading}>
-          <Button type='submit'>
-            {loading ? 'Deleting user...' : 'Delete user'}
-          </Button>
-          <Button onPress={handleCancel}>
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </Form>
-    </div>
-    :
-    <Button
-      onPress={()=>setActive(true)}
-      isDisabled={loading}
-    >
-      Delete user
-    </Button>
+  return (
+    <DialogTrigger isOpen={active} onOpenChange={setActive}>
+      <Button variant='danger' onPress={() => setActive(true)} isDisabled= {loading}>
+        <PersonOff/>Delete user
+      </Button>
+      <Popover>
+        <Form onSubmit={handleSubmit}>
+          {error && <div role="alert">{error}</div>}
+          <TextField
+            label="Please enter your email:"
+            name="confirmEmail"
+            type="email"
+            inputMode="email"
+            value={formState.confirmEmail}
+            onChange={
+              (confirmEmail) => setFormState((prevProps) => ({ ...prevProps, confirmEmail }))
+            }
+            isDisabled={loading}
+            isRequired
+            autoComplete='off'
+          />
+          <ButtonGroup isDisabled={loading}>
+            <Button variant='danger' type='submit'>
+              {loading ? 'Deleting...' : 'Delete'}
+            </Button>
+            <Button onPress={handleCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </Form>
+      </Popover>
+    </DialogTrigger>
+  )
 }

@@ -37,7 +37,7 @@ main {
   height: calc(100vh - var(--header-height));
 }
 
-.custom-scrollbar, main, .fl-list [data-testid="virtuoso-scroller"] {
+.custom-scrollbar, main, .fl-list [data-testid="virtuoso-scroller"], .react-aria-ListBox {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);

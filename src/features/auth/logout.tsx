@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { useAuth } from './auth-context'
 import { Button } from '@shared/react-aria'
+import { Logout as Icon } from '@shared/svg'
 
 export const Logout = () => {
   const { logout } = useAuth().service
@@ -22,6 +23,6 @@ export const Logout = () => {
     onPress={handleClick}
     isDisabled={loading}
   >
-    {loading ? "...Logging out" : "Log out"}
+    <Icon/>{loading ? "...Logging out" : "Log out"}
   </Button>
 }

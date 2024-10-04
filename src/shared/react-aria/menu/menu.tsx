@@ -1,3 +1,4 @@
+import { ArrowDown } from '@shared/svg';
 import {
   Button,
   Menu,
@@ -19,7 +20,7 @@ export function MenuButton<T extends object>(
 ) {
   return (
     <MenuTrigger {...props}>
-      <Button>{label}</Button>
+      <Button>{label}<ArrowDown/></Button>
       <Popover>
         <Menu {...props}>
           {children}

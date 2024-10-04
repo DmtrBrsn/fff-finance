@@ -1,16 +1,14 @@
 import { useMemo, useState } from 'react'
 import { useOperationsGet, getThisMonthOpParams, useOperationsBatchDelete } from '@entities/operations'
 import { useOpsListStore } from "../operations-list-store"
-import { Checkbox, DeleteIcon, FilterListOff } from '@shared/svg'
+import { Checkbox, DeleteIcon, FilterListOff, Refresh } from '@shared/svg'
 import { toast } from 'react-toastify'
 import { numToFixedStr } from '@shared/utils'
 import { Toolbar } from 'react-aria-components'
 import { Button, ButtonIcon, DatePicker, ToggleButtonIcon } from '@shared/react-aria'
-import { useQueryClient } from '@tanstack/react-query'
 import { parseDate } from '@internationalized/date'
 
 export const OperationsListToolbar = () => {
-  const queryClient = useQueryClient()
   const {
     params,
     setParams,
@@ -50,10 +48,6 @@ export const OperationsListToolbar = () => {
     setParams(thisMparams)
   }
 
-  const refresh = () => {
-    queryClient.invalidateQueries({ queryKey: ['operations'] })
-  }
-
   return (
     <Toolbar>
       <ToggleButtonIcon
@@ -73,7 +67,7 @@ export const OperationsListToolbar = () => {
         value={parseDate(to)}
         onChange={e => setTo(e.toString())}
       />
-      <Button onPress={fetch}>Fetch</Button>
+      <Button onPress={fetch}><Refresh/>Fetch</Button>
       <Button onPress={setThisM}>This M</Button>
       <ButtonIcon
         onPress={resetFiltersAndSort}
@@ -89,10 +83,6 @@ export const OperationsListToolbar = () => {
       {ops && ' sum: ' + numToFixedStr(opsSum)}
       {selected.length > 0 && ' selected: ' + selected.length}
       {selected.length > 0 && ' sum: ' + numToFixedStr(selectedSum)}
-      <ButtonIcon
-        onPress={refresh}
-        aria-label={'Обновить'}
-      >o</ButtonIcon>
     </Toolbar>
   )
 }

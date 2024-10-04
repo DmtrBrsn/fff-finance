@@ -5,7 +5,8 @@ import {
   Text,
   TextField as AriaTextField,
   TextFieldProps as AriaTextFieldProps,
-  ValidationResult
+  ValidationResult,
+  TextArea
 } from 'react-aria-components'
 
 export interface TextFieldProps extends AriaTextFieldProps {

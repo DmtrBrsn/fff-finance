@@ -11,13 +11,14 @@ import {
 } from 'react-aria-components'
 
 export interface NumberFieldProps extends AriaNumberFieldProps {
+  size?: number
   label?: string
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
 }
 
 export function NumberField(
-  { label, description, errorMessage, ...props }: NumberFieldProps
+  { size, label, description, errorMessage, ...props }: NumberFieldProps
 ) {
   return (
     (
@@ -25,7 +26,7 @@ export function NumberField(
         <Label>{label}</Label>
         <Group>
           <Button slot="decrement">-</Button>
-          <Input/>
+          <Input size={size}/>
           <Button slot="increment">+</Button>
         </Group>
         {description && <Text slot="description">{description}</Text>}

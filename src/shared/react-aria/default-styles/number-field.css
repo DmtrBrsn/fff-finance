@@ -42,7 +42,6 @@
     font-size: 1rem;
     padding: var(--gap-step);
     outline: none;
-    width: 8rem;
     flex: 1;
   }
 

@@ -10,7 +10,8 @@ import { FlCell, FlRow } from "@shared/fl-list";
 import { DateUtils } from "@shared/utils";
 
 import './operation-section.css'
-import { ButtonIcon, Checkbox } from "@shared/react-aria";
+import { ButtonIcon, Checkbox, DatePicker, NumberField, Select, SelectItem, TextField } from "@shared/react-aria";
+import { parseDate } from "@internationalized/date";
 
 export const OperationSectionEdit = (
   { op, disableUpd }: { op: Operation, disableUpd: () => void }
@@ -87,42 +88,39 @@ export const OperationSectionEdit = (
   return (
     <FlRow className={isInc ? 'op-income-section' : ''}>
       <FlCell className="op-date">
-        <input type='date'
-          value={updOp.date==undefined ? '' : updOp.date}
-          onChange={(e) => setUpdOp({ ...updOp, date: e.target.value})}
+        <DatePicker
+          value={updOp.date ? parseDate(updOp.date) : undefined}
+          isRequired
+          onChange={(d) => setUpdOp({ ...updOp, date: DateUtils.isoStrToInpDate(d.toString()) })}
         />
       </FlCell>
       <FlCell className="op-sum">
-        <input
-          type='number'
-          min="0"
-          step="0.01"
+        <NumberField
+          size={4}
+          step={0.01}
           value={updOp.sum}
-          onChange={(e) => setUpdOp({...updOp, sum: parseFloat(e.target.value)})}
+          onChange={(sum) => setUpdOp({ ...updOp, sum })}
+          minValue={0}
         />
       </FlCell>
       <FlCell className="op-description">
-        <input
-          type='text'
+        <TextField
           name="description"
           minLength={1}
           value={updOp.description}
-          onChange={(e) => setUpdOp({ ...updOp, description: e.target.value })}
+          onChange={(description) => setUpdOp({ ...updOp, description })}
         />
       </FlCell>
       <FlCell className="op-category">
-        <select
-          value={updOp.idCategory}
-          onChange={(e) => setUpdOp({ ...updOp, idCategory: cats?.find(c=>c.id===e.target.value)?.id})}
-        >
-          {cats?.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-        </select>
+        <Select items={cats} selectedKey={updOp.idCategory} onSelectionChange={(key) => setUpdOp({ ...updOp, idCategory: key as string})}>
+        {(cat) => <SelectItem id={cat.id}>{cat.name}</SelectItem>}
+        </Select>
       </FlCell>
       <FlCell className="op-is-income">
         {isInc==undefined ? '' : isInc ? 'Income' : 'Expense'}
       </FlCell>
       <FlCell className="op-is-plan">
-        <Checkbox isSelected={updOp.isPlan} aria-label='is plan' onChange={handleIsPlanUpdate} />
+        <Checkbox isSelected={updOp.isPlan} aria-label='is plan' onChange={handleIsPlanUpdate}/>
       </FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">

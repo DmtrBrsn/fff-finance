@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from './auth-context'
 import { firebasePasswordMinLength } from '@shared/contants'
-import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
+import { DialogTrigger, Form } from 'react-aria-components'
+import { Button, Popover, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const UpdatePassword = () => {
@@ -36,12 +36,15 @@ export const UpdatePassword = () => {
       setError(`Password update failed: ${err}`)
     }).finally(() => setLoading(false))
   }
-
-  return active ? 
-    <div className="auth-form-container">
-      <Form onSubmit={handleSubmit}>
-        {error && <div role="alert">{error}</div>}
-        <TextField
+  return (
+    <DialogTrigger isOpen={active} onOpenChange={setActive}>
+    <Button onPress={()=>setActive(true)} isDisabled={loading}>
+      Update Password
+    </Button>
+      <Popover>
+        <Form onSubmit={handleSubmit}>
+          {error && <div role="alert">{error}</div>}
+          <TextField
           label="New password"
           name="newPassword"
           type="password"
@@ -62,13 +65,8 @@ export const UpdatePassword = () => {
             Cancel
           </Button>
         </ButtonGroup>
-      </Form>
-    </div>
-    :
-    <Button
-      onPress={()=>setActive(true)}
-      isDisabled={loading}
-    >
-      Update Password
-    </Button>
+        </Form>
+      </Popover>
+    </DialogTrigger>
+  )
 }

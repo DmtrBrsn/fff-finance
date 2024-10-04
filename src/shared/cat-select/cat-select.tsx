@@ -29,7 +29,7 @@ export const CatSelect = (
   return (
     <div className={'cat-select'}>
       <TagGroup
-        label="Выбор категории"
+        label="Category"
         selectionMode="single"
         renderEmptyState={emptyState}
         items={catsOrdered}
@@ -38,7 +38,7 @@ export const CatSelect = (
         description={getIncExpStr()}
         tagListClassName="tag-list custom-scrollbar"
       >
-        {(item) => <Tag>{item.name}</Tag>}
+        {(item) => <Tag className={'react-aria-Tag'+(item.isIncome ? ' cat-income-tag' : '')}>{item.name}</Tag>}
       </TagGroup>
     </div>
   )

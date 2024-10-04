@@ -5,6 +5,7 @@ import { importCategories, QUERY_KEY_CATEGORIES } from '@entities/categories'
 import { Spinner } from '@shared/spinner'
 import { DropZone, FileTrigger } from 'react-aria-components'
 import { Button } from '@shared/react-aria'
+import { FolderOpen } from '@shared/svg'
 
 export const ImportCategories = () => {
   const queryClient = useQueryClient()
@@ -43,7 +44,7 @@ export const ImportCategories = () => {
                 ref={ref}
                 acceptedFileTypes={['.json']}
               >
-                <Button>Select a file</Button>
+                <Button><FolderOpen/>Select a file</Button>
                 Or drop
               </FileTrigger>
             </DropZone>

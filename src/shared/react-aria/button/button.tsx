@@ -1,8 +1,8 @@
 import { Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps } from 'react-aria-components'
 
 type ButtonProps = {
-  variant?: 'primary' | 'danger',
-  size?: 's' | 'm' | 'l'
+  variant?: 'primary' | 'danger' | 'transparent',
+  size?: 's' | 'm' | 'l' | 'compact'
 } & RACButtonProps
 
 export function Button(

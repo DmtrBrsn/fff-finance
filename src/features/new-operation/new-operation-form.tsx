@@ -14,6 +14,7 @@ import { parseDate } from '@internationalized/date'
 import { CatSelect } from '@shared/cat-select'
 
 import './new-operation-form.css'
+import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const NewOperationForm = () => {
   const operationDraft = getOpDraft()
@@ -33,7 +34,7 @@ export const NewOperationForm = () => {
     every: undefined,
     everyNumber: 1,
     times: 1,
-    endsOn: DateUtils.dateToIsoStr(addMonths(op.date, 1)),
+    endsOn: DateUtils.formatDateForInput(addMonths(op.date, 1)),
     weekdays: [weekdays[getDay(op.date)]],
     useTimes: true
   }
@@ -90,7 +91,7 @@ export const NewOperationForm = () => {
         value={parseDate(op.date)}
         isRequired
         withButtons
-        onChange={(d) => updateOpDate(d.toString())}
+        onChange={(d) => updateOpDate(DateUtils.isoStrToInpDate(d.toString()))}
       />
       <NumberField
         label='Sum'
@@ -119,8 +120,10 @@ export const NewOperationForm = () => {
         onChange={(isPlan)=> setOpAndDraft({...op, isPlan})}
       >Plan</Checkbox>
       {op.isPlan && <RecurrentOpSetup op={op} repeatOptions={repeatOptions} setRepeatOptions={setRepeatOptions} />}
-      <Button type="submit" isDisabled={addHook.isPending}> {addHook.isPending ? <Spinner /> : 'Save'}</Button>
-      <Button type="button" isDisabled={addHook.isPending || operationDraft==null} onPress={reset}>Reset</Button>
+      <ButtonGroup>
+        <Button type="submit" isDisabled={addHook.isPending}> {addHook.isPending ? <Spinner /> : 'Save'}</Button>
+        <Button type="button" isDisabled={addHook.isPending || operationDraft==null} onPress={reset}>Reset</Button>
+      </ButtonGroup>
     </form>
   )
 }

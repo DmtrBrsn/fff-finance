@@ -27,6 +27,9 @@
   &[data-focused] {
     background: var(--highlight-background);
     color: var(--highlight-foreground);
+    >svg {
+      fill: var(--highlight-foreground);
+    }
   }
   >svg {
     fill: var(--text-color);

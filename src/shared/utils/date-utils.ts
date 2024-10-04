@@ -14,15 +14,15 @@ export class DateUtils {
 	}
 	
 	static tsToDateStr(ts: Timestamp) {
-		return ts.toDate().toLocaleDateString('ru-RU')
+		return ts.toDate().toLocaleDateString(undefined, {dateStyle:'medium'})
 	}
 
 	static isoStrToLocal(isoStr: string) {
-		return new Date(isoStr).toLocaleDateString('ru-RU')
+		return new Date(isoStr).toLocaleDateString(undefined, {dateStyle:'medium'})
 	}
 
 	static tsToDateTimeStr(ts: Timestamp) {
-		return ts.toDate().toLocaleString('ru-RU')
+		return ts.toDate().toLocaleString(undefined, {dateStyle:'medium'})
 	}
 
 	static isoStrToTs(isoStr: string) {

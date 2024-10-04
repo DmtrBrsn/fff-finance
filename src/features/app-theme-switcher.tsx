@@ -1,13 +1,15 @@
+import { RadioGroup } from '@shared/react-aria'
 import { updateRootThemeAttr } from '@shared/utils'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Radio } from 'react-aria-components'
 
 export const AppThemeSwitcher = () => {
 	
   const initialTheme = localStorage.getItem('appTheme')
   const [switcherValue, setSwitcherValue] = useState<string>(initialTheme ?? 'auto')
 	
-	function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newTheme = e.target.value
+	function handleChange(e: string) {
+    const newTheme = e
     setSwitcherValue(newTheme)
     updateRootThemeAttr(newTheme)
     localStorage.setItem('appTheme', newTheme)
@@ -15,12 +17,11 @@ export const AppThemeSwitcher = () => {
 	
   return (
     <div className='settings-section-container'>
-      <label>Theme:</label>
-      <select value={switcherValue} onChange={handleChange}>
-        <option value="auto">Auto</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
+      <RadioGroup label='Theme' orientation='horizontal' value={switcherValue} onChange={handleChange}>
+        <Radio value='auto'>Auto</Radio>
+        <Radio value='light'>Light</Radio>
+        <Radio value='dark'>Dark</Radio>
+      </RadioGroup>
     </div>
   )
 }

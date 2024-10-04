@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { firebasePasswordMinLength } from '@shared/contants'
 import { Form } from 'react-aria-components'
 import { Button, TextField } from '@shared/react-aria'
+import { Login } from '@shared/svg'
 
 export const LoginWithEmailAndPassword = () => {
   const { loginWithEmailAndPassword } = useAuth().service
@@ -59,7 +60,7 @@ export const LoginWithEmailAndPassword = () => {
           type='submit'
           isDisabled={loading}
         >
-          {loading ? 'Logging in...' : 'Log in'}
+          <Login/>{loading ? 'Logging in...' : 'Log in'}
         </Button>
       </Form>
     </div>

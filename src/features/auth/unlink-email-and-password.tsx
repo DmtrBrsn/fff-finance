@@ -20,6 +20,7 @@ export const UnlinkEmailAndPassword = () => {
 
   return (
     <Button
+      variant="danger"
       onPress={handleClick}
       isDisabled={loading}
     >

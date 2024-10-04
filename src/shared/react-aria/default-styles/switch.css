@@ -20,7 +20,7 @@
     --border: calc(var(--height) * 0.13);
     width: var(--width);
     height: var(--height);
-    border: var(--border) solid var(--gray-600);
+    border: var(--border) solid var(--highlight-background);
     background: var(--background-color);
     border-radius: var(--height);
     transition: all 200ms;
@@ -32,35 +32,35 @@
       position: absolute;
       width: var(--height);
       height: var(--height);
-      background: var(--gray-600);
+      background: var(--highlight-background);
       border-radius: 50%;
       transition: all 150ms;
     }
   }
   
-  &[data-hovered] .indicator {
+  /* &[data-hovered] .indicator {
     background-color: var(--highlight-hover);
-  }
+  } */
 
   &[data-pressed] .indicator {
-    border-color: var(--gray-300);
-    background: var(--gray-300);
+    border-color: var(--highlight-background-pressed);
+    background: var(--highlight-background-pressed);
 
     &:before {
-      background-color: var(--gray-600);
+      background-color: var(--highlight-background);
     }
   }
 
   &[data-selected] {
-    &[data-hovered] {
+    /* &[data-hovered] {
       .indicator {
-        background-color: var(--gray-300);
+        background-color: var(--blue-200);
       }
-    }
+    } */
 
     .indicator {
-      border-color: var(--gray-600);
-      background: var(--gray-600);
+      border-color: var(--highlight-background);
+      background: var(--highlight-background);
 
       &:before {
         background: var(--background-color);
@@ -71,8 +71,8 @@
 
     &[data-pressed] {
       .indicator {
-        border-color: var(--gray-300);
-        background-color: var(--gray-300);
+        border-color: var(--highlight-background-pressed);
+        background-color: var(--highlight-background-pressed);
       }
     }
   }
