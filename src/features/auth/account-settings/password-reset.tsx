@@ -33,6 +33,7 @@ export const PasswordReset = () => {
       {error && <span className='auth-error-text'>{ error }</span>}
       <Form onSubmit={handleSubmit}>
         <TextField
+          autoFocus
           label="Email"
           name="email"
           type="email"

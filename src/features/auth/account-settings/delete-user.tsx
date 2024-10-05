@@ -50,6 +50,7 @@ export const DeleteUser = () => {
         <Form onSubmit={handleSubmit}>
           {error && <div role="alert">{error}</div>}
           <TextField
+            autoFocus
             label="Please enter your email:"
             name="confirmEmail"
             type="email"

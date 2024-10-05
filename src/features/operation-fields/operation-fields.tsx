@@ -1,6 +1,6 @@
 import { getIncExpStr, useCategoriesGet } from "@entities/categories"
 import { parseDate } from "@internationalized/date"
-import { Checkbox, ComboBox, ComboBoxItem, DateField, NumberField, TextField } from "@shared/react-aria"
+import { Checkbox, DateField, NumberField, Select, SelectItem, TextField } from "@shared/react-aria"
 import { Id } from "@shared/types/api-types"
 import { DateUtils } from "@shared/utils"
 
@@ -25,6 +25,7 @@ export const OpSumField = (
 ) => {
   return (
     <NumberField
+      size={4}
       label='Sum'
       minValue={0}
       step={0.01}
@@ -70,16 +71,15 @@ export const OpCategorySelectField = (
 ) => {
   const { data: cats, isFetching } = useCategoriesGet(false)
   return (
-    <ComboBox
+    <Select
       label="Category"
       items={cats}
-      allowsCustomValue={false}
       selectedKey={idCat}
       onSelectionChange={(key) => setIdCat(key as Id)}
       description={getIncExpStr(cats?.find(cat => cat.id === idCat))}
       isDisabled={isFetching}
     >
-      {(cat) => <ComboBoxItem className={(cat.isIncome ? 'income-background ' : '') + 'react-aria-ListBoxItem'} id={cat.id}>{cat.name}</ComboBoxItem>}
-    </ComboBox>
+      {(cat) => <SelectItem className={(cat.isIncome ? 'income-background ' : '') + 'react-aria-ListBoxItem'} id={cat.id}>{cat.name}</SelectItem>}
+    </Select>
   )
 }

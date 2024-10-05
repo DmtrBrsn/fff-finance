@@ -43,17 +43,18 @@ export const UpdateEmail = () => {
         <Form onSubmit={handleSubmit}>
           {error && <div role="alert">{error}</div>}
           <TextField
-          label="New email"
-          name="newEmail"
-          type="email"
-          inputMode="email"
-          value={formState.newEmail}
-          onChange={
-            (newEmail) => setFormState((prevProps) => ({ ...prevProps, newEmail }))
-          }
-          isDisabled={loading}
-          isRequired
-        />
+            autoFocus
+            label="New email"
+            name="email"
+            type="email"
+            inputMode="email"
+            value={formState.newEmail}
+            onChange={
+              (newEmail) => setFormState((prevProps) => ({ ...prevProps, newEmail }))
+            }
+            isDisabled={loading}
+            isRequired
+          />
           <ButtonGroup isDisabled={loading}>
             <Button type='submit'>
               {loading ? 'Updating...' : 'Update'}

@@ -45,26 +45,27 @@ export const UpdatePassword = () => {
         <Form onSubmit={handleSubmit}>
           {error && <div role="alert">{error}</div>}
           <TextField
-          label="New password"
-          name="newPassword"
-          type="password"
-          inputMode="text"
-          value={formState.newPassword}
-          onChange={
-            (newPassword) => setFormState((prevProps) => ({ ...prevProps, newPassword }))
-          }
-          minLength={firebasePasswordMinLength}
-          isDisabled={loading}
-          isRequired
-        />
-        <ButtonGroup isDisabled={loading}>
-          <Button type='submit'>
-            {loading ? 'Updating...' : 'Update'}
-          </Button>
-          <Button onPress={handleCancel}>
-            Cancel
-          </Button>
-        </ButtonGroup>
+            autoFocus
+            label="New password"
+            name="password"
+            type="password"
+            inputMode="text"
+            value={formState.newPassword}
+            onChange={
+              (newPassword) => setFormState((prevProps) => ({ ...prevProps, newPassword }))
+            }
+            minLength={firebasePasswordMinLength}
+            isDisabled={loading}
+            isRequired
+          />
+          <ButtonGroup isDisabled={loading}>
+            <Button type='submit'>
+              {loading ? 'Updating...' : 'Update'}
+            </Button>
+            <Button onPress={handleCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
         </Form>
       </Popover>
     </DialogTrigger>
