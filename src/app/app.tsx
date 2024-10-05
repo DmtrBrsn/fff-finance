@@ -1,6 +1,6 @@
 import { Router } from './router'
 import { AuthProvider } from '@features/auth'
-import { ToastContainerDefault } from '@shared/toast-container-default'
+import { ToastContainerDefault } from '@app/toast-container-default'
 import { updateRootThemeAttr } from '@shared/utils'
 import { Header } from '@widgets/header'
 

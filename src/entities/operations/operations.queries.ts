@@ -13,7 +13,8 @@ export function useOperationsGet(params: GetOpsParams,  enabled=false) {
     queryKey: [QUERY_KEY_OPERATIONS, params],
     queryFn: ()=>getOperations(params),
     enabled,
-    staleTime: Infinity
+    staleTime: Infinity,
+    retry: 2,
   })
   return { isPending, isFetching, isError, data, error, refetch }
 }

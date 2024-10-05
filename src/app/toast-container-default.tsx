@@ -1,7 +1,7 @@
 import { Slide, ToastContainer } from 'react-toastify'
-import { CloseIcon } from './svg'
+import { CloseIcon } from '../shared/svg'
 import 'react-toastify/dist/ReactToastify.css'
-import { ButtonIcon } from './react-aria'
+import { ButtonIcon } from '../shared/react-aria'
 import { PressEvent } from 'react-aria-components'
 
 const CloseBtn = ({ closeToast }: { closeToast: (e: PressEvent) => void }) => {

@@ -1,5 +1,5 @@
 import { useCategoriesGet } from "@entities/categories"
-import { NewOperationForm } from "@features/new-operation"
+import { NewOperationForm } from "@features/new-operation-form"
 import { OperationsLatest } from "@features/operations-latest"
 
 export const NewOperation = () => {

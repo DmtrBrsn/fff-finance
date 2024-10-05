@@ -79,3 +79,15 @@ export const FlCell = (
     </span>
   )
 }
+
+export const FlNoData = ({ children }: FlProps) => {
+  return (
+    <div className={
+      'fl-cell' + 
+      ' ' + 'center' + 
+      ' ' + 'fl-no-data'
+    }>
+      {children}
+    </div>
+  )
+}

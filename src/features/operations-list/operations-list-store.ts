@@ -2,21 +2,16 @@ import { create } from 'zustand'
 import { GetOpsDatesParams, getThisMonthOpParams, OpFilterBy, OpFilterFields, OpSortableFields, OpSortBy, type Operation } from '@entities/operations'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-// type BeingEdited = {id: Operation['id'], field: OpEditableFields} | null
-type BeingEdited = Operation['id'] | null
-
 type OpsListStore = {
   params: GetOpsDatesParams
   selectMode: boolean
   selected: Operation['id'][]
   sortOptions: OpSortBy[]
   filterOptions: OpFilterBy[]
-  beingEdited: BeingEdited
   filterFormOpenFor: OpFilterFields | null
 
   setParams: (params: GetOpsDatesParams) => void
   setSelectMode: (selectMode: boolean) => void
-  setBeingEdited: (beingEdited: BeingEdited) => void
   setSort: (sortBy: OpSortBy) => void
   removeSort: (field?: OpSortableFields) => void
   setFilter: (filterBy: OpFilterBy) => void
@@ -34,12 +29,10 @@ export const useOpsListStore = create<OpsListStore>()(
       selected: [],
       sortOptions: [],
       filterOptions: [],
-      beingEdited: null,
       filterFormOpenFor: null,
 
       setParams: (params) => set({ params }),
       setSelectMode: (selectMode) => set({ selectMode }),
-      setBeingEdited: (beingEdited) => set({ beingEdited }),
       setSort: (sortBy) => set((state) => {
         if (state.sortOptions.some(s => s.field === sortBy.field)) {
           return { sortOptions: state.sortOptions.map(s => s.field === sortBy.field ? sortBy : s) }

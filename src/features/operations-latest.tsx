@@ -1,17 +1,13 @@
-import { useState } from "react"
 import { OperationSection } from "./operation-section/operation-section"
-import { OperationSectionEdit } from "./operation-section/operation-section-edit"
-import { Operation, useOperationsGet, getLatestOpsParams } from "@entities/operations"
+import { useOperationsGet, getLatestOpsParams } from "@entities/operations"
 import { Spinner } from "@shared/spinner"
 import { FlBody, FlList, FlTitle } from "@shared/fl-list"
 import { DateUtils } from "@shared/utils"
 
 export const OperationsLatest = () => {
-  const [updId, setUpdId] = useState<Operation['id'] | null>(null)
-  const disableUpd = ()=> setUpdId(null)
-
-  const { data: ops, isFetching } = useOperationsGet(getLatestOpsParams(), true )
+  const { data: ops, isFetching, isError, error } = useOperationsGet(getLatestOpsParams(), true )
   
+  if (isError) return <p>Unable to get operations: {error?.message}</p>
   if (isFetching || ops===undefined) return <Spinner />
 
   const latestOps = [...ops].sort((a, b) => DateUtils.isoStrToTime(b.created) - DateUtils.isoStrToTime(a.created)).slice(0, 4)
@@ -21,14 +17,7 @@ export const OperationsLatest = () => {
     <FlList>
       <FlTitle>Last operations:</FlTitle>
       <FlBody>
-        {
-          latestOps.map(op => {
-            return op.id !== updId ?
-              <OperationSection op={op} setUpdId={setUpdId} key={op.id} />
-              :
-              <OperationSectionEdit op={op} disableUpd={disableUpd} key={op.id} />
-          })
-        }
+        {latestOps.map(op => <OperationSection op={op} key={op.id} />)}
       </FlBody>
     </FlList>
   )

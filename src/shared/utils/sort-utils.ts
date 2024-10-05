@@ -22,7 +22,7 @@ export class SortUtils {
     }
   }
 
-  public static getBooleanSorting<T>(fieldExtractor: (obj: T) => unknown, dir: SortDirection) {
+  public static getBooleanSorting<T>(fieldExtractor: (obj: T) => boolean | undefined, dir: SortDirection) {
     return (a: T, b: T) => {
       if (a==undefined || b==undefined) return 0
       const valA = fieldExtractor(a)

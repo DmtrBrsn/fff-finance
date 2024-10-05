@@ -10,8 +10,6 @@ import { SettingsPage } from "@pages/settings-page"
 import { SignupPage } from "@pages/signup-page"
 import { UserSettingsPage } from "@pages/user-settings-page"
 
-
-
 export const Router = () => {
   const { currentUser } = useAuth()
 

@@ -1,11 +1,11 @@
-import { useCategoriesGet } from "@entities/categories"
+import { getIncExpStr, useCategoriesGet } from "@entities/categories"
 import { Tag, TagGroup } from "@shared/react-aria"
 import { SortUtils } from "@shared/utils"
 import { Selection } from "react-aria-components"
 
-import './cat-select.css'
+import './cat-select-tags.css'
 
-export const CatSelect = (
+export const CatSelectTags = (
   { selectedId, onSelect, fetchCats = false}:
     { selectedId: string, onSelect: (id: string) => void, fetchCats?: boolean}
 ) => {
@@ -20,14 +20,9 @@ export const CatSelect = (
   const handleSelect = (valueSelected: Selection) => {
     onSelect(selectedToId(valueSelected))
   }
-
-  const getIncExpStr = () => {
-    const isIncome = cats?.find(cat => cat.id === selectedId)?.isIncome
-    return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-';
-  }
   
   return (
-    <div className={'cat-select'}>
+    <div className={'cat-select-tags'}>
       <TagGroup
         label="Category"
         selectionMode="single"
@@ -35,10 +30,10 @@ export const CatSelect = (
         items={catsOrdered}
         selectedKeys={new Set(selectedId==='' ? [] : [selectedId])}
         onSelectionChange={handleSelect}
-        description={getIncExpStr()}
+        description={getIncExpStr(cats?.find(cat => cat.id === selectedId))}
         tagListClassName="tag-list custom-scrollbar"
       >
-        {(item) => <Tag className={'react-aria-Tag'+(item.isIncome ? ' cat-income-tag' : '')}>{item.name}</Tag>}
+        {(item) => <Tag className={'react-aria-Tag'+(item.isIncome ? ' income-background' : '')}>{item.name}</Tag>}
       </TagGroup>
     </div>
   )

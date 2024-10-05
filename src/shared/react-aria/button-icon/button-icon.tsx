@@ -2,7 +2,7 @@ import {Button as RACButton, ButtonProps as RACButtonProps, TooltipTrigger} from
 import { Tooltip } from '../tooltip/tooltip'
 
 type ButtonIconProps = {
-  size?: 's' | 'm' | 'l'
+  size?: 's' | 'm' | 'l' | 'compact'
   tooltip?: string
 } & RACButtonProps
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { useAuth } from './auth-context'
+import { useAuth } from '../auth-context'
 import { Button } from '@shared/react-aria'
 import { Logout as Icon } from '@shared/svg'
 

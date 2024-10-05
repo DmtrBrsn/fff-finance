@@ -4,9 +4,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useCategoriesGet } from '@entities/categories'
 import { importOperations, QUERY_KEY_OPERATIONS } from '@entities/operations'
 import { Spinner } from '@shared/spinner'
-import { DropZone, FileTrigger } from 'react-aria-components'
+import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
 import { Button } from '@shared/react-aria'
 import { FolderOpen } from '@shared/svg'
+import { ContextualHelp } from '@shared/contextual-help'
 
 export const ImportOperations = () => {
   const queryClient = useQueryClient()
@@ -55,9 +56,9 @@ export const ImportOperations = () => {
               </FileTrigger>
             </DropZone>
           }
-          <details style={{ width: '10rem' }}>
-            <summary>Requirements</summary>
-            <code>{JSON.stringify([{
+      <ContextualHelp>
+        <Heading>Requirements</Heading>
+        <Text>{JSON.stringify([{
               date: 'iso date',
               description: 'string',
               'idCategory?': 'string',
@@ -65,8 +66,8 @@ export const ImportOperations = () => {
               sum: 'number (>=0)',
               'created?': 'iso date',
               'isPlan?': 'boolean'
-            }], null, 2)}</code>
-          </details>
+            }], null, 2)}</Text>
+      </ContextualHelp>
         </>
       }
     </div>

@@ -1,9 +1,10 @@
 import { db } from "@app/firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp } from 'firebase/firestore'
 import { GetOpsParams } from "./operations-params"
 import { Id } from "@/shared/types/api-types"
 import { Operation, OperationAdd, OperationUpd } from "./operations-types"
 import { DateUtils, getColPath } from "@shared/utils"
+import { toast } from "react-toastify"
 
 const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams ) => {
   let queryArr: QueryConstraint[] = []
@@ -25,14 +26,24 @@ export const getOperations = async (params?: GetOpsParams) => {
   const querySnapshot = await getDocs(q)
   console.log(`read operations: ${querySnapshot.docs.length}`)
   querySnapshot.metadata.fromCache && console.log('fromCache')
-  return querySnapshot.docs.map(doc => {
+  const ops: Operation[] = []
+  for (const doc of querySnapshot.docs) {
     const rawDoc = doc.data()
-    return {
-      id: doc.id, ...rawDoc,
-      created: DateUtils.tsToIsoStr(rawDoc.created),
-      date: DateUtils.tsToIsoStr(rawDoc.date)
-    } as Operation
-  })
+    let created
+    let date
+    if (!(rawDoc.date instanceof Timestamp)) {
+      toast.error(`Invalid date in operation id ${doc.id}. Operation is not shown `)
+      console.error(`Invalid date in ${doc.id}`)
+      continue
+    }
+    else date = DateUtils.tsToIsoStr(rawDoc.date)
+    if (!(rawDoc.created instanceof Timestamp)) {
+      toast.error(`Invalid created in doc ${doc.id}`)
+      created = 'Invalid date'
+    } else created = DateUtils.tsToIsoStr(rawDoc.created)
+    ops.push({ id: doc.id, ...rawDoc, created, date } as Operation)
+  }
+  return ops
 }
 
 export const addOperation = async (newDoc: OperationAdd): Promise<Operation> => {
@@ -65,6 +76,7 @@ export const batchAddOperations = (newDocs: OperationAdd[]) => {
 }
 
 export const updateOperation = async (updDoc: OperationUpd) => {
+  if ('created' in updDoc) delete updDoc.created
   const docRef = doc(db, getColPath('operations'), updDoc.id)
   await setDoc(
     docRef,

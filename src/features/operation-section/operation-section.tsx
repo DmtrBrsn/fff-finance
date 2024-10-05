@@ -1,29 +1,23 @@
-import { useState } from "react"
 import { useCategoriesGet } from "@entities/categories"
 import { Operation, useOperationsDelete } from "@entities/operations"
 import { EditIcon, DeleteIcon, RepeatIcon } from "@shared/svg"
 import { FlCell, FlRow } from "@shared/fl-list"
 import { DateUtils } from "@shared/utils"
+import { ButtonIcon, Checkbox } from "@shared/react-aria"
+import { Dialog, DialogTrigger, Modal } from "react-aria-components"
+import { EditOperationForm } from "@features/edit-operation-form"
+import { Spinner } from "@shared/spinner"
 
 import '../operation-section/operation-section.css'
-import { ButtonIcon, Checkbox } from "@shared/react-aria"
 
-type Props = {
-  op: Operation,
-  setUpdId: React.Dispatch<React.SetStateAction<string | null>>
-}
-
-export const OperationSection = (
-  { op, setUpdId }: Props
-) => {
+export const OperationSection = ({ op }: {op: Operation}) => {
   const { data: cats } = useCategoriesGet(false)
-  const [cat] = useState(cats?.find(c => c.id === op.idCategory))
-  const deleteHook = useOperationsDelete()
-
-  const handleDeleteClick = () => deleteHook.mutate(op.id)
+  const cat = cats?.find(c => c.id === op.idCategory)
+  const {mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
+  const handleDeleteClick = () => deleteOp(op.id)
 
   return (
-    <FlRow className={cat?.isIncome ? 'op-income-section' : ''}>
+    <FlRow className={cat?.isIncome ? 'income-background' : ''}>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.date)}</FlCell>
       <FlCell className="op-sum">{op.sum.toLocaleString()}</FlCell>
       <FlCell className="op-description">{op.description}</FlCell>
@@ -32,12 +26,21 @@ export const OperationSection = (
       <FlCell className="op-is-plan"><Checkbox isSelected={op.isPlan} isDisabled aria-label="Is plan" /></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
-        <ButtonIcon
-          onPress={() => setUpdId(op.id)}
-        ><EditIcon /></ButtonIcon>
+        <DialogTrigger>
+          <ButtonIcon><EditIcon/></ButtonIcon>
+          <Modal>
+            <Dialog>
+              {({ close }) => (
+                <EditOperationForm op={op} onSuccess={close} onCancel={close}/>
+              )}
+            </Dialog>
+          </Modal>
+        </DialogTrigger>
         <ButtonIcon
           onPress={handleDeleteClick}
-        ><DeleteIcon /></ButtonIcon>
+        >
+          {deleting ? <Spinner/> :<DeleteIcon />}
+        </ButtonIcon>
       </FlCell>
       {op.idRecurrent && <span className="op-recurrent-badge"><RepeatIcon/></span>}
     </FlRow>

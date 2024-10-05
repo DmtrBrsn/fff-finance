@@ -21,6 +21,10 @@
   align-items: center;
   justify-content: center;
 
+  &.compact {
+    padding: 0.1rem;
+  }
+
   svg {
     fill: var(--text-color);
     height: calc(var(--size) * 0.75);

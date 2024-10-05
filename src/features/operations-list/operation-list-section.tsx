@@ -1,28 +1,23 @@
-import { useState } from "react"
 import { useCategoriesGet } from "@entities/categories"
 import { Operation, useOperationsDelete } from "@entities/operations"
 import { EditIcon, DeleteIcon, RepeatIcon } from "@shared/svg"
 import { FlCell, FlRow } from "@shared/fl-list"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
 import { DateUtils } from "@shared/utils"
-
-import '../operation-section/operation-section.css'
 import { ButtonIcon, Checkbox } from "@shared/react-aria"
+import { Dialog, DialogTrigger, Modal } from "react-aria-components"
+import { EditOperationForm } from "@features/edit-operation-form"
+import { Spinner } from "@shared/spinner"
+import '../operation-section/operation-section.css'
 
-type Props = {
-  op: Operation,
-}
-
-export const OperationListSection = (
-  { op }: Props
-) => {
+export const OperationListSection = ({ op }: {op: Operation}) => {
   const { data: cats } = useCategoriesGet(false)
-  const [cat] = useState(cats?.find(c => c.id === op.idCategory))
-  const { setBeingEdited, selected, selectMode, setSelected } = useOpsListStore()
+  const cat = cats?.find(c => c.id === op.idCategory)
+  const { selected, selectMode, setSelected } = useOpsListStore()
   const isSelected = selected.includes(op.id)
-  const deleteHook = useOperationsDelete()
+  const {mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
 
-  const handleDeleteClick = () => deleteHook.mutate(op.id)
+  const handleDeleteClick = () => deleteOp(op.id)
   const handleCheckboxChange = (e: boolean) => {
     e ?
       setSelected([...selected, op.id])
@@ -44,12 +39,19 @@ export const OperationListSection = (
       <FlCell className="op-is-plan"><Checkbox isSelected={op.isPlan} isDisabled aria-label="Is plan" /></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
-        <ButtonIcon
-          onPress={() => setBeingEdited(op.id)}
-        ><EditIcon /></ButtonIcon>
+        <DialogTrigger>
+          <ButtonIcon><EditIcon/></ButtonIcon>
+          <Modal>
+            <Dialog>
+              {({ close }) => (
+                <EditOperationForm op={op} onSuccess={close} onCancel={close}/>
+              )}
+            </Dialog>
+          </Modal>
+        </DialogTrigger>
         <ButtonIcon
           onPress={handleDeleteClick}
-        ><DeleteIcon /></ButtonIcon>
+        >{deleting ? <Spinner/> :<DeleteIcon />}</ButtonIcon>
       </FlCell>
       {op.idRecurrent && <span className="op-recurrent-badge"><RepeatIcon/></span>}
     </FlRow>

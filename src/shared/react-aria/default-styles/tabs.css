@@ -11,7 +11,7 @@
   display: flex;
 
   &[data-orientation=horizontal] {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
 
     .react-aria-Tab {
       border-bottom: 3px solid var(--border-color);
@@ -75,7 +75,7 @@
 .react-aria-TabList {
   &[data-orientation=vertical] {
     flex-direction: column;
-    border-inline-end: 1px solid gray;
+    border-inline-end: 2px solid var(--border-color);
 
     .react-aria-Tab {
       border-inline-end: 3px solid var(--border-color, transparent);

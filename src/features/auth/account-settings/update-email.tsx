@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useAuth } from './auth-context'
-import { firebasePasswordMinLength } from '@shared/contants'
+import { useAuth } from '../auth-context'
 import { DialogTrigger, Form } from 'react-aria-components'
 import { Button, Popover, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'
 
-export const UpdatePassword = () => {
+export const UpdateEmail = () => {
   const { userService } = useAuth()
   const [active, setActive] = useState(false)
-  const [formState, setFormState] = useState({ newPassword: '' })
+  const [formState, setFormState] = useState({ newEmail: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -17,7 +16,7 @@ export const UpdatePassword = () => {
 
   const handleCancel = () => {
     setActive(false)
-    setFormState({ newPassword: '' })
+    setFormState({ newEmail: '' })
     setError('')
   }
 
@@ -25,46 +24,44 @@ export const UpdatePassword = () => {
     event.preventDefault()
     setError('')
     setLoading(true)
-
-    userService.updatePassword(formState.newPassword)
-    .then(() => {
-      toast.success('Password updated')
-      setFormState({ newPassword: '' })
+    userService.updateEmail(formState.newEmail).then(() => {
+      toast.success('Email updated')
+      setFormState({ newEmail: '' })
       setActive(false)
     }).catch(err => {
-      toast.error(`Password update failed: ${err}`)
-      setError(`Password update failed: ${err}`)
+      toast.error(`Email update failed: ${err}`)
+      setError(`Email update failed: ${err}`)
     }).finally(() => setLoading(false))
   }
+
   return (
     <DialogTrigger isOpen={active} onOpenChange={setActive}>
     <Button onPress={()=>setActive(true)} isDisabled={loading}>
-      Update Password
+      Update Email
     </Button>
       <Popover>
         <Form onSubmit={handleSubmit}>
           {error && <div role="alert">{error}</div>}
           <TextField
-          label="New password"
-          name="newPassword"
-          type="password"
-          inputMode="text"
-          value={formState.newPassword}
+          label="New email"
+          name="newEmail"
+          type="email"
+          inputMode="email"
+          value={formState.newEmail}
           onChange={
-            (newPassword) => setFormState((prevProps) => ({ ...prevProps, newPassword }))
+            (newEmail) => setFormState((prevProps) => ({ ...prevProps, newEmail }))
           }
-          minLength={firebasePasswordMinLength}
           isDisabled={loading}
           isRequired
         />
-        <ButtonGroup isDisabled={loading}>
-          <Button type='submit'>
-            {loading ? 'Updating...' : 'Update'}
-          </Button>
-          <Button onPress={handleCancel}>
-            Cancel
-          </Button>
-        </ButtonGroup>
+          <ButtonGroup isDisabled={loading}>
+            <Button type='submit'>
+              {loading ? 'Updating...' : 'Update'}
+            </Button>
+            <Button onPress={handleCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
         </Form>
       </Popover>
     </DialogTrigger>

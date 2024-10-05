@@ -1,9 +1,10 @@
+import { useState } from "react"
 import { toast } from "react-toastify"
-import { useState } from 'react'
-import { useAuth } from "./auth-context"
+import { useAuth } from "../auth-context"
+import { GoogleIcon } from "@shared/svg"
 import { Button } from "@shared/react-aria"
 
-export const UnlinkEmailAndPassword = () => {
+export const UnlinkGoogle = () => {
   const { userService } = useAuth()
   const [loading, setLoading] = useState(false)
 
@@ -11,20 +12,22 @@ export const UnlinkEmailAndPassword = () => {
   
   const handleClick = () => {
     setLoading(true)
-    userService.unlinkEmailAndPassword().then(() => {
+    userService.unlinkGoogle().then(() => {
       toast.success('Unlink successful')
     }).catch(err => {
       toast.error(`Unlink failed: ${err}`)
-    }).finally(() => setLoading(false))
+    })
+    setLoading(false)
   }
 
   return (
     <Button
-      variant="danger"
-      onPress={handleClick}
       isDisabled={loading}
+      className='react-aria-Button google-sign-in-btn'
+      onPress={handleClick}
     >
-      {loading ? "...Unlinking" : "Unlink Email and password"}
+      <GoogleIcon/>
+      <span>{loading ? 'Unlinking...':'Unlink Google'}</span>
     </Button>
   )
 }

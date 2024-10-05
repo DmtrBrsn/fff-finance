@@ -1,8 +1,0 @@
-.cat-select .tag-list {
-  max-height: 15rem;
-  overflow-x: auto;
-}
-
-.cat-income-tag {
-  background-color: var(--income-background);
-}

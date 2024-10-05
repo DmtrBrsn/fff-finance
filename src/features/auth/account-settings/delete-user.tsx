@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { useAuth } from './auth-context'
+import { useAuth } from '../auth-context'
 import { DialogTrigger, Form } from 'react-aria-components'
 import { Button, Popover, TextField } from '@shared/react-aria'
 import { ButtonGroup } from '@shared/button-group/button-group'

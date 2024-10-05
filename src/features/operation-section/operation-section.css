@@ -42,7 +42,3 @@
 .op-recurrent-badge>svg {
   fill: var(--gray-500);
 }
-
-.op-income-section {
-  background-color: var(--income-background);
-}

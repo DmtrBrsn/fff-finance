@@ -29,7 +29,7 @@ export class OpUtils {
       }
       else if (field === 'isIncome') {
         opsCopy.sort(SortUtils.getBooleanSorting(
-          (op) => (cats.find(cat => cat.id === op.idCategory)?.isIncome ?? 'No category found').toString(),
+          (op) => (cats.find(cat => cat.id === op.idCategory)?.isIncome ?? undefined),
           dir
         ))
       }

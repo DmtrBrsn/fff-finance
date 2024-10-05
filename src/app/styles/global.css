@@ -23,10 +23,6 @@ body {
   flex-direction: column;
 }
 
-button, input, select {
-  font: inherit;
-}
-
 input:not([type="button"], [type="submit"], [type="reset"]), select {
   padding: var(--gap-step);
 }
@@ -58,7 +54,6 @@ main {
   align-items: center;
   justify-content: center
 }
-
 
 
 .settings-container {
@@ -104,4 +99,8 @@ main {
   100% {
       transform: rotate(360deg);
   }
+}
+
+.income-background {
+  background-color: var(--income-background);
 }
