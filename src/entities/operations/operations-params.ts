@@ -1,5 +1,4 @@
 import { Operation } from "./operations-types"
-import { Id } from '@shared/types/api-types'
 import { DateUtils } from "@shared/utils"
 
 export type GetOpsParams = {
@@ -8,8 +7,6 @@ export type GetOpsParams = {
   limit?: number
   orderBy?: keyof Operation
   orderByDirection?: 'asc' | 'desc'
-  isPlan?: boolean
-  idRecurrent?: Id
   // createdTo?: string
   // createdFrom?: string
 }

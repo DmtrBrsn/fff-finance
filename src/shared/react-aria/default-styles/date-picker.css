@@ -18,7 +18,7 @@
   }
 
   .react-aria-DateInput {
-    padding: 0.3rem 1.929rem 0.3rem 0.3rem;
+    padding: var(--gap-step) 1.929rem var(--gap-step) var(--gap-step);
   }
 }
 

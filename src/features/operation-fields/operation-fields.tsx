@@ -1,6 +1,6 @@
 import { getIncExpStr, useCategoriesGet } from "@entities/categories"
 import { parseDate } from "@internationalized/date"
-import { Checkbox, DateField, NumberField, Select, SelectItem, TextField } from "@shared/react-aria"
+import { DateField, NumberField, Select, SelectItem, TextField } from "@shared/react-aria"
 import { Id } from "@shared/types/api-types"
 import { DateUtils } from "@shared/utils"
 
@@ -25,7 +25,7 @@ export const OpSumField = (
 ) => {
   return (
     <NumberField
-      size={4}
+      size={6}
       label='Sum'
       minValue={0}
       step={0.01}
@@ -51,18 +51,6 @@ export const OpDescriptionField = (
       maxLength={300}
       onChange={onChange}
     />
-  )
-}
-
-export const OpPlanField = (
-  { isPlan, onChange }:
-    { isPlan: boolean, onChange: (isPlan: boolean) => void }
-) => {
-  return (
-    <Checkbox
-      isSelected={isPlan}
-      onChange={onChange}
-    >Plan</Checkbox>
   )
 }
 

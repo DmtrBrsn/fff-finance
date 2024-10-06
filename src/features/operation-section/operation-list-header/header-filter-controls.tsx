@@ -23,7 +23,7 @@ export const FilterControls = ({field}: {field: OpFilterFields}) => {
     <DialogTrigger isOpen={open} onOpenChange={o=>setFilterFormOpenFor(o ? field : null)}>
       <ButtonIcon
         onPress={() => setFilterFormOpenFor(field)}
-        aria-label={disabled && !open ? 'Фильтр' : open ? undefined : filterTip}
+        aria-label={disabled && !open ? 'Filter' : open ? undefined : filterTip}
       >{disabled ? <FilterAlt /> : <FilterAltFilled />}</ButtonIcon>
       <Popover>
         <FilterFormPopup field={field}/>
@@ -61,21 +61,21 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
   }
 
   const options: {label: string, value: FilterCondition}[] = [
-    { label: 'Равно', value: 'eq' },
-    { label: 'Не равно', value: 'neq' }
+    { label: 'Equals', value: 'eq' },
+    { label: 'Not equals', value: 'neq' }
   ]
   if (type === 'date' || type === 'number' ) options.push(
-    { label: 'Больше', value: 'gt' },
-    { label: 'Меньше', value: 'lt' },
-    { label: 'Больше или равно', value: 'gte' },
-    { label: 'Меньше или равно', value: 'lte' },
-    { label: 'В диапазоне', value: 'between' }
+    { label: 'More than', value: 'gt' },
+    { label: 'Less than', value: 'lt' },
+    { label: 'More than or equal', value: 'gte' },
+    { label: 'Less than or equal', value: 'lte' },
+    { label: 'Is between', value: 'between' }
   )
   if (type === 'text') options.push(
-    { label: 'Содержит', value: 'contains' },
-    { label: 'Не содержит', value: 'ncontains' },
-    { label: 'Начинается с', value: 'startswith' },
-    { label: 'Заканчивается на', value: 'endswith' },
+    { label: 'Contains', value: 'contains' },
+    { label: 'Not contains', value: 'ncontains' },
+    { label: 'Starts with', value: 'startswith' },
+    { label: 'Ends with', value: 'endswith' },
   )
 
   if (typeof filterValue==='boolean' || typeof filterValue1==='boolean') return
@@ -84,7 +84,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
       <Select items={options} selectedKey={condition} onSelectionChange={(key)=>setCondition(key as FilterCondition)}>
         {(item) => <SelectItem id={item.value}>{item.label}</SelectItem>}
       </Select>
-      {type === 'number' && <NumberField autoFocus value={Number(filterValue)} onChange={setFilterValue} />}
+      {type === 'number' && <NumberField size={6} autoFocus value={Number(filterValue)} onChange={setFilterValue} />}
       {type === 'date' &&
         <DatePicker
           autoFocus
@@ -94,7 +94,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
       }
       {type=='text' && <TextField autoFocus value={filterValue.toString()} onChange={setFilterValue} />}
       {condition === 'between' && <>
-        {type === 'number' && <NumberField autoFocus value={Number(filterValue1)} onChange={setFilterValue1} />}
+        {type === 'number' && <NumberField size={6} autoFocus value={Number(filterValue1)} onChange={setFilterValue1} />}
         {type === 'date' &&
           <DatePicker
             autoFocus
@@ -105,9 +105,9 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
         {type=='text' && <TextField autoFocus value={filterValue1.toString()} onChange={setFilterValue1} />}
         </>}
       <ButtonGroup>
-        <Button onPress={apply}>Применить</Button>
-        <Button onPress={cancel}>Отменить</Button>
-        <ButtonIcon isDisabled={disabled} onPress={remove} aria-label="Удалить фильтр" ><FilterAltOff /></ButtonIcon>
+        <Button onPress={apply}>Apply</Button>
+        <Button onPress={cancel}>Cancel</Button>
+        <ButtonIcon isDisabled={disabled} onPress={remove} aria-label="Remove filter" ><FilterAltOff /></ButtonIcon>
       </ButtonGroup>
     </div>
   )

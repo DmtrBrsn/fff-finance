@@ -24,7 +24,7 @@ export const SortControls = ({field}: {field: OpSortableFields}) => {
     <ToggleButtonIcon
       onPress={handleClick}
       isSelected={!disabled}
-      aria-label={disabled ? 'Сортировать' : sortBy.dir === 'desc' ? 'Сортировать по убыванию' : 'Сортировать по возрастанию'}
+      aria-label={disabled ? 'Sort' : sortBy.dir === 'desc' ? 'Sort descending' : 'Sort ascending'}
     >
       {disabled ? <SwapVert /> :
         sortBy.dir === 'desc' ? <ArrowDown /> : <ArrowUp />

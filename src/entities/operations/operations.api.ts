@@ -1,5 +1,5 @@
 import { db } from "@app/firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, setDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc } from 'firebase/firestore'
 import { GetOpsParams } from "./operations-params"
 import { Id } from "@/shared/types/api-types"
 import { Operation, OperationAdd, OperationUpd } from "./operations-types"
@@ -13,8 +13,6 @@ const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, Docume
   if (params?.to!==undefined) queryArr.push(where('date', '<=', DateUtils.isoStrToTs(params.to)))
   if (params?.orderBy !== undefined) queryArr.push(orderBy(params.orderBy, params.orderByDirection ?? undefined))
   if (params?.limit !== undefined) queryArr.push(limit(params.limit))
-  if (params?.isPlan !== undefined) queryArr.push(where('isPlan', '==', params.isPlan))
-  if (params?.idRecurrent !== undefined) queryArr.push(where('idRecurrent', '==', params.idRecurrent))
   
   if (params && queryArr.length>0) return query(collectionRef, ...queryArr)
   else return query(collectionRef)
@@ -78,7 +76,7 @@ export const batchAddOperations = (newDocs: OperationAdd[]) => {
 export const updateOperation = async (updDoc: OperationUpd) => {
   if ('created' in updDoc) delete updDoc.created
   const docRef = doc(db, getColPath('operations'), updDoc.id)
-  await setDoc(
+  await updateDoc(
     docRef,
     updDoc.date ? { ...updDoc, date: DateUtils.isoStrToTs(updDoc.date) } : updDoc
   )

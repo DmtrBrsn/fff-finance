@@ -20,13 +20,9 @@ export const SignInWithGoogle = () => {
   }
 
   return (
-    <Button
-      isDisabled={loading}
-      className='react-aria-Button google-sign-in-btn'
-      onPress={handleClick}
-    >
+    <Button isDisabled={loading} onPress={handleClick}>
       <GoogleIcon/>
-      <span>{loading ? '...Signing in' :'Sign in with Google'}</span>
+      {loading ? '...Signing in' :'Sign in with Google'}
     </Button>
   )
 }

@@ -51,9 +51,6 @@ function validateImportOperation(opParsed: any, index: number, cats: Category[])
   if (opParsed.created != undefined && !DateUtils.isDateValid(new Date(opParsed.created))) {
     throw new Error(`incorrect created at ${index}`)
   }
-  if (opParsed.isPlan != undefined && typeof opParsed.isPlan !== 'boolean') {
-    throw new Error(`incorrect isPlan at ${index}`)
-  }
 }
 
 function parsedImportOpToOp(opParsed: any, cats: Category[]) {
@@ -68,7 +65,6 @@ function parsedImportOpToOp(opParsed: any, cats: Category[]) {
     idCategory: cat.id,
     sum: opParsed.sum,
     created: opParsed.created ? DateUtils.isoStrToTs(opParsed.created) :  DateUtils.getCurTs(),
-    isPlan: opParsed.isPlan!=undefined ? opParsed.isPlan : false
   }
 }
 

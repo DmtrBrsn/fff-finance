@@ -1,9 +1,9 @@
 import { useCategoriesGet } from "@entities/categories"
 import { Operation, useOperationsDelete } from "@entities/operations"
-import { EditIcon, DeleteIcon, RepeatIcon } from "@shared/svg"
+import { EditIcon, DeleteIcon } from "@shared/svg"
 import { FlCell, FlRow } from "@shared/fl-list"
 import { DateUtils } from "@shared/utils"
-import { ButtonIcon, Checkbox } from "@shared/react-aria"
+import { ButtonIcon } from "@shared/react-aria"
 import { Dialog, DialogTrigger, Modal } from "react-aria-components"
 import { EditOperationForm } from "@features/edit-operation-form"
 import { Spinner } from "@shared/spinner"
@@ -23,7 +23,6 @@ export const OperationSection = ({ op }: {op: Operation}) => {
       <FlCell className="op-description">{op.description}</FlCell>
       <FlCell className="op-category">{cat===undefined ? 'No category found' : cat.name}</FlCell>
       <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
-      <FlCell className="op-is-plan"><Checkbox isSelected={op.isPlan} isDisabled aria-label="Is plan" /></FlCell>
       <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
       <FlCell className="op-buttons">
         <DialogTrigger>
@@ -42,7 +41,6 @@ export const OperationSection = ({ op }: {op: Operation}) => {
           {deleting ? <Spinner/> :<DeleteIcon />}
         </ButtonIcon>
       </FlCell>
-      {op.idRecurrent && <span className="op-recurrent-badge"><RepeatIcon/></span>}
     </FlRow>
   )
 }

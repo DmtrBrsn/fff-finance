@@ -38,17 +38,13 @@ export const OperationListHeaderSection = () => {
         Is income
         <SortControls field="isIncome" />
       </FlCell>
-      <FlCell className="op-is-plan">
-        Is plan
-        <SortControls field="isPlan" />
-      </FlCell>
       <FlCell className="op-date">
         Created
         <SortControls field="created" />
         <FilterControls field="created" />
       </FlCell>
       <FlCell className="op-buttons">
-        Действия
+        Actions
       </FlCell>
     </FlHeader>
   )

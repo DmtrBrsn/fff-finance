@@ -64,8 +64,7 @@ export const ImportOperations = () => {
               'idCategory?': 'string',
               'categoryName?': 'name of category (provide if idCategory is unknown)',
               sum: 'number (>=0)',
-              'created?': 'iso date',
-              'isPlan?': 'boolean'
+              'created?': 'iso date'
             }], null, 2)}</Text>
       </ContextualHelp>
         </>

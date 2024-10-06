@@ -21,13 +21,9 @@ export const UnlinkGoogle = () => {
   }
 
   return (
-    <Button
-      isDisabled={loading}
-      className='react-aria-Button google-sign-in-btn'
-      onPress={handleClick}
-    >
+    <Button isDisabled={loading} onPress={handleClick}>
       <GoogleIcon/>
-      <span>{loading ? 'Unlinking...':'Unlink Google'}</span>
+      {loading ? 'Unlinking...':'Unlink Google'}
     </Button>
   )
 }

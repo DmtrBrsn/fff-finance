@@ -39,12 +39,6 @@ export class OpUtils {
           dir
         ))
       }
-      else if (field==='isPlan') {
-        opsCopy.sort(SortUtils.getBooleanSorting(
-          (op) => op[field],
-          dir
-        ))
-      }
       else if (field === 'sum') {
         opsCopy.sort(SortUtils.getNumSorting(
           (op) => op.sum,
@@ -85,13 +79,6 @@ export class OpUtils {
           opsCopy = opsCopy.filter(FilterUtils.getDateFiltering(
             (op) => op[fo.field as 'date' | 'created'],
             fo.value as string, fo.condition, fo.value1 as string
-          ))
-          break
-        }
-        case 'isPlan': {
-          opsCopy = opsCopy.filter(FilterUtils.getBooleanFiltering(
-            (op) => op[fo.field as 'isPlan'],
-            !!fo.value, fo.condition
           ))
           break
         }

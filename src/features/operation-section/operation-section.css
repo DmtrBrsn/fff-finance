@@ -26,19 +26,7 @@
   width: 6rem;
 }
 
-.op-is-plan {
-  width: 5rem;
-}
-
 .op-buttons {
   width: 4rem;
 }
 
-.op-recurrent-badge {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.1rem;
-}
-.op-recurrent-badge>svg {
-  fill: var(--gray-500);
-}
