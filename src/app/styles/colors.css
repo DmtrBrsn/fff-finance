@@ -52,7 +52,6 @@
     --blue-400: #2bb3ff;
     --blue-500: #8ecdff;
     --blue-600: #c4e5fe;
-    --green-100: #2b372c;
     --red-100: #721200;
     --red-200: #9c1900;
     --red-300: #cc2000;
@@ -60,7 +59,7 @@
     --red-500: #f08c79;
     --red-600: #f7c3ba;
     --green-50: #002a0c;
-    --green-100: #002a0c;
+    --green-100: #004819;
     --green-200: #006728;
     --green-300: #00AC47;
     --green-400: #51da73;
@@ -89,7 +88,6 @@
   --blue-400: #2bb3ff;
   --blue-500: #8ecdff;
   --blue-600: #c4e5fe;
-  --green-100: #2b372c;
   --red-100: #721200;
   --red-200: #9c1900;
   --red-300: #cc2000;
@@ -97,20 +95,20 @@
   --red-500: #f08c79;
   --red-600: #f7c3ba;
   --green-50: #002a0c;
-  --green-100: #002a0c;
+  --green-100: #004819;
   --green-200: #006728;
   --green-300: #00AC47;
   --green-400: #51da73;
   --green-500: #68ee85;
   --green-600: #ebffed;
-  --app-color: var(--green-400);
+  --app-color: var(--green-300);
   --highlight-hover: rgba(255 255 255 / 0.1);
   --highlight-pressed: rgba(255 255 255 / 0.2);
 
 }
 
 :root {
-  --focus-ring-color: var(--blue-400);
+  --focus-ring-color: var(--blue-300);
   --text-color: var(--gray-650);
   --text-color-base: var(--gray-500);
   --text-color-hover: var(--gray-650);
@@ -130,16 +128,17 @@
   --button-background-pressed: var(--background-color);
   /* these colors are the same between light and dark themes
   * to ensure contrast with the foreground color */
-  --highlight-background: #548fef; /* blue-300 from dark theme, 3.03:1 against background-color */
-  --highlight-background-pressed: #2d53dc; /* blue-200 from dark theme */
+  --highlight-background: #044792; /* blue-300 from dark theme, 3.03:1 against background-color */
+  --highlight-background-hover:  #006dca; /* blue-200 from dark theme */
+  --highlight-background-pressed: #008ff8; /* blue-100 from dark theme */
   --highlight-background-invalid: #cc2000; /* red-300 from dark theme */
   --highlight-foreground: white; /* 5.56:1 against highlight-background */
   --highlight-foreground-pressed: #ddd;
-  --highlight-overlay: rgb(from #548fef r g b / 15%);
+  --highlight-overlay: rgb(from #008ff8 r g b / 15%);
   --invalid-color: var(--red-400);
   --invalid-color-pressed: var(--red-500);
 
-  --income-background: var(--green-50);
+  --income-background: rgb(from var(--green-100) r g b / 25%);
 
   
   --toastify-color-light: var(--gray-50);

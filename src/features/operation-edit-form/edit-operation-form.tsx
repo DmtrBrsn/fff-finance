@@ -1,5 +1,6 @@
 import { Operation, OperationUpd, useOperationsUpdate } from "@entities/operations"
-import { OpCategorySelectField, OpDateField, OpDescriptionField, OpSumField } from "@features/operation-fields"
+import { CategorySelectField } from "@features/fields-for-category"
+import { OpDateField, OpDescriptionField, OpSumField } from "@features/operation-fields"
 import { ButtonGroup } from "@shared/button-group/button-group"
 import { Button } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
@@ -29,15 +30,15 @@ export const EditOperationForm = ({op, onSuccess, onCancel}: EditOperationFormPr
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Heading>Edit operation</Heading>
+    <Form onSubmit={handleSubmit} className="react-aria-Form edit-operation-form">
+      <Heading slot="title">Edit operation</Heading>
       <OpDateField date={updOp.date ?? op.date} onChange={(date) => setUpdOp({ ...updOp, date })} />
       <OpSumField sum={updOp.sum ?? op.sum} onChange={(sum) => setUpdOp({ ...updOp, sum })} />
       <OpDescriptionField
         description={updOp.description ?? op.description}
         onChange={(description) => setUpdOp({ ...updOp, description })}
       />
-      <OpCategorySelectField
+      <CategorySelectField
         idCat={updOp.idCategory ?? op.idCategory}
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />

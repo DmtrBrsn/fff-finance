@@ -1,4 +1,5 @@
 .cat-select-tags .tag-list {
   max-height: 15rem;
+  max-width: 25rem;
   overflow-x: auto;
 }

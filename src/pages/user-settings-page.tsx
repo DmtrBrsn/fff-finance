@@ -9,20 +9,22 @@ export const UserSettingsPage = () => {
   const userLoggedInUsingGoogle = !!providers?.some(prov => prov.providerId === 'google.com')
 
   return (
-    <main className="settings-container">
-      <UserData/>
-      <Logout />
-      {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
-      {userLoggedInUsingEmailAndPass ? <UnlinkEmailAndPassword /> : <></>}
-      {userLoggedInUsingEmailAndPass ? (
-        <>
-          <UpdateEmail/>
-          <UpdatePassword/>
-        </>)
-        :
-        <></>
-      }
-      <DeleteUser />
+    <main>
+      <div className="settings-container max-width-wrap">
+        <UserData/>
+        <Logout />
+        {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
+        {userLoggedInUsingEmailAndPass ? <UnlinkEmailAndPassword /> : <></>}
+        {userLoggedInUsingEmailAndPass ? (
+          <>
+            <UpdateEmail/>
+            <UpdatePassword/>
+          </>)
+          :
+          <></>
+        }
+        <DeleteUser />
+      </div>
     </main>
   )
 }

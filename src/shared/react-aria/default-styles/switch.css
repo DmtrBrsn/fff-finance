@@ -86,7 +86,7 @@
     color: var(--gray-300);
 
     .indicator {
-      border-color: var(--gray-600);
+      border-color: var(--gray-300);
 
       &:before {
         background: var(--gray-300);

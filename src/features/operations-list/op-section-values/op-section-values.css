@@ -1,0 +1,39 @@
+.op-checkbox {width: 2rem;}
+.op-date {width: 8rem;}
+.op-sum {width: 7rem;}
+.op-description {width: 15rem;}
+.op-category {width: 15rem;}
+.op-is-income {width: 7rem;}
+.op-created {width: 8rem;}
+.op-buttons {width: 4rem;}
+
+
+@container op-list (width >= 1100px) {
+  .op-section-value-label {
+    display: none;
+  }
+  
+}
+@container op-list (width < 1100px) {
+  .op-date {width: 12rem;}
+  .op-sum {width: 9rem;}
+  .op-description {width: 18rem;}
+  .op-category {width: 22rem;}
+  .op-is-income {flex-basis: 100%; order: 7}
+  .op-created {width: 12rem;}
+  .op-checkbox {flex-basis: 100%;}
+  .op-section-value-label {
+    color: var(--gray-300);
+    align-self: center;
+  }
+  .op-section-value {
+    /* flex-direction: column; */
+    gap: 0.3rem;
+    align-items: start;
+  }
+  .op-buttons {
+    flex-basis: 100%;
+    justify-content: end;
+    order: 8;
+  }
+}

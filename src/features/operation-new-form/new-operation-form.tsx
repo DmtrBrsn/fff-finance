@@ -4,7 +4,7 @@ import { OperationAdd, useOperationsAdd, getOpDraft, updateOpDraft, removeOpDraf
 import { Spinner } from '@shared/spinner'
 import { DateUtils } from '@shared/utils'
 import { Button } from '@shared/react-aria'
-import { CatSelectTags } from '@features/operation-fields'
+import { CatSelectTags } from '@features/fields-for-category'
 import { ButtonGroup } from '@shared/button-group/button-group'
 import { OpDateField, OpDescriptionField, OpSumField } from '@features/operation-fields'
 import { Form } from 'react-aria-components'

@@ -6,9 +6,10 @@ import {
   SearchField as AriaSearchField,
   SearchFieldProps as AriaSearchFieldProps,
   Text,
-  ValidationResult,
-  Button
+  ValidationResult
 } from 'react-aria-components';
+import { ButtonIcon } from '../button-icon/button-icon';
+import { CloseIcon } from '@shared/svg';
 
 
 export interface SearchFieldProps extends AriaSearchFieldProps {
@@ -25,7 +26,7 @@ export function SearchField(
       <AriaSearchField {...props}>
         <Label>{label}</Label>
         <Input />
-        <Button>✖</Button>
+        <ButtonIcon size='s'><CloseIcon/></ButtonIcon>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaSearchField>

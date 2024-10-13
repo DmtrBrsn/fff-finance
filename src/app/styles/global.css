@@ -4,8 +4,7 @@ html {
   color: var(--text-color);
   box-sizing: border-box;
   line-height: 1.5;
-  height: 100dvh;
-  overflow: clip;
+  overflow: hidden;
 }
 
 *, *:before, *:after {
@@ -15,19 +14,23 @@ html {
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+
 }
 
 [id="root"] {
   display: flex;
   flex-direction: column;
-  height: inherit;
-} 
+  height: 100dvh;
+}
 
 main {
   order: 2;
   overflow-x: auto;
-  height: inherit;
+  height: 100%;
+}
+
+textarea {
+  font: inherit;
 }
 
 [id="root"]>header {
@@ -39,7 +42,11 @@ main {
 }
 
 
-.custom-scrollbar, .fl-list [data-testid="virtuoso-scroller"], .react-aria-ListBox, main {
+.custom-scrollbar, 
+.fl-list [data-testid="virtuoso-scroller"], 
+.react-aria-ListBox, 
+main, 
+textarea {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);
@@ -47,12 +54,18 @@ main {
   }
   &::-webkit-scrollbar-thumb {
     background: var(--gray-300);
+    border-radius: 3px;
   }
   &::-webkit-scrollbar-thumb:hover {
     background: var(--gray-300);
   }
 }
 
+
+.max-width-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
 
 .page-centered-content  {
   display: flex;
@@ -64,10 +77,9 @@ main {
 
 .settings-container {
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   align-items: start;
-  gap: calc(var(--gap-step) * 2);
+  gap: calc(var(--gap-step) * 3);
   padding: calc(var(--gap-step) * 2);
 }
 
@@ -109,4 +121,15 @@ main {
 
 .income-background {
   background-color: var(--income-background);
+}
+
+
+.firebase-emulator-warning {
+  background-color: transparent !important;
+  color: var(--red-300) !important;
+  border: none !important;
+  width: unset !important;
+  right: 0 !important;
+  left: unset !important;
+  font-size: 0.9rem !important;
 }

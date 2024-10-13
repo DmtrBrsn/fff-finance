@@ -1,9 +1,11 @@
 .react-aria-Button {
   
   --background: var(--button-background);
+  --color: var(--text-color);
 
   &.attention {
-    --background: var(--blue-100);
+    --background: var(--highlight-background);
+    --color: var(--highlight-foreground);
   }
 
   &.danger {
@@ -17,7 +19,7 @@
   &.s {--size: 0.8rem;}
   &.l {--size: 1.5rem;}
 
-  color: var(--text-color);
+  color: var(--color);
   background: var(--background);
   border: 1px solid var(--border-color);
   border-radius: var(--app-border-radius);
@@ -51,7 +53,7 @@
       background: var(--red-300);
     }
     &.attention {
-      background: var(--blue-200);
+      background: var(--highlight-background-hover);
     }
   }
 
@@ -63,7 +65,7 @@
       background: var(--red-400);
     }
     &.attention {
-      background: var(--blue-300);
+      background: var(--highlight-background-pressed);
     }
   }
 

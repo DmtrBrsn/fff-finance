@@ -29,24 +29,10 @@
     }
   }
 
-  .react-aria-Button {
+  .react-aria-Button-icon {
     grid-area: button;
-    width: 1.143rem;
-    height: 1.143rem;
-    border-radius: 1.143rem;
-    margin-left: -1.429rem;
-    font-size: 0.857rem;
-    line-height: 0.857rem;
-    vertical-align: middle;
-    text-align: center;
-    background: var(--gray-600);
-    color: var(--gray-50);
-    border: none;
-    padding: 0;
-
-    &[data-pressed] {
-      background: var(--gray-650);
-    }
+    margin-left: -1.8rem;
+    padding: 0.1rem;
   }
 
   &[data-empty] button {

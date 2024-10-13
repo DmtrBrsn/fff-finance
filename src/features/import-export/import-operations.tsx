@@ -57,7 +57,7 @@ export const ImportOperations = () => {
             </DropZone>
           }
       <ContextualHelp>
-        <Heading>Requirements</Heading>
+        <Heading slot="title">Requirements</Heading>
         <Text>{JSON.stringify([{
               date: 'iso date',
               description: 'string',

@@ -8,12 +8,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    padding-right: 0.3rem;
   }
 }
 
 .fl-list-header {
-  width: calc(100% - (var(--gap-step) * 3));
+  width: 100%;
   font-weight: 600;
 }
 .fl-list-row, .fl-list-header, .fl-list-title {
@@ -24,7 +23,6 @@
   align-items: center;
   padding: var(--gap-step);
   gap: var(--gap-step);
-  /* >* {padding: 0 var(--gap-step);} */
 }
 .fl-list-title {
   align-self: center;

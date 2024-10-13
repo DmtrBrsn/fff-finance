@@ -1,13 +1,15 @@
 import { useCategoriesGet } from "@entities/categories"
-import { NewOperationForm } from "@features/new-operation-form"
+import { NewOperationForm } from "@features/operation-new-form"
 import { OperationsLatest } from "@features/operations-latest"
 
 export const NewOperation = () => {
   useCategoriesGet(true)
   return (
-    <main>
-      <NewOperationForm />
-      <OperationsLatest/>
+    <main >
+      <div className="max-width-wrap">
+        <NewOperationForm />
+        <OperationsLatest/>
+      </div>
     </main>
   )
 }

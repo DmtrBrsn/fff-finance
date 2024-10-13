@@ -1,6 +1,6 @@
 :root {
   --font-size-html: 16px;
-  --max-line-length: 75ch;
+  --max-width: 71rem;
   --app-border-radius: 6px;
   --gap-step: 0.3rem;
   --scrollbar-width: 0.6rem;

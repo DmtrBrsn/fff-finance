@@ -1,8 +1,8 @@
-import { OperationsList } from "@features/operations-list";
+import { OperationsListWtoolbar } from "@features/operations-list";
 
 export const OperationsPage = () => (
   <main>
-    <OperationsList />
+    <OperationsListWtoolbar />
   </main>
 
 )

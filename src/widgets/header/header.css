@@ -5,16 +5,19 @@
   justify-content: space-between;
   align-items: center;
 
+
   background-color:var(--app-color);
   color: white;
   padding-left: var(--gap-step);
   padding-right: var(--gap-step);
 
   .app-nav {
-    width: 100%;
+    margin: 0 auto;
+    width: var(--max-width);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: calc(var(--gap-step) * 2);
     padding: 0 var(--gap-step);

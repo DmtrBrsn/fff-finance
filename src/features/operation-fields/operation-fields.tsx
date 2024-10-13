@@ -1,7 +1,5 @@
-import { getIncExpStr, useCategoriesGet } from "@entities/categories"
 import { parseDate } from "@internationalized/date"
-import { DateField, NumberField, Select, SelectItem, TextField } from "@shared/react-aria"
-import { Id } from "@shared/types/api-types"
+import { DateField, NumberField, TextAreaField } from "@shared/react-aria"
 import { DateUtils } from "@shared/utils"
 
 export const OpDateField = (
@@ -42,9 +40,15 @@ export const OpDescriptionField = (
   { description, onChange }:
     { description: string, onChange: (description: string) => void }
 ) => {
+  const calcRows = () => {
+    const rows = Math.ceil((description.length || 1) / 25)
+    return rows > 4 ? 4 : rows
+  }
   return (
-    <TextField
+    <TextAreaField
       label='Description'
+      rows={calcRows()}
+      cols={30}
       name="opDescription"
       value={description}
       isRequired
@@ -54,20 +58,4 @@ export const OpDescriptionField = (
   )
 }
 
-export const OpCategorySelectField = (
-  { idCat, setIdCat }: { idCat: Id, setIdCat: (id: Id) => void }
-) => {
-  const { data: cats, isFetching } = useCategoriesGet(false)
-  return (
-    <Select
-      label="Category"
-      items={cats}
-      selectedKey={idCat}
-      onSelectionChange={(key) => setIdCat(key as Id)}
-      description={getIncExpStr(cats?.find(cat => cat.id === idCat))}
-      isDisabled={isFetching}
-    >
-      {(cat) => <SelectItem className={(cat.isIncome ? 'income-background ' : '') + 'react-aria-ListBoxItem'} id={cat.id}>{cat.name}</SelectItem>}
-    </Select>
-  )
-}
+

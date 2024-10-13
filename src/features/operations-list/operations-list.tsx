@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from "react"
-import { OperationListHeaderSection, OperationListSection } from "@features/operation-section"
 import { OpUtils, useOperationsGet } from "@entities/operations"
 import { Spinner } from "@shared/spinner"
 import { OperationsListToolbar } from "./operations-toolbar"
@@ -8,8 +7,10 @@ import { Virtuoso } from "react-virtuoso"
 import { useOpsListStore } from "./operations-list-store"
 import { useCategoriesGet } from "@entities/categories"
 import './operations-list.style.css'
+import { OperationListHeaderSection } from "./operation-list-header"
+import { OperationListSection } from "./operation-list-section"
 
-export const OperationsList = () => {
+export const OperationsListWtoolbar = () => {
   const { params, filterSelected, filterOptions, sortOptions } = useOpsListStore()
   const { data: ops, isFetching: opsFetching, isError, error } = useOperationsGet(params)
   const {data: cats} = useCategoriesGet()
@@ -20,7 +21,7 @@ export const OperationsList = () => {
   useEffect(() => filterSelected(filteredOps.map(p => p.id)), [filteredOps])
 
   return (
-    <FlList className="op-list">
+    <OperationsList fullScreen>
       <OperationsListToolbar />
       <OperationListHeaderSection />
       {opsFetching ? <FlNoData><Spinner /></FlNoData> :
@@ -30,6 +31,14 @@ export const OperationsList = () => {
           data={sortedOps}
           itemContent={(_, op) => <OperationListSection op={op} key={op.id} />}
         />}
-    </FlList>
+    </OperationsList>
   )
 }
+
+export const OperationsList = ({ children, fullScreen=false }: {children?: React.ReactNode, fullScreen?: boolean}) => {
+  return (
+    <FlList className={"op-list" + (fullScreen ? ' op-list-full' : '')}>
+      {children}
+    </FlList>
+  )
+ }

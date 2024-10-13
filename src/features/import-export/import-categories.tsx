@@ -51,7 +51,7 @@ export const ImportCategories = () => {
             </DropZone>
       }
       <ContextualHelp>
-        <Heading>Requirements</Heading>
+        <Heading slot="title">Requirements</Heading>
         <Text>{JSON.stringify([{
             name: 'string',
             isIncome: 'boolean',

@@ -1,7 +1,7 @@
 import {
-  Button,
   ComboBox as AriaComboBox,
   ComboBoxProps as AriaComboBoxProps,
+  ComboBoxStateContext,
   FieldError,
   Input,
   Label,
@@ -12,6 +12,9 @@ import {
   Text,
   ValidationResult
 } from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon'
+import { ArrowDropDown, CloseIcon } from '@shared/svg'
+import { useContext } from 'react'
 
 export interface ComboBoxProps<T extends object>
   extends Omit<AriaComboBoxProps<T>, 'children'> {
@@ -30,7 +33,12 @@ export function ComboBox<T extends object>(
         <Label>{label}</Label>
         <div className="my-combobox-container">
           <Input />
-          <Button>▼</Button>
+          <ButtonIcon
+            className='react-aria-Button-icon s drop-down-button'
+          >
+            <ArrowDropDown />
+          </ButtonIcon>
+          <ComboBoxClearButton/>
         </div>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
@@ -46,4 +54,21 @@ export function ComboBox<T extends object>(
 
 export function ComboBoxItem(props: ListBoxItemProps) {
   return <ListBoxItem {...props} />
+}
+
+function ComboBoxClearButton() {
+  let state = useContext(ComboBoxStateContext);
+  return (
+    <ButtonIcon
+      slot={null}
+      aria-label="Очистить"
+      className={
+        'react-aria-Button-icon s clear-input-button' +
+        (state?.inputValue ? '' : ' hidden')
+      }
+      onPress={() => state?.setSelectedKey(null)}
+    >
+      <CloseIcon/>
+    </ButtonIcon>
+  );
 }

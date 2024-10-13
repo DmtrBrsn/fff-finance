@@ -1,3 +1,19 @@
 .op-list {
-  height: inherit;
+  container-name: op-list;
+  container-type: inline-size;
+}
+
+.op-list.op-list-full {
+  height: 100%;
+}
+
+.op-section, .op-section-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+@container op-list (width < 1100px) {
+  .op-section-header {
+    display: none;
+  }
 }

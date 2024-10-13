@@ -13,7 +13,7 @@
     color: var(--field-text-color);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    padding: 0.286rem 2rem 0.286rem 0.571rem;
+    padding: 0.3rem 3.4rem 0.3rem 0.6rem;
     vertical-align: middle;
 
     &[data-focused] {
@@ -23,23 +23,18 @@
     }
   }
 
-  .react-aria-Button {
-    background: var(--highlight-background);
-    color: var(--highlight-foreground);
-    forced-color-adjust: none;
-    border-radius: 4px;
-    border: none;
-    margin-left: -1.714rem;
-    width: 1.429rem;
-    height: 1.429rem;
-    padding: 0;
-    font-size: 0.857rem;
-    cursor: default;
+  .react-aria-Button-icon {
+    padding: 0.1rem;
+  }
 
-    &[data-pressed] {
-      box-shadow: none;
-      background: var(--highlight-background);
-    }
+  .drop-down-button {
+    margin-left: -1.8rem;
+  }
+  .clear-input-button {
+    margin-left: -3.1rem;
+  }
+  .clear-input-button.hidden {
+    visibility: hidden;
   }
 }
 
@@ -75,8 +70,8 @@
         content: '✓' / '';
         alt: ' ';
         position: absolute;
-        top: 4px;
-        left: 4px;
+        top: 0.1rem;
+        left: 0.3rem;
       }
     }
 

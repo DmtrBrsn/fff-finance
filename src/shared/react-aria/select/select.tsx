@@ -1,3 +1,4 @@
+import { ArrowDropDown } from '@shared/svg'
 import {
   Button,
   FieldError,
@@ -33,7 +34,7 @@ export function Select<T extends object>(
         <Label>{label}</Label>
         <Button>
           <SelectValue />
-          <span aria-hidden="true">▼</span>
+          <ArrowDropDown/>
         </Button>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>

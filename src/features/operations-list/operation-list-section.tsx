@@ -1,23 +1,22 @@
 import { useCategoriesGet } from "@entities/categories"
-import { Operation, useOperationsDelete } from "@entities/operations"
-import { EditIcon, DeleteIcon } from "@shared/svg"
-import { FlCell, FlRow } from "@shared/fl-list"
+import { Operation } from "@entities/operations"
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
-import { DateUtils } from "@shared/utils"
-import { ButtonIcon, Checkbox } from "@shared/react-aria"
-import { Dialog, DialogTrigger, Modal } from "react-aria-components"
-import { EditOperationForm } from "@features/edit-operation-form"
-import { Spinner } from "@shared/spinner"
-import '../operation-section/operation-section.css'
+import {
+  OpDateSectionValue, OpSumSectionValue,
+  OpDescriptionSectionValue, OpCatSectionValue,
+  OpIsIncomeSectionValue, OpCreatedSectionValue,
+  OpSectionControls, OpCheckbox
+} from "@features/operations-list/op-section-values/op-section-values"
+import { OperationSection } from "@features/operations-list/operation-section"
+
+import './operations-list.style.css'
 
 export const OperationListSection = ({ op }: {op: Operation}) => {
   const { data: cats } = useCategoriesGet(false)
   const cat = cats?.find(c => c.id === op.idCategory)
   const { selected, selectMode, setSelected } = useOpsListStore()
   const isSelected = selected.includes(op.id)
-  const {mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
 
-  const handleDeleteClick = () => deleteOp(op.id)
   const handleCheckboxChange = (e: boolean) => {
     e ?
       setSelected([...selected, op.id])
@@ -26,32 +25,19 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
   }
 
   return (
-    <FlRow className={cat?.isIncome ? 'op-income-section' : ''}>
+    <OperationSection isIncome={cat?.isIncome}>
       {selectMode &&
-        <FlCell className="op-checkbox">
-          <Checkbox isSelected={isSelected} onChange={handleCheckboxChange} />
-        </FlCell>}
-      <FlCell className="op-date">{DateUtils.isoStrToLocal(op.date)}</FlCell>
-      <FlCell className="op-sum">{op.sum.toLocaleString()}</FlCell>
-      <FlCell className="op-description">{op.description}</FlCell>
-      <FlCell className="op-category">{cat===undefined ? 'No category found' : cat.name}</FlCell>
-      <FlCell className="op-is-income">{cat===undefined ? '' : cat.isIncome ? 'Income' : 'Expense'}</FlCell>
-      <FlCell className="op-date">{DateUtils.isoStrToLocal(op.created)}</FlCell>
-      <FlCell className="op-buttons">
-        <DialogTrigger>
-          <ButtonIcon><EditIcon/></ButtonIcon>
-          <Modal>
-            <Dialog>
-              {({ close }) => (
-                <EditOperationForm op={op} onSuccess={close} onCancel={close}/>
-              )}
-            </Dialog>
-          </Modal>
-        </DialogTrigger>
-        <ButtonIcon
-          onPress={handleDeleteClick}
-        >{deleting ? <Spinner/> :<DeleteIcon />}</ButtonIcon>
-      </FlCell>
-    </FlRow>
+        <OpCheckbox
+        isSelected={isSelected}
+        handleCheckboxChange={handleCheckboxChange}
+      />}
+      <OpDateSectionValue val={op.date}/>
+      <OpSumSectionValue val={op.sum}/>
+      <OpDescriptionSectionValue val={op.description}/>
+      <OpCatSectionValue cat={cat}/>
+      <OpIsIncomeSectionValue cat={cat}/>
+      <OpCreatedSectionValue val={op.created}/>
+      <OpSectionControls op={op}/>
+    </OperationSection>
   )
 }

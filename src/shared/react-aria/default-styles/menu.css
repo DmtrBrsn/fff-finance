@@ -27,12 +27,19 @@
   &[data-focused] {
     background: var(--highlight-background);
     color: var(--highlight-foreground);
-    >svg {
-      fill: var(--highlight-foreground);
-    }
   }
-  >svg {
-    fill: var(--text-color);
+
+  .chevron {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.15rem;
+    width: 1.4rem;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 

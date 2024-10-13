@@ -18,6 +18,10 @@
       outline: 2px solid var(--focus-ring-color);
       outline-offset: -1px;
     }
+    .react-aria-TextArea {
+      min-width: 7rem;
+      min-height: 1.6rem;
+    }
   }
 
   .react-aria-Input,

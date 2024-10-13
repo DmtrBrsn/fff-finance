@@ -9,7 +9,7 @@ export const OperationListHeaderSection = () => {
   const { data: ops } = useOperationsGet(params)
 
   return (
-    <FlHeader className="op-section header">
+    <FlHeader className="op-section-header">
       {selectMode &&
         <FlCell className="op-checkbox">
           <ListHeaderCheckBox data={ops ?? []} selected={selected} setSelected={setSelected}/>
@@ -38,7 +38,7 @@ export const OperationListHeaderSection = () => {
         Is income
         <SortControls field="isIncome" />
       </FlCell>
-      <FlCell className="op-date">
+      <FlCell className="op-created">
         Created
         <SortControls field="created" />
         <FilterControls field="created" />
