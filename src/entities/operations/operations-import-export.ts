@@ -44,7 +44,9 @@ function validateImportOperation(opParsed: any, index: number, cats: Category[])
     throw new Error(`incorrect categoryName at ${index}}`)
   }
   const catExists = cats.some(c => c.name === opParsed.categoryName)
-  if (!catExists) throw new Error(`no category exists by name ${opParsed.categoryName} at ${index}`)
+  if (!catExists) {
+    throw new Error(`no category exists by name "${opParsed.categoryName}" at ${index}`)
+  }
   if (opParsed.sum == undefined || typeof opParsed.sum !== 'number' || opParsed.sum<0) {
     throw new Error(`incorrect sum at ${index}}`)
   }

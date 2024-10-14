@@ -7,33 +7,53 @@
 .op-created {width: 8rem;}
 .op-buttons {width: 4rem;}
 
-
 @container op-list (width >= 1100px) {
   .op-section-value-label {
     display: none;
   }
-  
 }
+
 @container op-list (width < 1100px) {
-  .op-date {width: 12rem;}
-  .op-sum {width: 9rem;}
-  .op-description {width: 18rem;}
-  .op-category {width: 22rem;}
-  .op-is-income {flex-basis: 100%; order: 7}
-  .op-created {width: 12rem;}
-  .op-checkbox {flex-basis: 100%;}
-  .op-section-value-label {
+  .op-checkbox {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+  }
+  .op-date {
+    grid-area: dat;
+  }
+  .op-sum {
+    grid-area: sum;
+    font-size: 1.4rem;
+  }
+  .op-description {
+    grid-area: des;
+    font-size: 1.1rem;
+    width: 100%;
+  }
+  .op-category {
+    grid-area: cat; 
+    width: 18rem;
+  }
+  .op-is-income {
+    grid-area: inc;
     color: var(--gray-300);
-    align-self: center;
   }
-  .op-section-value {
-    /* flex-direction: column; */
-    gap: 0.3rem;
-    align-items: start;
+  .op-created {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    color: var(--gray-300);
+    grid-area: cre; width: 100%;
+
   }
-  .op-buttons {
-    flex-basis: 100%;
-    justify-content: end;
-    order: 8;
+  .op-buttons {grid-area: cnt;}
+}
+
+@container op-list (width < 555px) {
+  .op-category {
+    width: 15rem;
   }
 }
+
+

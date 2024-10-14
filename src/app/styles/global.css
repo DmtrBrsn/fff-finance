@@ -108,6 +108,7 @@ textarea {
   border-color: var(--text-color) transparent var(--text-color) transparent;
   border-radius: 50%;
   animation: spin-anim 0.6s linear infinite;
+  /* animation-delay: 50ms; */
 }
 
 @keyframes spin-anim {

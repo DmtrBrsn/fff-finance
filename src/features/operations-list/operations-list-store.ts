@@ -1,5 +1,8 @@
 import { create } from 'zustand'
-import { GetOpsDatesParams, getThisMonthOpParams, OpFilterBy, OpFilterFields, OpSortableFields, OpSortBy, type Operation } from '@entities/operations'
+import {
+  GetOpsDatesParams, getThisMonthOpParams, OpFilterBy,
+  OpFilterFields, OpSortableFields, OpSortBy, type Operation
+} from '@entities/operations'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 type OpsListStore = {

@@ -15,37 +15,54 @@ const Label = ({ children }: { children: ReactNode }) => <span className='op-sec
 
 export const OpDateSectionValue = ({val}: {val: Operation['date']}) => {
   return (
-    <FlCell className="op-section-value op-date"><Label>Date</Label>{DateUtils.isoStrToLocal(val)}</FlCell>
+    <FlCell className="op-section-value op-date">
+      {/* <Label>Date</Label> */}
+      {DateUtils.isoStrToLocal(val)}
+    </FlCell>
   )
 }
 
 export const OpSumSectionValue = ({val}: {val: Operation['sum']}) => {
   return (
-    <FlCell className="op-section-value op-sum"><Label>Sum</Label>{val.toLocaleString()}</FlCell>
+    <FlCell className="op-section-value op-sum">
+      {/* <Label>Sum</Label> */}
+      {val.toLocaleString()}
+    </FlCell>
   )
 }
 
 export const OpDescriptionSectionValue = ({val}: {val: Operation['description']}) => {
   return (
-    <FlCell className="op-section-value op-description"><Label>Description</Label>{val}</FlCell>
+    <FlCell className="op-section-value op-description">
+      {/* <Label>Description</Label> */}
+      {val}
+    </FlCell>
   )
 }
 
 export const OpCatSectionValue = ({cat}: {cat?: Category}) => {
   return (
-    <FlCell className="op-section-value op-category"><Label>Category</Label>{cat===undefined ? 'No category found' : cat.name}</FlCell>
+    <FlCell className="op-section-value op-category">
+      {/* <Label>Category</Label> */}
+      {cat === undefined ? 'No category found' : cat.name}
+    </FlCell>
   )
 }
 
 export const OpIsIncomeSectionValue = ({cat}: {cat?: Category}) => {
   return (
-    <FlCell className="op-section-value op-is-income">{getIncExpStr(cat)}</FlCell>
+    <FlCell className="op-section-value op-is-income">
+      {getIncExpStr(cat)}
+    </FlCell>
   )
 }
 
 export const OpCreatedSectionValue = ({val}: {val: Operation['created']}) => {
   return (
-    <FlCell className="op-section-value op-created"><Label>Created</Label>{DateUtils.isoStrToLocal(val)}</FlCell>
+    <FlCell className="op-section-value op-created">
+      <Label>Created</Label>
+      {DateUtils.isoStrToLocal(val)}
+    </FlCell>
   )
 }
 

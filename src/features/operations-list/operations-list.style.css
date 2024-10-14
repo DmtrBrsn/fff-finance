@@ -16,4 +16,21 @@
   .op-section-header {
     display: none;
   }
+  .op-section {
+    display: grid;
+    grid-template-areas: 
+    "des des des sum"
+    "cat cat dat sum"
+    "inc . cre cnt";
+  }
+}
+
+@container op-list (width < 555px) {
+  .op-section {
+    grid-template-areas: 
+    "des des des des"
+    "cat cat cat sum"
+    "inc dat dat dat"
+    "cre cre cre cnt";
+  }
 }
