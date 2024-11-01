@@ -124,6 +124,19 @@ textarea {
   background-color: var(--income-background);
 }
 
+.flex-col {display: flex; flex-direction: column;}
+.flex-row {display: flex; flex-direction: row;}
+.align-center {align-items: center;}
+.justify-sb {justify-content: space-between;}
+.gap-micro {gap: 0.1rem;}
+.gap-1 {gap: calc(var(--gap-step) * 1);}
+.gap-2 {gap: calc(var(--gap-step) * 2);}
+.gap-3 {gap: calc(var(--gap-step) * 3);}
+.pad-micro {padding: 0.1rem;}
+.pad-1 {padding: calc(var(--gap-step) * 1);}
+.pad-2 {padding: calc(var(--gap-step) * 2);}
+.pad-3 {padding: calc(var(--gap-step) * 3);}
+
 
 .firebase-emulator-warning {
   background-color: transparent !important;

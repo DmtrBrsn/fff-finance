@@ -1,0 +1,103 @@
+.react-aria-Slider {
+  display: grid;
+  grid-template-areas: "label output"
+                       "track track";
+  grid-template-columns: 1fr auto;
+  max-width: 20rem;
+  color: var(--text-color);
+
+  .react-aria-Label {
+    grid-area: label;
+  }
+
+  .react-aria-SliderOutput {
+    grid-area: output;
+  }
+
+  .react-aria-SliderTrack {
+    grid-area: track;
+    position: relative;
+
+    /* track line */
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      background: var(--border-color);
+    }
+  }
+
+  .react-aria-SliderThumb {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--highlight-background);
+    border: 2px solid var(--background-color);
+    forced-color-adjust: none;
+
+    &[data-dragging] {
+      background: var(--highlight-background-pressed);
+    }
+
+    &[data-focus-visible] {
+      outline: 2px solid var(--focus-ring-color);
+    }
+  }
+
+  &[data-orientation=horizontal] {
+    flex-direction: column;
+    width: 15rem;
+
+    .react-aria-SliderTrack {
+      height: 2rem;
+      width: 100%;
+
+      &:before {
+        height: 0.1rem;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .react-aria-SliderThumb {
+      top: 50%;
+    }
+  }
+
+  &[data-orientation=vertical] {
+    height: 10rem;
+    display: block;
+
+    .react-aria-Label,
+    .react-aria-SliderOutput {
+      display: none;
+    }
+
+    .react-aria-SliderTrack {
+      width: 2rem;
+      height: 100%;
+
+      &:before {
+        width: 0.1rem;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    .react-aria-SliderThumb {
+      left: 50%;
+    }
+  }
+
+  &[data-disabled] {
+    .react-aria-SliderTrack:before {
+      background: var(--border-color-disabled);
+    }
+
+    .react-aria-SliderThumb {
+      background: var(--border-color-disabled);
+    }
+  }
+}

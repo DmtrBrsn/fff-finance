@@ -1,6 +1,6 @@
 .react-aria-Button-icon {
 
-  --size: 2rem;
+  --size: 1.8rem;
   &.s {--size: 1.5rem;}
   &.l {--size: 2.7rem;}
 

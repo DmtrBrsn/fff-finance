@@ -1,14 +1,18 @@
 .react-aria-RadioGroup {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--gap-step) * 3);
+  gap: var(--gap-step);
   color: var(--text-color);
+
+  .react-aria-Label {
+    cursor: default;
+  }
 }
 
 .react-aria-Radio {
   display: flex;
   align-items: center;
-  gap: 0.571rem;
+  gap: 0.3rem;
   font-size: 1rem;
   color: var(--text-color);
   forced-color-adjust: none;

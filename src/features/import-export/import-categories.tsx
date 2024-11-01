@@ -1,4 +1,4 @@
-import {useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useQueryClient } from '@tanstack/react-query'
 import { importCategories, QUERY_KEY_CATEGORIES } from '@entities/categories'
@@ -7,12 +7,14 @@ import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
 import { Button } from '@shared/react-aria'
 import { FolderOpen } from '@shared/svg'
 import { ContextualHelp } from '@shared/contextual-help'
+import { isTouchDevice } from '@shared/utils'
 
 export const ImportCategories = () => {
   const queryClient = useQueryClient()
   const ref = useRef<HTMLInputElement>(null)
   const [inProgress, setInProgress] = useState(false)
   const resetInput = () => ref.current != null && (ref.current.value = '')
+  const isTouch = useMemo(() => isTouchDevice(), [])
 
   const importFile = async (file: File) => {
     setInProgress(true)
@@ -28,36 +30,44 @@ export const ImportCategories = () => {
     setInProgress(false)
   }
 
+  const ImportBtn = useMemo(() => {
+    return (
+      <FileTrigger
+        onSelect={e => e !== null && e.length > 0 && importFile(e[0]).then(() => resetInput())}
+        ref={ref}
+        acceptedFileTypes={['.json']}
+      >
+        <Button><FolderOpen />Select a file</Button>
+        Or drop
+      </FileTrigger>
+    )
+  }, [])
+
   return (
     <div className='settings-section-container settings-section-container-center'>
-        <label>Import categories</label>
-        {
-          inProgress ?
-            <Spinner /> :
+      <label>Import categories</label>
+      {
+        inProgress ?
+          <Spinner /> : isTouch ? ImportBtn :
             <DropZone
               onDrop={e => {
                 const fileItem = e.items.filter(i => i.kind === 'file')[0]
                 if (fileItem) fileItem.getFile().then(file => importFile(file))
               }}
             >
-              <FileTrigger
-                onSelect={e => e !== null && e.length > 0 && importFile(e[0]).then(() => resetInput())}
-                ref={ref}
-                acceptedFileTypes={['.json']}
-              >
-                <Button><FolderOpen/>Select a file</Button>
-                Or drop
-              </FileTrigger>
+              {ImportBtn}
             </DropZone>
       }
       <ContextualHelp>
         <Heading slot="title">Requirements</Heading>
         <Text>{JSON.stringify([{
-            name: 'string',
-            isIncome: 'boolean',
-            'created?': 'iso date'
-          }], null, 2)}</Text>
+          name: 'string',
+          isIncome: 'boolean',
+          'created?': 'iso date'
+        }], null, 2)}</Text>
       </ContextualHelp>
     </div>
   )
 }
+
+

@@ -99,6 +99,7 @@
     &[data-selected],
     &[data-indeterminate] {
       .checkbox {
+        border-color: var(--gray-200);
         background-color: var(--gray-200);
       }
     }

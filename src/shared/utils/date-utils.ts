@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-type Period = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Квартал' | 'Q' | 'Полгода' | 'HY' | 'Год' | 'Y'
+type Period = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Полгода' | 'HY' | 'Год' | 'Y'
 
 export class DateUtils {
 	static second = 1000
@@ -11,6 +11,43 @@ export class DateUtils {
 
 	static tzs = {
 		msk: { name: 'Europe/Moscow', offset: -180 }
+	}
+
+	static formatDateLoc = (date: Date | string | number) => {
+		const d = new Date(date)
+		return new Intl.DateTimeFormat(navigator.language, {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric'
+		}).format(d)
+	}
+
+	static formatDateTimeLoc = (date: Date | number) => {
+		return new Intl.DateTimeFormat(navigator.language, {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric',
+			second: 'numeric'
+		}).format(date)
+	}
+
+	static getDatesRangeLoc(start: Date | number, end: Date | number) {
+		//@ts-ignore
+		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric', day: 'numeric' }).formatRange(start, end)
+	}
+	
+	static getDaysDurationLocalString(days: number) {
+		if (!('DurationFormat' in Intl)) return `${days} дн.`
+		//@ts-ignore
+		return new Intl.DurationFormat(navigator.language, { style: 'long' }).format({
+			days
+		})
+	}
+
+	static getMonthAndYearLoc(date: Date | number) {
+		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric' }).format(date)
 	}
 	
 	static tsToDateStr(ts: Timestamp) {
@@ -118,10 +155,6 @@ export class DateUtils {
 			case 'M':
 				date.setMonth(date.getMonth() + 1)
 				break
-			case 'Квартал':
-			case 'Q' :
-				date.setMonth(date.getMonth() + 3)
-				break
 			case 'Полгода':
 			case 'HY' :
 				date.setMonth(date.getMonth() + 6)
@@ -152,10 +185,6 @@ export class DateUtils {
 			case 'Месяц':
 			case 'M':
 				date.setMonth(date.getMonth() - 1)
-				break
-			case 'Квартал':
-			case 'Q' :
-				date.setMonth(date.getMonth() - 3)
 				break
 			case 'Полгода':
 			case 'HY' :
@@ -200,11 +229,6 @@ export class DateUtils {
 				const FD = new Date(date)
 				FD.setDate(1)
 				return FD
-			}
-			case 'Квартал' :
-			case 'Q' : {
-				const quarter = Math.floor((date.getMonth() / 3))
-				return new Date(date.getFullYear(), quarter * 3, 1)
 			}
 			case 'Полгода' :
 			case 'HY' : {

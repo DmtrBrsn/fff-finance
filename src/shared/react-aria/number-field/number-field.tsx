@@ -15,20 +15,23 @@ export interface NumberFieldProps extends AriaNumberFieldProps {
   label?: string
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
+  buttons?: boolean
 }
 
 export function NumberField(
-  { size, label, description, errorMessage, ...props }: NumberFieldProps
+  { size, label, description, errorMessage, buttons=true, ...props }: NumberFieldProps
 ) {
   return (
     (
       <AriaNumberField {...props}>
         <Label>{label}</Label>
-        <Group>
+        {buttons ? <Group>
           <Button slot="decrement">-</Button>
-          <Input size={size}/>
+          <Input size={size} />
           <Button slot="increment">+</Button>
         </Group>
+          :
+          <Input className='react-aria-Input no-buttons' size={size} />}
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaNumberField>

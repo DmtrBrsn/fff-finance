@@ -11,7 +11,7 @@
   display: flex;
 
   &[data-orientation=horizontal] {
-    border-bottom: 2px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 
     .react-aria-Tab {
       border-bottom: 3px solid var(--border-color);
@@ -20,7 +20,7 @@
 }
 
 .react-aria-Tab {
-  padding: calc(var(--gap-step) * 3);
+  padding: calc(var(--gap-step) * 2);
   cursor: default;
   outline: none;
   position: relative;
@@ -56,9 +56,9 @@
 }
 
 .react-aria-TabPanel {
-  margin-top: 4px;
-  padding: 10px;
-  border-radius: 4px;
+  margin-top: 0.6rem;
+  padding: 0.3rem;
+  border-radius: var(--app-border-radius);
   outline: none;
 
   &[data-focus-visible] {

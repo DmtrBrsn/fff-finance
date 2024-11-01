@@ -58,12 +58,14 @@ export const OperationsListToolbar = () => {
       <label htmlFor="from">From</label>
       <DatePicker
         id='from'
+        clearable={false}
         value={parseDate(from)}
         onChange={e => setFrom(e.toString())}
       />
       <label htmlFor="to">To</label>
       <DatePicker
         id='to'
+        clearable={false}
         value={parseDate(to)}
         onChange={e => setTo(e.toString())}
       />

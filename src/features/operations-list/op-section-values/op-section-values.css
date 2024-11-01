@@ -25,6 +25,7 @@
   .op-sum {
     grid-area: sum;
     font-size: 1.4rem;
+    justify-content: end;
   }
   .op-description {
     grid-area: des;
@@ -32,7 +33,7 @@
     width: 100%;
   }
   .op-category {
-    grid-area: cat; 
+    grid-area: cat;
     width: 18rem;
   }
   .op-is-income {
@@ -45,15 +46,9 @@
     gap: 0.2rem;
     color: var(--gray-300);
     grid-area: cre; width: 100%;
-
   }
-  .op-buttons {grid-area: cnt;}
-}
-
-@container op-list (width < 555px) {
-  .op-category {
-    width: 15rem;
+  .op-buttons {
+    grid-area: cnt; 
+    justify-content: end;
   }
 }
-
-

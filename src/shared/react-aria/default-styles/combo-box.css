@@ -1,5 +1,6 @@
 .react-aria-ComboBox {
   color: var(--text-color);
+  margin-right: 1.9rem;
 
   .my-combobox-container {
     display: flex;

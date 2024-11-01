@@ -12,4 +12,6 @@ export function updateRootThemeAttr(newTheme: string) {
 }
 
 export const remToPx = (rem: number) =>
-	parseInt(getRootCssProperty('--font-size-html').replace('px', '')) * rem
+  parseInt(getRootCssProperty('--font-size-html').replace('px', '')) * rem
+
+export const isTouchDevice = () => ("maxTouchPoints" in navigator) && navigator.maxTouchPoints > 0

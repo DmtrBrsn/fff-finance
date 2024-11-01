@@ -14,20 +14,25 @@ import {
   Label,
   Popover,
   Text,
-  ValidationResult
-} from 'react-aria-components'
+  ValidationResult,
+  DatePickerStateContext
+} from 'react-aria-components';
 import { ButtonIcon } from '../button-icon/button-icon';
-import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/svg'
+import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/svg';
+import { today } from '@internationalized/date';
+import React from 'react';
+import { Button } from '../button/button';
 
 export interface DatePickerProps<T extends DateValue>
   extends AriaDatePickerProps<T> {
   label?: string;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
+  clearable?: boolean;
 }
 
 export function DatePicker<T extends DateValue>(
-  { label, description, errorMessage, ...props }: DatePickerProps<T>
+  { label, description, errorMessage, clearable = true, ...props }: DatePickerProps<T>
 ) {
   return (
     (
@@ -52,10 +57,44 @@ export function DatePicker<T extends DateValue>(
               <CalendarGrid weekdayStyle='short'>
                 {(date) => <CalendarCell date={date} />}
               </CalendarGrid>
+              <span className='flex-row justify-sb gap-1'>
+                {clearable && <DatePickerClearButton />}
+                <DatePickerSetTodayButton />
+              </span>
             </Calendar>
           </Dialog>
         </Popover>
       </AriaDatePicker>
     )
+  )
+}
+
+function DatePickerSetTodayButton() {
+  let state = React.useContext(DatePickerStateContext)!
+  return (
+    <Button
+      size='compact'
+      slot={null}
+      onPress={() => {
+        state.setValue(today('utc'))
+        state.close()
+      }}>
+      Today
+    </Button>
+  )
+}
+
+function DatePickerClearButton() {
+  let state = React.useContext(DatePickerStateContext)!
+  return (
+    <Button
+      size='compact'
+      slot={null}
+      onPress={() => {
+        state.setValue(null)
+        state.close()
+      }}>
+      Clear
+    </Button>
   )
 }

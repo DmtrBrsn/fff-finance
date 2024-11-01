@@ -19,7 +19,7 @@
       outline-offset: -1px;
     }
     .react-aria-TextArea {
-      min-width: 7rem;
+      min-width: 6rem;
       min-height: 1.6rem;
     }
   }

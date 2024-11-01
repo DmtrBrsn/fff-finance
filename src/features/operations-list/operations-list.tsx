@@ -6,9 +6,9 @@ import { FlList, FlNoData } from "@shared/fl-list"
 import { Virtuoso } from "react-virtuoso"
 import { useOpsListStore } from "./operations-list-store"
 import { useCategoriesGet } from "@entities/categories"
-import './operations-list.style.css'
 import { OperationListHeaderSection } from "./operation-list-header"
 import { OperationListSection } from "./operation-list-section"
+import './operations-list.style.css'
 
 export const OperationsListWtoolbar = () => {
   const { params, filterSelected, filterOptions, sortOptions } = useOpsListStore()
