@@ -128,17 +128,17 @@ export class DateUtils {
   static isoStrToTzDateStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) {
     const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
-      date.toLocaleDateString('ru-RU')
+      date.toLocaleDateString(navigator.language)
       :
-      date.toLocaleDateString('ru-RU', { timeZone })
+      date.toLocaleDateString(navigator.language, { timeZone })
   }
 
   static isoStrToTzDateTimeStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) { 
     const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
-      date.toLocaleString('ru-RU')
+      date.toLocaleString(navigator.language)
       :
-      date.toLocaleString('ru-RU', { timeZone })
+      date.toLocaleString(navigator.language, { timeZone })
   }
 
   static incrementDatePeriod(date: Date, per: Period) {

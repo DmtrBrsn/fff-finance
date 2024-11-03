@@ -1,26 +1,56 @@
 .react-aria-Button {
-  
-  --background: var(--button-background);
+  --bg: var(--button-background);
   --color: var(--text-color);
+  --border-color: var(--gray-400);
+
+  --hover-bg: var(--highlight-hover);
+  --pressed-bg: var(--highlight-pressed);
+
+  --selected-bg: var(--gray-600);
+  --selected-color: var(--gray-50);
 
   &.attention {
-    --background: var(--highlight-background);
+    --bg: var(--highlight-background);
     --color: var(--highlight-foreground);
+    --border-color: transparent;
+
+    --hover-bg: var(--highlight-background-hover);
+    --pressed-bg: var(--highlight-background-pressed);
+
+    --selected-bg: var(--blue-600);
+    --selected-color: var(--gray-50);
   }
 
   &.danger {
-    --background: var(--red-200);
-  }  
+    --bg: var(--red-200);
+    --color: var(--highlight-foreground);
+    --border-color: transparent;
+
+    --hover-bg: var(--red-300);
+    --pressed-bg: var(--red-400);
+
+    --selected-bg: var(--red-500);
+    --selected-color: var(--gray-100);
+  }
+
   &.transparent {
-    --background: transparent;
+    --bg: transparent;
   }
 
   --size: 1rem;
-  &.s {--size: 0.8rem;}
-  &.l {--size: 1.5rem;}
+  --padding: 0.6rem 0.9rem;
+  &.narrow {--padding: 0.3rem;}
+  &.s {--padding: 0.1rem 0.2rem;}
+  &.s.narrow {--padding: 0.1rem;}
+  &.l {--size: 1.2rem;}
+  &.xl {
+    --size: 1.5rem;
+    --padding: 0.6rem 1.2rem;
+  }
+  &.xl.narrow {--padding: 0.6rem;}
 
   color: var(--color);
-  background: var(--background);
+  background: var(--bg);
   border: 1px solid var(--border-color);
   border-radius: var(--app-border-radius);
   appearance: none;
@@ -29,44 +59,24 @@
   text-align: center;
   margin: 0;
   outline: none;
-  padding: calc(var(--size) * 0.5) calc(var(--size) * 1.1);
+  padding: var(--padding);
   text-decoration: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
-
-  &.compact {
-    padding: 0.1rem 0.2rem;
-  }
+  gap: 0.1rem;
 
   >svg {
-    fill: var(--text-color);
+    fill: var(--color);
     height: calc(var(--size) * 1.1);
     width: calc(var(--size) * 1.1);
   }
 
-  &[data-hovered] {
-    background: var(--highlight-hover);
-    &.danger {
-      background: var(--red-300);
-    }
-    &.attention {
-      background: var(--highlight-background-hover);
-    }
-  }
+  &[data-hovered] {background: var(--hover-bg);}
 
   &[data-pressed] {
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.1);
-    background: var(--highlight-pressed);
-    border-color: var(--border-color-pressed);
-    &.danger {
-      background: var(--red-400);
-    }
-    &.attention {
-      background: var(--highlight-background-pressed);
-    }
+    background: var(--pressed-bg);
   }
 
   &[data-focus-visible] {
@@ -77,30 +87,12 @@
   &[data-disabled]{
     border-color: var(--border-color-disabled);
     color: var(--text-color-disabled);
-    >svg {
-      fill: var(--text-color-disabled);
-    }
+    >svg {fill: var(--text-color-disabled);}
   }
 
   &[data-selected] {
-    background: var(--gray-600);
-    color: var(--gray-50);
-    >svg {
-      fill: var(--gray-50);
-    }
-    &.danger {
-      background: var(--red-500);
-      color: var(--gray-100);
-      >svg {
-        fill: var(--gray-100);
-      }
-    }
-    &.attention {
-      background: var(--blue-600);
-      color: var(--gray-50);
-      >svg {
-        fill: var(--gray-50);
-      }
-    }
+    background: var(--selected-bg);
+    color: var(--selected-color);
+    >svg {fill: var(--selected-color);}
   }
 }

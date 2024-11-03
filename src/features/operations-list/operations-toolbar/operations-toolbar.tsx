@@ -26,7 +26,7 @@ export const OperationsListToolbar = () => {
   
   const { mutateAsync: batchDeleteOps } = useOperationsBatchDelete()
   const deleteSelected = () => batchDeleteOps(selected)
-  .then(() => toast('Записи удалены'))
+  .then(() => toast('Selected operations deleted'))
 
   const { data: ops, refetch } = useOperationsGet(params, true)
   const opsSum = useMemo(() => ops?.reduce((acc, op) => acc + op.sum, 0) ?? 0, [ops])
@@ -51,7 +51,7 @@ export const OperationsListToolbar = () => {
   return (
     <Toolbar>
       <ToggleButtonIcon
-        aria-label={(selectMode ? 'Скрыть' : 'Показать')+ ' выбор позиций'}
+        aria-label={(selectMode ? 'Show' : 'Hide')+ ' selection'}
         onPress={() => setSelectMode(!selectMode)}
         isSelected={selectMode}
       ><Checkbox /></ToggleButtonIcon>
@@ -73,13 +73,13 @@ export const OperationsListToolbar = () => {
       <Button onPress={setThisM}>This M</Button>
       <ButtonIcon
         onPress={resetFiltersAndSort}
-        aria-label={'Сбросить фильтры и сортировку'}
+        aria-label={'Reset filters and sort'}
         isDisabled={filterOptions.length === 0 && sortOptions.length === 0}
       ><FilterListOff/></ButtonIcon>
       <ButtonIcon
         onPress={deleteSelected}
         isDisabled={selected.length === 0}
-        aria-label={'Удалить выбранные записи'}
+        aria-label={'Delete selected operations'}
       ><DeleteIcon /></ButtonIcon>
       {ops && 'operations: ' + ops.length}
       {ops && ' sum: ' + numToFixedStr(opsSum)}

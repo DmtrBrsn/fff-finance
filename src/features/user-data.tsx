@@ -11,11 +11,11 @@ export const UserData = () => {
         <li>name: {currentUser.displayName}</li>
         {
           currentUser.metadata.creationTime != undefined &&
-          <li>user created: {new Date(currentUser.metadata.creationTime).toLocaleString('RU-ru')}</li>
+          <li>user created: {new Date(currentUser.metadata.creationTime).toLocaleString(navigator.language)}</li>
         }
         {
           currentUser.metadata.lastSignInTime != undefined &&
-          <li>last sign in: {new Date(currentUser.metadata.lastSignInTime).toLocaleString('RU-ru')}</li>
+          <li>last sign in: {new Date(currentUser.metadata.lastSignInTime).toLocaleString(navigator.language)}</li>
         }
       </ul>
     </div>

@@ -38,13 +38,12 @@ export const ImportCategories = () => {
         acceptedFileTypes={['.json']}
       >
         <Button><FolderOpen />Select a file</Button>
-        Or drop
       </FileTrigger>
     )
   }, [])
 
   return (
-    <div className='settings-section-container settings-section-container-center'>
+    <div className='settings-section-container align-center'>
       <label>Import categories</label>
       {
         inProgress ?
@@ -56,6 +55,7 @@ export const ImportCategories = () => {
               }}
             >
               {ImportBtn}
+              Or drop
             </DropZone>
       }
       <ContextualHelp>

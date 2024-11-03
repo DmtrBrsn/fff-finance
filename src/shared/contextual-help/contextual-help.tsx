@@ -8,7 +8,7 @@ export const ContextualHelp = (
 ) => {
   return (
     <DialogTrigger>
-      <ButtonIcon size="compact">
+      <ButtonIcon size="s">
         {variant === 'info' ? <Info /> : <Help />}
       </ButtonIcon>
       <Popover>

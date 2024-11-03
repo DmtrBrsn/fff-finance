@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 
 export const SignupPage = () => {
   return (
-    <main className="page-centered-content">
+    <main className="flex-col align-center justify-center">
       <h1>Sign Up</h1>
       <SignInWithGoogle/>
       <span className='auth-or'>Or</span>

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 
 export const PasswordResetPage = () => {
   return (
-    <main className="page-centered-content">
+    <main className="flex-col align-center justify-center">
       <h1>Password Reset</h1>
       <PasswordReset />
       <div className="auth-nav-links">

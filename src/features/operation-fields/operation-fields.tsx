@@ -27,6 +27,7 @@ export const OpSumField = (
 ) => {
   return (
     <NumberField
+      buttons={false}
       size={6}
       label='Sum'
       minValue={0}
@@ -75,5 +76,3 @@ export const OpDescriptionField = (
     />
   )
 }
-
-

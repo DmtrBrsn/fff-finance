@@ -1,6 +1,7 @@
-import { ArrowDropDown } from '@shared/svg'
+import { ArrowDropDown, CloseIcon } from '@shared/svg'
+import { useContext } from 'react'
 import {
-  Button,
+  Button as AriaButton,
   FieldError,
   Label,
   ListBox,
@@ -11,20 +12,23 @@ import {
   Text,
   ValidationResult,
   ListBoxItemProps,
-  ListBoxItem
+  ListBoxItem,
+  SelectStateContext
 } from 'react-aria-components'
+import { Button } from '../button/button'
 
 export interface SelectProps<T extends object>
   extends Omit<AriaSelectProps<T>, 'children'> {
   label?: string
   description?: string
+  withClearButton?: boolean
   errorMessage?: string | ((validation: ValidationResult) => string)
   items?: Iterable<T>
   children: React.ReactNode | ((item: T) => React.ReactNode)
 }
 
 export function Select<T extends object>(
-  { label, description, errorMessage, children, items, ...props }: SelectProps<
+  { label, description, withClearButton, errorMessage, children, items, ...props }: SelectProps<
     T
   >
 ) {
@@ -32,10 +36,13 @@ export function Select<T extends object>(
     (
       <AriaSelect {...props}>
         <Label>{label}</Label>
-        <Button>
-          <SelectValue />
-          <ArrowDropDown/>
-        </Button>
+        <span className='flex-row gap-1'>
+          <AriaButton className='react-aria-Button drop-down-button'>
+            <SelectValue/>
+            <ArrowDropDown aria-hidden="true"/>
+          </AriaButton>
+          {withClearButton && <SelectClearButton />}
+        </span>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
         <Popover>
@@ -50,4 +57,17 @@ export function Select<T extends object>(
 
 export function SelectItem(props: ListBoxItemProps) {
   return <ListBoxItem {...props} />;
+}
+
+function SelectClearButton() {
+  let state = useContext(SelectStateContext)
+  return (
+    <>{state?.selectedKey && <Button
+      // Don't inherit behavior from Select.
+      slot={null}
+      className={'react-aria-Button narrow'}
+      onPress={() => state?.setSelectedKey(null)}>
+      <CloseIcon/>
+    </Button >}</>
+  )
 }

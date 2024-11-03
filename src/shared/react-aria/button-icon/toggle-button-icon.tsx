@@ -9,27 +9,18 @@ type ToggleButtonIconProps = {
 export function ToggleButtonIcon(
   { size = 'm', tooltip, ...props }: ToggleButtonIconProps
 ) {
+  const className = 'react-aria-Button-icon' + ' ' +
+    size +
+    (props.className ? ' ' + props.className : '')
+  
   if (!tooltip) return (
-    <RACToggleButton
-      className={
-        'react-aria-Button-icon' + ' ' +
-        size +
-        (props.className ? ' ' + props.className : '')
-      }
-      {...props}
-    >
-      {props.children}
-    </RACToggleButton>
+    <RACToggleButton className={className} {...props}>{props.children}</RACToggleButton>
   )
   else return (
     <TooltipTrigger>
       <RACToggleButton
-        className={
-          'react-aria-Button-icon' + ' ' +
-          size +
-          (props.className ? ' ' + props.className : '')
-        }
-        aria-label={tooltip+(props['aria-label'] ? ' '+props['aria-label'] : '')}
+        className={className}
+        aria-label={tooltip + (props['aria-label'] ? ' ' + props['aria-label'] : '')}
         {...props}
       >
         {props.children}

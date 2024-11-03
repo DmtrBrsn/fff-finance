@@ -73,7 +73,7 @@ function DatePickerSetTodayButton() {
   let state = React.useContext(DatePickerStateContext)!
   return (
     <Button
-      size='compact'
+      size='s'
       slot={null}
       onPress={() => {
         state.setValue(today('utc'))
@@ -88,7 +88,7 @@ function DatePickerClearButton() {
   let state = React.useContext(DatePickerStateContext)!
   return (
     <Button
-      size='compact'
+      size='s'
       slot={null}
       onPress={() => {
         state.setValue(null)

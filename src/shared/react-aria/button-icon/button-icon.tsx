@@ -2,40 +2,31 @@ import {Button as RACButton, ButtonProps as RACButtonProps, TooltipTrigger} from
 import { Tooltip } from '../tooltip/tooltip'
 
 type ButtonIconProps = {
-  size?: 's' | 'm' | 'l' | 'compact'
+  size?: 's' | 'm' | 'l'
+  extraClassName?: string
   tooltip?: string
 } & RACButtonProps
 
 export function ButtonIcon(
-  { size = 'm', tooltip, ...props }: ButtonIconProps
+  { size = 'm', tooltip, extraClassName, ...props }: ButtonIconProps
 ) {
+  const className = 'react-aria-Button-icon' + ' ' +
+    size +
+    (extraClassName ? ' ' + extraClassName : '')
+  
   if (!tooltip) return (
-    <RACButton
-      className={
-        'react-aria-Button-icon' + ' ' +
-        size +
-        (props.className ? ' ' + props.className : '')
-      }
-      {...props}
-    >
-      {props.children}
-    </RACButton>
+    <RACButton className={className} {...props}>{props.children}</RACButton>
   )
   else return (
     <TooltipTrigger>
       <RACButton
-        className={
-          'react-aria-Button-icon' + ' ' +
-          size +
-          (props.className ? ' ' + props.className : '')
-        }
-        aria-label={tooltip+(props['aria-label'] ? ' '+props['aria-label'] : '')}
+        className={className}
+        aria-label={tooltip + (props['aria-label'] ? ' ' + props['aria-label'] : '')}
         {...props}
-        >
+      >
         {props.children}
-        </RACButton>
+      </RACButton>
       <Tooltip>{tooltip}</Tooltip>
     </TooltipTrigger>
   )
 }
-

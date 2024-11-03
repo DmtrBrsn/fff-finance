@@ -49,6 +49,7 @@
   }
 
   .react-aria-TextArea {
+    font: inherit;
     &.none {
       resize: none;
     }

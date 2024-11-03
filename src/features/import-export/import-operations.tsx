@@ -43,13 +43,12 @@ export const ImportOperations = () => {
         acceptedFileTypes={['.json']}
       >
         <Button><FolderOpen />Select a file</Button>
-        Or drop
       </FileTrigger>
     )
   }, [cats])
 
   return (
-    <div className='settings-section-container settings-section-container-center'>
+    <div className='settings-section-container align-center'>
       <label>Import operations</label>
       {cats === undefined || cats.length === 0 ? 'Create categories first' :
         <>
@@ -62,6 +61,7 @@ export const ImportOperations = () => {
                 }}
               >
                 {ImportBtn}
+                Or drop
               </DropZone>
           }
           <ContextualHelp>

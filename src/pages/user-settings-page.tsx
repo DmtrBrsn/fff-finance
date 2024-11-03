@@ -9,8 +9,7 @@ export const UserSettingsPage = () => {
   const userLoggedInUsingGoogle = !!providers?.some(prov => prov.providerId === 'google.com')
 
   return (
-    <main>
-      <div className="settings-container max-width-wrap">
+    <main className="flex-row wrap align-start gap-3 pad-2 max-width-wrap">
         <UserData/>
         <Logout />
         {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle/>}
@@ -24,7 +23,6 @@ export const UserSettingsPage = () => {
           <></>
         }
         <DeleteUser />
-      </div>
     </main>
   )
 }

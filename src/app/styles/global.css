@@ -14,7 +14,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-
 }
 
 [id="root"] {
@@ -29,10 +28,6 @@ main {
   height: 100%;
 }
 
-textarea {
-  font: inherit;
-}
-
 [id="root"]>header {
   position: sticky;
   width: 100%;
@@ -40,7 +35,6 @@ textarea {
   order: 1;
   z-index: 2;
 }
-
 
 .custom-scrollbar, 
 .fl-list [data-testid="virtuoso-scroller"], 
@@ -61,26 +55,25 @@ textarea {
   }
 }
 
+.flex-col {display: flex; flex-direction: column;}
+.flex-row {display: flex; flex-direction: row;}
+.wrap {flex-wrap: wrap;}
+.align-center {align-items: center;}
+.align-start {align-items: flex-start;}
+.justify-sb {justify-content: space-between;}
+.justify-center {justify-content: center;}
+.gap-micro {gap: 0.1rem;}
+.gap-1 {gap: calc(var(--gap-step) * 1);}
+.gap-2 {gap: calc(var(--gap-step) * 2);}
+.gap-3 {gap: calc(var(--gap-step) * 3);}
+.pad-micro {padding: 0.1rem;}
+.pad-1 {padding: calc(var(--gap-step) * 1);}
+.pad-2 {padding: calc(var(--gap-step) * 2);}
+.pad-3 {padding: calc(var(--gap-step) * 3);}
 
 .max-width-wrap {
   max-width: var(--max-width);
   margin: 0 auto;
-}
-
-.page-centered-content  {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center
-}
-
-
-.settings-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  gap: calc(var(--gap-step) * 3);
-  padding: calc(var(--gap-step) * 2);
 }
 
 .settings-section-container {
@@ -88,18 +81,13 @@ textarea {
   flex-direction: column;
   flex-wrap: wrap;
   gap: calc(var(--gap-step) * 2);
+  padding: calc(var(--gap-step) * 3);
   background-color: var(--gray-50);
   border-radius: var(--app-border-radius);
-  padding: calc(var(--gap-step) * 3);
 }
 .settings-section-container>label {
   color: var(--gray-600);
 }
-
-.settings-section-container-center {
-  align-items: center;
-}
-
 
 .spinner {
   width: 0.9rem;
@@ -123,20 +111,6 @@ textarea {
 .income-background {
   background-color: var(--income-background);
 }
-
-.flex-col {display: flex; flex-direction: column;}
-.flex-row {display: flex; flex-direction: row;}
-.align-center {align-items: center;}
-.justify-sb {justify-content: space-between;}
-.gap-micro {gap: 0.1rem;}
-.gap-1 {gap: calc(var(--gap-step) * 1);}
-.gap-2 {gap: calc(var(--gap-step) * 2);}
-.gap-3 {gap: calc(var(--gap-step) * 3);}
-.pad-micro {padding: 0.1rem;}
-.pad-1 {padding: calc(var(--gap-step) * 1);}
-.pad-2 {padding: calc(var(--gap-step) * 2);}
-.pad-3 {padding: calc(var(--gap-step) * 3);}
-
 
 .firebase-emulator-warning {
   background-color: transparent !important;
