@@ -60,6 +60,7 @@ textarea {
 .wrap {flex-wrap: wrap;}
 .align-center {align-items: center;}
 .align-start {align-items: flex-start;}
+.align-baseline {align-content: baseline;}
 .justify-sb {justify-content: space-between;}
 .justify-center {justify-content: center;}
 .gap-micro {gap: 0.1rem;}

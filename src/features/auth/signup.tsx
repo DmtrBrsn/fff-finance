@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { toast } from "@app/toaster"
 import { useAuth } from './auth-context'
 import { firebasePasswordMinLength } from '@shared/contants'
 import { Form } from 'react-aria-components'

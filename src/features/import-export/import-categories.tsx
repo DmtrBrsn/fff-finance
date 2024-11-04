@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from "@app/toaster"
 import { useQueryClient } from '@tanstack/react-query'
 import { importCategories, QUERY_KEY_CATEGORIES } from '@entities/categories'
 import { Spinner } from '@shared/spinner'

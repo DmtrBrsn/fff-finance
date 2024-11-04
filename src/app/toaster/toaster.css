@@ -1,0 +1,49 @@
+.toaster {
+  position: fixed;
+  bottom: 3rem;
+  left: 50%;
+  transform: translate(-50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap-step) * 2);
+  align-items: center;
+
+  .toast {
+    &.info {
+      --bg: var(--blue-100);
+    }
+    &.success {
+      --bg: var(--green-100);
+    }
+    &.error {
+      --bg: var(--red-100);
+    }
+    &.warning {
+      --bg: var(--yellow-100);
+    }
+
+    display: flex;
+    gap: calc(var(--gap-step) * 3);
+    padding: calc(var(--gap-step) * 2);
+    align-items: center;
+    border-radius: var(--app-border-radius);
+    background-color: var(--bg);
+
+    .icon {
+      height: 1.5rem;
+      width: 1.5rem;
+      margin-right: -0.3rem;
+      svg {
+        fill: var(--text-color);
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+    }
+    
+    .message {
+      flex-grow: 1;
+      font-size: 1.1rem;
+    }
+  }
+}

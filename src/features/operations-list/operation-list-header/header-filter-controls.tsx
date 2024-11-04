@@ -5,13 +5,12 @@ import { DateUtils, type FilterableValue, type FilterCondition } from "@shared/u
 import { useOpsListStore } from "@features/operations-list/operations-list-store"
 import { Button, ButtonIcon, DatePicker, NumberField, Popover, Select, SelectItem, TextField } from "@shared/react-aria"
 import { DialogTrigger } from "react-aria-components"
-import { ButtonGroup } from "@shared/button-group/button-group"
 import { parseDate } from "@internationalized/date"
 
 import './header-filter-controls.css'
 
-export const FilterControls = ({field}: {field: OpFilterFields}) => {
-  const { filterOptions, filterFormOpenFor,  setFilterFormOpenFor} = useOpsListStore()
+export const FilterControls = ({ field }: { field: OpFilterFields }) => {
+  const { filterOptions, filterFormOpenFor, setFilterFormOpenFor } = useOpsListStore()
   const filterBy = filterOptions.find(f => f.field === field)
   const disabled = filterBy == undefined
 
@@ -20,20 +19,20 @@ export const FilterControls = ({field}: {field: OpFilterFields}) => {
   const filterTip = `${filterBy?.condition} ${filterBy?.value}`
 
   return (
-    <DialogTrigger isOpen={open} onOpenChange={o=>setFilterFormOpenFor(o ? field : null)}>
+    <DialogTrigger isOpen={open} onOpenChange={o => setFilterFormOpenFor(o ? field : null)}>
       <ButtonIcon
         onPress={() => setFilterFormOpenFor(field)}
         aria-label={disabled && !open ? 'Filter' : open ? undefined : filterTip}
       >{disabled ? <FilterAlt /> : <FilterAltFilled />}</ButtonIcon>
       <Popover>
-        <FilterFormPopup field={field}/>
+        <FilterFormPopup field={field} />
       </Popover>
     </DialogTrigger>
   )
 }
 
-const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
-  const { filterOptions, setFilter, removeFilter,  setFilterFormOpenFor} = useOpsListStore()
+const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
+  const { filterOptions, setFilter, removeFilter, setFilterFormOpenFor } = useOpsListStore()
   const filterBy = filterOptions.find(f => f.field === field)
   const disabled = filterBy == undefined
 
@@ -42,12 +41,12 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
     ['sum'].includes(field) ?
       'number' :
       'text'
-  
+
   const defaultCondition = type === 'date' ? 'gt' : type === 'text' ? 'contains' : 'eq'
   const [condition, setCondition] = useState<FilterCondition>(filterBy?.condition ?? defaultCondition)
   const [filterValue, setFilterValue] = useState<FilterableValue>(filterBy?.value ?? '')
   const [filterValue1, setFilterValue1] = useState<FilterableValue>(filterBy?.value1 ?? '')
-  
+
   const apply = () => {
     setFilter({ field, condition, value: filterValue, value1: filterValue1 })
     setFilterFormOpenFor(null)
@@ -60,11 +59,11 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
     setFilterFormOpenFor(null)
   }
 
-  const options: {label: string, value: FilterCondition}[] = [
+  const options: { label: string, value: FilterCondition }[] = [
     { label: 'Equals', value: 'eq' },
     { label: 'Not equals', value: 'neq' }
   ]
-  if (type === 'date' || type === 'number' ) options.push(
+  if (type === 'date' || type === 'number') options.push(
     { label: 'More than', value: 'gt' },
     { label: 'Less than', value: 'lt' },
     { label: 'More than or equal', value: 'gte' },
@@ -78,10 +77,10 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
     { label: 'Ends with', value: 'endswith' },
   )
 
-  if (typeof filterValue==='boolean' || typeof filterValue1==='boolean') return
+  if (typeof filterValue === 'boolean' || typeof filterValue1 === 'boolean') return
   return (
     <div className='filter-form'>
-      <Select items={options} selectedKey={condition} onSelectionChange={(key)=>setCondition(key as FilterCondition)}>
+      <Select items={options} selectedKey={condition} onSelectionChange={(key) => setCondition(key as FilterCondition)}>
         {(item) => <SelectItem id={item.value}>{item.label}</SelectItem>}
       </Select>
       {type === 'number' && <NumberField size={6} autoFocus value={Number(filterValue)} onChange={setFilterValue} />}
@@ -92,7 +91,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
           onChange={d => setFilterValue(DateUtils.isoStrToInpDate(d.toString()))}
         />
       }
-      {type=='text' && <TextField autoFocus value={filterValue.toString()} onChange={setFilterValue} />}
+      {type == 'text' && <TextField autoFocus value={filterValue.toString()} onChange={setFilterValue} />}
       {condition === 'between' && <>
         {type === 'number' && <NumberField size={6} autoFocus value={Number(filterValue1)} onChange={setFilterValue1} />}
         {type === 'date' &&
@@ -102,13 +101,13 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields}) => {
             onChange={d => setFilterValue1(DateUtils.isoStrToInpDate(d.toString()))}
           />
         }
-        {type=='text' && <TextField autoFocus value={filterValue1.toString()} onChange={setFilterValue1} />}
-        </>}
-      <ButtonGroup>
+        {type == 'text' && <TextField autoFocus value={filterValue1.toString()} onChange={setFilterValue1} />}
+      </>}
+      <span className="flex-row gap-1">
         <Button onPress={apply}>Apply</Button>
         <Button onPress={cancel}>Cancel</Button>
         <ButtonIcon isDisabled={disabled} onPress={remove} aria-label="Remove filter" ><FilterAltOff /></ButtonIcon>
-      </ButtonGroup>
+      </span>
     </div>
   )
 }

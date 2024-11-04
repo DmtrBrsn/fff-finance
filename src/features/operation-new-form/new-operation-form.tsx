@@ -1,11 +1,10 @@
 import { useState, FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from "@app/toaster"
 import { OperationAdd, useOperationsAdd, getOpDraft, updateOpDraft, removeOpDraft } from '@entities/operations'
 import { Spinner } from '@shared/spinner'
 import { DateUtils } from '@shared/utils'
 import { Button } from '@shared/react-aria'
 import { CatSelectTags } from '@features/fields-for-category'
-import { ButtonGroup } from '@shared/button-group/button-group'
 import { OpDateField, OpDescriptionField, OpSumField } from '@features/operation-fields'
 import { Form } from 'react-aria-components'
 
@@ -17,11 +16,11 @@ export const NewOperationForm = () => {
   const initOp = {
     date: DateUtils.getCurInpDate(),
     description: '',
-    idCategory:'',
+    idCategory: '',
     created: DateUtils.getCurInpDate(),
-    sum:0
+    sum: 0
   }
-  
+
   const [op, setOp] = useState<OperationAdd>(operationDraft != null ? operationDraft : initOp)
 
   const setOpAndDraft = (newValues: OperationAdd) => {
@@ -59,10 +58,10 @@ export const NewOperationForm = () => {
         selectedId={op.idCategory}
         onSelect={(idCategory: string) => setOpAndDraft({ ...op, idCategory })}
       />
-      <ButtonGroup>
+      <span className="flex-row gap-1">
         <Button variant='attention' type="submit" isDisabled={isSaving}> {isSaving ? <Spinner /> : 'Save'}</Button>
-        <Button type="button" isDisabled={isSaving || operationDraft==null} onPress={reset}>Reset</Button>
-      </ButtonGroup>
+        <Button type="button" isDisabled={isSaving || operationDraft == null} onPress={reset}>Reset</Button>
+      </span>
     </Form>
   )
 }

@@ -4,7 +4,7 @@ import { GetOpsParams } from "./operations-params"
 import { Id } from "@/shared/types/api-types"
 import { Operation, OperationAdd, OperationUpd } from "./operations-types"
 import { DateUtils, getColPath } from "@shared/utils"
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 
 const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams ) => {
   let queryArr: QueryConstraint[] = []

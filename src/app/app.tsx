@@ -1,8 +1,11 @@
 import { Router } from './router'
 import { AuthProvider } from '@features/auth'
-import { ToastContainerDefault } from '@app/toast-container-default'
-import { updateRootThemeAttr } from '@shared/utils'
 import { Header } from '@widgets/header'
+import { RouterProvider } from 'react-aria-components';
+import { useHref, useNavigate } from 'react-router-dom'
+import { useAppStore } from './app-store'
+import { updateRootThemeAttr } from '@shared/utils';
+import { Toaster } from './toaster/toaster';
 
 import './styles/root.css'
 import './styles/colors.css'
@@ -11,21 +14,20 @@ import './styles/auth.css'
 import '@shared/react-aria/default-styles'
 
 function App() {
-  useApptheme()
+  const { theme } = useAppStore()
+  updateRootThemeAttr(theme)
+  const navigate = useNavigate()
   return (
     <>
       <AuthProvider>
         <Header />
-        <Router/>
+        <RouterProvider navigate={navigate} useHref={useHref}>
+          <Router />
+        </RouterProvider>
       </AuthProvider>
-      <ToastContainerDefault />
+      <Toaster />
     </>
   )
-}
-
-const useApptheme = () => {
-  const currentTheme = localStorage.getItem('appTheme')
-  updateRootThemeAttr(currentTheme ?? 'auto')
 }
 
 export default App

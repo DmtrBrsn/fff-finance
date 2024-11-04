@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useOperationsGet, getThisMonthOpParams, useOperationsBatchDelete } from '@entities/operations'
 import { useOpsListStore } from "../operations-list-store"
 import { Checkbox, DeleteIcon, FilterListOff, Refresh } from '@shared/svg'
-import { toast } from 'react-toastify'
+import { toast } from "@app/toaster"
 import { numToFixedStr } from '@shared/utils'
 import { Toolbar } from 'react-aria-components'
 import { Button, ButtonIcon, DatePicker, ToggleButtonIcon } from '@shared/react-aria'

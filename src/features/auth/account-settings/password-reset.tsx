@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { useAuth } from '../auth-context'
 import { Form } from 'react-aria-components'
 import { Button, TextField } from '@shared/react-aria'

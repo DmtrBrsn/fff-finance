@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from "@app/toaster"
 import { useAuth } from '../auth-context'
 import { DialogTrigger, Form } from 'react-aria-components'
 import { Button, Popover, TextField } from '@shared/react-aria'
-import { ButtonGroup } from '@shared/button-group/button-group'
 
 export const UpdateEmail = () => {
   const { userService } = useAuth()
@@ -20,7 +19,7 @@ export const UpdateEmail = () => {
     setError('')
   }
 
-  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
     setLoading(true)
@@ -36,9 +35,9 @@ export const UpdateEmail = () => {
 
   return (
     <DialogTrigger isOpen={active} onOpenChange={setActive}>
-    <Button onPress={()=>setActive(true)} isDisabled={loading}>
-      Update Email
-    </Button>
+      <Button onPress={() => setActive(true)} isDisabled={loading}>
+        Update Email
+      </Button>
       <Popover>
         <Form onSubmit={handleSubmit}>
           {error && <div role="alert">{error}</div>}
@@ -55,14 +54,14 @@ export const UpdateEmail = () => {
             isDisabled={loading}
             isRequired
           />
-          <ButtonGroup isDisabled={loading}>
-            <Button type='submit'>
+          <span className='flex-row gap-1'>
+            <Button variant='attention' type='submit' isDisabled={loading}>
               {loading ? 'Updating...' : 'Update'}
             </Button>
             <Button onPress={handleCancel}>
               Cancel
             </Button>
-          </ButtonGroup>
+          </span>
         </Form>
       </Popover>
     </DialogTrigger>

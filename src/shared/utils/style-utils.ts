@@ -1,10 +1,12 @@
+import { AppTheme } from "@app/app-store"
+
 export const getRootCssProperty = (propName: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(propName)
   
 export const setRootCssProperty = (propName: string, value: string | null) =>
   document.documentElement.style.setProperty(propName, value)
   
-export function updateRootThemeAttr(newTheme: string) {
+export function updateRootThemeAttr(newTheme: AppTheme) {
   newTheme === 'auto' ?
     document.documentElement.removeAttribute('data-theme')
     :

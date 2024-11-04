@@ -1,5 +1,5 @@
 import { SignInWithGoogle, Signup } from "@features/auth"
-import { NavLink } from "react-router-dom"
+import { Link } from "react-aria-components"
 
 export const SignupPage = () => {
   return (
@@ -9,7 +9,7 @@ export const SignupPage = () => {
       <span className='auth-or'>Or</span>
       <Signup />
       <div className="auth-nav-links">
-        <NavLink to="/login">Log in</NavLink>
+        <Link href="/login">Log in</Link>
       </div>
     </main>
   )

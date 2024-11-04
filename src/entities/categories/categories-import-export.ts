@@ -1,5 +1,5 @@
 import { writeBatch, doc, collection } from "firebase/firestore"
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { getAllCategories } from "./categories.api"
 import { db } from "@app/firebase"
 import { DateUtils, getColPath } from "@shared/utils"

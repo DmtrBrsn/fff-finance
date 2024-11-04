@@ -48,6 +48,7 @@
   }
   .react-aria-Input.no-buttons {
     border-radius: var(--app-border-radius);
+    margin: unset;
     &[data-focused] {
       outline: 2px solid var(--focus-ring-color);
       outline-offset: -1px;

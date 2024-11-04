@@ -1,7 +1,7 @@
 import { Category } from "@entities/categories"
-import { Id } from "react-toastify"
 import { repeatEvery } from "./plans.constants"
 import { Weekdays } from "@shared/types/common-types"
+import { Id } from "@shared/types/api-types"
 
 export type Plan = {
   id: Id

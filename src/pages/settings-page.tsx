@@ -7,21 +7,23 @@ import { Button } from "@shared/react-aria"
 import { Vibration } from "@shared/svg"
 import { isTouchDevice } from "@shared/utils"
 import { useMemo } from "react"
-
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 
 export const SettingsPage = () => {
   const isTouch = useMemo(() => isTouchDevice(), [])
   return (
-    <main className="max-width-wrap align-start flex-row wrap gap-3 pad-2">
+    <main className="max-width-wrap align-start align-baseline flex-row wrap gap-3 pad-2">
       <AppThemeSwitcher />
       <ImportCategories/>
       <ImportOperations/>
       <ExportCategories/>
       <ExportOperations />
 
-      <Button onPress={()=>toast('Test...')}>Test toast</Button>
-      <Button variant="danger" onPress={() => toast.error('Error!')}>Test error toast</Button>
+      <Button onPress={() => toast('Info toast example', 'Log', () => console.log('test'))}>My toast info</Button>
+      <Button onPress={() => toast.error('Error toast example', 'Log', () => console.log('test'))}>My toast error</Button>
+      <Button onPress={() => toast.success('Success toast example', 'Log', () => console.log('test'))}>My toast success</Button>
+      <Button onPress={() => toast.warning('Warning toast example', 'Log', () => console.log('test'))}>My toast warning</Button>
+      
       {isTouch && <VibroButton />}
       <p style={{fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta'}}>{isTouch ? 'touch device' : 'not touch device' }</p>
     </main>

@@ -1,12 +1,11 @@
 import { Operation, OperationUpd, useOperationsUpdate } from "@entities/operations"
 import { CategorySelectField } from "@features/fields-for-category"
 import { OpDateField, OpDescriptionField, OpSumField } from "@features/operation-fields"
-import { ButtonGroup } from "@shared/button-group/button-group"
 import { Button } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
 import { FormEvent, useState } from "react"
 import { Form, Heading } from "react-aria-components"
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 
 type EditOperationFormProps = {
   op: Operation
@@ -14,7 +13,7 @@ type EditOperationFormProps = {
   onCancel?: () => void
 }
 
-export const EditOperationForm = ({op, onSuccess, onCancel}: EditOperationFormProps) => {
+export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationFormProps) => {
   const [updOp, setUpdOp] = useState<OperationUpd>({ id: op.id })
   const { mutateAsync: update, isPending: isSaving } = useOperationsUpdate()
 
@@ -42,12 +41,12 @@ export const EditOperationForm = ({op, onSuccess, onCancel}: EditOperationFormPr
         idCat={updOp.idCategory ?? op.idCategory}
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />
-      <ButtonGroup>
+      <span className="flex-row gap-1">
         <Button variant="attention" type="submit">
           {isSaving ? <Spinner /> : 'Update'}
         </Button>
         <Button onPress={onCancel}>Cancel</Button>
-      </ButtonGroup>
+      </span>
     </Form>
   )
 }

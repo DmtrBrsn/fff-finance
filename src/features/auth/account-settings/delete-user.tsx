@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { useAuth } from '../auth-context'
 import { DialogTrigger, Form } from 'react-aria-components'
 import { Button, Popover, TextField } from '@shared/react-aria'
-import { ButtonGroup } from '@shared/button-group/button-group'
 import { PersonOff } from '@shared/svg'
 
 export const DeleteUser = () => {
@@ -63,14 +62,14 @@ export const DeleteUser = () => {
             isRequired
             autoComplete='off'
           />
-          <ButtonGroup isDisabled={loading}>
-            <Button variant='danger' type='submit'>
+          <span className='flex-row gap-1'>
+            <Button variant='danger' type='submit' isDisabled={loading}>
               {loading ? 'Deleting...' : 'Delete'}
             </Button>
             <Button onPress={handleCancel}>
               Cancel
             </Button>
-          </ButtonGroup>
+          </span>
         </Form>
       </Popover>
     </DialogTrigger>

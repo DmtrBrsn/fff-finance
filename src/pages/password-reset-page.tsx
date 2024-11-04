@@ -1,5 +1,5 @@
 import { PasswordReset } from "@features/auth"
-import { NavLink } from "react-router-dom"
+import { Link } from "react-aria-components"
 
 export const PasswordResetPage = () => {
   return (
@@ -7,8 +7,8 @@ export const PasswordResetPage = () => {
       <h1>Password Reset</h1>
       <PasswordReset />
       <div className="auth-nav-links">
-        <NavLink to="/login">Log in</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
+        <Link href="/login">Log in</Link>
+        <Link href="/signup">Sign Up</Link>
       </div>
     </main>
   )

@@ -4,7 +4,7 @@ import { Spinner } from "@shared/spinner";
 import { DownloadIcon } from "@shared/svg";
 import { saveFile } from "@shared/utils";
 import { useState } from "react"
-import { toast } from "react-toastify";
+import { toast } from "@app/toaster"
 
 export const ExportCategories = () => {
   const [inProgress, setInProgress] = useState(false)

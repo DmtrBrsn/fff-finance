@@ -28,6 +28,14 @@
   --green-400: #006728;
   --green-500: #004819;
   --green-600: #002a0c;
+
+  --yellow-100: #fef08a;
+  --yellow-200: #fde047;
+  --yellow-300: #facc15;
+  --yellow-400: #eab308;
+  --yellow-500: #ca8a04;
+  --yellow-600: #a16207;
+
   --app-color: var(--green-300);
   --highlight-hover: rgba(0 0 0 / 0.07);
   --highlight-pressed: rgba(0 0 0 / 0.15);
@@ -65,6 +73,14 @@
     --green-400: #51da73;
     --green-500: #68ee85;
     --green-600: #ebffed;
+
+    --yellow-100: #a16207;
+    --yellow-200: #ca8a04;
+    --yellow-300: #eab308;
+    --yellow-400: #facc15;
+    --yellow-500: #fde047;
+    --yellow-600: #fef08a;
+
     --app-color: var(--green-400);
     --highlight-hover: rgba(255 255 255 / 0.1);
     --highlight-pressed: rgba(255 255 255 / 0.2);
@@ -101,6 +117,14 @@
   --green-400: #51da73;
   --green-500: #68ee85;
   --green-600: #ebffed;
+
+  --yellow-100: #a16207;
+  --yellow-200: #ca8a04;
+  --yellow-300: #eab308;
+  --yellow-400: #facc15;
+  --yellow-500: #fde047;
+  --yellow-600: #fef08a;
+  
   --app-color: var(--green-300);
   --highlight-hover: rgba(255 255 255 / 0.1);
   --highlight-pressed: rgba(255 255 255 / 0.2);

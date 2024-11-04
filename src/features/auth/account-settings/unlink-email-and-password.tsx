@@ -1,4 +1,4 @@
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { useState } from 'react'
 import { useAuth } from "../auth-context"
 import { Button } from "@shared/react-aria"

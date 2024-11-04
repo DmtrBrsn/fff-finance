@@ -1,6 +1,6 @@
 // import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 // import { addRecurrentOpSettings, deleteRecurrentOpSettings, getRecurrentOpSettings, updateRecurrentOpSettings } from "./recurrent-op-settings.api"
-// import { toast } from "react-toastify"
+// import { toast } from "@app/toaster"
 // import { RecurrentOpSettings } from "./recurrent-op-types"
 
 // export const QUERY_KEY_RECURRENT_OP_SETTINGS = 'RECURRENT_OP_SETTINGS' as const

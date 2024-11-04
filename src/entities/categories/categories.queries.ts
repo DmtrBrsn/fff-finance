@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { addCategory, deleteCategory, getAllCategories, updateCategory } from "./categories.api"
 
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { Category } from "./categories-types"
 
 export const QUERY_KEY_CATEGORIES = 'CATEGORIES' as const

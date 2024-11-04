@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { toast } from "react-toastify";
+import { toast } from "@app/toaster"
 import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperations, updateOperation } from "./operations.api";
 import { GetOpsParams } from "./operations-params";
 import { Operation } from "./operations-types";

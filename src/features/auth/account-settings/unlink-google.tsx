@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { useAuth } from "../auth-context"
 import { GoogleIcon } from "@shared/svg"
 import { Button } from "@shared/react-aria"

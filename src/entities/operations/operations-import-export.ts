@@ -1,5 +1,5 @@
 import { writeBatch, doc, collection } from "firebase/firestore"
-import { toast } from "react-toastify"
+import { toast } from "@app/toaster"
 import { getOperations } from "./operations.api"
 import { Category } from "../categories/categories-types"
 import { db } from "@app/firebase"
