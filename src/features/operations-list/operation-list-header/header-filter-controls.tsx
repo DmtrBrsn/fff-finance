@@ -7,8 +7,6 @@ import { Button, ButtonIcon, DatePicker, NumberField, Popover, Select, SelectIte
 import { DialogTrigger } from "react-aria-components"
 import { parseDate } from "@internationalized/date"
 
-import './header-filter-controls.css'
-
 export const FilterControls = ({ field }: { field: OpFilterFields }) => {
   const { filterOptions, filterFormOpenFor, setFilterFormOpenFor } = useOpsListStore()
   const filterBy = filterOptions.find(f => f.field === field)
@@ -79,7 +77,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
 
   if (typeof filterValue === 'boolean' || typeof filterValue1 === 'boolean') return
   return (
-    <div className='filter-form'>
+    <div className='flex-col gap-1'>
       <Select items={options} selectedKey={condition} onSelectionChange={(key) => setCondition(key as FilterCondition)}>
         {(item) => <SelectItem id={item.value}>{item.label}</SelectItem>}
       </Select>
@@ -87,8 +85,8 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
       {type === 'date' &&
         <DatePicker
           autoFocus
-          value={filterValue ? parseDate(filterValue.toString()) : undefined}
-          onChange={d => setFilterValue(DateUtils.isoStrToInpDate(d.toString()))}
+          value={filterValue ? parseDate(filterValue.toString()) : null}
+          onChange={d => d==null ? setFilterValue('') : setFilterValue(DateUtils.isoStrToInpDate(d.toString()))}
         />
       }
       {type == 'text' && <TextField autoFocus value={filterValue.toString()} onChange={setFilterValue} />}
@@ -97,8 +95,8 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
         {type === 'date' &&
           <DatePicker
             autoFocus
-            value={filterValue1 ? parseDate(filterValue1.toString()) : undefined}
-            onChange={d => setFilterValue1(DateUtils.isoStrToInpDate(d.toString()))}
+            value={filterValue1 ? parseDate(filterValue1.toString()) : null}
+            onChange={d => d==null ? setFilterValue1('') : setFilterValue1(DateUtils.isoStrToInpDate(d.toString()))}
           />
         }
         {type == 'text' && <TextField autoFocus value={filterValue1.toString()} onChange={setFilterValue1} />}

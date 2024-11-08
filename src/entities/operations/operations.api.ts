@@ -2,7 +2,7 @@ import { db } from "@app/firebase"
 import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc } from 'firebase/firestore'
 import { GetOpsParams } from "./operations-params"
 import { Id } from "@/shared/types/api-types"
-import { Operation, OperationAdd, OperationUpd } from "./operations-types"
+import { Operation, OperationAdd, OperationUpd } from "./operations.types"
 import { DateUtils, getColPath } from "@shared/utils"
 import { toast } from "@app/toaster"
 

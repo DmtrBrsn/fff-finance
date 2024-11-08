@@ -1,15 +1,15 @@
 import { Category } from "@entities/categories"
 import { repeatEvery } from "./plans.constants"
 import { Weekdays } from "@shared/types/common-types"
-import { Id } from "@shared/types/api-types"
+import { Add, Id, Upd } from "@shared/types/api-types"
 
 export type Plan = {
   id: Id
   idCategory: Category['id']
   sum: number
   created: string
-  dataStart: string
-  dataEnd: string
+  dateStart: string
+  dateEnd: string
   description: string
 
   every?: RepeatEvery
@@ -18,3 +18,6 @@ export type Plan = {
 }
 
 export type RepeatEvery = typeof repeatEvery[number]
+
+export type PlanUpd = Omit<Upd<Plan>, 'created'>
+export type PlanAdd = Add<Plan>

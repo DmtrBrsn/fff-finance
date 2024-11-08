@@ -1,4 +1,4 @@
-import { Operation } from "./operations-types"
+import { Operation } from "./operations.types"
 import { DateUtils } from "@shared/utils"
 
 export type GetOpsParams = {

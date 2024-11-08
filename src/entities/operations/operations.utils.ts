@@ -1,5 +1,5 @@
 import { type FilterBy, FilterUtils, type SortBy, SortUtils } from "@shared/utils"
-import { type Operation, type OpFilterFields, type OpSortableFields } from "./operations-types"
+import { type Operation, type OpFilterFields, type OpSortableFields } from "./operations.types"
 import { type Category } from "@entities/categories"
 
 export type OpSortBy = SortBy<OpSortableFields>

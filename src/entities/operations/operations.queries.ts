@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@app/toaster"
 import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperations, updateOperation } from "./operations.api";
 import { GetOpsParams } from "./operations-params";
-import { Operation } from "./operations-types";
+import { Operation } from "./operations.types";
 import { DateUtils } from "@shared/utils";
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const

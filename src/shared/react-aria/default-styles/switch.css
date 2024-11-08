@@ -18,7 +18,7 @@
   .indicator {
     --width: calc(var(--height) * 1.7);
     --border: calc(var(--height) * 0.13);
-    width: var(--width);
+    min-width: var(--width);
     height: var(--height);
     border: var(--border) solid var(--highlight-background);
     background: var(--background-color);

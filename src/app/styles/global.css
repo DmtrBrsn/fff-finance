@@ -53,6 +53,9 @@ textarea {
   &::-webkit-scrollbar-thumb:hover {
     background: var(--gray-300);
   }
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
 }
 
 .flex-col {display: flex; flex-direction: column;}

@@ -5,7 +5,7 @@ import { Toast } from "./types"
 import './toaster.css'
 
 export const Toaster = () => {
-  const { toasts } = useToasterStore()
+  const { shown: toasts } = useToasterStore()
   return (
     <div className="toaster">
       {toasts.map((t) => <SingleToast key={t.time} {...t} />)}
@@ -14,9 +14,9 @@ export const Toaster = () => {
 }
 
 const SingleToast = (
-  { time, message, type, ...toast }: Toast) => {
+  { time, message, type, ...toast }: Toast
+) => {
   const { remove } = useToasterStore()
-
   const removeToast = () => remove(time)
 
   const doAction = () => {
@@ -35,13 +35,11 @@ const SingleToast = (
               <CheckCircleIcon /> :
               <Info />}
       </div>
-      <div className="message">
-        {message}
-      </div>
-      {toast.action && <>
-        <Button variant="transparent" onPress={() => toast.action && doAction()}>{toast.actionLabel ?? 'Action'}</Button>
-      </>}
-      <ButtonIcon size="l" onPress={() => remove(time)}><CloseIcon /></ButtonIcon>
+      <div className="message">{message}</div>
+      {toast.action &&
+        <Button variant="transparent" onPress={doAction}>{toast.actionLabel ?? 'Action'}</Button>
+      }
+      <ButtonIcon size="l" onPress={removeToast}><CloseIcon /></ButtonIcon>
     </div>
   )
 }
