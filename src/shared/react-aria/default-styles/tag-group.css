@@ -4,6 +4,11 @@
   gap: 0.1rem;
   font-size: 1rem;
   color: var(--text-color);
+
+  
+  .react-aria-Label {
+    cursor: default;
+  }
 }
 
 .react-aria-TagList {

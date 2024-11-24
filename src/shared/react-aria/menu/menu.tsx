@@ -1,4 +1,4 @@
-import { ArrowDown } from '@shared/svg';
+import { ArrowDown, MoreVertIcon } from '@shared/svg';
 import {
   Button,
   Menu,
@@ -9,6 +9,7 @@ import {
   MenuTriggerProps,
   Popover
 } from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon';
 
 export interface MenuButtonProps<T>
   extends MenuProps<T>, Omit<MenuTriggerProps, 'children'> {
@@ -21,6 +22,22 @@ export function MenuButton<T extends object>(
   return (
     <MenuTrigger {...props}>
       <Button>{label}<ArrowDown/></Button>
+      <Popover>
+        <Menu {...props}>
+          {children}
+        </Menu>
+      </Popover>
+    </MenuTrigger>
+  )
+}
+
+export function MenuButtonIcon(
+  { content = <MoreVertIcon />, children, ...props }:
+    MenuButtonProps<{}> & { content?: React.ReactNode }
+) { 
+  return (
+    <MenuTrigger {...props}>
+      <ButtonIcon>{content}</ButtonIcon>
       <Popover>
         <Menu {...props}>
           {children}

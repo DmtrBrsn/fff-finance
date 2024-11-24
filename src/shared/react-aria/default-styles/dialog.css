@@ -4,9 +4,16 @@
   max-height: inherit;
   box-sizing: border-box;
   overflow: auto;
+  position: relative;
 
   .react-aria-Heading[slot=title] {
     line-height: 1em;
     margin-top: 0;
+  }
+
+  .close-btn-wrapper {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
   }
 }

@@ -1,6 +1,6 @@
 import { Router } from './router'
 import { AuthProvider } from '@features/auth'
-import { Header } from '@widgets/header'
+import { Header } from '@app/header'
 import { RouterProvider } from 'react-aria-components';
 import { useHref, useNavigate } from 'react-router-dom'
 import { useAppStore } from './app-store'

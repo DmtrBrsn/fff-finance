@@ -64,7 +64,7 @@ export const useOpsListStore = create<OpsListStore>()(
     }),
     {
       name: 'ops-list-store',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) =>
         Object.fromEntries(
           Object.entries(state).filter(([key]) => !['beingEdited', 'filterFormOpenFor'].includes(key)),

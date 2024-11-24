@@ -63,7 +63,7 @@
       color: var(--text-color-disabled);
     }
 
-    .react-aria-Button:not([slot]) {
+    .react-aria-Button:not([slot]), .react-aria-Button-icon:not([slot]) {
       margin-left: auto;
     }
 

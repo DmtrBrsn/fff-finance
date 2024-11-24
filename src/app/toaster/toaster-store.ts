@@ -19,11 +19,7 @@ export const useToasterStore = create<ToasterStore>()(
       shown: [],
       add: (toast: Toast) => set((state) => {
         if (state.shown.length < maxShownToasts) {
-          if (toast.duration > 0) {
-            setTimeout(() => {
-              useToasterStore.getState().remove(toast.time)
-            }, toast.duration)
-          }
+          removeOnTimeout(toast)
           return ({ shown: [...state.shown, toast] })
         }
         else return ({ queued: [...state.queued, toast] })
@@ -34,12 +30,11 @@ export const useToasterStore = create<ToasterStore>()(
         if (state.queued.length > 0) {
           const queued = [...state.queued]
           const toastToShow = queued.shift()!
-          return (
-            {
-              queued,
-              shown: [...shown, toastToShow]
-            }
-          )
+          removeOnTimeout(toastToShow)
+          return ({
+            queued,
+            shown: [...shown, toastToShow]
+          })
         }
         else return { shown }
       }),
@@ -51,3 +46,12 @@ export const useToasterStore = create<ToasterStore>()(
     }
   )
 )
+
+const removeOnTimeout = (toast: Toast) => {
+  if (toast.duration > 0) {
+    const timer = setTimeout(() => {
+      useToasterStore.getState().remove(toast.time)
+    }, toast.duration)
+    return () => clearTimeout(timer)
+  }
+}

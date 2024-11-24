@@ -1,19 +1,18 @@
-import { DateUtils } from '@shared/utils'
-import { FlCell } from '@shared/fl-list'
 import { Category, getIncExpStr } from '@entities/categories'
 import { Operation, useOperationsDelete } from '@entities/operations'
-import { EditOperationForm } from '@features/operation-edit-form'
+import { EditOpBtn } from '@features/operation-form'
+import { FlCell } from '@shared/fl-list'
 import { ButtonIcon, Checkbox } from '@shared/react-aria'
 import { Spinner } from '@shared/spinner'
-import { EditIcon, DeleteIcon } from '@shared/svg'
-import { DialogTrigger, Modal, Dialog } from 'react-aria-components'
+import { DeleteIcon } from '@shared/svg'
+import { DateUtils } from '@shared/utils'
 import { ReactNode } from 'react'
 
 import './op-section-values.css'
 
 const Label = ({ children }: { children: ReactNode }) => <span className='op-section-value-label'>{children}</span>
 
-export const OpDateSectionValue = ({val}: {val: Operation['date']}) => {
+export const OpDateSectionValue = ({ val }: { val: Operation['date'] }) => {
   return (
     <FlCell className="op-section-value op-date">
       {/* <Label>Date</Label> */}
@@ -22,7 +21,7 @@ export const OpDateSectionValue = ({val}: {val: Operation['date']}) => {
   )
 }
 
-export const OpSumSectionValue = ({val}: {val: Operation['sum']}) => {
+export const OpSumSectionValue = ({ val }: { val: Operation['sum'] }) => {
   return (
     <FlCell className="op-section-value op-sum">
       {/* <Label>Sum</Label> */}
@@ -31,7 +30,7 @@ export const OpSumSectionValue = ({val}: {val: Operation['sum']}) => {
   )
 }
 
-export const OpDescriptionSectionValue = ({val}: {val: Operation['description']}) => {
+export const OpDescriptionSectionValue = ({ val }: { val: Operation['description'] }) => {
   return (
     <FlCell className="op-section-value op-description">
       {/* <Label>Description</Label> */}
@@ -40,7 +39,7 @@ export const OpDescriptionSectionValue = ({val}: {val: Operation['description']}
   )
 }
 
-export const OpCatSectionValue = ({cat}: {cat?: Category}) => {
+export const OpCatSectionValue = ({ cat }: { cat?: Category }) => {
   return (
     <FlCell className="op-section-value op-category">
       {/* <Label>Category</Label> */}
@@ -49,7 +48,7 @@ export const OpCatSectionValue = ({cat}: {cat?: Category}) => {
   )
 }
 
-export const OpIsIncomeSectionValue = ({cat}: {cat?: Category}) => {
+export const OpIsIncomeSectionValue = ({ cat }: { cat?: Category }) => {
   return (
     <FlCell className="op-section-value op-is-income">
       {getIncExpStr(cat)}
@@ -57,7 +56,7 @@ export const OpIsIncomeSectionValue = ({cat}: {cat?: Category}) => {
   )
 }
 
-export const OpCreatedSectionValue = ({val}: {val: Operation['created']}) => {
+export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) => {
   return (
     <FlCell className="op-section-value op-created">
       <Label>Created</Label>
@@ -66,23 +65,14 @@ export const OpCreatedSectionValue = ({val}: {val: Operation['created']}) => {
   )
 }
 
-export const OpSectionControls = ({op}: {op: Operation}) => {
-  const {mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
+export const OpSectionControls = ({ op }: { op: Operation }) => {
+  const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
   const handleDeleteClick = () => deleteOp(op.id)
   return (
     <FlCell className="op-buttons">
-      <DialogTrigger>
-        <ButtonIcon><EditIcon/></ButtonIcon>
-        <Modal>
-          <Dialog>
-            {({ close }) => (
-              <EditOperationForm op={op} onSuccess={close} onCancel={close}/>
-            )}
-          </Dialog>
-        </Modal>
-      </DialogTrigger>
+      <EditOpBtn op={op} />
       <ButtonIcon onPress={handleDeleteClick}>
-        {deleting ? <Spinner/> :<DeleteIcon />}
+        {deleting ? <Spinner /> : <DeleteIcon />}
       </ButtonIcon>
     </FlCell>
   )

@@ -25,7 +25,7 @@ export const SettingsPage = () => {
       <Button onPress={() => toast.warning('Warning toast example', 'Log', () => console.log('test'))}>My toast warning</Button>
       
       {isTouch && <VibroButton />}
-      <p style={{fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta'}}>{isTouch ? 'touch device' : 'not touch device' }</p>
+      <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
     </main>
   )
 }

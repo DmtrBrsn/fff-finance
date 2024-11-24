@@ -40,7 +40,8 @@ main {
 .fl-list [data-testid="virtuoso-scroller"], 
 .react-aria-ListBox, 
 main, 
-textarea {
+textarea,
+.react-aria-GridList {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);

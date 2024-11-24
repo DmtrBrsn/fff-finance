@@ -5,19 +5,20 @@ import { Spinner } from '@shared/spinner'
 import { DateUtils } from '@shared/utils'
 import { Button } from '@shared/react-aria'
 import { CatSelectTags } from '@features/fields-for-category'
-import { OpDateField, OpDescriptionField, OpSumField } from '@features/operation-fields'
+import { OpDateField, OpDescriptionField, OpSumField } from '@features/operation-form/operation-fields'
 import { Form } from 'react-aria-components'
 
 import './new-operation-form.css'
+import { ResetIcon } from '@shared/svg'
 
-export const NewOperationForm = () => {
+export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void, onCancel?: () => void}) => {
   const operationDraft = getOpDraft()
 
   const initOp = {
     date: DateUtils.getCurInpDate(),
     description: '',
     idCategory: '',
-    created: DateUtils.getCurInpDate(),
+    created: '',
     sum: 0
   }
 
@@ -28,8 +29,7 @@ export const NewOperationForm = () => {
     updateOpDraft(newValues)
   }
 
-  const { mutateAsync: add, isPending: isAddPending } = useOperationsAdd()
-  const isSaving = isAddPending
+  const { mutateAsync: add, isPending: isSaving } = useOperationsAdd()
 
   const reset = () => {
     setOp(initOp)
@@ -44,6 +44,7 @@ export const NewOperationForm = () => {
     }
     await add({ ...op, created: DateUtils.getCurIsoStr() })
     reset()
+    onSuccess && onSuccess()
   }
 
   return (
@@ -59,8 +60,22 @@ export const NewOperationForm = () => {
         onSelect={(idCategory: string) => setOpAndDraft({ ...op, idCategory })}
       />
       <span className="flex-row gap-1">
-        <Button variant='attention' type="submit" isDisabled={isSaving}> {isSaving ? <Spinner /> : 'Save'}</Button>
-        <Button type="button" isDisabled={isSaving || operationDraft == null} onPress={reset}>Reset</Button>
+        <Button
+          variant='attention'
+          type="submit"
+          isDisabled={isSaving}
+        >
+          {isSaving ? <Spinner /> : 'Save'}
+        </Button>
+        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
+        <Button
+          type="button"
+          tooltip="Reset"
+          isDisabled={isSaving || operationDraft == null}
+          onPress={reset}
+        >
+          <ResetIcon />
+        </Button>
       </span>
     </Form>
   )

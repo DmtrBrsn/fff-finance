@@ -20,10 +20,10 @@ export function useCategoriesAdd() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: addCategory,
-    onSuccess: (cat) => {
+    onSuccess: (added) => {
       queryClient.setQueryData<Category[]>(
 				[QUERY_KEY_CATEGORIES],
-				cache => cache ? [...cache, cat] : [cat]
+				cache => cache ? [...cache, added] : [added]
 			)
     },
     onError: (err) => {
@@ -37,11 +37,11 @@ export function useCategoriesUpdate() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: updateCategory,
-    onSuccess: (updatedCat) => {
+    onSuccess: (updated) => {
       queryClient.setQueryData<Category[]>(
 				[QUERY_KEY_CATEGORIES],
 				cache =>
-					cache?.map(cat => cat.id === updatedCat.id ? {...cat, ...updatedCat} : cat)
+					cache?.map(cat => cat.id === updated.id ? {...cat, ...updated} : cat)
 			)
     },
     onError: (err) => {

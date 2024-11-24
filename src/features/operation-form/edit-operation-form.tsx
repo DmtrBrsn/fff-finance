@@ -1,11 +1,12 @@
 import { Operation, OperationUpd, useOperationsUpdate } from "@entities/operations"
 import { CategorySelectField } from "@features/fields-for-category"
-import { OpDateField, OpDescriptionField, OpSumField } from "@features/operation-fields"
+import { OpDateField, OpDescriptionField, OpSumField } from "@features/operation-form/operation-fields"
 import { Button } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
 import { FormEvent, useState } from "react"
 import { Form, Heading } from "react-aria-components"
 import { toast } from "@app/toaster"
+import { ResetIcon } from "@shared/svg"
 
 type EditOperationFormProps = {
   op: Operation
@@ -27,6 +28,7 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
     toast('Operation updated')
     onSuccess && onSuccess()
   }
+  const reset = () => setUpdOp(op)
 
   return (
     <Form onSubmit={handleSubmit} className="react-aria-Form edit-operation-form">
@@ -45,7 +47,8 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
         <Button variant="attention" type="submit">
           {isSaving ? <Spinner /> : 'Update'}
         </Button>
-        <Button onPress={onCancel}>Cancel</Button>
+        {onCancel && <Button onPress={onCancel}>Cancel</Button>}
+        <Button tooltip="Reset" onPress={reset}><ResetIcon/></Button>
       </span>
     </Form>
   )

@@ -8,8 +8,8 @@ export type Plan = {
   idCategory: Category['id']
   sum: number
   created: string
-  dateStart: string
-  dateEnd: string
+  dateStart?: string
+  dateEnd?: string
   description: string
 
   every?: RepeatEvery
@@ -21,3 +21,20 @@ export type RepeatEvery = typeof repeatEvery[number]
 
 export type PlanUpd = Omit<Upd<Plan>, 'created'>
 export type PlanAdd = Add<Plan>
+
+
+export type PlanFormValues = {
+  id?: Id
+  idCategory?: Category['id']
+  sum: number
+  dateStart?: string
+  dateEnd?: string
+  description: string
+
+  every: RepeatEvery | 'off'
+  everyNumber: number
+  weekdays: Weekdays[]
+
+  times: number
+  endType: 'times' | 'date' | 'never'
+}

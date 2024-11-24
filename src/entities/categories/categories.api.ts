@@ -13,7 +13,7 @@ export const getAllCategories = async () => {
     return {
       id: doc.id,
       ...rawDoc,
-      created: rawDoc.created ?DateUtils.tsToIsoStr(rawDoc.created) : undefined
+      created: rawDoc.created ? DateUtils.tsToIsoStr(rawDoc.created) : undefined
     } as Category
   })
 }
@@ -25,7 +25,7 @@ export const addCategory = async (newDoc: CategoryAdd): Promise<Category> => {
     collectionRef,
     { ...rest, created: DateUtils.isoStrToTs(newDoc.created) }
   )
-  const addedDoc = { id: docRef.id, ...newDoc}
+  const addedDoc = { id: docRef.id, ...newDoc} as Category
   return addedDoc
 }
 

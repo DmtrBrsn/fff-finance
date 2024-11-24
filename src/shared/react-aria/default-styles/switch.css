@@ -21,7 +21,7 @@
     min-width: var(--width);
     height: var(--height);
     border: var(--border) solid var(--highlight-background);
-    background: var(--background-color);
+    background: transparent;
     border-radius: var(--height);
     transition: all 200ms;
     position: relative;

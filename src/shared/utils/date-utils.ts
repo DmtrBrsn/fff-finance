@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-type Period = 'День' | 'D' | 'Неделя' | 'W' | 'Месяц' | 'M' | 'Полгода' | 'HY' | 'Год' | 'Y'
+type Period = 'День' | 'day' | 'D' | 'Неделя' | 'week' | 'W' | 'Месяц' | 'month' | 'M' | 'Полгода' | 'halfyear' | 'HY' | 'Год' |'year' | 'Y'
 
 export class DateUtils {
 	static second = 1000
@@ -11,6 +11,10 @@ export class DateUtils {
 
 	static tzs = {
 		msk: { name: 'Europe/Moscow', offset: -180 }
+	}
+
+	static isPastDay(date: Date | number | string) {
+		return new Date(date) < DateUtils.floorDateToDay(new Date)
 	}
 
 	static formatDateLoc = (date: Date | string | number) => {
@@ -48,6 +52,10 @@ export class DateUtils {
 
 	static getMonthAndYearLoc(date: Date | number) {
 		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric' }).format(date)
+	}
+
+	static getWeekDay(date: Date | number | string) {
+		return new Date(date).getDay()
 	}
 	
 	static tsToDateStr(ts: Timestamp) {
@@ -139,31 +147,40 @@ export class DateUtils {
       date.toLocaleString(navigator.language)
       :
       date.toLocaleString(navigator.language, { timeZone })
-  }
-
-  static incrementDatePeriod(date: Date, per: Period) {
+	}
+	
+	static add(date: Date, per: Period, amount: number) {
 		switch (per) {
 			case 'День':
+			case 'day':
 			case 'D' :
-				date.setDate(date.getDate() + 1)
+				date.setDate(date.getDate() + amount)
 				break
 			case 'Неделя':
+			case 'week':
 			case 'W' :
-				date.setDate(date.getDate() + 7)
+				date.setDate(date.getDate() + 7*amount)
 				break
 			case 'Месяц':
+			case 'month':
 			case 'M':
-				date.setMonth(date.getMonth() + 1)
+				date.setMonth(date.getMonth() + amount)
 				break
 			case 'Полгода':
+			case 'halfyear':
 			case 'HY' :
-				date.setMonth(date.getMonth() + 6)
+				date.setMonth(date.getMonth() + 6*amount)
 				break
 			case 'Год':
+			case 'year':	
 			case 'Y' :
-				date.setMonth(date.getMonth() + 12)
+				date.setMonth(date.getMonth() + 12*amount)
 		}
 		return date
+	}
+
+  static incrementDatePeriod(date: Date, per: Period) {
+		return DateUtils.add(date, per, 1)
 	}
 	
 	static toIncrementedDatePeriod(date: Date | string, per: Period) { 
@@ -171,30 +188,13 @@ export class DateUtils {
 		DateUtils.incrementDatePeriod(d, per)
 		return d
 	}
+
+	static subtract(date: Date, per: Period, amount: number) {
+		return DateUtils.add(date, per, -amount)
+	}
   
   static decrementDatePeriod(date: Date, per: Period) {
-		switch (per) {
-			case 'День':
-			case 'D' :
-				date.setDate(date.getDate() - 1)
-				break
-			case 'Неделя':
-			case 'W' :
-				date.setDate(date.getDate() - 7)
-				break
-			case 'Месяц':
-			case 'M':
-				date.setMonth(date.getMonth() - 1)
-				break
-			case 'Полгода':
-			case 'HY' :
-				date.setMonth(date.getMonth() - 6)
-				break
-			case 'Год':
-			case 'Y' :
-				date.setMonth(date.getMonth() - 12)
-		}
-		return date
+		return DateUtils.subtract(date, per, 1)
 	}
 
 	static toDecrementedDatePeriod(date: Date | string, per: Period) { 
@@ -213,10 +213,12 @@ export class DateUtils {
 	static getFirstDayOfPeriod(date: Date, period: Period) {
 		switch (period) {
 			case 'День' :
+			case 'day' :
 			case 'D' : {
 				return new Date(date)
 			}
-			case 'Неделя' :
+			case 'Неделя':
+			case 'week':
 			case 'W' : {
 				const weekNum = this.getWeekNum(date)
 				const dayNum = date.getDate()
@@ -224,18 +226,21 @@ export class DateUtils {
 				const year = weekBelongsToPreviousYear ? date.getFullYear() - 1 : date.getFullYear()
 				return this.getDateOfISOWeek(year + '-W' + weekNum)
 			}
-			case 'Месяц' :
+			case 'Месяц':
+			case 'month':
 			case 'M' : {
 				const FD = new Date(date)
 				FD.setDate(1)
 				return FD
 			}
-			case 'Полгода' :
+			case 'Полгода':
+			case 'halfyear':
 			case 'HY' : {
 				const fdMonth = date.getMonth() > 5 ? 6 : 0
 				return new Date(date.getFullYear(), fdMonth, 1)
 			}
-			case 'Год' :
+			case 'Год':
+			case 'year':
 			case 'Y' : {
 				return new Date(date.getFullYear(), 0, 1)
 			}

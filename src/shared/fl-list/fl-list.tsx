@@ -12,6 +12,7 @@ type FlCellProps = {
   children: ReactNode,
   center?: boolean
   className?: string
+  style?: React.CSSProperties
 }
 
 export const FlList = ({ children, className }: FlProps) => {
@@ -64,11 +65,13 @@ export const FlHeader = ({ children, className }: FlProps) => {
 export const FlCell = (
   { children,
     center,
-    className
+    className,
+    style,
   }: FlCellProps
 ) => {
   return (
     <span
+      style={style}
       className={
         'fl-cell' +
         (center ? ' ' + 'fl-center' : '') +

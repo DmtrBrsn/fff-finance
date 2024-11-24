@@ -9,6 +9,7 @@ import { PasswordResetPage } from "@pages/password-reset-page"
 import { SettingsPage } from "@pages/settings-page"
 import { SignupPage } from "@pages/signup-page"
 import { UserSettingsPage } from "@pages/user-settings-page"
+import { PlanningPage } from "@pages/planning-page"
 
 export const Router = () => {
   const { currentUser } = useAuth()
@@ -29,7 +30,8 @@ export const Router = () => {
     return (
       <Routes>
         <Route path="/" element={<NewOperation />} />
-        <Route path="/operations" element={<OperationsPage/>} />
+        <Route path="/operations" element={<OperationsPage />} />
+        <Route path="/planning" element={<PlanningPage />} />
         <Route path="/categories" element={<CategoriesPage/>} />
         <Route path="/settings" element={<SettingsPage/>} />
         <Route path="/user-settings" element={<UserSettingsPage/>} />

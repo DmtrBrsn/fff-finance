@@ -1,0 +1,5 @@
+.plans-list {
+  height: 30rem;
+  width: 53rem;
+  border: 1px solid var(--gray-100);
+}

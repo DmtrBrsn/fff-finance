@@ -12,6 +12,7 @@ export const Header = () => {
       <nav className='app-nav'>
         <NavLink to="/">New operation</NavLink>
         <NavLink to="/operations">Operations</NavLink>
+        <NavLink to="/planning">Planning</NavLink>
         <NavLink to="/categories">Categories</NavLink>
         <NavLink to="/settings">Settings</NavLink>
         <NavLink to="/user-settings">Account</NavLink>

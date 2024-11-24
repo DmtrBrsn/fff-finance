@@ -23,20 +23,20 @@ export function useOperationsAdd() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: addOperation,
-    onSuccess: (op) => {
+    onSuccess: (added) => {
       const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
       for (const query of queries) {
         let params = query[0][1] as GetOpsParams
         if (
           params?.from != undefined && params?.to != undefined &&
-          (DateUtils.isoStrToTime(op.date) < DateUtils.isoStrToTime(params.from) ||
-            DateUtils.isoStrToTime(op.date) > DateUtils.isoStrToTime(params.to))
+          (DateUtils.isoStrToTime(added.date) < DateUtils.isoStrToTime(params.from) ||
+            DateUtils.isoStrToTime(added.date) > DateUtils.isoStrToTime(params.to))
         ) {
           continue
         }
         queryClient.setQueryData<Operation[]>(
           query[0],
-          cache => cache ? [...cache, op] : [op]
+          cache => cache ? [...cache, added] : [added]
         )
       }
     },
@@ -108,13 +108,13 @@ export function useOperationsUpdate() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: updateOperation,
-    onSuccess: (updatedOp) => {
+    onSuccess: (updated) => {
       const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
       for (const query of queries) {
         queryClient.setQueryData<Operation[]>(
           query[0],
           cache =>
-            cache?.map(op => op.id === updatedOp.id ? {...op, ...updatedOp} : op)
+            cache?.map(op => op.id === updated.id ? {...op, ...updated} : op)
         )
       }
     },

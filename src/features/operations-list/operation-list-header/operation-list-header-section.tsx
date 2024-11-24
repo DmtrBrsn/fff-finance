@@ -43,9 +43,7 @@ export const OperationListHeaderSection = () => {
         <SortControls field="created" />
         <FilterControls field="created" />
       </FlCell>
-      <FlCell className="op-buttons">
-        Actions
-      </FlCell>
+      <FlCell className="op-buttons"> </FlCell>
     </FlHeader>
   )
 }

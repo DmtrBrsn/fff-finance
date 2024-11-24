@@ -1,9 +1,9 @@
-import { CategoriesDataGrid } from "@features/categories-data-grid";
+import { CatGrids } from "@features/catregories-grid"
 
 export const CategoriesPage = () => (
   <main>
     <div className="max-width-wrap">
-      <CategoriesDataGrid />
+      <CatGrids/>
     </div>
   </main>
 )

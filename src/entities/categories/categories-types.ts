@@ -3,6 +3,7 @@ import { Id, Upd, Add } from "@shared/types/api-types"
 export type Category = {
   id: Id
   name: string
+  order?: number
   isIncome: boolean
   created: string
 }

@@ -7,6 +7,7 @@ import { numToFixedStr } from '@shared/utils'
 import { Toolbar } from 'react-aria-components'
 import { Button, ButtonIcon, DatePicker, ToggleButtonIcon } from '@shared/react-aria'
 import { parseDate } from '@internationalized/date'
+import { OpAddBtn } from '@features/operation-form'
 
 export const OperationsListToolbar = () => {
   const {
@@ -60,14 +61,14 @@ export const OperationsListToolbar = () => {
         id='from'
         clearable={false}
         value={parseDate(from)}
-        onChange={e => setFrom(e.toString())}
+        onChange={d => d && setFrom(d.toString())}
       />
       <label htmlFor="to">To</label>
       <DatePicker
         id='to'
         clearable={false}
         value={parseDate(to)}
-        onChange={e => setTo(e.toString())}
+        onChange={d => d && setTo(d.toString())}
       />
       <Button onPress={fetch}><Refresh/>Fetch</Button>
       <Button onPress={setThisM}>This M</Button>
@@ -81,6 +82,7 @@ export const OperationsListToolbar = () => {
         isDisabled={selected.length === 0}
         aria-label={'Delete selected operations'}
       ><DeleteIcon /></ButtonIcon>
+      <OpAddBtn/>
       {ops && 'operations: ' + ops.length}
       {ops && ' sum: ' + numToFixedStr(opsSum)}
       {selected.length > 0 && ' selected: ' + selected.length}
