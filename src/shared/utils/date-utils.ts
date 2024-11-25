@@ -9,10 +9,6 @@ export class DateUtils {
 	static day = 24 * this.hour
 	static week = 7 * this.day
 
-	static tzs = {
-		msk: { name: 'Europe/Moscow', offset: -180 }
-	}
-
 	static isPastDay(date: Date | number | string) {
 		return new Date(date) < DateUtils.floorDateToDay(new Date)
 	}
@@ -43,7 +39,7 @@ export class DateUtils {
 	}
 	
 	static getDaysDurationLocalString(days: number) {
-		if (!('DurationFormat' in Intl)) return `${days} дн.`
+		if (!('DurationFormat' in Intl)) return `${days} d.`
 		//@ts-ignore
 		return new Intl.DurationFormat(navigator.language, { style: 'long' }).format({
 			days
@@ -101,7 +97,7 @@ export class DateUtils {
 		return new Date(isoStr).getTime()
 	}
 
-  static formatDateForInput(date: Date, offset: number | undefined = this.tzs.msk.offset) {
+  static formatDateForInput(date: Date, offset?: number) {
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
 		return new Date(date.getTime() - (offset * 60000))
 			.toISOString()
@@ -117,7 +113,7 @@ export class DateUtils {
     return this.dateToIsoStr(date)
   }
 
-  static isoStrToInpDate(isoDate: string, offset: number | undefined  = this.tzs.msk.offset) {
+  static isoStrToInpDate(isoDate: string, offset?: number) {
     const date = this.isoStrToDate(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
     return new Date(date.getTime() - (offset * 60000))
@@ -125,7 +121,7 @@ export class DateUtils {
        .split("T")[0];
   }
 
-  static isoStrToInpDateTime(isoDate: string, offset: number | undefined  = this.tzs.msk.offset) {
+  static isoStrToInpDateTime(isoDate: string, offset: number) {
     const date = this.isoStrToDate(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
     return new Date(date.getTime() - (offset * 60000 ))
@@ -133,7 +129,7 @@ export class DateUtils {
      .split("Z")[0];
    }
 
-  static isoStrToTzDateStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) {
+  static isoStrToTzDateStr(isoDate: string, timeZone?: string ) {
     const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
       date.toLocaleDateString(navigator.language)
@@ -141,7 +137,7 @@ export class DateUtils {
       date.toLocaleDateString(navigator.language, { timeZone })
   }
 
-  static isoStrToTzDateTimeStr(isoDate: string, timeZone: string | undefined = this.tzs.msk.name) { 
+  static isoStrToTzDateTimeStr(isoDate: string, timeZone?: string) { 
     const date = this.isoStrToDate(isoDate)
     return timeZone === undefined ?
       date.toLocaleString(navigator.language)
@@ -168,13 +164,13 @@ export class DateUtils {
 				break
 			case 'Полгода':
 			case 'halfyear':
-			case 'HY' :
+			case 'HY':
 				date.setMonth(date.getMonth() + 6*amount)
 				break
 			case 'Год':
 			case 'year':	
 			case 'Y' :
-				date.setMonth(date.getMonth() + 12*amount)
+				date.setFullYear(date.getFullYear() + amount)
 		}
 		return date
 	}

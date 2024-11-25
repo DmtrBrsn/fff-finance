@@ -1,7 +1,7 @@
 import { useCategoriesGet } from "@entities/categories"
 import { Plan, PlanUtils, usePlansDelete, usePlansGet } from "@entities/plans"
 import { PlanAddBtn, PlanEditBtn } from "@features/plan-form"
-import { FlCell, FlHeader, FlList, FlNoData, FlRow } from "@shared/fl-list"
+import { FlCell, FlList, FlNoData, FlRow } from "@shared/fl-list"
 import { ButtonIcon } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
 import { DeleteIcon } from "@shared/svg"
@@ -20,14 +20,6 @@ export const PlansList = () => {
       <Toolbar>
         <PlanAddBtn />
       </Toolbar>
-      <FlHeader>
-        <FlCell style={{ width: '9rem' }}>Description</FlCell>
-        <FlCell style={{ width: '5rem' }}>Sum</FlCell>
-        <FlCell style={{ width: '12rem' }}>Category</FlCell>
-        <FlCell style={{ width: '8rem' }}>Date start</FlCell>
-        <FlCell style={{ width: '12rem' }}>Repeat</FlCell>
-        <FlCell style={{ width: '4rem' }}> </FlCell>
-      </FlHeader>
       {plansFetching || catsFetching ? <FlNoData><Spinner /></FlNoData> :
         isError ? <FlNoData>Unable to get plans: {error?.message}</FlNoData> :
           plans?.length === 0 ? <FlNoData>No plans</FlNoData> :
@@ -49,13 +41,13 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
   }
 
   return (
-    <FlRow>
-      <FlCell style={{ width: '9rem' }}>{plan.description}</FlCell>
-      <FlCell style={{ width: '5rem' }}>{plan.sum.toLocaleString()}</FlCell>
-      <FlCell style={{ width: '12rem' }}>{cat ? cat.name : 'No category found' }</FlCell>
-      <FlCell style={{ width: '8rem' }}>{startStr}</FlCell>
-      <FlCell style={{ width: '12rem' }}>{PlanUtils.getRepeatDescription(plan)}</FlCell>
-      <FlCell style={{ width: '4rem' }}>
+    <FlRow className="plan-section">
+      <FlCell className="plan-description" >{plan.description}</FlCell>
+      <FlCell className="plan-sum" >{plan.sum.toLocaleString()}</FlCell>
+      <FlCell className="plan-category" >{cat ? cat.name : 'No category found'}</FlCell>
+      <FlCell className="plan-date-start" >{startStr}</FlCell>
+      <FlCell className="plan-repeat" >{PlanUtils.getRepeatDescription(plan)}</FlCell>
+      <FlCell className="plan-controls" >
         <PlanEditBtn plan={plan} />
         <ButtonIcon onPress={del} isDisabled={deleting}><DeleteIcon /></ButtonIcon>
       </FlCell>

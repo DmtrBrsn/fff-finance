@@ -1,5 +1,5 @@
-import { Category, useCategoriesAdd, useCategoriesDelete, useCategoriesGet, useCategoriesUpdate } from "@entities/categories"
-import { Button, Checkbox, DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem, TextField } from "@shared/react-aria"
+import { Category, getDndReorderedCatUpdDocs, getIncExpStr, useCategoriesAdd, useCategoriesBatchUpdate, useCategoriesDelete, useCategoriesGet, useCategoriesUpdate } from "@entities/categories"
+import { Button, Checkbox, DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem, NumberField, TextField } from "@shared/react-aria"
 import { CreateIcon } from "@shared/svg"
 import { DateUtils } from "@shared/utils"
 import { FormEvent, useMemo, useState } from "react"
@@ -26,27 +26,25 @@ const CatGrid = (
   { isIncome, cats, fetching }:
     { isIncome: boolean, cats: Category[], fetching: boolean }
 ) => {
+  const { mutateAsync } = useCategoriesBatchUpdate()
 
   const { dragAndDropHooks } = useDragAndDrop({
     getItems: (keys) =>
       [...keys].map((key) => ({ 'text/plain': cats.find(c => c.id === key)?.id! })),
     onReorder(e) {
-      if (e.target.dropPosition === 'before') {
-        console.log(e)
-      } else if (e.target.dropPosition === 'after') {
-        console.log(e)
-      }
+      const updDocs = getDndReorderedCatUpdDocs(cats, e)
+      updDocs.length>0 && mutateAsync(updDocs)
     }
   })
 
   return (
     <div className="flex-col gap-1">
-      <Heading>{isIncome ? 'Income' : 'Expense'}</Heading>
+      <Heading>{getIncExpStr({ isIncome })}</Heading>
       <GridList
         dragAndDropHooks={dragAndDropHooks}
-        aria-label={isIncome ? 'Expense' : 'Income'}
+        aria-label={getIncExpStr({ isIncome })}
         renderEmptyState={() => fetching ? 'Loading' : 'No data'}
-        selectionMode="multiple"
+        selectionMode="single"
         items={cats}
       >
         {(item) => <GridListItem textValue={item.name}>{item.name} <CatMenuBtn cat={item} /></GridListItem>}
@@ -105,12 +103,14 @@ const CatForm = (
   { mode, cat, onSuccess, onCancel }:
     { mode: 'add' | 'edit', isIncome?: boolean, cat?: Category, onSuccess?: () => void, onCancel?: () => void }
 ) => {
+  const { data: categories } = useCategoriesGet()
   const { mutateAsync: add, isPending: adding } = useCategoriesAdd()
   const { mutateAsync: update, isPending: updating } = useCategoriesUpdate()
 
   const [values, setValues] = useState({
     name: cat?.name ?? '',
-    isIncome: cat?.isIncome ?? false
+    isIncome: cat?.isIncome ?? false,
+    order: mode === 'add' ? categories?.length ?? undefined : cat?.order
   })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -120,6 +120,7 @@ const CatForm = (
       await add({
         name: values.name,
         isIncome: values.isIncome,
+        order: values.order,
         created: DateUtils.getCurIsoStr()
       })
     }
@@ -127,7 +128,8 @@ const CatForm = (
       await update({
         id: cat!.id,
         name: values.name,
-        isIncome: values.isIncome
+        isIncome: values.isIncome,
+        order: values.order
       })
     }
     onSuccess?.()
@@ -146,8 +148,17 @@ const CatForm = (
         isSelected={values.isIncome}
         onChange={(e) => setValues({ ...values, isIncome: e })}
       >
-        Income
+        {getIncExpStr({ isIncome: true })}
       </Checkbox>
+      <NumberField
+        size={1}
+        label='Order'
+        name="catOrder"
+        value={values.order}
+        minValue={0}
+        step={1}
+        onChange={(order) => setValues({ ...values, order })}
+      />
       <span className="flex-row gap-1">
         <Button type="submit" variant="attention" isDisabled={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
         <Button type="button" onPress={onCancel}>Cancel</Button>

@@ -1,14 +1,14 @@
-import { ArrowDown, MoreVertIcon } from '@shared/svg';
+import { ArrowDropDown, MoreVertIcon } from '@shared/svg';
 import {
+  MenuItem as AriaMenuItem,
   Button,
   Menu,
-  MenuItem as AriaMenuItem,
   MenuItemProps,
   MenuProps,
   MenuTrigger,
   MenuTriggerProps,
   Popover
-} from 'react-aria-components'
+} from 'react-aria-components';
 import { ButtonIcon } from '../button-icon/button-icon';
 
 export interface MenuButtonProps<T>
@@ -21,7 +21,7 @@ export function MenuButton<T extends object>(
 ) {
   return (
     <MenuTrigger {...props}>
-      <Button>{label}<ArrowDown/></Button>
+      <Button>{label}<ArrowDropDown /></Button>
       <Popover>
         <Menu {...props}>
           {children}
@@ -34,7 +34,7 @@ export function MenuButton<T extends object>(
 export function MenuButtonIcon(
   { content = <MoreVertIcon />, children, ...props }:
     MenuButtonProps<{}> & { content?: React.ReactNode }
-) { 
+) {
   return (
     <MenuTrigger {...props}>
       <ButtonIcon>{content}</ButtonIcon>

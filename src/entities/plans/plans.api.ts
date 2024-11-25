@@ -43,8 +43,8 @@ export const updatePlan = async (updDoc: PlanUpd) => {
     docRef,
     {
       ...updDoc,
-      dateStart: updDoc.dateStart ? DateUtils.isoStrToTs(updDoc.dateStart) : undefined,
-      dateEnd: updDoc.dateEnd ? DateUtils.isoStrToTs(updDoc.dateEnd) : undefined
+      dateStart: updDoc.dateStart ? DateUtils.isoStrToTs(updDoc.dateStart) : null,
+      dateEnd: updDoc.dateEnd ? DateUtils.isoStrToTs(updDoc.dateEnd) : null
     }
   )
   return updDoc

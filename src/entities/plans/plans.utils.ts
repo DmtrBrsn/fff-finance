@@ -83,7 +83,7 @@ export class PlanUtils {
 
   static getRepeatDescription(plan: Plan) {
     if (plan.every == undefined) return '-'
-    return `every ${plan.everyNumber===1 ? '' : plan.everyNumber} ${plan.every}${plan.every==='week' ? ' on ' + plan.weekdays!.join(', ') : ''} ${plan.dateEnd ? 'until ' + DateUtils.isoStrToLocal(plan.dateEnd) : 'forever'}`
+    return `Repeats every ${plan.everyNumber===1 ? '' : plan.everyNumber} ${plan.every}${plan.every==='week' ? ' on ' + plan.weekdays!.join(', ') : ''} ${plan.dateEnd ? 'until ' + DateUtils.isoStrToLocal(plan.dateEnd) : 'forever'}`
   }
 
 }

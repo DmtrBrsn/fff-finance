@@ -13,12 +13,14 @@ export class SortUtils {
     }
   }
 
-  public static getNumSorting<T>(fieldExtractor: (obj: T) => number, dir: SortDirection) {
+  public static getNumSorting<T>(fieldExtractor: (obj: T) => number | undefined, dir: SortDirection) {
     return (a: T, b: T) => {
       if (a==undefined || b==undefined) return 0
       const aVal = fieldExtractor(a)
       const bVal = fieldExtractor(b)
-      return dir === 'desc' ? aVal - bVal :  bVal - aVal
+      if (aVal == undefined) return 1
+      if (bVal == undefined) return -1
+      return dir === 'asc' ? aVal - bVal :  bVal - aVal
     }
   }
 

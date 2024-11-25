@@ -45,7 +45,8 @@
     flex-wrap: wrap;
     gap: 0.2rem;
     color: var(--gray-300);
-    grid-area: cre; width: 100%;
+    ; 
+    width: 100%;
   }
   .op-buttons {
     grid-area: cnt; 

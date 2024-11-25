@@ -1,5 +1,38 @@
 .plans-list {
-  height: 30rem;
-  width: 53rem;
+  height: 38rem;
+  width: 28rem;
   border: 1px solid var(--gray-100);
+}
+
+.plan-section {
+  display: grid;
+  grid-template-areas: 
+  "des des des sum"
+  "cat cat dat sum"
+  "rep rep rep cnt";
+}
+
+.plan-description {
+  grid-area: des;
+  font-size: 1.2rem;
+  width: 100%;
+}
+.plan-sum {
+  grid-area: sum;
+  font-size: 1.4rem;
+  justify-content: end;
+}
+.plan-category {
+  grid-area: cat;
+  width: 14rem;
+}
+.plan-date-start {
+  grid-area: dat;
+}
+.plan-repeat {
+  grid-area: rep;
+}
+.plan-controls {
+  grid-area: cnt;
+  justify-content: end;
 }
