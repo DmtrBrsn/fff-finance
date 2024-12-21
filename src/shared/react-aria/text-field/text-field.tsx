@@ -13,6 +13,7 @@ export interface TextFieldProps extends AriaTextFieldProps {
   label?: string
   size?: number
   description?: string
+  placeholder?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
 }
 
@@ -29,7 +30,7 @@ export function TextField(
     (
       <AriaTextField {...props}>
         <Label>{label}</Label>
-        <Input size={size}/>
+        <Input size={size} placeholder={props.placeholder} />
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaTextField>
@@ -48,6 +49,7 @@ export function TextAreaField(
           cols={cols}
           rows={rows}
           className={'react-aria-TextArea' + ' ' + resize}
+          placeholder={props.placeholder}
         />
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>

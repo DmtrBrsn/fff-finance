@@ -70,7 +70,7 @@ export function DatePicker<T extends DateValue>(
 }
 
 function DatePickerSetTodayButton() {
-  let state = React.useContext(DatePickerStateContext)!
+  const state = React.useContext(DatePickerStateContext)!
   return (
     <Button
       size='s'

@@ -75,7 +75,7 @@
 }
 
 .react-aria-Menu {
-  .react-aria-Section:not(:first-child) {
+  .react-aria-MenuSection:not(:first-child) {
     margin-top: 0.9rem;
   }
 
@@ -94,8 +94,13 @@
 
 .react-aria-MenuItem {
   [slot=label] {
-    font-weight: bold;
     grid-area: label;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    > svg {
+      fill: var(--font-color);
+    }
   }
 
   [slot=description] {

@@ -1,4 +1,4 @@
-.react-aria-DateField {
+.react-aria-DateField, .react-aria-TimeField {
   color: var(--text-color);
 
   .react-aria-Label {

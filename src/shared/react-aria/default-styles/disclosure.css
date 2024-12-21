@@ -1,0 +1,29 @@
+.react-aria-Disclosure {
+  .react-aria-Button[slot=trigger] {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-step);
+    padding: var(--gap-step);
+    svg {
+      rotate: 0deg;
+      transition: rotate 200ms;
+      width: 1rem;
+      height: 1rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3px;
+    }
+  }
+  &[data-expanded] >.react-aria-Button[slot=trigger] svg {
+    rotate: 90deg;
+  }
+}
+
+.react-aria-DisclosurePanel {
+  padding-left: var(--gap-step);
+}

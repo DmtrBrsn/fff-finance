@@ -7,18 +7,20 @@ export type BasicButtonProps = {
   tooltip?: string
   tooltipProps?: TooltipProps
   narrow?: boolean
+  justified?: boolean
 }
 
 type Props = BasicButtonProps & RACButtonProps
 
 export function Button(
-  { variant = 'primary', size = 'm', narrow=false, tooltip, tooltipProps, ...props }: Props
+  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: Props
 ) {
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
     size +
     (props.className ? ' ' + props.className : '') +
-    (narrow ? ' narrow' : '')
+    (narrow ? ' narrow' : '') + 
+    (justified ? ' justified' : '')
   
   if (tooltip) return (
     <TooltipTrigger>
@@ -34,14 +36,15 @@ export function Button(
 type ToggleButtonProps = BasicButtonProps & RACToggleButtonProps
 
 export function ToggleButton(
-  { variant = 'primary', size = 'm', narrow=false, tooltip, tooltipProps, ...props }: ToggleButtonProps
+  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: ToggleButtonProps
 ) {
 
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
     size +
     (props.className ? ' ' + props.className : '') +
-    (narrow ? ' narrow' : '')
+    (narrow ? ' narrow' : '') + 
+    (justified ? ' justified' : '')
 
   if (tooltip) return (
     <TooltipTrigger>

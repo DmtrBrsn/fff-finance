@@ -41,6 +41,10 @@
     background: var(--highlight-background);
     color: var(--highlight-foreground);
 
+    [slot=description] {
+      color: var(--highlight-foreground);
+    }
+
     &[data-focus-visible] {
       outline-color: var(--highlight-foreground);
       outline-offset: - var(--gap-step);

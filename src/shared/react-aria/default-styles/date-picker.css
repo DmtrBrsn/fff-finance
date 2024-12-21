@@ -27,15 +27,6 @@
 }
 
 .react-aria-DatePicker {
-  /* &[data-invalid] {
-    .react-aria-DateInput:after {
-      content: '🚫' / '';
-      content: '🚫';
-      alt: ' ';
-      flex: 1;
-      text-align: end;
-    }
-  } */
 
   .react-aria-FieldError {
     font-size: 0.9rem;
