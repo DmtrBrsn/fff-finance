@@ -1,4 +1,4 @@
-import { SignInWithGoogle, LoginWithEmailAndPassword } from "@features/auth"
+import { SignInWithGoogle, LoginWithEmailAndPassword } from "@features/auth/ui"
 import { Link } from "react-aria-components"
 
 export const LoginPage = () => {

@@ -1,4 +1,4 @@
-import { OperationsListWtoolbar } from "@features/operations-list";
+import { OperationsListWtoolbar } from "@features/operations/ui";
 
 export const OperationsPage = () => (
   <main>

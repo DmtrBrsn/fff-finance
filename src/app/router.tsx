@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom"
-import { useAuth } from "@features/auth"
 import { CategoriesPage } from "@pages/categories-page"
 import { LoginPage } from "@pages/login-page"
 import { NewOperation } from "@pages/new-operation"
@@ -10,6 +9,7 @@ import { SettingsPage } from "@pages/settings-page"
 import { SignupPage } from "@pages/signup-page"
 import { UserSettingsPage } from "@pages/user-settings-page"
 import { PlanningPage } from "@pages/planning-page"
+import { useAuth } from "@features/auth/auth-context"
 
 export const Router = () => {
   const { currentUser } = useAuth()

@@ -1,11 +1,11 @@
 import { Router } from './router'
-import { AuthProvider } from '@features/auth'
 import { Header } from '@app/header'
 import { RouterProvider } from 'react-aria-components';
 import { useHref, useNavigate } from 'react-router-dom'
 import { useAppStore } from './app-store'
 import { updateRootThemeAttr } from '@shared/utils';
-import { Toaster } from './toaster/toaster';
+import { Toaster } from '@features/toaster';
+import { AuthProvider } from '@features/auth/auth-context';
 
 import './styles/root.css'
 import './styles/colors.css'

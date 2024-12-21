@@ -1,4 +1,4 @@
-import { SignInWithGoogle, Signup } from "@features/auth"
+import { SignInWithGoogle, Signup } from "@features/auth/ui"
 import { Link } from "react-aria-components"
 
 export const SignupPage = () => {

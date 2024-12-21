@@ -1,0 +1,28 @@
+import { DateUtils } from "@shared/utils"
+import { Operation } from "../lib"
+
+export type GetOpsParams = {
+  from?: string
+  to?: string
+  limit?: number
+  orderBy?: keyof Operation
+  orderByDirection?: 'asc' | 'desc'
+  // createdTo?: string
+  // createdFrom?: string
+}
+
+export const getThisMonthOpParams = (): GetOpsParams => {
+  const firstD = DateUtils.getFirstDayOfPeriodIsoStr(new Date, 'M')
+  const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
+  const from = DateUtils.isoStrToInpDate(firstD)
+  const to = DateUtils.isoStrToInpDate(lastD)
+  return ({from, to, orderBy: 'date', orderByDirection: 'desc'})
+}
+
+export const getLatestOpsParams = (): GetOpsParams => {
+  return ({
+    limit: 10,
+    orderBy: 'created',
+    orderByDirection: 'desc'
+  })
+}

@@ -1,4 +1,4 @@
-import { PlansList } from "@features/plans-list"
+import { PlansList } from "@features/plans/ui"
 
 export const PlanningPage = () => {
   return (

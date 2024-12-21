@@ -1,6 +1,6 @@
-import { useCategoriesGet } from "@entities/categories"
-import { NewOperationForm } from "@features/operation-form"
-import { OperationsLatest } from "@features/operations-latest"
+import { useCategoriesGet } from "@features/categories/api"
+import { NewOperationForm } from "@features/operations/ui"
+import { OperationsLatest } from "@features/operations/ui/operations-latest"
 
 export const NewOperation = () => {
   useCategoriesGet(true)

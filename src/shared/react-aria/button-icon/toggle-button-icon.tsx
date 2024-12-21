@@ -1,13 +1,14 @@
-import {ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipTrigger} from 'react-aria-components'
+import {ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipProps, TooltipTrigger} from 'react-aria-components'
 import { Tooltip } from '../tooltip/tooltip'
 
 type ToggleButtonIconProps = {
   size?: 's' | 'm' | 'l',
   tooltip?: string
+  tooltipProps?: TooltipProps
 } & RACToggleButtonProps
 
 export function ToggleButtonIcon(
-  { size = 'm', tooltip, ...props }: ToggleButtonIconProps
+  { size = 'm', tooltip, tooltipProps, ...props }: ToggleButtonIconProps
 ) {
   const className = 'react-aria-Button-icon' + ' ' +
     size +
@@ -25,7 +26,7 @@ export function ToggleButtonIcon(
       >
         {props.children}
       </RACToggleButton>
-      <Tooltip>{tooltip}</Tooltip>
+      <Tooltip {...tooltipProps}>{tooltip}</Tooltip>
     </TooltipTrigger>
   )
 }

@@ -10,10 +10,21 @@
   font-size: 1rem;
   color: var(--text-color);
   forced-color-adjust: none;
+  aspect-ratio: 1;
+
+  .checkbox.s {
+    --size: 1rem;
+  }
+  .checkbox.m {
+    --size: 1.1rem;
+  }
+  .checkbox.l {
+    --size: 1.5rem;
+  }
 
   .checkbox {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: var(--size);
+    height: var(--size);
     border: 2px solid var(--border-color);
     border-radius: 4px;
     transition: all 200ms;

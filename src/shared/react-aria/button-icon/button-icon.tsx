@@ -1,14 +1,15 @@
-import {Button as RACButton, ButtonProps as RACButtonProps, TooltipTrigger} from 'react-aria-components'
+import {Button as RACButton, ButtonProps as RACButtonProps, TooltipProps, TooltipTrigger} from 'react-aria-components'
 import { Tooltip } from '../tooltip/tooltip'
 
 type ButtonIconProps = {
   size?: 's' | 'm' | 'l'
   extraClassName?: string
   tooltip?: string
+  tooltipProps?: TooltipProps
 } & RACButtonProps
 
 export function ButtonIcon(
-  { size = 'm', tooltip, extraClassName, ...props }: ButtonIconProps
+  { size = 'm', tooltip, tooltipProps, extraClassName, ...props }: ButtonIconProps
 ) {
   const className = 'react-aria-Button-icon' + ' ' +
     size +
@@ -26,7 +27,7 @@ export function ButtonIcon(
       >
         {props.children}
       </RACButton>
-      <Tooltip>{tooltip}</Tooltip>
+      <Tooltip {...tooltipProps}>{tooltip}</Tooltip>
     </TooltipTrigger>
   )
 }

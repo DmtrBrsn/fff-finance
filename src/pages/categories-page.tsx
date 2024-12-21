@@ -1,4 +1,4 @@
-import { CatGrids } from "@features/catregories-grid"
+import { CatGrids } from "@features/categories/ui"
 
 export const CategoriesPage = () => (
   <main>

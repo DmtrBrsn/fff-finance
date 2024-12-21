@@ -1,6 +1,5 @@
-import { useAuth } from "@features/auth"
 import { NavLink } from "react-router-dom"
-
+import { useAuth } from "@features/auth/auth-context"
 import './header.css'
 
 export const Header = () => {

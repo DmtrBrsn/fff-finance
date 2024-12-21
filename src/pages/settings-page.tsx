@@ -1,5 +1,5 @@
-import { toast } from "@app/toaster"
-import { AppThemeSwitcher } from "@features/app-theme-switcher"
+import { toast } from "@features/toaster"
+import { AppThemeSwitcher } from "@shared/app-theme-switcher"
 import { ExportMenu } from "@features/import-export"
 import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
