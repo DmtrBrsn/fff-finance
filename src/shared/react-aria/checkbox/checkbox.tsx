@@ -9,6 +9,7 @@ export function Checkbox({size='m', children, ...props }: Props) {
     (
       <AriaCheckbox {...props}>
         {({ isIndeterminate }) => (
+          //@ts-ignore
           <>
             <div className={'checkbox'+' '+size}>
               <svg viewBox="0 0 18 18" aria-hidden="true">

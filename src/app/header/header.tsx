@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom"
 import { useAuth } from "@features/auth/auth-context"
+import { AppNav } from "@features/nav/ui"
 import './header.css'
 
 export const Header = () => {
@@ -8,14 +8,7 @@ export const Header = () => {
   
   return (
     <header className="app-header">
-      <nav className='app-nav'>
-        <NavLink to="/">New operation</NavLink>
-        <NavLink to="/operations">Operations</NavLink>
-        <NavLink to="/planning">Planning</NavLink>
-        <NavLink to="/categories">Categories</NavLink>
-        <NavLink to="/settings">Settings</NavLink>
-        <NavLink to="/user-settings">Account</NavLink>
-      </nav >
+      <AppNav/>
     </header>
   )
 }

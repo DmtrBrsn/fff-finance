@@ -8,8 +8,8 @@ import { Button, ButtonIcon, DatePicker, ToggleButtonIcon } from '@shared/react-
 import { parseDate } from '@internationalized/date'
 import { useOperationsBatchDelete, useOperationsGet } from '@features/operations/api'
 import { getThisMonthOpParams } from '@features/operations/api/operations-params'
-import { OpAddBtn } from '../../operation-form'
 import { useCategoriesGet } from '@features/categories/api'
+import { OpAddBtn } from '../../add-op-btn'
 
 export const OperationsListToolbar = () => {
   const {

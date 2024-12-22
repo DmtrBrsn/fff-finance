@@ -1,12 +1,26 @@
 import { db } from "@app/firebase"
 import { Id } from "@shared/types/api-types"
 import { DateUtils, getColPath } from "@shared/utils"
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc } from "firebase/firestore"
-import { Plan, PlanAdd, PlanUpd } from "../lib"
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, getDocs, query, QueryConstraint, updateDoc, where } from "firebase/firestore"
+import { GetPlanParams, Plan, PlanAdd, PlanUpd } from "../lib"
 
+const planParamsToQuery = (
+  collectionRef: CollectionReference<DocumentData, DocumentData>,
+  params: GetPlanParams
+) => {
+  const queryArr: QueryConstraint[] = []
+  if (params.noDate) {
+    queryArr.push(where('dateStart', '==', null))
+  }
+  else {
+    queryArr.push(where('dateStart', '!=', null))
+  }
+  return query(collectionRef, ...queryArr)
+}
 
-export const getAllPlans = async () => {
-  const q = query(collection(db, getColPath('plans')));
+export const getPlans = async (params: GetPlanParams) => {
+  const collectionRef = collection(db, getColPath('plans'))
+  const q = planParamsToQuery(collectionRef, params)
   const querySnapshot = await getDocs(q)
   console.log(`read plans: ${querySnapshot.docs.length}`)
   return querySnapshot.docs.map(doc => {

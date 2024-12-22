@@ -15,3 +15,10 @@ export type OperationAdd = Add<Operation>
 
 export type OpSortableFields = 'category' | 'date' | 'description' | 'sum' | 'isIncome' | 'created'
 export type OpFilterFields = 'category' | 'date' | 'description' | 'sum' | 'isIncome' | 'created'
+
+export type OpSummary = {
+  incSum: number
+  expSum: number
+  margin: number
+  cats: Map<Category['id'], number>
+}

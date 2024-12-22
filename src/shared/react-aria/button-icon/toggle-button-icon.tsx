@@ -2,7 +2,7 @@ import {ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonPro
 import { Tooltip } from '../tooltip/tooltip'
 
 type ToggleButtonIconProps = {
-  size?: 's' | 'm' | 'l',
+  size?: 's' | 'm' | 'l' | 'xl'
   tooltip?: string
   tooltipProps?: TooltipProps
 } & RACToggleButtonProps

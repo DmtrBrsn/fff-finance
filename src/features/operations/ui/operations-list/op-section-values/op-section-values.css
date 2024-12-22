@@ -34,7 +34,6 @@
   }
   .op-category {
     grid-area: cat;
-    width: 18rem;
   }
   .op-is-income {
     grid-area: inc;

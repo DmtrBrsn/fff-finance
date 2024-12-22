@@ -10,6 +10,7 @@ import { SignupPage } from "@pages/signup-page"
 import { UserSettingsPage } from "@pages/user-settings-page"
 import { PlanningPage } from "@pages/planning-page"
 import { useAuth } from "@features/auth/auth-context"
+import { PlansPage } from "@pages/plans-page"
 
 export const Router = () => {
   const { currentUser } = useAuth()
@@ -32,6 +33,7 @@ export const Router = () => {
         <Route path="/" element={<NewOperation />} />
         <Route path="/operations" element={<OperationsPage />} />
         <Route path="/planning" element={<PlanningPage />} />
+        <Route path="/plans" element={<PlansPage />} />
         <Route path="/categories" element={<CategoriesPage/>} />
         <Route path="/settings" element={<SettingsPage/>} />
         <Route path="/user-settings" element={<UserSettingsPage/>} />

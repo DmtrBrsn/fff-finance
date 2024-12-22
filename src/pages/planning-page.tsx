@@ -1,11 +1,9 @@
-import { PlansList } from "@features/plans/ui"
+import { PlanningWidget } from "@features/planning/ui/planning-widget"
 
 export const PlanningPage = () => {
   return (
-    <main >
-      <div className="max-width-wrap">
-        <PlansList />
-      </div>
+    <main className="max-width-wrap">
+        <PlanningWidget />
     </main>
   )
 }

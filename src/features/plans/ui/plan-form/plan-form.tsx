@@ -16,7 +16,7 @@ export const PlanForm = (
 ) => {
 
   const initPlan: PlanFormValues = {
-    dateStart: plan?.dateStart ??  DateUtils.getCurInpDate(),
+    dateStart: mode==='add' ? DateUtils.getCurIsoDate() : plan?.dateStart,
     dateEnd: plan?.dateEnd ?? undefined,
     sum: plan?.sum ?? 0,
     idCategory: plan?.idCategory ?? undefined,

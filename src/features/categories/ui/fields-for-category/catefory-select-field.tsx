@@ -1,5 +1,5 @@
 import { useCategoriesGet } from "@features/categories/api"
-import { getIncExpStr } from "@features/categories/lib"
+import { CatUtils } from "@features/categories/lib"
 import { ComboBox, ComboBoxItem, Select, SelectItem } from "@shared/react-aria"
 import { Id } from "@shared/types/api-types"
 
@@ -14,7 +14,7 @@ export const CategorySelectField = (
       items={cats}
       selectedKey={idCat}
       onSelectionChange={(key) => setIdCat(key as Id)}
-      description={getIncExpStr(cats?.find(cat => cat.id === idCat))}
+      description={CatUtils.getIncExpStr(cats?.find(cat => cat.id === idCat))}
       isDisabled={isFetching}
       isRequired
     >
@@ -33,7 +33,7 @@ export const CategoryComboboxField = (
       defaultItems={cats}
       selectedKey={idCat}
       onSelectionChange={(key) => setIdCat(key as Id)}
-      description={getIncExpStr(cats?.find(cat => cat.id === idCat))}
+      description={CatUtils.getIncExpStr(cats?.find(cat => cat.id === idCat))}
       isDisabled={isFetching}
       isRequired
     >

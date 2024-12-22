@@ -14,8 +14,8 @@ export type GetOpsParams = {
 export const getThisMonthOpParams = (): GetOpsParams => {
   const firstD = DateUtils.getFirstDayOfPeriodIsoStr(new Date, 'M')
   const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
-  const from = DateUtils.isoStrToInpDate(firstD)
-  const to = DateUtils.isoStrToInpDate(lastD)
+  const from = DateUtils.isoStrToIsoDate(firstD)
+  const to = DateUtils.isoStrToIsoDate(lastD)
   return ({from, to, orderBy: 'date', orderByDirection: 'desc'})
 }
 

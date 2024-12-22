@@ -15,7 +15,7 @@ export const OpDateField = (
       value={parseDate(date)}
       isRequired
       withButtons
-      onChange={(d) => d && onChange(DateUtils.isoStrToInpDate(d.toString()))}
+      onChange={(d) => d && onChange(DateUtils.isoStrToIsoDate(d.toString()))}
     />
   )
 }

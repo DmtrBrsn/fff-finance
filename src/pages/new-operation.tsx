@@ -6,7 +6,7 @@ export const NewOperation = () => {
   useCategoriesGet(true)
   return (
     <main >
-      <div className="max-width-wrap">
+      <div className="flex-col gap-3 max-width-wrap">
         <NewOperationForm />
         <OperationsLatest/>
       </div>

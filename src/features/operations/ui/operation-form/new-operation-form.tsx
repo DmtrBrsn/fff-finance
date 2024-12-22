@@ -15,7 +15,7 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
   const operationDraft = getOpDraft()
 
   const initOp = {
-    date: DateUtils.getCurInpDate(),
+    date: DateUtils.getCurIsoDate(),
     description: '',
     idCategory: '',
     created: '',

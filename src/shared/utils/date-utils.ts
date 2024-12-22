@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore"
 
-type Period = 'День' | 'day' | 'D' | 'Неделя' | 'week' | 'W' | 'Месяц' | 'month' | 'M' | 'Полгода' | 'halfyear' | 'HY' | 'Год' |'year' | 'Y'
+export type Period = 'day' | 'D' | 'week' | 'W' | 'month' | 'M' | 'year' | 'Y'
 
 export class DateUtils {
 	static second = 1000
@@ -33,6 +33,32 @@ export class DateUtils {
 		}).format(date)
 	}
 
+	static getLocPeriod(date: Date | number, per: Period) {
+		switch (per) {
+			case 'D':
+			case 'day':
+				return DateUtils.formatDateLoc(date)
+			case 'W':
+			case 'week':
+				return DateUtils.getWeekLoc(date)
+			case 'M':
+			case 'month':
+				return DateUtils.getMonthAndYearLoc(date)
+			case 'Y':
+			case 'year':
+				return new Date(date).getFullYear().toString()
+		}
+	}
+
+	static getWeekLoc(date: Date | number) {
+		const d = new Date(date)
+		const weekNum = DateUtils.getWeekNum(d)
+		const weekStart = DateUtils.getFirstDayOfPeriod(d, 'W')
+		const weekEnd = DateUtils.getLastDayOfPeriod(weekStart, 'W')
+		return `Н${weekNum} (${DateUtils.getDatesRangeLoc(weekStart, weekEnd)})`
+	}
+
+
 	static getDatesRangeLoc(start: Date | number, end: Date | number) {
 		//@ts-ignore
 		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric', day: 'numeric' }).formatRange(start, end)
@@ -53,17 +79,9 @@ export class DateUtils {
 	static getWeekDay(date: Date | number | string) {
 		return new Date(date).getDay()
 	}
-	
-	static tsToDateStr(ts: Timestamp) {
-		return ts.toDate().toLocaleDateString(undefined, {dateStyle:'medium'})
-	}
 
 	static isoStrToLocal(isoStr: string) {
 		return new Date(isoStr).toLocaleDateString(undefined, {dateStyle:'medium'})
-	}
-
-	static tsToDateTimeStr(ts: Timestamp) {
-		return ts.toDate().toLocaleString(undefined, {dateStyle:'medium'})
 	}
 
 	static isoStrToTs(isoStr: string) {
@@ -71,7 +89,7 @@ export class DateUtils {
 	}
 
 	static tsToIsoStr(ts: Timestamp) {
-		return this.formatDateForInput(ts.toDate())
+		return this.dateToIsoDate(ts.toDate())
 	}
 
 	static dateToIsoStr(date: Date) {
@@ -83,91 +101,62 @@ export class DateUtils {
 		return this.dateToIsoStr(curDate)
 	}
 
-	static getCurInpDate() {
+	static getCurIsoDate() {
 		const curDate = new Date()
-		return this.formatDateForInput(curDate)
+		return this.dateToIsoDate(curDate)
 	}
 
 	static getCurTs() {
 		return Timestamp.now()
 	}
 
-	
+	static getCurDayStart() {
+		return DateUtils.floorDateToDay(new Date())
+	}
+
+	static getCurDayStartIsoDate() {
+		const curDate = DateUtils.getCurDayStart()
+		return this.dateToIsoDate(curDate)
+	}
+
+	static getCurDayStartTs() {
+		const curDate = DateUtils.getCurDayStart()
+		return Timestamp.fromDate(curDate)
+	}
+
 	static isoStrToTime(isoStr: string) {
 		return new Date(isoStr).getTime()
 	}
 
-  static formatDateForInput(date: Date, offset?: number) {
+  static dateToIsoDate(date: Date, offset?: number) {
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
 		return new Date(date.getTime() - (offset * 60000))
 			.toISOString()
 			.split('T')[0]
 	}
 
-  static isoStrToDate(isoDate: string) {
-    return new Date(isoDate)
-  }
-
-  static inpDateToIsoDate(inpDate: string) {
-    const date = new Date(inpDate)
-    return this.dateToIsoStr(date)
-  }
-
-  static isoStrToInpDate(isoDate: string, offset?: number) {
-    const date = this.isoStrToDate(isoDate)
+  static isoStrToIsoDate(isoDate: string, offset?: number) {
+    const date = new Date(isoDate)
     offset = offset===undefined ? date.getTimezoneOffset() : offset;
     return new Date(date.getTime() - (offset * 60000))
        .toISOString()
        .split("T")[0];
   }
-
-  static isoStrToInpDateTime(isoDate: string, offset: number) {
-    const date = this.isoStrToDate(isoDate)
-    offset = offset===undefined ? date.getTimezoneOffset() : offset;
-    return new Date(date.getTime() - (offset * 60000 ))
-      .toISOString()
-     .split("Z")[0];
-   }
-
-  static isoStrToTzDateStr(isoDate: string, timeZone?: string ) {
-    const date = this.isoStrToDate(isoDate)
-    return timeZone === undefined ?
-      date.toLocaleDateString(navigator.language)
-      :
-      date.toLocaleDateString(navigator.language, { timeZone })
-  }
-
-  static isoStrToTzDateTimeStr(isoDate: string, timeZone?: string) { 
-    const date = this.isoStrToDate(isoDate)
-    return timeZone === undefined ?
-      date.toLocaleString(navigator.language)
-      :
-      date.toLocaleString(navigator.language, { timeZone })
-	}
 	
 	static add(date: Date, per: Period, amount: number) {
 		switch (per) {
-			case 'День':
 			case 'day':
 			case 'D' :
 				date.setDate(date.getDate() + amount)
 				break
-			case 'Неделя':
 			case 'week':
 			case 'W' :
 				date.setDate(date.getDate() + 7*amount)
 				break
-			case 'Месяц':
 			case 'month':
 			case 'M':
 				date.setMonth(date.getMonth() + amount)
 				break
-			case 'Полгода':
-			case 'halfyear':
-			case 'HY':
-				date.setMonth(date.getMonth() + 6*amount)
-				break
-			case 'Год':
 			case 'year':	
 			case 'Y' :
 				date.setFullYear(date.getFullYear() + amount)
@@ -208,12 +197,10 @@ export class DateUtils {
 	
 	static getFirstDayOfPeriod(date: Date, period: Period) {
 		switch (period) {
-			case 'День' :
 			case 'day' :
 			case 'D' : {
 				return new Date(date)
 			}
-			case 'Неделя':
 			case 'week':
 			case 'W' : {
 				const weekNum = this.getWeekNum(date)
@@ -222,20 +209,12 @@ export class DateUtils {
 				const year = weekBelongsToPreviousYear ? date.getFullYear() - 1 : date.getFullYear()
 				return this.getDateOfISOWeek(year + '-W' + weekNum)
 			}
-			case 'Месяц':
 			case 'month':
 			case 'M' : {
 				const FD = new Date(date)
 				FD.setDate(1)
 				return FD
 			}
-			case 'Полгода':
-			case 'halfyear':
-			case 'HY' : {
-				const fdMonth = date.getMonth() > 5 ? 6 : 0
-				return new Date(date.getFullYear(), fdMonth, 1)
-			}
-			case 'Год':
 			case 'year':
 			case 'Y' : {
 				return new Date(date.getFullYear(), 0, 1)
@@ -295,6 +274,17 @@ export class DateUtils {
 	}
 	static floorDateToDay(date: Date) {
 		return new Date(this.floorTimeToDay(date.getTime()))
+	}
+
+	static isBetween(date: Date | number, dateFrom: Date | number, dateTo: Date | number) {
+		return date >= dateFrom && date <= dateTo
+	}
+
+	static getPeriodType = (from: Date | number | string, to: Date | number | string) => {
+		const now = DateUtils.getCurDayStart()
+		if (new Date(to) < now) return 'past'
+		if (new Date(from) > now) return 'future'
+		return 'current'
 	}
 
 	static isDateValid = (date: Date | string) => {

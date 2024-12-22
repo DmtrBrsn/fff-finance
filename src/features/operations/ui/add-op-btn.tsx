@@ -1,12 +1,15 @@
 import { ButtonIcon, DialogCloseBtn } from "@shared/react-aria"
 import { CreateIcon } from "@shared/svg"
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components"
-import { NewOperationForm } from "./new-operation-form"
+import { NewOperationForm } from "./operation-form/new-operation-form"
 
-export const OpAddBtn = () => {
+export const OpAddBtn = ({ size = 'regular' }: {
+  size?: 'regular' | 'large'
+  
+}) => {
   return (
     <DialogTrigger>
-      <ButtonIcon><CreateIcon /></ButtonIcon>
+      <ButtonIcon size={size==='regular' ? 'm' : 'xl'}><CreateIcon /></ButtonIcon>
       <Modal>
         <Dialog>
           {({ close }) => (

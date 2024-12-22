@@ -4,6 +4,7 @@ import { toast } from "@features/toaster"
 import { Weekdays } from "@shared/types/common-types"
 
 export class PlanUtils {
+
   public static createPlanFromFormValues(values: PlanFormValues) {
     if (values.idCategory === undefined) {
       toast.error('idCategory is undefined')
@@ -82,11 +83,11 @@ export class PlanUtils {
   }
 
   public static getRepeatDescription(plan: Plan) {
-    if (plan.every == undefined) return '-'
+    if (plan.every == undefined) return ''
     return `Repeats every ${plan.everyNumber === 1 ? '' : plan.everyNumber} ${plan.every}${plan.every === 'week' ? ' on ' + plan.weekdays!.join(', ') : ''} ${plan.dateEnd ? 'until ' + DateUtils.isoStrToLocal(plan.dateEnd) : 'forever'}`
   }
 
-  public static getPlansOperationsList(plans: Plan[], start: string, end: string) {
+  public static getPlansOperationsList(plans: Plan[], start: Date | string, end: Date | string) {
     const ops: PlanOp[] = []
     for (const plan of plans) {
       ops.push(...PlanUtils.getPlanOpsList(plan, start, end))
@@ -94,7 +95,7 @@ export class PlanUtils {
     return ops
   }
 
-  private static getPlanOpsList(plan: Plan, start: string, end: string) {
+  private static getPlanOpsList(plan: Plan, start: Date | string, end: Date | string) {
     if (plan.dateStart === undefined) return []
     const isFinite = plan.dateEnd != undefined
     const repeating = plan.every != undefined && plan.everyNumber != undefined
@@ -117,10 +118,11 @@ export class PlanUtils {
             ) {
               ops.push({
                 id: getUuid(),
-                date: DateUtils.formatDateForInput(curWd),
+                date: DateUtils.dateToIsoDate(curWd),
                 sum: plan.sum,
                 description: plan.description,
-                idCategory: plan.idCategory
+                idCategory: plan.idCategory,
+                planId: plan.id
               })
             }
           }
@@ -128,10 +130,11 @@ export class PlanUtils {
         else {
           ops.push({
             id: getUuid(),
-            date: DateUtils.formatDateForInput(curDate),
+            date: DateUtils.dateToIsoDate(curDate),
             sum: plan.sum,
             description: plan.description,
-            idCategory: plan.idCategory
+            idCategory: plan.idCategory,
+            planId: plan.id
           })
         }
       }

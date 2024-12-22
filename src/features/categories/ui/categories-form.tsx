@@ -2,7 +2,7 @@ import { Button, Checkbox, NumberField, TextField } from "@shared/react-aria"
 import { DateUtils } from "@shared/utils"
 import { useState, FormEvent } from "react"
 import { useCategoriesGet, useCategoriesAdd, useCategoriesUpdate } from "../api"
-import { Category, getIncExpStr } from "../lib"
+import { Category, CatUtils } from "../lib"
 import { Form } from "react-aria-components"
 
 export const CatForm = (
@@ -54,7 +54,7 @@ export const CatForm = (
         isSelected={values.isIncome}
         onChange={(e) => setValues({ ...values, isIncome: e })}
       >
-        {getIncExpStr({ isIncome: true })}
+        {CatUtils.getIncExpStr({ isIncome: true })}
       </Checkbox>
       <NumberField
         size={1}

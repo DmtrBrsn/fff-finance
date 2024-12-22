@@ -26,6 +26,7 @@ export function GridListItem({ children, ...props }: GridListItemProps) {
     (
       <AriaGridListItem textValue={textValue} {...props}>
         {({ selectionMode, selectionBehavior, allowsDragging }) => (
+          //@ts-ignore
           <>
             {/* Add elements for drag and drop and selection. */}
             {allowsDragging && <Button slot="drag">≡</Button>}

@@ -3,6 +3,10 @@
   width: 28rem;
   border: 1px solid var(--gray-100);
 }
+.plans-list-full-height {
+  width: 28rem;
+  height: 100%;
+}
 
 .plan-section {
   display: grid;

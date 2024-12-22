@@ -1,15 +1,17 @@
-import { useCategoriesGet } from '@features/categories/api'
 import { Operation } from '@features/operations/lib'
-import { OpCheckbox, OpDateSectionValue, OpSumSectionValue, OpDescriptionSectionValue, OpCatSectionValue, OpIsIncomeSectionValue, OpCreatedSectionValue, OpSectionControls } from './op-section-values/op-section-values'
+import { OpCatSectionValue, OpCheckbox, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpSectionControls, OpSumSectionValue } from './op-section-values/op-section-values'
 import { OperationSection } from './operation-section'
 import { useOpsListStore } from './operations-list-store'
+import { useCategoriesGet } from '@features/categories/api'
 import './operations-list.style.css'
 
 export const OperationListSection = ({ op }: {op: Operation}) => {
-  const { data: cats } = useCategoriesGet(false)
-  const cat = cats?.find(c => c.id === op.idCategory)
   const { selected, selectMode, setSelected } = useOpsListStore()
   const isSelected = selected.includes(op.id)
+  const { data: cats } = useCategoriesGet()
+  const cat = cats?.find(cat => cat.id === op.idCategory)
+
+
 
   const handleCheckboxChange = (e: boolean) => {
     e ?

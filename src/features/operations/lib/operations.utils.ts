@@ -1,6 +1,7 @@
 import { type FilterBy, FilterUtils, type SortBy, SortUtils } from "@shared/utils"
-import { type Operation, type OpFilterFields, type OpSortableFields } from "./operations.types"
+import { OpSummary, type Operation, type OpFilterFields, type OpSortableFields } from "./operations.types"
 import { Category } from "@features/categories/lib"
+import { toast } from "@features/toaster"
 
 export type OpSortBy = SortBy<OpSortableFields>
 export type OpFilterBy = FilterBy<OpFilterFields>
@@ -103,4 +104,46 @@ export class OpUtils {
     }
     return opsCopy
   }
+
+  public static makeSummary(ops: Pick<Operation, 'sum' | 'idCategory' >[], cats: Category[]): OpSummary {
+    const summary: OpSummary = {
+      incSum: 0,
+      expSum: 0,
+      margin: 0,
+      cats: new Map()
+    }
+    for (const op of ops) {
+      const cat = cats.find(c => c.id === op.idCategory)
+      if (cat === undefined) {
+        toast.error('Category is undefined')
+        throw new Error('Category is undefined')
+      }
+      if (cat.isIncome) {
+        summary.incSum += op.sum
+      } else {
+        summary.expSum += op.sum
+      }
+      summary.cats.set(cat.id, (summary.cats.get(cat.id) ?? 0) + op.sum)
+    }
+    summary.margin = summary.incSum - summary.expSum
+    return summary
+  }
+
+  public static calcMargin(ops: Pick<Operation, 'sum' | 'idCategory'>[], cats: Category[]): number {
+    let margin = 0
+    for (const op of ops) {
+      const cat = cats.find(c => c.id === op.idCategory)
+      if (cat === undefined) {
+        toast.error('Category is undefined')
+        throw new Error('Category is undefined')
+      }
+      if (cat.isIncome) {
+        margin += op.sum
+      } else {
+        margin -= op.sum
+      }
+    }
+    return margin
+  }
+  
 }

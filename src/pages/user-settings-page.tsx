@@ -1,7 +1,6 @@
-import { UnlinkGoogle, UnlinkEmailAndPassword, UpdateEmail, UpdatePassword, DeleteUser } from "@features/auth/ui"
+import { UnlinkGoogle, UnlinkEmailAndPassword, UpdateEmail, UpdatePassword, DeleteUser, Logout } from "@features/auth/ui"
 import { SignInWithGoogle } from "@features/auth/ui"
 import { UserData } from "@features/auth/ui"
-import { Logout } from "@shared/svg"
 import { getAuth } from "firebase/auth"
 
 export const UserSettingsPage = () => {

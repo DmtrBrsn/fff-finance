@@ -45,4 +45,9 @@ export type PlanOp = {
   date: string
   description: string
   sum: number
+  planId: Plan['id']
+}
+
+export type GetPlanParams = {
+  noDate: boolean
 }

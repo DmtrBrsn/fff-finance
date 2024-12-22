@@ -56,6 +56,7 @@ export function Tag({ children, ...props }: TagProps) {
     (
       <AriaTag textValue={textValue} {...props}>
         {({ allowsRemoving }) => (
+          //@ts-ignore
           <>
             {children}
             {allowsRemoving && <Button slot="remove">✖</Button>}

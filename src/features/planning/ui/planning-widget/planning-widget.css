@@ -1,0 +1,75 @@
+.planning-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .toolbar {
+    min-width: 40rem;
+  }
+
+  .period-sections-container {
+    height: inherit;
+    display: inherit;
+    flex-direction: inherit;
+    max-width: 45rem;
+    
+    [data-testid="virtuoso-item-list"] {
+      gap: 0.6rem;
+    }
+
+    .period-section {
+      display: flex;
+      flex-direction: column;
+
+      border-radius: var(--app-border-radius);
+      background: var(--gray-50); 
+      padding: 0.6rem;
+      &.current {background: var(--blue-50);}
+  
+  
+      .period-name {
+        /* text-align: center; */
+        font-size: 1.2rem;
+      }
+
+      .period-summary {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 1rem;
+
+        &.Plans {color: var(--blue-600);}
+        &.Operations {color: var(--green-600);}
+
+        .title {
+          width: 5rem;
+        }
+        .value {
+          width: 8rem;
+          .number {
+            font-weight: 500;
+          }
+        }
+      }
+  
+      .cat-summary-list {
+        .cat-summary-row {
+          display: flex;
+          gap: 0.2rem;
+          padding: 0.2rem;
+          border-radius: var(--app-border-radius);
+
+          .cat-name {
+            width: 15rem;
+          }
+          .sum {
+            width: 3rem;
+          }
+        }
+      }
+    }
+  }
+
+}

@@ -14,7 +14,7 @@ export const PlanDateStartField = (
     <DatePicker
       label={'Start date'}
       value={dateStart ? parseDate(dateStart) : null}
-      onChange={(d) => onChange(d ? DateUtils.isoStrToInpDate(d.toString()) : undefined)}
+      onChange={(d) => onChange(d ? DateUtils.isoStrToIsoDate(d.toString()) : undefined)}
       description={dateStart && DateUtils.isPastDay(dateStart) ? 'In the past' : undefined}
     />
   )
@@ -28,7 +28,7 @@ export const PlanDateEndField = (
     <DatePicker
       label={'End date'}
       value={dateEnd ? parseDate(dateEnd) : null}
-      onChange={(d) => onChange(d ? DateUtils.isoStrToInpDate(d.toString()) : undefined)}
+      onChange={(d) => onChange(d ? DateUtils.isoStrToIsoDate(d.toString()) : undefined)}
       minValue={dateStart ? parseDate(dateStart) : undefined}
       isRequired
     />

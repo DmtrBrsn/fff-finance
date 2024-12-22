@@ -86,7 +86,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
         <DatePicker
           autoFocus
           value={filterValue ? parseDate(filterValue.toString()) : null}
-          onChange={d => d==null ? setFilterValue('') : setFilterValue(DateUtils.isoStrToInpDate(d.toString()))}
+          onChange={d => d==null ? setFilterValue('') : setFilterValue(DateUtils.isoStrToIsoDate(d.toString()))}
         />
       }
       {type == 'text' && <TextField autoFocus value={filterValue.toString()} onChange={setFilterValue} />}
@@ -96,7 +96,7 @@ const FilterFormPopup = ({ field }: { field: OpFilterFields }) => {
           <DatePicker
             autoFocus
             value={filterValue1 ? parseDate(filterValue1.toString()) : null}
-            onChange={d => d==null ? setFilterValue1('') : setFilterValue1(DateUtils.isoStrToInpDate(d.toString()))}
+            onChange={d => d==null ? setFilterValue1('') : setFilterValue1(DateUtils.isoStrToIsoDate(d.toString()))}
           />
         }
         {type == 'text' && <TextField autoFocus value={filterValue1.toString()} onChange={setFilterValue1} />}

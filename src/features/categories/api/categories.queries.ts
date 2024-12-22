@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { addCategory, batchUpdateCategories, deleteCategory, getAllCategories, updateCategory } from "./categories.api"
 
 import { toast } from "@features/toaster"
 import { Category } from "../lib/categories-types"
-import { orderCats } from "../lib"
+import { CatUtils } from "../lib"
 
 export const QUERY_KEY_CATEGORIES = 'CATEGORIES' as const
 
@@ -13,9 +13,15 @@ export function useCategoriesGet(enabled: boolean = true) {
     queryFn: getAllCategories,
     enabled,
     staleTime: Infinity,
-    select: (cats) => orderCats(cats)
+    select: (cats) => {
+      return CatUtils.orderCats(cats)
+    }
   })
   return { isPending, isFetching, isError, data, error }
+}
+
+export const getCategoriesCache = (queryClient: QueryClient) => { 
+  return queryClient.getQueryData<Category[]>([QUERY_KEY_CATEGORIES])
 }
 
 export function useCategoriesAdd() {

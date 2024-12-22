@@ -4,7 +4,7 @@ import { Spinner } from '@shared/spinner'
 import { DeleteIcon } from '@shared/svg'
 import { DateUtils } from '@shared/utils'
 import { ReactNode } from 'react'
-import { Category, getIncExpStr } from '@features/categories/lib'
+import { Category, CatUtils } from '@features/categories/lib'
 import { useOperationsDelete } from '@features/operations/api'
 import { Operation } from '@features/operations/lib'
 import { EditOpBtn } from '../../operation-form'
@@ -51,7 +51,7 @@ export const OpCatSectionValue = ({ cat }: { cat?: Category }) => {
 export const OpIsIncomeSectionValue = ({ cat }: { cat?: Category }) => {
   return (
     <FlCell className="op-section-value op-is-income">
-      {getIncExpStr(cat)}
+      {CatUtils.getIncExpStr(cat)}
     </FlCell>
   )
 }

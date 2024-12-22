@@ -1,4 +1,4 @@
-import { getIncExpStr } from "@features/categories/lib"
+import { CatUtils } from "@features/categories/lib"
 import { Tag, TagGroup } from "@shared/react-aria"
 import { SortUtils } from "@shared/utils"
 import { Selection } from "react-aria-components"
@@ -30,7 +30,7 @@ export const CatSelectTags = (
         items={catsOrdered}
         selectedKeys={new Set(selectedId==='' ? [] : [selectedId])}
         onSelectionChange={handleSelect}
-        description={getIncExpStr(cats?.find(cat => cat.id === selectedId))}
+        description={CatUtils.getIncExpStr(cats?.find(cat => cat.id === selectedId))}
         tagListClassName="tag-list custom-scrollbar"
       >
         {(item) => <Tag className={'react-aria-Tag'+(item.isIncome ? ' income-background' : '')}>{item.name}</Tag>}

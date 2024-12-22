@@ -54,6 +54,7 @@ export function MenuItem(props: MenuItemProps) {
     (
       <AriaMenuItem {...props} textValue={textValue}>
         {({ hasSubmenu }) => (
+          //@ts-ignore
           <>
             {props.children}
             {hasSubmenu && (

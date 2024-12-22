@@ -1,30 +1,12 @@
-import { MenuButtonIcon, DialogCloseBtn, GridListItem, GridList, MenuItem, Button } from "@shared/react-aria"
-import { CreateIcon } from "@shared/svg"
-import { useMemo, useState } from "react"
-import { useCategoriesGet, useCategoriesBatchUpdate, useCategoriesDelete } from "../api"
-import { Category, getDndReorderedCatUpdDocs, getIncExpStr } from "../lib"
+import { DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/react-aria"
+import { useState } from "react"
+import { Dialog, Heading, Modal, useDragAndDrop } from "react-aria-components"
+import { useCategoriesBatchUpdate, useCategoriesDelete } from "../api"
+import { Category, CatUtils } from "../lib"
 import { CatForm } from "./categories-form"
-import { Dialog, DialogTrigger, Heading, Modal, useDragAndDrop } from "react-aria-components"
 
 
-export const CatGrids = () => {
-  const { data: categories, isFetching: catsFetching } = useCategoriesGet()
-
-  const exp = useMemo(() => categories?.filter(cat => !cat.isIncome), [categories])
-  const inc = useMemo(() => categories?.filter(cat => cat.isIncome), [categories])
-
-  return (
-    <div className="flex-col gap-3 pad-1 align-start">
-      <CatAddBtn />
-      <div className="flex-row gap-3 wrap">
-        <CatGrid isIncome={false} cats={exp || []} fetching={catsFetching} />
-        <CatGrid isIncome={true} cats={inc || []} fetching={catsFetching} />
-      </div>
-    </div>
-  )
-}
-
-const CatGrid = (
+export const CatGrid = (
   { isIncome, cats, fetching }:
     { isIncome: boolean, cats: Category[], fetching: boolean }
 ) => {
@@ -34,17 +16,17 @@ const CatGrid = (
     getItems: (keys) =>
       [...keys].map((key) => ({ 'text/plain': cats.find(c => c.id === key)?.id! })),
     onReorder(e) {
-      const updDocs = getDndReorderedCatUpdDocs(cats, e)
-      updDocs.length>0 && mutateAsync(updDocs)
+      const updDocs = CatUtils.getDndReorderedCatUpdDocs(cats, e)
+      updDocs.length > 0 && mutateAsync(updDocs)
     }
   })
 
   return (
     <div className="flex-col gap-1">
-      <Heading>{getIncExpStr({ isIncome })}</Heading>
+      <Heading>{CatUtils.getIncExpStr({ isIncome })}</Heading>
       <GridList
         dragAndDropHooks={dragAndDropHooks}
-        aria-label={getIncExpStr({ isIncome })}
+        aria-label={CatUtils.getIncExpStr({ isIncome })}
         renderEmptyState={() => fetching ? 'Loading' : 'No data'}
         selectionMode="single"
         items={cats}
@@ -82,23 +64,6 @@ const CatMenuBtn = ({ cat }: { cat: Category }) => {
   )
 }
 
-const CatAddBtn = () => {
-  return (
-    <DialogTrigger>
-      <Button><CreateIcon />Add category</Button>
-      <Modal>
-        <Dialog>
-          {({ close }) => (
-            <>
-              <DialogCloseBtn close={close} />
-              <Heading slot="title">New category</Heading>
-              <CatForm mode="add" onSuccess={close} onCancel={close} />
-            </>
-          )}
-        </Dialog>
-      </Modal>
-    </DialogTrigger>
-  )
-}
+
 
 

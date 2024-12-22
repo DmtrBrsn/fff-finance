@@ -1,18 +1,19 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "@features/toaster"
-import { addPlan, deletePlan, getAllPlans, updatePlan } from "./plans.api"
-import { Plan } from "../lib"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { GetPlanParams, Plan } from "../lib"
+import { addPlan, deletePlan, getPlans, updatePlan } from "./plans.api"
 
 export const QUERY_KEY_PLANS = 'PLANS' as const
 
-export function usePlansGet(enabled: boolean = true) {
-  const { isPending, isFetching, isError, data, error } = useQuery({
-    queryKey: [QUERY_KEY_PLANS],
-    queryFn: getAllPlans,
+export function usePlansGet(params: GetPlanParams, enabled = true) {
+  const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+    queryKey: [QUERY_KEY_PLANS, params],
+    queryFn: () => getPlans(params),
     enabled,
-    staleTime: Infinity
+    staleTime: Infinity,
+    retry: 2,
   })
-  return { isPending, isFetching, isError, data, error }
+  return { isPending, isFetching, isError, data, error, refetch }
 }
 
 export function usePlansAdd() {
@@ -20,10 +21,17 @@ export function usePlansAdd() {
   return useMutation({
     mutationFn: addPlan,
     onSuccess: (added) => {
-      queryClient.setQueryData<Plan[]>(
-				[QUERY_KEY_PLANS],
-				cache => cache ? [...cache, added] : [added]
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
+      for (const query of queries) {
+        const params = query[0][1] as GetPlanParams
+        if (params?.noDate && added.dateStart !== undefined) {
+          continue
+        }
+        queryClient.setQueryData<Plan[]>(
+          query[0],
+          cache => cache ? [...cache, added] : [added]
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)
@@ -37,11 +45,22 @@ export function usePlansUpdate() {
   return useMutation({
     mutationFn: updatePlan,
     onSuccess: (updated) => {
-      queryClient.setQueryData<Plan[]>(
-				[QUERY_KEY_PLANS],
-				cache =>
-					cache?.map(p => p.id === updated.id ? {...p, ...updated} : p)
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
+      for (const query of queries) {
+        const params = query[0][1] as GetPlanParams
+        if (params?.noDate && updated.dateStart !== undefined) {
+          queryClient.setQueryData<Plan[]>(
+            query[0],
+            cache =>
+              cache?.filter(op => op.id !== updated.id)
+          )
+        }
+        queryClient.setQueryData<Plan[]>(
+          query[0],
+          cache =>
+            cache?.map(op => op.id === updated.id ? { ...op, ...updated } : op)
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)
@@ -50,15 +69,18 @@ export function usePlansUpdate() {
   })
 }
 
-export function usePlansDelete() { 
+export function usePlansDelete() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: deletePlan,
     onSuccess: (id) => {
-      queryClient.setQueryData<Plan[]>(
-				[QUERY_KEY_PLANS],
-				cache => cache?.filter(p => p.id !== id)
-			)
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Plan[]>(
+          query[0],
+          cache => cache?.filter(op => op.id !== id)
+        )
+      }
     },
     onError: (err) => {
       toast.error(err.message)
