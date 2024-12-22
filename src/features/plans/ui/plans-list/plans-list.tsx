@@ -43,6 +43,10 @@ export const PlansList = ({ fullHeight = true }: { fullHeight: boolean }) => {
 const PlanRow = ({ plan }: { plan: Plan }) => {
   const startStr = plan.dateStart == undefined ? '-' : DateUtils.isoStrToLocal(plan.dateStart)
   const { mutateAsync: deletePlan, isPending: deleting } = usePlansDelete()
+
+  const { data: cats } = useCategoriesGet(false)
+  const cat = cats?.find(cat => cat.id === plan.idCategory)
+
   const del = () => {
     deletePlan(plan.id)
   }
@@ -51,7 +55,7 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
     <FlRow className="plan-section">
       <FlCell className="plan-description" >{plan.description}</FlCell>
       <FlCell className="plan-sum" >{plan.sum.toLocaleString()}</FlCell>
-      <FlCell className="plan-category" >{plan.category?.name ?? 'No category found'}</FlCell>
+      <FlCell className="plan-category" >{cat?.name ?? 'No category found'}</FlCell>
       <FlCell className="plan-date-start" >{startStr}</FlCell>
       <FlCell className="plan-repeat" >{PlanUtils.getRepeatDescription(plan)}</FlCell>
       <FlCell className="plan-controls" >
