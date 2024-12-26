@@ -16,7 +16,7 @@ import './plans-list.css'
 export const PlansList = ({ fullHeight = true }: { fullHeight: boolean }) => {
   const [params, setParams] = useState<GetPlanParams>({ noDate: false })
   const { data: plans, isFetching: plansFetching, error, isError } = usePlansGet(params)
-  const { isFetching: catsFetching } = useCategoriesGet(false)
+  const { isFetching: catsFetching } = useCategoriesGet()
 
   return (
     <FlList className={fullHeight ? "plans-list-full-height" : "plans-list"}>
