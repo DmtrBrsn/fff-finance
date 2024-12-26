@@ -43,10 +43,11 @@ export class PlanningUtils {
       const opsSummary = OpUtils.makeSummary(opsInPeriod, cats)
       const opPlansSummary = OpUtils.makeSummary(opPlansInPeriod, cats)
 
+      
       if (balanceInPeriod.length > 0) {
         const lastBalance = balanceInPeriod.at(-1)!
-        const postBalanceOps = ops.filter(op => new Date(op.date) > new Date(lastBalance.date))
-        const postBalanceOpPlans = opPlans.filter(op => new Date(op.date) > new Date(lastBalance.date))
+        const postBalanceOps = opsInPeriod.filter(op => new Date(op.date) > new Date(lastBalance.date))
+        const postBalanceOpPlans = opPlansInPeriod.filter(op => new Date(op.date) > new Date(lastBalance.date))
         const actualMargin = OpUtils.calcMargin(postBalanceOps, cats)
         const plannedMargin = OpUtils.calcMargin(postBalanceOpPlans, cats)
         curPlannedBalance = lastBalance.sum + plannedMargin

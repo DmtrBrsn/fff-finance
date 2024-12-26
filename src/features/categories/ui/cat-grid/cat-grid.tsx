@@ -1,10 +1,10 @@
 import { DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/react-aria"
 import { useState } from "react"
 import { Dialog, Heading, Modal, useDragAndDrop } from "react-aria-components"
-import { useCategoriesBatchUpdate, useCategoriesDelete } from "../api"
-import { Category, CatUtils } from "../lib"
-import { CatForm } from "./categories-form"
-
+import { useCategoriesBatchUpdate, useCategoriesDelete } from "../../api"
+import { Category, CatUtils } from "../../lib"
+import { CatForm } from "../categories-form"
+import './cat-grid.css'
 
 export const CatGrid = (
   { isIncome, cats, fetching }:
@@ -22,7 +22,7 @@ export const CatGrid = (
   })
 
   return (
-    <div className="flex-col gap-1">
+    <div className="flex-col gap-1 cat-grid">
       <Heading>{CatUtils.getIncExpStr({ isIncome })}</Heading>
       <GridList
         dragAndDropHooks={dragAndDropHooks}

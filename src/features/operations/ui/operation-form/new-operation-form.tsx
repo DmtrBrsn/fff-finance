@@ -61,14 +61,16 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
       />
       <span className="flex-row gap-1">
         <Button
+          size='l'
           variant='attention'
           type="submit"
           isDisabled={isSaving}
         >
           {isSaving ? <Spinner /> : 'Save'}
         </Button>
-        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
+        {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
         <Button
+          size='l'
           type="button"
           tooltip="Reset"
           isDisabled={isSaving || operationDraft == null}

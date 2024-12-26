@@ -67,11 +67,11 @@ const PeriodSection = ({ data }: { data: PlanningWidgetPeriodData }) => {
       <PeriodName name={data.periodName} />
       {hidePast ? <></> : <>
         <PeriodSummary title="Plans" summary={data.opPlansSummary} bal={data.plannedBalance} />
-        <CategoriesSummaryList summary={data.opPlansSummary} />
+        <CategoriesSummaryList type="plans" summary={data.opPlansSummary} />
       </>}
       {hideFuture ? <></> : <>
         <PeriodSummary title="Operations" summary={data.opsSummary} bal={data.actualBalance} />
-        <CategoriesSummaryList summary={data.opsSummary} />
+        <CategoriesSummaryList type="ops" summary={data.opsSummary} />
       </>}
     </div>
   )
@@ -90,24 +90,28 @@ const PeriodSummary = (
         {title}
       </span>
       <span className="value">
-        inc <span className="number">{numToFixedStr(summary.incSum, 0)}</span>
+        <span className="value-title">inc</span>
+        <span className="number">{numToFixedStr(summary.incSum, 0)}</span>
       </span>
       <span className="value">
-        exp <span className="number">{numToFixedStr(summary.expSum, 0)}</span>
+        <span className="value-title">exp</span>
+        <span className="number">{numToFixedStr(summary.expSum, 0)}</span>
       </span>
       <span className="value">
-        margin: <span className="number">{numToFixedStr(summary.margin, 0)}</span>
+        <span className="value-title">margin:</span>
+        <span className="number">{numToFixedStr(summary.margin, 0)}</span>
       </span>
       <span className="value">
-        bal: <span className="number">{numToFixedStr(bal, 0)}</span>
+        <span className="value-title">bal:</span>
+        <span className="number">{numToFixedStr(bal, 0)}</span>
       </span>
     </div>
   )
 }
 
-const CategoriesSummaryList = ({ summary }: { summary: OpSummary }) => {
+const CategoriesSummaryList = ({ summary, type }: { summary: OpSummary, type: 'plans' | 'ops' }) => {
   return (
-    <div className="cat-summary-list">
+    <div className={"cat-summary-list" + ' ' + type}>
       <Disclosure title="Categories" isDisabled={summary.cats.size === 0}>
         <div className="flex-col gap-1">
           {Array.from(summary.cats.entries()).map(c => <CatSummaryRow entry={c} key={c[0]} />)}
@@ -123,14 +127,10 @@ const CatSummaryRow = ({ entry }: { entry: [string, number] }) => {
   const cat = cats?.find(cat => cat.id === id)
 
   return (
-    <div
-      className={
-        "cat-summary-row" +
-        (cat?.isIncome ? ' income-background' : '')
-      }
-    >
+    <div className="cat-summary-row">
       <div className="cat-name">{cat?.name ?? ''}</div>
-      <div className="sum">{numToFixedStr(sum, 0)}</div>
+      <div className="inc">{cat?.isIncome ? numToFixedStr(sum, 0) : ''}</div>
+      <div className="exp">{cat?.isIncome ? '' : numToFixedStr(sum, 0)}</div>
     </div>
   )
 }

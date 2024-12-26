@@ -1,0 +1,5 @@
+.cat-grid {
+  .react-aria-GridList {
+    max-height: 40rem;
+  }
+}
