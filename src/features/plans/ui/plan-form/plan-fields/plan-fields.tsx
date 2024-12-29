@@ -135,7 +135,11 @@ export const PlanDescriptionField = ({description, onChange}: {description: stri
   )
 }
 
-export const PlanSumField = ({sum, onChange}: {sum: number, onChange: (sum: number) => void}) => {
+export const PlanSumField = ({ sum, onChange }: { sum: number, onChange: (sum: number) => void }) => {
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const val = e.currentTarget.value
+    val.length>1 && val.startsWith('0') && onChange(Number(val.slice(1)))
+  }
   return (
     <NumberField
       buttons={false}
@@ -145,6 +149,7 @@ export const PlanSumField = ({sum, onChange}: {sum: number, onChange: (sum: numb
       step={0.01}
       value={sum}
       isRequired
+      onInput={handleInput}
       onChange={onChange}
     />
   )

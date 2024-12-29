@@ -10,7 +10,6 @@ import { BalanceAdd } from "../lib/types"
 export const BalanceForm = () => {
   const { mutateAsync: add, isPending: adding } = useBalanceAdd()
   const [values, setValues] = useState<BalanceAdd>({ sum: 0, date: DateUtils.getCurIsoDate() })
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await add(values)

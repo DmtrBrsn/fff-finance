@@ -83,7 +83,7 @@
     --yellow-500: #fde047;
     --yellow-600: #fef08a;
 
-    --app-color: var(--green-400);
+    --app-color: var(--green-300);
     --highlight-hover: rgba(255 255 255 / 0.1);
     --highlight-pressed: rgba(255 255 255 / 0.2);
   }
