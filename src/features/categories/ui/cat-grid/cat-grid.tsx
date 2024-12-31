@@ -11,7 +11,6 @@ export const CatGrid = (
     { isIncome: boolean, cats: Category[], fetching: boolean }
 ) => {
   const { mutateAsync } = useCategoriesBatchUpdate()
-
   const { dragAndDropHooks } = useDragAndDrop({
     getItems: (keys) =>
       [...keys].map((key) => ({ 'text/plain': cats.find(c => c.id === key)?.id! })),
