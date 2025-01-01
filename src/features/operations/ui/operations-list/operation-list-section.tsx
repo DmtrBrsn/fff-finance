@@ -1,8 +1,8 @@
+import { useCategoriesGet } from '@features/categories/api'
 import { Operation } from '@features/operations/lib'
-import { OpCatSectionValue, OpCheckbox, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpSectionControls, OpSumSectionValue } from './op-section-values/op-section-values'
+import { OpCatSectionValue, OpCheckbox, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpMenuBtn, OpSumSectionValue } from './op-section-values/op-section-values'
 import { OperationSection } from './operation-section'
 import { useOpsListStore } from './operations-list-store'
-import { useCategoriesGet } from '@features/categories/api'
 import './operations-list.style.css'
 
 export const OperationListSection = ({ op }: {op: Operation}) => {
@@ -11,8 +11,6 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
   const { data: cats } = useCategoriesGet()
   const cat = cats?.find(cat => cat.id === op.idCategory)
 
-
-
   const handleCheckboxChange = (e: boolean) => {
     e ?
       setSelected([...selected, op.id])
@@ -20,8 +18,12 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
       setSelected(selected.filter(id => id !== op.id))
   }
 
+  const handleLongPress = () => {
+    selectMode && !isSelected && setSelected([...selected, op.id])
+  }
+
   return (
-    <OperationSection isIncome={cat?.isIncome}>
+    <OperationSection onLongPress={handleLongPress} isIncome={cat?.isIncome}>
       {selectMode &&
         <OpCheckbox
         isSelected={isSelected}
@@ -33,7 +35,7 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
       <OpCatSectionValue cat={cat}/>
       <OpIsIncomeSectionValue cat={cat}/>
       <OpCreatedSectionValue val={op.created}/>
-      <OpSectionControls op={op}/>
+      <OpMenuBtn op={op}/>
     </OperationSection>
   )
 }

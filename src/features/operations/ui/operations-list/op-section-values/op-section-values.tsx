@@ -1,13 +1,12 @@
-import { FlCell } from '@shared/fl-list'
-import { ButtonIcon, Checkbox } from '@shared/react-aria'
-import { Spinner } from '@shared/spinner'
-import { DeleteIcon } from '@shared/svg'
-import { DateUtils } from '@shared/utils'
-import { ReactNode } from 'react'
 import { Category, CatUtils } from '@features/categories/lib'
 import { useOperationsDelete } from '@features/operations/api'
 import { Operation } from '@features/operations/lib'
-import { EditOpBtn } from '../../operation-form'
+import { ConditionalModal } from '@shared/conditional-modal'
+import { FlCell } from '@shared/fl-list'
+import { Checkbox, MenuButtonIcon, MenuItem } from '@shared/react-aria'
+import { DateUtils } from '@shared/utils'
+import { ReactNode, useState } from 'react'
+import { EditOperationForm } from '../../operation-form'
 import './op-section-values.css'
 
 const Label = ({ children }: { children: ReactNode }) => <span className='op-section-value-label'>{children}</span>
@@ -65,16 +64,24 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
   )
 }
 
-export const OpSectionControls = ({ op }: { op: Operation }) => {
+export const OpMenuBtn = ({ op }: { op: Operation }) => {
+  const [isOpen, setOpen] = useState(false)
   const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
-  const handleDeleteClick = () => deleteOp(op.id)
+
   return (
     <FlCell className="op-buttons">
-      <EditOpBtn op={op} />
-      <ButtonIcon onPress={handleDeleteClick}>
-        {deleting ? <Spinner /> : <DeleteIcon />}
-      </ButtonIcon>
-    </FlCell>
+      <MenuButtonIcon>
+        <MenuItem onAction={() => setOpen(true)}>Edit</MenuItem>
+        <MenuItem isDisabled={deleting} onAction={() => () => deleteOp(op.id)}>Delete</MenuItem>
+      </MenuButtonIcon>
+
+      <ConditionalModal
+        isOpen={isOpen}
+        setOpen={setOpen}
+      >
+        <EditOperationForm op={op}/>
+      </ConditionalModal>
+      </FlCell>
   )
 }
 

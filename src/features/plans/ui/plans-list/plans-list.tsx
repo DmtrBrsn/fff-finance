@@ -1,16 +1,15 @@
 import { useCategoriesGet } from "@features/categories/api"
-import { usePlansDelete, usePlansGet } from "@features/plans/api"
+import { usePlansGet } from "@features/plans/api"
 import { GetPlanParams, Plan, PlanUtils } from "@features/plans/lib"
 import { FlCell, FlList, FlNoData, FlRow } from "@shared/fl-list"
-import { ButtonIcon, Switch } from "@shared/react-aria"
+import { Switch } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
-import { DeleteIcon } from "@shared/svg"
 import { DateUtils } from "@shared/utils"
 import { useState } from "react"
 import { Toolbar } from "react-aria-components"
 import { Virtuoso } from "react-virtuoso"
-import { PlanEditBtn } from "./edit-plan-btn"
 import { PlanAddBtn } from "../add-plan-btn"
+import { PlanMenuBtn } from "./plan-menu-btn"
 import './plans-list.css'
 
 export const PlansList = ({ fullHeight = true }: { fullHeight: boolean }) => {
@@ -42,14 +41,8 @@ export const PlansList = ({ fullHeight = true }: { fullHeight: boolean }) => {
 
 const PlanRow = ({ plan }: { plan: Plan }) => {
   const startStr = plan.dateStart == undefined ? '-' : DateUtils.isoStrToLocal(plan.dateStart)
-  const { mutateAsync: deletePlan, isPending: deleting } = usePlansDelete()
-
   const { data: cats } = useCategoriesGet(false)
   const cat = cats?.find(cat => cat.id === plan.idCategory)
-
-  const del = () => {
-    deletePlan(plan.id)
-  }
 
   return (
     <FlRow className="plan-section">
@@ -59,8 +52,7 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
       <FlCell className="plan-date-start" >{startStr}</FlCell>
       <FlCell className="plan-repeat" >{PlanUtils.getRepeatDescription(plan)}</FlCell>
       <FlCell className="plan-controls" >
-        <PlanEditBtn plan={plan} />
-        <ButtonIcon onPress={del} isDisabled={deleting}><DeleteIcon /></ButtonIcon>
+        <PlanMenuBtn plan={plan} />
       </FlCell>
     </FlRow>
   )

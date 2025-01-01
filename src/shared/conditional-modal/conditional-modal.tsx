@@ -6,7 +6,7 @@ import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components"
 
 type BaseProps = {
   children: React.ReactNode
-  title: string
+  title?: string
 }
 
 export const ConditionalModalBtn = ({ children, title, buttonProps }: BaseProps & { buttonProps: ButtonProps }) => {
@@ -31,7 +31,7 @@ export const ConditionalModalBtn = ({ children, title, buttonProps }: BaseProps 
             {({ close }) => (
               <>
                 <DialogCloseBtn close={close} />
-                <Heading slot="title">{title}</Heading>
+                <Heading slot="title">{title ?? ''}</Heading>
                 {//@ts-ignore 
                   React.cloneElement(children, { onSuccess: close, onCancel: close })
                 }
@@ -61,7 +61,7 @@ export const ConditionalModal = (
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
         <Dialog>
           <DialogCloseBtn close={close} />
-          <Heading slot="title">{title}</Heading>
+          <Heading slot="title">{title ?? ''}</Heading>
           {//@ts-ignore 
             React.cloneElement(children, { onSuccess: close, onCancel: close })
           }

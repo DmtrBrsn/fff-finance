@@ -1,7 +1,7 @@
-import { FlRow } from "@shared/fl-list"
-import { OpCatSectionValue, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpSectionControls, OpSumSectionValue } from "../op-section-values/op-section-values"
-import { Operation } from "@features/operations/lib"
 import { useCategoriesGet } from "@features/categories/api"
+import { Operation } from "@features/operations/lib"
+import { FlRow } from "@shared/fl-list"
+import { OpCatSectionValue, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpMenuBtn, OpSumSectionValue } from "../op-section-values/op-section-values"
 
 export const OperationSectionWvalues = ({ op }: { op: Operation }) => {
   const {data: cats} = useCategoriesGet()
@@ -14,14 +14,14 @@ export const OperationSectionWvalues = ({ op }: { op: Operation }) => {
       <OpCatSectionValue cat={cat}/>
       <OpIsIncomeSectionValue cat={cat}/>
       <OpCreatedSectionValue val={op.created}/>
-      <OpSectionControls op={op}/>
+      <OpMenuBtn op={op}/>
     </OperationSection>
   )
 }
 
-export const OperationSection = ({ children, isIncome }: { children?: React.ReactNode, isIncome?: boolean }) => { 
+export const OperationSection = ({ children, isIncome, onLongPress }: { onLongPress?: () => void, children?: React.ReactNode, isIncome?: boolean }) => {
   return (
-    <FlRow className={'op-section' + (isIncome ? ' income-background' : '')}>
+    <FlRow onLongPress={onLongPress} className={'op-section' + (isIncome ? ' income-background' : '')}>
       {children}
     </FlRow>
   )

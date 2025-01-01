@@ -5,7 +5,6 @@
 .op-category {width: 15rem;}
 .op-is-income {width: 7rem;}
 .op-created {width: 8rem;}
-.op-buttons {width: 4rem;}
 
 @container op-list (width >= 1100px) {
   .op-section-value-label {

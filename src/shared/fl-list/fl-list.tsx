@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import {useLongPress} from 'react-aria';
 import './fl-list.css'
 
 type FlProps = { children: ReactNode | ReactNode[], className?: string }
@@ -6,7 +7,8 @@ type FlRowProps = {
   children: ReactNode | ReactNode[]
   selected?: boolean
   active?: boolean
-  className?: string
+  className?: string,
+  onLongPress?: () => void
 }
 type FlCellProps = {
   children: ReactNode,
@@ -23,9 +25,13 @@ export const FlList = ({ children, className }: FlProps) => {
   )
 }
 
-export const FlRow = ({ children, selected=false, active=false, className }: FlRowProps) => {
+export const FlRow = ({ children, onLongPress, selected = false, active = false, className }: FlRowProps) => {
+  let { longPressProps } = useLongPress({
+    onLongPress: onLongPress ?? undefined
+  })
   return (
     <div
+      {...longPressProps}
       tabIndex={1}
       className={
         'fl-list-row' +
