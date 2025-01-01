@@ -12,22 +12,21 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.5.5",
-    "@tanstack/react-query": "^5.62.8",
-    "firebase": "^10.14.1",
-    "react": "^18.2.0",
+    "@tanstack/react-query": "^5.62.11",
+    "firebase": "^11.1.0",
+    "react": "19.0.0",
     "react-aria-components": "^1.5.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3",
-    "react-virtuoso": "^4.10.1",
-    "zustand": "^4.5.5"
+    "react-dom": "19.0.0",
+    "react-router-dom": "^7.1.1",
+    "react-virtuoso": "^4.12.3",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.2.15",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@types/react-flatpickr": "^3.8.11",
-    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitejs/plugin-react-swc": "^3.7.2",
     "typescript": "^5.7.2",
-    "vite": "^5.4.11",
-    "vite-plugin-pwa": "^0.19.7"
+    "vite": "^6.0.6"
   }
 }
