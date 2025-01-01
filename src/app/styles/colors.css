@@ -166,8 +166,4 @@
   --invalid-color-pressed: var(--red-500);
 
   --income-background: rgb(from var(--green-100) r g b / 25%);
-
-  
-  --toastify-color-light: var(--gray-50);
-  --toastify-text-color-light: var(--text-color);
 }

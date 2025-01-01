@@ -1,6 +1,7 @@
-import { DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/react-aria"
+import { ConditionalModal } from "@shared/conditional-modal"
+import { GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/react-aria"
 import { useState } from "react"
-import { Dialog, Heading, Modal, useDragAndDrop } from "react-aria-components"
+import { Heading, useDragAndDrop } from "react-aria-components"
 import { useCategoriesBatchUpdate, useCategoriesDelete } from "../../api"
 import { Category, CatUtils } from "../../lib"
 import { CatForm } from "../categories-form"
@@ -47,22 +48,16 @@ const CatMenuBtn = ({ cat }: { cat: Category }) => {
         <MenuItem onAction={() => del(cat.id)}>Delete</MenuItem>
       </MenuButtonIcon>
 
-      <Modal isOpen={isOpen} onOpenChange={setOpen}>
-        <Dialog>
-          <DialogCloseBtn close={() => setOpen(false)} />
-          <Heading slot="title">Edit category</Heading>
-          <CatForm
-            cat={cat}
-            mode="edit"
-            onSuccess={() => setOpen(false)}
-            onCancel={() => setOpen(false)}
-          />
-        </Dialog>
-      </Modal>
+      <ConditionalModal
+        title="Edit category"
+        isOpen={isOpen}
+        setOpen={setOpen}
+      >
+        <CatForm
+          cat={cat}
+          mode="edit"
+        />
+      </ConditionalModal>
     </>
   )
 }
-
-
-
-

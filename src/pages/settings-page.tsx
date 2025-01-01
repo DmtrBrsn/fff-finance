@@ -1,12 +1,13 @@
-import { toast } from "@features/toaster"
-import { AppThemeSwitcher } from "@shared/app-theme-switcher"
 import { ExportMenu } from "@features/import-export"
 import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
+import { toast } from "@features/toaster"
+import { AppThemeSwitcher } from "@shared/app-theme-switcher"
 import { Button } from "@shared/react-aria"
 import { Vibration } from "@shared/svg"
 import { isTouchDevice } from "@shared/utils"
 import { useMemo } from "react"
+
 
 export const SettingsPage = () => {
   const isTouch = useMemo(() => isTouchDevice(), [])
@@ -24,6 +25,7 @@ export const SettingsPage = () => {
 
       {isTouch && <VibroButton />}
       <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
+
     </main>
   )
 }

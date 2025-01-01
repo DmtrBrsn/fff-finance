@@ -10,10 +10,10 @@ export type BasicButtonProps = {
   justified?: boolean
 }
 
-type Props = BasicButtonProps & RACButtonProps
+export type ButtonProps = BasicButtonProps & RACButtonProps
 
 export function Button(
-  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: Props
+  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: ButtonProps
 ) {
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
