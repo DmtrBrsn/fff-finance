@@ -1,10 +1,10 @@
 .plans-list {
   height: 38rem;
-  width: 28rem;
+  min-width: min(28rem, 95vw);
   border: 1px solid var(--gray-100);
 }
 .plans-list-full-height {
-  width: 28rem;
+  min-width: min(28rem, 95vw);
   height: 100%;
 }
 

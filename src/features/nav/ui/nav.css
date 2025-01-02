@@ -6,31 +6,34 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: calc(var(--gap-step) * 2);
-  padding: 0 var(--gap-step);
+  gap: calc(var(--gap-step));
+  padding: 0.1rem var(--gap-step);
+
+  .app-nav-item {
+    display: flex;
+    align-items: center;
+  }
   
   a {
-    color: inherit;
+    font-weight: 500;
+    color: white;
     text-decoration: none;
-    border-bottom: 3px solid;
-    border-top: 3px solid;
-    border-color: transparent;
-    padding: var(--gap-step) 0;
+    padding: 0.3rem;
+    border-radius: var(--app-border-radius);
   }
   
   > a:hover, a.active {
-    border-color: white transparent transparent;
+    background-color: white;
+    color: var(--app-color);
   }
 }
 
 @media (max-width: 44rem) {
-  .app-nav-full {
-    display: none;
+  .app-nav-item {
+    flex-direction: column;
   }
 }
 
-@media (min-width: 44rem) {
-  .app-nav-compact {
-    display: none;
-  }
-}
+/* @media (min-width: 44rem) {
+
+} */

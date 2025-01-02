@@ -1,12 +1,13 @@
 .app-header  {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
+  background-color: var(--app-color);
+}
 
-  background-color:var(--app-color);
-  color: white;
-  padding-left: var(--gap-step);
-  padding-right: var(--gap-step);
+.app-header-desktop {
+  order: 1;
+}
+
+.app-header-mobile { 
+  order: 3;
 }

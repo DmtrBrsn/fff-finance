@@ -161,7 +161,7 @@
   --highlight-background-invalid: #cc2000; /* red-300 from dark theme */
   --highlight-foreground: white; /* 5.56:1 against highlight-background */
   --highlight-foreground-pressed: #ddd;
-  --highlight-overlay: rgb(from #008ff8 r g b / 15%);
+  --highlight-overlay: rgb(from #008ff8 r g b / 30%);
   --invalid-color: var(--red-400);
   --invalid-color-pressed: var(--red-500);
 

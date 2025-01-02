@@ -7,6 +7,7 @@ export const NewOperation = () => {
   return (
     <main >
       <div className="flex-col gap-3 max-width-wrap">
+        <h2>New operation</h2>
         <NewOperationForm />
         <OperationsLatest/>
       </div>

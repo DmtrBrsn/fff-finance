@@ -7,7 +7,6 @@ import { OperationsPage } from "@pages/operations-page"
 import { PasswordResetPage } from "@pages/password-reset-page"
 import { SettingsPage } from "@pages/settings-page"
 import { SignupPage } from "@pages/signup-page"
-import { UserSettingsPage } from "@pages/user-settings-page"
 import { PlanningPage } from "@pages/planning-page"
 import { useAuth } from "@features/auth/auth-context"
 import { PlansPage } from "@pages/plans-page"
@@ -36,7 +35,6 @@ export const Router = () => {
         <Route path="/plans" element={<PlansPage />} />
         <Route path="/categories" element={<CategoriesPage/>} />
         <Route path="/settings" element={<SettingsPage/>} />
-        <Route path="/user-settings" element={<UserSettingsPage/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     )

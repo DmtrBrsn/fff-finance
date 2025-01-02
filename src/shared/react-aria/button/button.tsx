@@ -1,4 +1,4 @@
-import { Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipProps, TooltipTrigger } from 'react-aria-components'
+import { LinkProps, Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipProps, TooltipTrigger, Link as Rlink } from 'react-aria-components'
 import { Tooltip } from '../tooltip/tooltip'
 
 export type BasicButtonProps = {
@@ -54,5 +54,29 @@ export function ToggleButton(
   )
   else return (
     <RACToggleButton className={className} {...props}>{props.children}</RACToggleButton>
+  )
+}
+
+type LinkButtonProps = LinkProps & BasicButtonProps & {
+  extraClassName?: string
+}
+
+export const LinkButton = (
+  { variant = 'primary', size = 'm', narrow=false, tooltip, ...props }: LinkButtonProps
+) => {
+  const className = 'react-aria-Button' + ' ' +
+    variant + ' ' +
+    size +
+    (props.className ? ' ' + props.className : '') +
+    (narrow ? ' narrow' : '')
+  
+  if (tooltip) return (
+    <TooltipTrigger>
+      <Rlink className={className} {...props}>{props.children}</Rlink>
+      <Tooltip>{tooltip}</Tooltip>
+    </TooltipTrigger>
+  )
+  else return (
+    <Rlink className={className} {...props}>{props.children}</Rlink>
   )
 }

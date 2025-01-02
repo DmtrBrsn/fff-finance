@@ -32,7 +32,6 @@ main {
   position: sticky;
   width: 100%;
   top: 0;
-  order: 1;
   z-index: 2;
 }
 
@@ -67,6 +66,8 @@ textarea,
 .align-baseline {align-content: baseline;}
 .justify-sb {justify-content: space-between;}
 .justify-center {justify-content: center;}
+.justify-end {justify-content: end;}
+.align-self-end {align-self: flex-end;}
 .gap-micro {gap: 0.1rem;}
 .gap-1 {gap: calc(var(--gap-step) * 1);}
 .gap-2 {gap: calc(var(--gap-step) * 2);}

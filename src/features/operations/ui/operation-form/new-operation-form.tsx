@@ -59,16 +59,7 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
         selectedId={op.idCategory}
         onSelect={(idCategory: string) => setOpAndDraft({ ...op, idCategory })}
       />
-      <span className="flex-row gap-1">
-        <Button
-          size='l'
-          variant='attention'
-          type="submit"
-          isDisabled={isSaving}
-        >
-          {isSaving ? <Spinner /> : 'Save'}
-        </Button>
-        {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
+      <span className="flex-row gap-1 align-self-end">
         <Button
           size='l'
           type="button"
@@ -78,6 +69,15 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
         >
           <ResetIcon />
         </Button>
+        <Button
+          size='l'
+          variant='attention'
+          type="submit"
+          isDisabled={isSaving}
+        >
+          {isSaving ? <Spinner /> : 'Save'}
+        </Button>
+        {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
       </span>
     </Form>
   )
