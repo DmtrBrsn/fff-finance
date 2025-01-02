@@ -12,19 +12,22 @@
   .app-nav-item {
     display: flex;
     align-items: center;
+    gap: 0.1rem;
   }
   
   a {
     font-weight: 500;
     color: white;
     text-decoration: none;
-    padding: 0.3rem;
+    padding: 0.2rem 0.3rem;
     border-radius: var(--app-border-radius);
   }
   
-  > a:hover, a.active {
-    background-color: white;
-    color: var(--app-color);
+  > a.active {
+    background-color: var(--highlight-pressed);
+  }
+  > a:hover {
+    background-color: var(--highlight-hover);
   }
 }
 
@@ -33,7 +36,3 @@
     flex-direction: column;
   }
 }
-
-/* @media (min-width: 44rem) {
-
-} */

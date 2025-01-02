@@ -23,31 +23,31 @@ export class OpUtils {
     let opsCopy = [...ops]
     for (const { field, dir } of sortOptions) {
       if (field === 'category') {
-        opsCopy.sort(SortUtils.getStringSorting(
+        opsCopy.sort(SortUtils.string(
           (op) => (cats.find(cat => cat.id === op.idCategory)?.name ?? 'No category found').toString(),
           dir
         ))
       }
       else if (field === 'isIncome') {
-        opsCopy.sort(SortUtils.getBooleanSorting(
+        opsCopy.sort(SortUtils.bool(
           (op) => (cats.find(cat => cat.id === op.idCategory)?.isIncome ?? undefined),
           dir
         ))
       }
       else if (field === 'date' || field === 'created') {
-        opsCopy.sort(SortUtils.getDateSorting(
+        opsCopy.sort(SortUtils.date(
           (op) => op[field],
           dir
         ))
       }
       else if (field === 'sum') {
-        opsCopy.sort(SortUtils.getNumSorting(
+        opsCopy.sort(SortUtils.num(
           (op) => op.sum,
           dir
         ))
       }
       else {
-        opsCopy.sort(SortUtils.getStringSorting(
+        opsCopy.sort(SortUtils.string(
           (op) => op[field],
           dir
         ))

@@ -8,9 +8,9 @@ import { PlanningUtils } from "@features/planning/lib/planning-utils"
 import { usePlansGet } from "@features/plans/api"
 import { parseDate } from "@internationalized/date"
 import { FlList, FlNoData } from "@shared/fl-list"
-import { ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/react-aria"
-import { Refresh, SettingsIcon } from "@shared/svg"
-import { numToFixedStr, Period } from "@shared/utils"
+import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/react-aria"
+import { ArrowDropDown, Refresh, SettingsIcon } from "@shared/svg"
+import { DateUtils, numToFixedStr, Period } from "@shared/utils"
 import { useMemo } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
 import { Virtuoso } from "react-virtuoso"
@@ -152,10 +152,12 @@ const PwToolbar = () => {
     refetchBalance()
   }
 
+  const buttonText = from && to && DateUtils.getDatesRangeLoc(new Date(from), new Date(to))
+
   return (
     <Toolbar className='toolbar react-aria-Toolbar'>
       <DialogTrigger>
-        <ButtonIcon> <SettingsIcon /></ButtonIcon>
+        <Button narrow> <SettingsIcon />{buttonText}<ArrowDropDown/></Button>
         <Popover>
           <span className="flex-col gap-1">
             <DatePicker
@@ -196,8 +198,6 @@ const PwToolbar = () => {
           </span>
         </Popover>
       </DialogTrigger>
-
-
 
       <ButtonIcon onPress={refetchAll}><Refresh /></ButtonIcon>
       <BalanceWidget />

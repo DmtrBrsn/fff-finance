@@ -32,14 +32,10 @@
   background-color: var(--gray-50);
   border-radius: var(--app-border-radius);
 }
-.fl-list-row:hover {
-  background-color: var(--highlight-hover);
-}
 .fl-list-row.selected, .fl-list-row.fl-row-selected:hover {
-  background-color: var(--blue-300);
+  background-color: var(--blue-100);
 }
 .fl-list-row.fl-row-active, .fl-list-row:focus {
-  background-color: var(--highlight-hover);
   outline: none;
 }
 .fl-list-body {

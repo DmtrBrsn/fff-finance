@@ -10,7 +10,7 @@ export const CatSelectTags = (
     { selectedId: string, onSelect: (id: string) => void, fetchCats?: boolean}
 ) => {
   const { data: cats, isFetching: catsFetching, error: catError } = useCategoriesGet(fetchCats)
-  const catsOrdered = cats?.sort(SortUtils.getBooleanSorting((el)=>el.isIncome, 'desc'))
+  const catsOrdered = cats?.sort(SortUtils.bool((el)=>el.isIncome, 'desc'))
   
   const selectedToId = (sel: Selection) => sel != 'all' && sel.size === 0 ? '' : [...sel][0].toString()
   

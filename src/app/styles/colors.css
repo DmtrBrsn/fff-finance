@@ -38,8 +38,8 @@
   --yellow-600: #a16207;
 
   --app-color: var(--green-300);
-  --highlight-hover: rgba(0 0 0 / 0.07);
-  --highlight-pressed: rgba(0 0 0 / 0.15);
+  --highlight-hover: rgba(0 0 0 / 0.1);
+  --highlight-pressed: rgba(0 0 0 / 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -84,8 +84,8 @@
     --yellow-600: #fef08a;
 
     --app-color: var(--green-300);
-    --highlight-hover: rgba(255 255 255 / 0.1);
-    --highlight-pressed: rgba(255 255 255 / 0.2);
+    --highlight-hover: rgba(255 255 255 / 0.15);
+    --highlight-pressed: rgba(255 255 255 / 0.25);
   }
 }
 
@@ -129,8 +129,8 @@
   --yellow-600: #fef08a;
   
   --app-color: var(--green-300);
-  --highlight-hover: rgba(255 255 255 / 0.1);
-  --highlight-pressed: rgba(255 255 255 / 0.2);
+  --highlight-hover: rgba(255 255 255 / 0.15);
+  --highlight-pressed: rgba(255 255 255 / 0.25);
 
 }
 

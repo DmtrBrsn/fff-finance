@@ -5,15 +5,14 @@ import { useOperationsGet } from "@features/operations/api"
 import { useOpsListStore } from "../operations-list-store"
 
 export const OperationListHeaderSection = () => {
-  const { params, selectMode, setSelected, selected } = useOpsListStore()
+  const { params, setSelected, selected } = useOpsListStore()
   const { data: ops } = useOperationsGet(params)
 
   return (
     <FlHeader className="op-section-header">
-      {selectMode &&
-        <FlCell className="op-checkbox">
-          <ListHeaderCheckBox data={ops ?? []} selected={selected} setSelected={setSelected}/>
-        </FlCell>}
+      <FlCell className="op-checkbox">
+        <ListHeaderCheckBox data={ops ?? []} selected={selected} setSelected={setSelected} />
+      </FlCell>
       <FlCell className="op-date">
         Date
         <SortControls field="date" />

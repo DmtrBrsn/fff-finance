@@ -6,29 +6,44 @@ import { useOpsListStore } from './operations-list-store'
 import './operations-list.style.css'
 
 export const OperationListSection = ({ op }: {op: Operation}) => {
-  const { selected, selectMode, setSelected } = useOpsListStore()
+  const { selected, setSelected } = useOpsListStore()
   const isSelected = selected.includes(op.id)
   const { data: cats } = useCategoriesGet()
   const cat = cats?.find(cat => cat.id === op.idCategory)
 
-  const handleCheckboxChange = (e: boolean) => {
-    e ?
+  const handleCheckboxChange = (checked: boolean) => {
+    if (checked) {
       setSelected([...selected, op.id])
-      :
+    }
+    else {
       setSelected(selected.filter(id => id !== op.id))
+    }
   }
 
   const handleLongPress = () => {
-    selectMode && !isSelected && setSelected([...selected, op.id])
+    if (selected.length === 0) {
+      setSelected([op.id])
+    }
+  }
+
+  const handlePress = () => {
+    if (selected.length > 0) {
+      setSelected(selected.includes(op.id) ? selected.filter(id => id !== op.id) : [...selected, op.id])
+    }
   }
 
   return (
-    <OperationSection onLongPress={handleLongPress} isIncome={cat?.isIncome}>
-      {selectMode &&
-        <OpCheckbox
+    <OperationSection
+      isSelected={isSelected}
+      onPress={handlePress}
+      onLongPress={handleLongPress}
+      isIncome={cat?.isIncome}
+    >
+
+      <OpCheckbox
         isSelected={isSelected}
         handleCheckboxChange={handleCheckboxChange}
-      />}
+      />
       <OpDateSectionValue val={op.date}/>
       <OpSumSectionValue val={op.sum}/>
       <OpDescriptionSectionValue val={op.description}/>

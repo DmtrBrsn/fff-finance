@@ -12,8 +12,8 @@ export class CatUtils {
 
   public static orderCats(cats: Category[]) {
     return cats
-      .sort(SortUtils.getNumSorting((c) => c.order, 'asc'))
-      .sort(SortUtils.getBooleanSorting((c) => c.isIncome, 'desc'))
+      .sort(SortUtils.num((c) => c.order, 'asc'))
+      .sort(SortUtils.bool((c) => c.isIncome, 'desc'))
   }
 
   public static getDndReorderedCatUpdDocs(cats: Category[], e: DroppableCollectionReorderEvent) {

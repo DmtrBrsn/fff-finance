@@ -26,7 +26,7 @@ export class PlanningUtils {
     const opPlans = PlanUtils.getPlansOperationsList(plans, start, end)
     balance = balance
       .filter(b => new Date(b.date) <= DateUtils.getCurDayStart())
-      .sort(SortUtils.getDateSorting(b => b.date, 'asc'))
+      .sort(SortUtils.date(b => b.date, 'asc'))
     const balanceSumAtStart = balance.filter(b => new Date(b.date) <= start).at(-1)?.sum ?? 0
 
     const data: PlanningWidgetPeriodData[] = []

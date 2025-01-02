@@ -11,6 +11,7 @@ export * from "./upload"
 export * from "./repeat"
 export * from './checkbox'
 export * from './filter-list-off'
+export * from './filter-list'
 export * from './arrow-up'
 export * from './arrow-down'
 export * from './swap-vert'
@@ -39,3 +40,4 @@ export * from './category'
 export * from './list'
 export * from './checklist'
 export * from './add'
+export * from './select-all'

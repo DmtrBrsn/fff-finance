@@ -19,9 +19,16 @@ export const OperationSectionWvalues = ({ op }: { op: Operation }) => {
   )
 }
 
-export const OperationSection = ({ children, isIncome, onLongPress }: { onLongPress?: () => void, children?: React.ReactNode, isIncome?: boolean }) => {
+export const OperationSection = (
+  { children, isIncome, isSelected = false, onPress, onLongPress }:
+    { isSelected?: boolean, onLongPress?: () => void, onPress?: () => void, children?: React.ReactNode, isIncome?: boolean }
+) => {
   return (
-    <FlRow onLongPress={onLongPress} className={'op-section' + (isIncome ? ' income-background' : '')}>
+    <FlRow
+      onLongPress={onLongPress}
+      onPress={onPress}
+      className={'op-section' + (isIncome ? ' income-background' : '') + (isSelected ? ' selected' : '')}
+    >
       {children}
     </FlRow>
   )

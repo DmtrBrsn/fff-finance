@@ -1,7 +1,7 @@
 import { FlBody, FlNoData } from "@shared/fl-list"
 import { Disclosure } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
-import { DateUtils } from "@shared/utils"
+import { SortUtils } from "@shared/utils"
 import { useOperationsGet } from "../api"
 import { getLatestOpsParams } from "../api/operations-params"
 import { OperationsList } from "./operations-list"
@@ -12,7 +12,7 @@ export const OperationsLatest = () => {
   const [open, setOpen] = useState(false)
   const { data: ops, isFetching, isError, error } = useOperationsGet(getLatestOpsParams(), open)
 
-  const latestOps = ops ? [...ops].sort((a, b) => DateUtils.isoStrToTime(b.created) - DateUtils.isoStrToTime(a.created)).slice(0, 4) : []
+  const latestOps = ops ? [...ops].sort(SortUtils.date((op) => op.created, 'desc')).slice(0, 4) : []
 
   return (
     <Disclosure title="Last operations" isExpanded={open} onExpandedChange={setOpen}>

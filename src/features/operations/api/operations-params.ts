@@ -16,13 +16,8 @@ export const getThisMonthOpParams = (): GetOpsParams => {
   const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
   const from = DateUtils.isoStrToIsoDate(firstD)
   const to = DateUtils.isoStrToIsoDate(lastD)
-  return ({from, to, orderBy: 'date', orderByDirection: 'desc'})
+  return ({from, to})
 }
 
-export const getLatestOpsParams = (): GetOpsParams => {
-  return ({
-    limit: 10,
-    orderBy: 'created',
-    orderByDirection: 'desc'
-  })
-}
+export const getLatestOpsParams = (): GetOpsParams => ({limit: 10})
+

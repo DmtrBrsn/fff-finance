@@ -5,14 +5,12 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 type OpsListStore = {
   params: GetOpsParams
-  selectMode: boolean
   selected: Operation['id'][]
   sortOptions: OpSortBy[]
   filterOptions: OpFilterBy[]
   filterFormOpenFor: OpFilterFields | null
 
   setParams: (params: GetOpsParams) => void
-  setSelectMode: (selectMode: boolean) => void
   setSort: (sortBy: OpSortBy) => void
   removeSort: (field?: OpSortableFields) => void
   setFilter: (filterBy: OpFilterBy) => void
@@ -33,7 +31,6 @@ export const useOpsListStore = create<OpsListStore>()(
       filterFormOpenFor: null,
 
       setParams: (params) => set({ params }),
-      setSelectMode: (selectMode) => set({ selectMode }),
       setSort: (sortBy) => set((state) => {
         if (state.sortOptions.some(s => s.field === sortBy.field)) {
           return { sortOptions: state.sortOptions.map(s => s.field === sortBy.field ? sortBy : s) }
@@ -41,7 +38,7 @@ export const useOpsListStore = create<OpsListStore>()(
         else return { sortOptions: [...state.sortOptions, sortBy] }
       }),
       removeSort: (field) => set((state) => {
-        if (field==undefined) return { sortOptions: [] }
+        if (field == undefined) return { sortOptions: [] }
         return { sortOptions: state.sortOptions.filter(s => s.field !== field) }
       }),
       setFilter: (filterBy) => set((state) => {
@@ -51,7 +48,7 @@ export const useOpsListStore = create<OpsListStore>()(
         else return { filterOptions: [...state.filterOptions, filterBy] }
       }),
       removeFilter: (field) => set((state) => {
-        if (field==undefined) return { filterOptions: [] }
+        if (field == undefined) return { filterOptions: [] }
         return { filterOptions: state.filterOptions.filter(s => s.field !== field) }
       }),
       setSelected: (ids) => set({ selected: ids }),

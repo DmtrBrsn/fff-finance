@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import {useLongPress} from 'react-aria';
+import {useLongPress, usePress, mergeProps} from 'react-aria';
 import './fl-list.css'
 
 type FlProps = { children: ReactNode | ReactNode[], className?: string }
@@ -9,6 +9,7 @@ type FlRowProps = {
   active?: boolean
   className?: string,
   onLongPress?: () => void
+  onPress?: () => void
 }
 type FlCellProps = {
   children: ReactNode,
@@ -25,13 +26,18 @@ export const FlList = ({ children, className }: FlProps) => {
   )
 }
 
-export const FlRow = ({ children, onLongPress, selected = false, active = false, className }: FlRowProps) => {
-  let { longPressProps } = useLongPress({
+export const FlRow = ({ children, onLongPress, onPress, selected = false, active = false, className }: FlRowProps) => {
+  const { longPressProps } = useLongPress({
     onLongPress: onLongPress ?? undefined
   })
+
+  const { pressProps } = usePress({
+    onPress: onPress ?? undefined
+  })
+
   return (
     <div
-      {...longPressProps}
+      {...mergeProps(pressProps, longPressProps)}
       tabIndex={1}
       className={
         'fl-list-row' +
