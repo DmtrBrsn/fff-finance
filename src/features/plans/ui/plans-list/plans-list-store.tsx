@@ -1,27 +1,28 @@
-import { GetOpsParams, getThisMonthOpParams } from '@features/operations/api/operations-params'
-import { Operation, OpSortBy, OpFilterBy, OpFilterFields, OpSortableFields } from '@features/operations/lib'
+
+import { OpFilterFields } from '@features/operations/lib'
+import { GetPlanParams, Plan, PlanFilterBy, PlanSortableFields, PlanSortBy, PlanUtils } from '@features/plans/lib'
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
-type OpsListStore = {
-  params: GetOpsParams
-  selected: Operation['id'][]
-  sortOptions: OpSortBy[]
-  filterOptions: OpFilterBy[]
+type PlansListStore = {
+  params: GetPlanParams
+  selected: Plan['id'][]
+  sortOptions: PlanSortBy[]
+  filterOptions: PlanFilterBy[]
 
-  setParams: (params: GetOpsParams) => void
-  setSort: (sortBy: OpSortBy) => void
-  removeSort: (field?: OpSortableFields) => void
-  setFilter: (filterBy: OpFilterBy) => void
+  setParams: (params: GetPlanParams) => void
+  setSort: (sortBy: PlanSortBy) => void
+  removeSort: (field?: PlanSortableFields) => void
+  setFilter: (filterBy: PlanFilterBy) => void
   removeFilter: (field?: OpFilterFields) => void
-  setSelected: (ids: Operation['id'][]) => void
-  filterSelected: (ids: Operation['id'][]) => void
+  setSelected: (ids: Plan['id'][]) => void
+  filterSelected: (ids: Plan['id'][]) => void
 }
 
-export const useOpsListStore = create<OpsListStore>()(
+export const usePlansListStore = create<PlansListStore>()(
   persist(
     (set) => ({
-      params: getThisMonthOpParams(),
+      params: PlanUtils.getDefaultGetPlanParams(),
       selectMode: false,
       selected: [],
       sortOptions: [],
@@ -54,12 +55,12 @@ export const useOpsListStore = create<OpsListStore>()(
       }),
     }),
     {
-      name: 'ops-list-store',
+      name: 'plans-list-store',
       storage: createJSONStorage(() => sessionStorage),
       // partialize: (state) =>
-      //   Object.fromEntries(
-      //     Object.entries(state).filter(([key]) => !['filterFormOpenFor'].includes(key)),
-      //   ),
+        // Object.fromEntries(
+        //   Object.entries(state).filter(([key]) => !['filterFormOpenFor'].includes(key)),
+        // ),
     }
   )
 )

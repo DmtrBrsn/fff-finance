@@ -21,16 +21,17 @@ import './planning-widget.css'
 export const PlanningWidget = () => {
   const { from, to, period } = usePlanningWidgetStore()
   const { data: ops, isFetching: opsFetching } = useOperationsGet({ from, to }, true)
-  const { data: plans, isFetching: plansFetching } = usePlansGet({ noDate: false })
+  const { data: plans, isFetching: plansFetching } = usePlansGet({ type: 'regular', from, to })
+  const { data: repeatingPlans, isFetching: repeatingPlansFetching } = usePlansGet({ type: 'repeating'})
   const { data: cats, isFetching: catsFetching } = useCategoriesGet()
   const { data: balance, isFetching: balFetching } = useBalanceGet({ to }, true)
 
-  const isFetching = opsFetching || plansFetching || balFetching || catsFetching
+  const isFetching = opsFetching || plansFetching || repeatingPlansFetching || balFetching || catsFetching
 
   const data = useMemo(
     () => {
-      if (ops == undefined || plans == undefined || cats == undefined || balance == undefined) return undefined
-      return PlanningUtils.createDataForPlanningWidget({ ops, plans, balance, cats, from, to, period })
+      if (ops == undefined || plans == undefined || repeatingPlans == undefined || cats == undefined || balance == undefined) return undefined
+      return PlanningUtils.createDataForPlanningWidget({ ops, plans: [...plans, ...repeatingPlans], balance, cats, from, to, period })
     },
     [ops, plans, cats, balance, period]
   )
@@ -143,12 +144,14 @@ const PwToolbar = () => {
   } = usePlanningWidgetStore()
 
   const { refetch: refetchOps } = useOperationsGet({ from, to })
-  const { refetch: refetchPlans } = usePlansGet({ noDate: false })
+  const { refetch: refetchPlans } = usePlansGet({ type: 'regular', from, to })
+  const { refetch: refetchRepeatingPlans } = usePlansGet({ type: 'repeating' })
   const { refetch: refetchBalance } = useBalanceGet({ to })
 
   const refetchAll = () => {
     refetchOps()
     refetchPlans()
+    refetchRepeatingPlans()
     refetchBalance()
   }
 

@@ -1,5 +1,9 @@
 .react-aria-ToggleButtonGroup {
   display: flex;
+  
+  > .react-aria-Button {
+    border: 1px solid var(--border-color);
+  }
   > button {
     border-radius: 0;
     z-index: 1;

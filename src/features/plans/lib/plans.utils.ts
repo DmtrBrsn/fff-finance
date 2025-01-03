@@ -1,9 +1,17 @@
 import { DateUtils, getUuid } from "@shared/utils"
-import { Plan, PlanFormValues, PlanOp, RepeatEvery } from "./plans.types"
+import { GetPlanParams, Plan, PlanFormValues, PlanOp, PlanRecType, RepeatEvery } from "./plans.types"
 import { toast } from "@features/toaster"
 import { Weekdays } from "@shared/types/common-types"
 
 export class PlanUtils {
+
+  public static getPlanRecType = (
+    plan: Pick<Plan, 'dateStart' | 'every'>
+  ): PlanRecType => {
+    if (plan.dateStart == undefined) return 'no-date'
+    else if (plan.every != undefined) return 'repeating'
+    else return 'regular'
+  }
 
   public static createPlanFromFormValues(values: PlanFormValues) {
     if (values.idCategory === undefined) {
@@ -37,7 +45,7 @@ export class PlanUtils {
             :
             undefined,
 
-      every: repeat ? values.every as RepeatEvery : undefined,
+      every: repeat ? values.every as RepeatEvery : null,
       everyNumber: repeat ? values.everyNumber : undefined,
       weekdays: repeat && values.every === 'week' ? values.weekdays : undefined,
     }
@@ -142,5 +150,13 @@ export class PlanUtils {
       DateUtils.add(curDate, plan.every!, plan.everyNumber!)
     }
     return ops
+  }
+
+  public static getDefaultGetPlanParams = (): GetPlanParams => {
+    const firstD = DateUtils.getFirstDayOfPeriodIsoStr(new Date, 'M')
+    const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
+    const from = DateUtils.isoStrToIsoDate(firstD)
+    const to = DateUtils.isoStrToIsoDate(lastD)
+    return ({from, to, type: 'regular'})
   }
 }

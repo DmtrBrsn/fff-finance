@@ -2,18 +2,23 @@ import { db } from "@app/firebase"
 import { Id } from "@shared/types/api-types"
 import { DateUtils, getColPath } from "@shared/utils"
 import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, getDocs, query, QueryConstraint, updateDoc, where } from "firebase/firestore"
-import { GetPlanParams, Plan, PlanAdd, PlanUpd } from "../lib"
+import { GetPlanParams, Plan, PlanAdd, PlanUpd, repeatEvery } from "../lib"
 
 const planParamsToQuery = (
   collectionRef: CollectionReference<DocumentData, DocumentData>,
   params: GetPlanParams
 ) => {
   const queryArr: QueryConstraint[] = []
-  if (params.noDate) {
+  if (params.type==='no-date') {
     queryArr.push(where('dateStart', '==', null))
   }
-  else {
-    queryArr.push(where('dateStart', '!=', null))
+  else if (params.type==='repeating') {
+    queryArr.push(where('every', 'in', repeatEvery))
+  }
+  else if (params.type==='regular') {
+    queryArr.push(where('every', '==', null))
+    params.from && queryArr.push(where('dateStart', '>=', DateUtils.isoStrToTs(params.from)))
+    params.to && queryArr.push(where('dateStart', '<=', DateUtils.isoStrToTs(params.to)))
   }
   return query(collectionRef, ...queryArr)
 }

@@ -1,33 +1,27 @@
 import { useCategoriesGet } from "@features/categories/api"
 import { usePlansGet } from "@features/plans/api"
-import { GetPlanParams, Plan, PlanUtils } from "@features/plans/lib"
+import { Plan, PlanUtils } from "@features/plans/lib"
 import { FlCell, FlList, FlNoData, FlRow } from "@shared/fl-list"
-import { Switch } from "@shared/react-aria"
+import { Button, Popover, ToggleButton } from "@shared/react-aria"
 import { Spinner } from "@shared/spinner"
+import { ArrowDropDown, CalendarMonth, EventBusy, RepeatIcon } from "@shared/svg"
 import { DateUtils } from "@shared/utils"
-import { useState } from "react"
-import { Toolbar } from "react-aria-components"
+import { DialogTrigger, ToggleButtonGroup, Toolbar } from "react-aria-components"
 import { Virtuoso } from "react-virtuoso"
 import { PlanAddBtn } from "../add-plan-btn"
 import { PlanMenuBtn } from "./plan-menu-btn"
+import { usePlansListStore } from "./plans-list-store"
 import './plans-list.css'
+import { ListPeriodSetup } from "@shared/list-period-setup"
 
 export const PlansList = ({ fullHeight = true }: { fullHeight: boolean }) => {
-  const [params, setParams] = useState<GetPlanParams>({ noDate: false })
+  const { params } = usePlansListStore()
   const { data: plans, isFetching: plansFetching, error, isError } = usePlansGet(params)
   const { isFetching: catsFetching } = useCategoriesGet()
 
   return (
     <FlList className={fullHeight ? "plans-list-full-height" : "plans-list"}>
-      <Toolbar>
-        <PlanAddBtn />
-        <Switch
-          isSelected={params.noDate}
-          onChange={v => setParams({ ...params, noDate: v })}
-        >
-          Show dateless
-        </Switch>
-      </Toolbar>
+      <PlansToolbar />
       {plansFetching || catsFetching ? <FlNoData><Spinner /></FlNoData> :
         isError ? <FlNoData>Unable to get plans: {error?.message}</FlNoData> :
           plans?.length === 0 ? <FlNoData>No plans</FlNoData> :
@@ -55,5 +49,39 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
         <PlanMenuBtn plan={plan} />
       </FlCell>
     </FlRow>
+  )
+}
+
+const PlansToolbar = () => {
+  const { params, setParams } = usePlansListStore()
+  const handlePeriodChange = (from?: string, to?: string) =>
+    setParams({ ...params, from, to })
+  const buttonText = (params.from && params.to) ? DateUtils.getDatesRangeLoc(new Date(params.from), new Date(params.to)) : ''
+
+  return (
+    <Toolbar>
+      <PlanAddBtn />
+      <ToggleButtonGroup
+        selectionMode="single"
+        selectedKeys={[params.type]}
+        onSelectionChange={(k) => k.size > 0 && setParams({ ...params, type: [...k][0] as 'regular' | 'repeating' | 'no-date' })}
+      >
+        <ToggleButton id={'regular'}>
+          <CalendarMonth />{buttonText}
+        </ToggleButton>
+        <DialogTrigger>
+          <Button isDisabled={params.type!=='regular'} narrow size="s"><ArrowDropDown /></Button>
+          <Popover>
+            <ListPeriodSetup params={params} setParams={handlePeriodChange} />
+          </Popover>
+        </DialogTrigger>
+        <ToggleButton id={'repeating'}>
+          <RepeatIcon />
+        </ToggleButton>
+        <ToggleButton id={'no-date'}>
+          <EventBusy />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </Toolbar>
   )
 }
