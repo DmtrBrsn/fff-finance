@@ -3,7 +3,7 @@ import { ToggleButtonIcon } from "@shared/react-aria"
 import { OpSortableFields } from "@features/operations/lib"
 import { useOpsListStore } from "../operations-list-store"
 
-export const SortControls = ({field}: {field: OpSortableFields}) => {
+export const OpListSortControls = ({field}: {field: OpSortableFields}) => {
   const { sortOptions, setSort, removeSort } = useOpsListStore()
   
   const sortBy = sortOptions.find(s => s.field === field)

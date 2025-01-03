@@ -40,7 +40,8 @@ main {
 .react-aria-ListBox, 
 main, 
 textarea,
-.react-aria-GridList {
+.react-aria-GridList,
+.cats-filter-box {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);

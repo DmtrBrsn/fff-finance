@@ -144,7 +144,7 @@
   --link-color: var(--blue-500);
   --link-color-secondary: var(--gray-500);
   --link-color-pressed: var(--blue-600);
-  --border-color: var(--gray-300);
+  --border-color: var(--gray-400);
   --border-color-hover: var(--gray-400);
   --border-color-pressed: var(--gray-400);
   --border-color-disabled: var(--gray-100);

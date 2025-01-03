@@ -5,7 +5,6 @@
   font-size: 1rem;
   color: var(--text-color);
 
-  
   .react-aria-Label {
     cursor: default;
   }
@@ -29,6 +28,11 @@
   display: flex;
   align-items: center;
   transition: border-color 200ms;
+
+  .s {
+    font-size: 0.9rem;
+    padding: 0.1rem;
+  }
 
   &[data-hovered] {
     border-color: var(--border-color-hover);

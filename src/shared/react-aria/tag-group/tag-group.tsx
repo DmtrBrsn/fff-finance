@@ -50,11 +50,11 @@ export function TagGroup<T extends object>(
   );
 }
 
-export function Tag({ children, ...props }: TagProps) {
+export function Tag({ children, size='m', ...props }: TagProps & {size?: 's' | 'm'}) {
   let textValue = typeof children === 'string' ? children : undefined;
   return (
     (
-      <AriaTag textValue={textValue} {...props}>
+      <AriaTag className={'react-aria-Tag'+' '+size} textValue={textValue} {...props}>
         {({ allowsRemoving }) => (
           //@ts-ignore
           <>

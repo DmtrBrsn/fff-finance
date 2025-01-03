@@ -3,7 +3,6 @@
   padding: 1rem;
   max-height: inherit;
   box-sizing: border-box;
-  overflow: auto;
   position: relative;
 
   .react-aria-Heading[slot=title] {

@@ -1,30 +1,40 @@
-export type FilterCondition = 'eq' | 'contains' | 'gt' | 'lt' | 'gte' | 'lte' | 'neq' | 'ncontains' | 'between' | 'startswith' | 'endswith'
+export type FilterCondition = 'eq' | 'contains' | 'gt' | 'lt' | 'gte' | 'lte' | 'neq' | 'ncontains' | 'between' | 'startswith' | 'endswith' | 'in'
 
 export type FilterableValue = string | number | boolean
 
 export type FilterBy<FilterableField extends string> = {
   field: FilterableField
   condition: FilterCondition
-  value: FilterableValue
+  value?: FilterableValue
   value1?: FilterableValue
+  values?: (string | number)[]
 }
 
 export class FilterUtils {
 
   public static getStringFiltering<T>(
     fieldExtractor: (obj: T) => string,
-    value: string,
-    condition: FilterCondition
+    condition: FilterCondition,
+    value?: string,
+    values?: string[]
   ) {
-    return (elem:T, _: number, __:T[]) => {
-      const elemValue = fieldExtractor(elem)
+    return (elem: T) => {
+      const lcElemValue = fieldExtractor(elem).toLowerCase()
+      if (condition === 'in') {
+        if (values == undefined) return true
+        if (values.length === 0) return false
+        const lcValues = values.map(v => v.toLowerCase())
+        return lcValues.includes(lcElemValue)
+      }
+      if (value === undefined) throw new Error('Аргумент не может быть undefined')
+      const lcValue = value.toLowerCase()
       switch (condition) {
-        case 'eq': return elemValue === value
-        case 'neq': return elemValue !== value
-        case 'contains': return elemValue.includes(value)
-        case 'ncontains': return !elemValue.includes(value)
-        case 'startswith': return elemValue.startsWith(value)
-        case 'endswith': return elemValue.endsWith(value)
+        case 'eq': return lcElemValue === lcValue
+        case 'neq': return lcElemValue !== lcValue
+        case 'contains': return lcElemValue.includes(lcValue)
+        case 'ncontains': return !lcElemValue.includes(lcValue)
+        case 'startswith': return lcElemValue.startsWith(lcValue)
+        case 'endswith': return lcElemValue.endsWith(lcValue)
         default: return false
       }
     }
@@ -32,13 +42,20 @@ export class FilterUtils {
 
   public static getNumberFiltering<T>(
     fieldExtractor: (obj: T) => number,
-    value: number,
     condition: FilterCondition,
-    value1?: number
+    value?: number,
+    value1?: number,
+    values?: number[]
   ) {
-    return (elem: T, _: number, __: T[]) => {
+    return (elem: T) => {
       if (elem == undefined) return false
       const elemValue = fieldExtractor(elem)
+      if (condition === 'in') {
+        if (values == undefined) return true
+        if (values.length === 0) return false
+        return values.includes(elemValue)
+      }
+      if (value === undefined) throw new Error('Аргумент не может быть undefined')
       switch (condition) {
         case 'eq': return elemValue === value
         case 'neq': return elemValue !== value
@@ -56,15 +73,24 @@ export class FilterUtils {
   }
 
   public static getDateFiltering<T>(
-    fieldExtractor: (obj: T) => string | Date,
-    value: string | Date,
+    fieldExtractor: (obj: T) => string | number,
     condition: FilterCondition,
-    value1?: string | Date
+    value?: string | number,
+    value1?: string | number,
+    values?: (string | number)[]
   ) {
-    return (elem: T, _: number, __: T[]) => {
+    return (elem: T) => {
       if (elem == undefined) return false
       const elemValue = fieldExtractor(elem)
       const elTime = new Date(elemValue).getTime()
+
+      if (condition === 'in') {
+        if (values == undefined) return true
+        if (values.length === 0) return false
+        const valuesTime = values.map(v => new Date(v).getTime())
+        return valuesTime.includes(elTime)
+      }
+      if (value === undefined) throw new Error('Аргумент не может быть undefined')
       const valTime = new Date(value).getTime()
       switch (condition) {
         case 'eq': return elTime === valTime
@@ -83,7 +109,7 @@ export class FilterUtils {
   }
 
   public static getBooleanFiltering<T>(
-    fieldExtractor: (obj: T) => unknown,
+    fieldExtractor: (obj: T) => boolean,
     value: boolean,
     condition: FilterCondition
   ) {

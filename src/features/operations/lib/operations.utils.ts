@@ -61,17 +61,19 @@ export class OpUtils {
     for (const fo of filterOptions) {
       switch (fo.field) {
         case 'category': {
-          let value = fo.value.toString()
+          let value = fo.value?.toString()
+          const values = fo.values==undefined ? undefined : fo.values.map(v => v.toString())
           opsCopy = opsCopy.filter(FilterUtils.getStringFiltering(
             (op) => (cats.find(cat => cat.id === op.idCategory)?.name ?? 'No category found').toString(),
-            value, fo.condition
+            fo.condition, value, values
           ))
           break
         }
         case 'isIncome': {
           opsCopy = opsCopy.filter(FilterUtils.getBooleanFiltering(
-            (op) => (cats.find(cat => cat.id === op.idCategory)?.isIncome ?? 'No category found').toString(),
-            !!fo.value, fo.condition
+            (op) => (cats.find(cat => cat.id === op.idCategory)?.isIncome ?? false),
+              !!fo.value,
+              fo.condition
           ))
           break
         }
@@ -79,24 +81,32 @@ export class OpUtils {
         case 'created': {
           opsCopy = opsCopy.filter(FilterUtils.getDateFiltering(
             (op) => op[fo.field as 'date' | 'created'],
-            fo.value as string, fo.condition, fo.value1 as string
+            fo.condition,
+            fo.value as string,
+            fo.value1 as string,
+            fo.values
           ))
           break
         }
         case 'sum': {
-          let value = parseFloat(fo.value.toString())
-          let value1 = fo.value1 === undefined ? undefined : parseFloat(fo.value1.toString())
+          let value = Number(fo.value?.toString())
+          let value1 = Number(fo.value1?.toString())
+          const values = fo.values==undefined ? undefined : fo.values.map(v => Number(v.toString()))
           opsCopy = opsCopy.filter(FilterUtils.getNumberFiltering(
             (op) => op[fo.field as 'sum'],
-            value, fo.condition, value1
+            fo.condition,
+            value,
+            value1,
+            values
           ))
           break
         }
         case 'description': {
-          let value = fo.value.toString()
+          let value = fo.value?.toString()
           opsCopy = opsCopy.filter(FilterUtils.getStringFiltering(
             (op) => op[fo.field as 'description'],
-            value, fo.condition
+            fo.condition,
+            value, 
           ))
           break
         }

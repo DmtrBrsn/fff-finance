@@ -1,7 +1,7 @@
 .react-aria-Popover {
-  --border-color: var(--gray-200);
+  --popover-border-color: var(--gray-200);
 
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--popover-border-color);
   box-shadow: 0 0 6px 2px rgba(0 0 0 / 0.1);
   border-radius: var(--app-border-radius);
   background: var(--background-color);
@@ -12,7 +12,7 @@
   .react-aria-OverlayArrow svg {
     display: block;
     fill: var(--background-color);
-    stroke: var(--border-color);
+    stroke: var(--popover-border-color);
     stroke-width: 1px;
   }
 
