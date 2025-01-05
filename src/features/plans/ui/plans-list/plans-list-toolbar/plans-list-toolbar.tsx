@@ -18,7 +18,7 @@ export const PlansToolbar = () => {
       <PlanAddBtn />
       <ToggleButtonGroup
         selectionMode="single"
-        selectedKeys={[params.type]}
+        selectedKeys={[params.type ?? 'regular']}
         onSelectionChange={(k) => k.size > 0 && setParams({ ...params, type: [...k][0] as 'regular' | 'repeating' | 'no-date' })}
       >
         <ToggleButton id={'regular'}>

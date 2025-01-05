@@ -66,7 +66,7 @@
   }
   .plan-created {
     grid-area: cre;
-    width: 10rem;
+    width: 100%;
     color: var(--gray-400);
     display: flex;
     gap: 0.2rem;
