@@ -1,7 +1,7 @@
-import { SortUtils } from "@shared/utils"
+import { SortUtils } from "@shared/lib/utils"
 import { Category, CategoryUpd } from "./categories-types"
 import { DroppableCollectionReorderEvent } from "react-aria-components"
-import { Id } from "@shared/types/api-types"
+import { Id } from "@shared/lib/types/api-types"
 
 export class CatUtils {
   public static getIncExpStr(cat?: Pick<Category, 'isIncome'>) {

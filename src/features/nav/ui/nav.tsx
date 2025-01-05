@@ -1,4 +1,4 @@
-import { CalendarMonth, CategoryIcon, ChecklistIcon, ListIcon, SettingsIcon } from "@shared/svg"
+import { CalendarMonth, CategoryIcon, ChecklistIcon, ListIcon, SettingsIcon } from "@shared/ui/svg"
 import { ReactNode } from "react"
 import { NavLink } from "react-router-dom"
 import './nav.css'

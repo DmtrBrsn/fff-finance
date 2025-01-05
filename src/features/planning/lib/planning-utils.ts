@@ -2,7 +2,7 @@ import { Balance } from "@features/balance/lib/types";
 import { Category } from "@features/categories/lib";
 import { Operation, OpUtils } from "@features/operations/lib";
 import { Plan, PlanUtils } from "@features/plans/lib";
-import { DateUtils, Period, SortUtils } from "@shared/utils";
+import { DateUtils, Period, SortUtils } from "@shared/lib/utils";
 import { PlanningWidgetPeriodData } from "./types";
 
 export class PlanningUtils {

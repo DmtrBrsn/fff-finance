@@ -3,3 +3,12 @@
     max-height: 40rem;
   }
 }
+
+@media only screen and (width < 650px) {
+  .cat-grid {
+    .react-aria-GridList {
+      max-height: 40rem;
+      min-width: 95vw;
+    }
+  }
+}

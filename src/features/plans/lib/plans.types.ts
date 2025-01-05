@@ -1,8 +1,8 @@
-import { Weekdays } from "@shared/types/common-types"
-import { Add, Id, Upd } from "@shared/types/api-types"
+import { Weekdays } from "@shared/lib/types/common-types"
+import { Add, Id, Upd } from "@shared/lib/types/api-types"
 import { Category } from "@features/categories/lib"
 import { repeatEvery } from "./plans.constants"
-import { FilterBy, SortBy } from "@shared/utils"
+import { FilterBy, SortBy } from "@shared/lib/utils"
 
 export type Plan = {
   id: Id
@@ -57,7 +57,8 @@ export type PlanOp = {
 export type PlanRecType = 'repeating' | 'regular' | 'no-date'
 
 export type GetPlanParams = {
-  type: PlanRecType
+  type?: PlanRecType
   from?: string
   to?: string
+  id?: Id
 }

@@ -1,7 +1,7 @@
-import { Button, Popover } from "@shared/react-aria"
+import { Button, Popover } from "@shared/ui/react-aria"
 import { DialogTrigger } from "react-aria-components"
 import { BalanceList } from "./balance-list"
-import { ArrowDropDown } from "@shared/svg"
+import { ArrowDropDown } from "@shared/ui/svg"
 import { BalanceForm } from "./balance-form"
 
 export const BalanceWidget = () => {

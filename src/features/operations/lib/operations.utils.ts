@@ -1,4 +1,4 @@
-import { type FilterBy, FilterUtils, type SortBy, SortUtils } from "@shared/utils"
+import { type FilterBy, FilterUtils, type SortBy, SortUtils } from "@shared/lib/utils"
 import { OpSummary, type Operation, type OpFilterFields, type OpSortableFields } from "./operations.types"
 import { Category } from "@features/categories/lib"
 import { toast } from "@features/toaster"
@@ -19,7 +19,7 @@ export class OpUtils {
   //   }
   // }
 
-  public static sortOps(ops: Operation[], sortOptions: OpSortBy[], cats: Category[]) {
+  public static sort(ops: Operation[], sortOptions: OpSortBy[], cats: Category[]) {
     let opsCopy = [...ops]
     for (const { field, dir } of sortOptions) {
       if (field === 'category') {
@@ -56,7 +56,7 @@ export class OpUtils {
     return opsCopy
   }
 
-  public static filterOps(ops: Operation[], filterOptions: OpFilterBy[], cats: Category[]) {
+  public static filter(ops: Operation[], filterOptions: OpFilterBy[], cats: Category[]) {
     let opsCopy = [...ops]
     for (const fo of filterOptions) {
       switch (fo.field) {

@@ -1,6 +1,6 @@
 import { useCategoriesGet } from "@features/categories/api"
 import { Operation } from "@features/operations/lib"
-import { FlRow } from "@shared/fl-list"
+import { FlRow } from "@shared/ui/fl-list"
 import { OpCatSectionValue, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpMenuBtn, OpSumSectionValue } from "../op-section-values/op-section-values"
 
 export const OperationSectionWvalues = ({ op }: { op: Operation }) => {

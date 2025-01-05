@@ -1,14 +1,14 @@
 import { toast } from "@features/toaster"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { GetPlanParams, Plan, PlanUtils } from "../lib"
-import { addPlan, deletePlan, getPlans, updatePlan } from "./plans.api"
+import { addPlan, batchDeletePlans, deletePlan, getPlan, getPlans, updatePlan } from "./plans.api"
 
 export const QUERY_KEY_PLANS = 'PLANS' as const
 
 export function usePlansGet(params: GetPlanParams, enabled = true) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
     queryKey: [QUERY_KEY_PLANS, params],
-    queryFn: () => getPlans(params),
+    queryFn: params.id !== undefined ? () => getPlan(params.id!) : () => getPlans(params),
     enabled,
     staleTime: Infinity,
     retry: 2,
@@ -25,7 +25,8 @@ export function usePlansAdd() {
       const planRecType = PlanUtils.getPlanRecType(added)
       for (const query of queries) {
         const params = query[0][1] as GetPlanParams
-        if (params.type !== planRecType) continue
+        const singleIdquery = params.id !== undefined
+        if (singleIdquery || params.type !== planRecType) continue
         const regularPlanNotInQuery = (
           params.type === 'regular' &&
           added.dateStart && params.from && params.to &&
@@ -53,14 +54,23 @@ export function usePlansUpdate() {
       const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
       const planRecType = PlanUtils.getPlanRecType(updated)
 
-      for (const query of queries) { 
+      let existingPlan: Plan | undefined
+      for (const query of queries) {
+        const data = queryClient.getQueryData(query[0]) as Plan[]
+        existingPlan = data?.find(p => p?.id === updated.id)
+        if (existingPlan) break
+      }
+
+      for (const query of queries) {
         const params = query[0][1] as GetPlanParams
+        const singleIdquery = params.id !== undefined
         const regularPlanNotInQuery = (
+          !singleIdquery &&
           params.type === 'regular' &&
           updated.dateStart && params.from && params.to &&
           (updated.dateStart < params.from || updated.dateStart > params.to)
         )
-        if (params.type !== planRecType || regularPlanNotInQuery) {
+        if (!singleIdquery || params.type !== planRecType || regularPlanNotInQuery) {
           queryClient.setQueryData<Plan[]>(
             query[0],
             cache =>
@@ -68,15 +78,13 @@ export function usePlansUpdate() {
           )
           continue
         }
-        const data = queryClient.getQueryData(query[0]) as Plan[]
-        const existingPlan = data?.find(p => p?.id === updated.id)
         queryClient.setQueryData<Plan[]>(
           query[0],
-          cache => 
-            existingPlan==undefined ?
-              cache?.map(p => p.id === updated.id ? { ...p, ...updated } : p)
+          cache =>
+            existingPlan != undefined && !cache?.some(p => p.id === updated.id) && !singleIdquery ?
+              cache ? [...cache, { ...existingPlan, ...updated }] : [{ ...existingPlan, ...updated }]
               :
-              cache ? [...cache, {...existingPlan, ...updated}] : [{...existingPlan, ...updated}]
+              cache?.map(p => p.id === updated.id ? { ...p, ...updated } : p)
         )
       }
     },
@@ -97,6 +105,26 @@ export function usePlansDelete() {
         queryClient.setQueryData<Plan[]>(
           query[0],
           cache => cache?.filter(op => op.id !== id)
+        )
+      }
+    },
+    onError: (err) => {
+      toast.error(err.message)
+      console.error(err)
+    }
+  })
+}
+
+export function usePlansBatchDelete() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: batchDeletePlans,
+    onSuccess: (ids) => {
+      const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
+      for (const query of queries) {
+        queryClient.setQueryData<Plan[]>(
+          query[0],
+          cache => cache?.filter(p => !ids.includes(p.id))
         )
       }
     },

@@ -41,7 +41,9 @@ main {
 main, 
 textarea,
 .react-aria-GridList,
-.cats-filter-box {
+.cats-filter-box,
+.bottom-sheet-dialog,
+.react-aria-Modal {
   &::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);
@@ -79,7 +81,7 @@ textarea,
 .pad-3 {padding: calc(var(--gap-step) * 3);}
 
 .max-width-wrap {
-  max-width: var(--max-width);
+  max-width: min(var(--max-width), 95vw);
   margin: 0 auto;
 }
 

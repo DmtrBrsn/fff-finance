@@ -1,9 +1,9 @@
 import { parseDate } from "@internationalized/date"
-import { DatePicker, NumberField, RadioGroup, Tag, TagGroup, TextField } from "@shared/react-aria"
-import { DateUtils } from "@shared/utils"
+import { DatePicker, NumberField, RadioGroup, Tag, TagGroup, TextField } from "@shared/ui/react-aria"
+import { DateUtils } from "@shared/lib/utils"
 import { Radio } from "react-aria-components"
-import { weekdays } from "@shared/contants"
-import { Weekdays } from "@shared/types/common-types"
+import { weekdays } from "@shared/lib/contants"
+import { Weekdays } from "@shared/lib/types/common-types"
 import { PlanFormValues, RepeatEvery, repeatEvery } from "@features/plans/lib"
 
 export const PlanDateStartField = (

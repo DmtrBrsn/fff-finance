@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useAppStore } from '@app/app-store'
 import { toast } from "@features/toaster"
+import { Button, Login, TextField } from '@shared/ui'
+import { useState } from 'react'
 import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
-import { Login } from '@shared/svg'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context'
 import { firebasePasswordMinLength } from '../lib'
 
@@ -13,6 +13,7 @@ export const LoginWithEmailAndPassword = () => {
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const { startPage } = useAppStore()
 
   const handleEmailAndPasswordSingInSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -20,7 +21,7 @@ export const LoginWithEmailAndPassword = () => {
     setLoading(true)
     loginWithEmailAndPassword(formState.email, formState.password)
     .then(() => {
-      navigate('/')
+      navigate(startPage)
     }).catch(err => {
       toast.error(`Sign in failed: ${err}`)
       setError(`Sign in failed: ${err}`)
@@ -58,7 +59,7 @@ export const LoginWithEmailAndPassword = () => {
         />
         <Button
           type='submit'
-          isDisabled={loading}
+          isPending={loading}
         >
           <Login/>{loading ? 'Logging in...' : 'Log in'}
         </Button>

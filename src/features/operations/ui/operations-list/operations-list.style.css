@@ -21,7 +21,7 @@
     grid-template-areas: 
     "des des des sum"
     "cat cat dat sum"
-    "inc . cre cnt";
+    "inc . cre men";
   }
 }
 
@@ -31,6 +31,6 @@
     "des des des des"
     "cat cat cat sum"
     "inc dat dat dat"
-    "cre cre cre cnt";
+    "cre cre cre men";
   }
 }

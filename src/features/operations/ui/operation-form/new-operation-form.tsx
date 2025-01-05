@@ -1,11 +1,11 @@
 import { useState, FormEvent } from 'react'
 import { toast } from "@features/toaster"
-import { Spinner } from '@shared/spinner'
-import { DateUtils } from '@shared/utils'
-import { Button } from '@shared/react-aria'
+import { Spinner } from '@shared/ui/spinner'
+import { DateUtils } from '@shared/lib/utils'
+import { Button } from '@shared/ui/react-aria'
 import { CatSelectTags } from '@features/categories/ui/fields-for-category'
 import { Form } from 'react-aria-components'
-import { ResetIcon } from '@shared/svg'
+import { ResetIcon } from '@shared/ui/svg'
 import { useOperationsAdd } from '@features/operations/api'
 import { getOpDraft, OperationAdd, updateOpDraft, removeOpDraft } from '@features/operations/lib'
 import { OpDateField, OpSumField, OpDescriptionField } from './operation-fields'
@@ -73,7 +73,7 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
           size='l'
           variant='attention'
           type="submit"
-          isDisabled={isSaving}
+          isPending={isSaving}
         >
           {isSaving ? <Spinner /> : 'Save'}
         </Button>

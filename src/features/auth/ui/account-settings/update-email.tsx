@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { toast } from "@features/toaster"
 import { DialogTrigger, Form } from 'react-aria-components'
-import { Button, Popover, TextField } from '@shared/react-aria'
+import { Button, Popover, TextField } from '@shared/ui'
 import { useAuth } from '@features/auth/auth-context'
 
 export const UpdateEmail = () => {
@@ -55,7 +55,7 @@ export const UpdateEmail = () => {
             isRequired
           />
           <span className='flex-row gap-1'>
-            <Button variant='attention' type='submit' isDisabled={loading}>
+            <Button variant='attention' type='submit' isPending={loading}>
               {loading ? 'Updating...' : 'Update'}
             </Button>
             <Button onPress={handleCancel}>

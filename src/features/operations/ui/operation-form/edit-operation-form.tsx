@@ -1,10 +1,10 @@
 import { CategorySelectField } from "@features/categories/ui/fields-for-category"
-import { Button } from "@shared/react-aria"
-import { Spinner } from "@shared/spinner"
+import { Button } from "@shared/ui/react-aria"
+import { Spinner } from "@shared/ui/spinner"
 import { FormEvent, useState } from "react"
 import { Form, Heading } from "react-aria-components"
 import { toast } from "@features/toaster"
-import { ResetIcon } from "@shared/svg"
+import { ResetIcon } from "@shared/ui/svg"
 import { useOperationsUpdate } from "@features/operations/api"
 import { Operation, OperationUpd } from "@features/operations/lib"
 import { OpDateField, OpSumField, OpDescriptionField } from "./operation-fields"
@@ -45,11 +45,15 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />
       <span className="flex-row gap-1">
-        <Button variant="attention" type="submit">
+        <Button
+          variant="attention"
+          type="submit"
+          isPending={isSaving}
+        >
           {isSaving ? <Spinner /> : 'Update'}
         </Button>
         {onCancel && <Button onPress={onCancel}>Cancel</Button>}
-        <Button tooltip="Reset" onPress={reset}><ResetIcon/></Button>
+        <Button isPending={isSaving} tooltip="Reset" onPress={reset}><ResetIcon/></Button>
       </span>
     </Form>
   )

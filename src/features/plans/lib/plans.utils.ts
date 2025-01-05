@@ -1,7 +1,8 @@
-import { DateUtils, getUuid } from "@shared/utils"
-import { GetPlanParams, Plan, PlanFormValues, PlanOp, PlanRecType, RepeatEvery } from "./plans.types"
+import { Category } from "@features/categories/lib"
 import { toast } from "@features/toaster"
-import { Weekdays } from "@shared/types/common-types"
+import { Weekdays } from "@shared/lib/types/common-types"
+import { DateUtils, FilterUtils, getUuid, SortUtils } from "@shared/lib/utils"
+import { GetPlanParams, Plan, PlanFilterBy, PlanFormValues, PlanOp, PlanRecType, PlanSortBy, RepeatEvery } from "./plans.types"
 
 export class PlanUtils {
 
@@ -81,7 +82,7 @@ export class PlanUtils {
     const loopConditionFn = values.endType === 'date' && values.dateEnd ?
       () => curDate <= new Date(values.dateEnd!) :
       () => repeatCount < values.times
-    
+
     while (loopConditionFn()) {
       DateUtils.add(curDate, values.every, values.everyNumber)
       repeatCount++
@@ -157,6 +158,102 @@ export class PlanUtils {
     const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
     const from = DateUtils.isoStrToIsoDate(firstD)
     const to = DateUtils.isoStrToIsoDate(lastD)
-    return ({from, to, type: 'regular'})
+    return ({ from, to, type: 'regular' })
+  }
+
+  public static sort(plans: Plan[], sortOptions: PlanSortBy[], cats: Category[]) {
+    let plansCopy = [...plans]
+    for (const { field, dir } of sortOptions) {
+      if (field === 'category') {
+        plansCopy.sort(SortUtils.string(
+          (p) => (cats.find(cat => cat.id === p.idCategory)?.name ?? 'No category found').toString(),
+          dir
+        ))
+      }
+      else if (field === 'isIncome') {
+        plansCopy.sort(SortUtils.bool(
+          (p) => (cats.find(cat => cat.id === p.idCategory)?.isIncome ?? undefined),
+          dir
+        ))
+      }
+      else if (field === 'dateStart' || field === 'created') {
+        plansCopy.sort(SortUtils.date(
+          (p) => p?.[field] ?? 0,
+          dir
+        ))
+      }
+      else if (field === 'sum') {
+        plansCopy.sort(SortUtils.num(
+          (p) => p.sum,
+          dir
+        ))
+      }
+      else {
+        plansCopy.sort(SortUtils.string(
+          (p) => p[field],
+          dir
+        ))
+      }
+    }
+    return plansCopy
+  }
+
+  public static filter(plans: Plan[], filterOptions: PlanFilterBy[], cats: Category[]) {
+    let plansCopy = [...plans]
+    for (const fo of filterOptions) {
+      switch (fo.field) {
+        case 'category': {
+          let value = fo.value?.toString()
+          const values = fo.values == undefined ? undefined : fo.values.map(v => v.toString())
+          plansCopy = plansCopy.filter(FilterUtils.getStringFiltering(
+            (p) => (cats.find(cat => cat.id === p.idCategory)?.name ?? 'No category found').toString(),
+            fo.condition, value, values
+          ))
+          break
+        }
+        case 'isIncome': {
+          plansCopy = plansCopy.filter(FilterUtils.getBooleanFiltering(
+            (p) => (cats.find(cat => cat.id === p.idCategory)?.isIncome ?? false),
+            !!fo.value,
+            fo.condition
+          ))
+          break
+        }
+        case 'dateStart':
+        case 'created': {
+          plansCopy = plansCopy.filter(FilterUtils.getDateFiltering(
+            (p) => p[fo.field as 'dateStart' | 'created'] ?? 0,
+            fo.condition,
+            fo.value as string,
+            fo.value1 as string,
+            fo.values
+          ))
+          break
+        }
+        case 'sum': {
+          let value = Number(fo.value?.toString())
+          let value1 = Number(fo.value1?.toString())
+          const values = fo.values == undefined ? undefined : fo.values.map(v => Number(v.toString()))
+          plansCopy = plansCopy.filter(FilterUtils.getNumberFiltering(
+            (p) => p[fo.field as 'sum'],
+            fo.condition,
+            value,
+            value1,
+            values
+          ))
+          break
+        }
+        case 'description': {
+          let value = fo.value?.toString()
+          plansCopy = plansCopy.filter(FilterUtils.getStringFiltering(
+            (p) => p[fo.field as 'description'],
+            fo.condition,
+            value,
+          ))
+          break
+        }
+      }
+    }
+    return plansCopy
   }
 }

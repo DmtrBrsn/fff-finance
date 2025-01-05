@@ -1,4 +1,4 @@
-import { Add, Id } from "@shared/types/api-types"
+import { Add, Id } from "@shared/lib/types/api-types"
 
 export type Balance = {
   id: Id

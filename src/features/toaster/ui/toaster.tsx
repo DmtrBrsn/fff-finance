@@ -1,12 +1,13 @@
 
-import { Button, ButtonIcon } from '@shared/react-aria'
-import { WarningIcon, ErrorIcon, CheckCircleIcon, Info, CloseIcon } from '@shared/svg'
+import { Button, ButtonIcon } from '@shared/ui/react-aria'
+import { WarningIcon, ErrorIcon, CheckCircleIcon, Info, CloseIcon } from '@shared/ui/svg'
 import { useToasterStore } from '../toaster-store'
 import { Toast } from '../lib/types'
 import './toaster.css'
 
 export const Toaster = () => {
   const { shown: toasts } = useToasterStore()
+  if (toasts.length === 0) return null
   return (
     <div className="toaster">
       {toasts.map((t) => <SingleToast key={t.time} {...t} />)}

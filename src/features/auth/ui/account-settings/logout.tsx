@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "@features/toaster"
-import { Button } from '@shared/react-aria'
-import { Logout as Icon } from '@shared/svg'
+import { Button, Logout as LogoutIcon } from '@shared/ui'
 import { useAuth } from '@features/auth/auth-context'
 
 export const Logout = () => {
@@ -21,8 +20,8 @@ export const Logout = () => {
 
   return <Button
     onPress={handleClick}
-    isDisabled={loading}
+    isPending={loading}
   >
-    <Icon/>{loading ? "...Logging out" : "Log out"}
+    <LogoutIcon/>{loading ? "...Logging out" : "Log out"}
   </Button>
 }

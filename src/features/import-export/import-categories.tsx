@@ -1,12 +1,9 @@
 import { useMemo, useRef, useState } from 'react'
 import { toast } from "@features/toaster"
 import { useQueryClient } from '@tanstack/react-query'
-import { Spinner } from '@shared/spinner'
 import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
-import { Button } from '@shared/react-aria'
-import { FolderOpen } from '@shared/svg'
-import { ContextualHelp } from '@shared/contextual-help'
-import { isTouchDevice } from '@shared/utils'
+import { ContextualHelp, FolderOpen, Button, Spinner } from '@shared/ui'
+import { isTouchDevice } from '@shared/lib/utils'
 import { QUERY_KEY_CATEGORIES } from '@features/categories/api'
 import { importCategories } from '@features/categories/lib'
 

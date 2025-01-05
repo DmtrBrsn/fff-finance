@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react"
 import { auth } from "@app/firebase"
 import { onAuthStateChanged, User, } from "firebase/auth"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { AuthService, UserService } from "./lib"
 
 type Props = { children?: React.ReactNode }
@@ -11,7 +11,7 @@ type AuthContextValue = {
   userService?: UserService
 }
 
-export const AuthContext = createContext<AuthContextValue>({service: AuthService})
+export const AuthContext = createContext<AuthContextValue>({ service: AuthService })
 
 export function useAuth() {
   return useContext(AuthContext)
@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
-  const userService = currentUser==null ? undefined : new UserService(currentUser)
-  
+  const userService = currentUser == null ? undefined : new UserService(currentUser)
+
   const value = {
     currentUser,
     service: AuthService,

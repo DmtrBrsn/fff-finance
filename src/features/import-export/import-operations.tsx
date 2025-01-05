@@ -1,15 +1,13 @@
-import { useMemo, useRef, useState } from 'react'
+import { useCategoriesGet } from "@features/categories/api"
+import { QUERY_KEY_OPERATIONS } from "@features/operations/api"
+import { importOperations } from "@features/operations/lib"
 import { toast } from "@features/toaster"
-import { useQueryClient } from '@tanstack/react-query'
-import { Spinner } from '@shared/spinner'
-import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
-import { Button } from '@shared/react-aria'
-import { FolderOpen } from '@shared/svg'
-import { ContextualHelp } from '@shared/contextual-help'
-import { isTouchDevice } from '@shared/utils'
-import { useCategoriesGet } from '@features/categories/api'
-import { QUERY_KEY_OPERATIONS } from '@features/operations/api'
-import { importOperations } from '@features/operations/lib/operations-import-export'
+import { isTouchDevice } from "@shared/lib/utils"
+import { ContextualHelp, FolderOpen, Spinner } from "@shared/ui"
+import { useQueryClient } from "@tanstack/react-query"
+import { useMemo, useRef, useState } from "react"
+import { Button, DropZone, FileTrigger, Heading, Text } from "react-aria-components"
+
 
 export const ImportOperations = () => {
   const queryClient = useQueryClient()

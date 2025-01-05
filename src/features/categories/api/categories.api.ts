@@ -1,11 +1,11 @@
-import { db } from '@app/firebase';
-import { Id } from "@shared/types/api-types";
-import { DateUtils, getColPath } from '@shared/utils';
-import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, writeBatch } from 'firebase/firestore';
-import { Category, CategoryAdd, CategoryUpd } from '../lib';
+import { db } from '@app/firebase'
+import { Id } from "@shared/lib/types/api-types"
+import { DateUtils, getColPath } from '@shared/lib/utils'
+import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, writeBatch } from 'firebase/firestore'
+import { Category, CategoryAdd, CategoryUpd } from '../lib'
 
 export const getAllCategories = async () => {
-  const q = query(collection(db, getColPath('categories')));
+  const q = query(collection(db, getColPath('categories')))
   const querySnapshot = await getDocs(q)
   console.log(`read categories: ${querySnapshot.docs.length}`)
   return querySnapshot.docs.map(doc => {

@@ -1,42 +1,90 @@
 .plans-list {
-  height: 38rem;
-  min-width: min(28rem, 95vw);
-  border: 1px solid var(--gray-100);
-}
-.plans-list-full-height {
-  min-width: min(28rem, 95vw);
   height: 100%;
+  container-name: plans-list;
+  container-type: inline-size;
 }
 
-.plan-section {
-  display: grid;
-  grid-template-areas: 
-  "des des des sum"
-  "cat cat dat sum"
-  "rep rep rep cnt";
+.plan-section, .plan-section-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.plan-description {
-  grid-area: des;
-  font-size: 1.2rem;
-  width: 100%;
+.plan-checkbox {width: 2rem;}
+.plan-description {width: 15rem;}
+.plan-sum {width: 7rem;}
+.plan-category {width: 15rem;}
+.plan-is-income {width: 7rem;}
+.plan-date-start {width: 8rem;}
+.plan-created {width: 8rem;}
+.plan-repeat-btn {width: 2rem;}
+.plan-menu-btn {width: 2rem;}
+
+@container plans-list (width >= 1100px) {
+  .plan-created-label {display: none;}
+  .plan-repeat {display: none;}
 }
-.plan-sum {
-  grid-area: sum;
-  font-size: 1.4rem;
-  justify-content: end;
+
+@container plans-list (width < 1100px) {
+  .plan-section-header {display: none;}
+  .plan-section {
+    display: grid;
+    grid-template-areas: 
+    "des des des sum"
+    "cat cat dat sum"
+    "inc . cre men"
+    "rep rep rep men";
+  }
+
+  .plan-checkbox {display: none;}
+  .plan-description {
+    grid-area: des;
+    font-size: 1.1rem;
+    width: 100%;
+  }
+  .plan-sum {
+    width: unset;
+    grid-area: sum;
+    font-size: 1.4rem;
+    justify-content: end;
+  }
+  .plan-category {
+    grid-area: cat;
+  }
+  .plan-is-income {
+    grid-area: inc;
+    color: var(--gray-400);
+  }
+  .plan-date-start {
+    grid-area: dat;
+  }
+  .plan-repeat {
+    grid-area: rep;
+    font-size: 0.9rem;
+  }
+  .plan-repeat-btn {
+    display: none;
+  }
+  .plan-created {
+    grid-area: cre;
+    width: 10rem;
+    color: var(--gray-400);
+    display: flex;
+    gap: 0.2rem;
+  }
+  .plan-menu-btn {
+    width: unset;
+    grid-area: men;
+    justify-content: end;
+  }
 }
-.plan-category {
-  grid-area: cat;
-  width: 14rem;
-}
-.plan-date-start {
-  grid-area: dat;
-}
-.plan-repeat {
-  grid-area: rep;
-}
-.plan-controls {
-  grid-area: cnt;
-  justify-content: end;
+
+@container plans-list (width < 555px) {
+  .plan-section {
+    grid-template-areas: 
+    "des des des des"
+    "cat cat cat sum"
+    "inc dat dat dat"
+    "cre cre cre men"
+    "rep rep rep men";
+  }
 }

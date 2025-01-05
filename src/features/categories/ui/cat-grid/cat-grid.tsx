@@ -1,7 +1,8 @@
-import { ConditionalModal } from "@shared/conditional-modal"
-import { GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/react-aria"
-import { useState } from "react"
-import { Heading, useDragAndDrop } from "react-aria-components"
+import { isTouchDevice } from "@shared/lib/utils"
+import { DialogCloseBtn, GridList, GridListItem, MenuButtonIcon, MenuItem } from "@shared/ui/react-aria"
+import { useMemo, useState } from "react"
+import { Dialog, Heading, Modal, useDragAndDrop } from "react-aria-components"
+import { useNavigate } from "react-router-dom"
 import { useCategoriesBatchUpdate, useCategoriesDelete } from "../../api"
 import { Category, CatUtils } from "../../lib"
 import { CatForm } from "../categories-form"
@@ -40,24 +41,32 @@ export const CatGrid = (
 const CatMenuBtn = ({ cat }: { cat: Category }) => {
   const [isOpen, setOpen] = useState(false)
   const { mutate: del } = useCategoriesDelete()
+  const isTouch = useMemo(() => isTouchDevice(), [])
+  const navigate = useNavigate()
+
+  const editBtnAction = () => {
+    isTouch ? navigate(`/categories/${cat.id}`) : setOpen(true)
+  }
+  const close = () => setOpen(false)
 
   return (
     <>
       <MenuButtonIcon>
-        <MenuItem onAction={() => setOpen(true)}>Edit</MenuItem>
+        <MenuItem onAction={editBtnAction}>Edit</MenuItem>
         <MenuItem onAction={() => del(cat.id)}>Delete</MenuItem>
       </MenuButtonIcon>
 
-      <ConditionalModal
-        title="Edit category"
-        isOpen={isOpen}
-        setOpen={setOpen}
-      >
-        <CatForm
-          cat={cat}
-          mode="edit"
-        />
-      </ConditionalModal>
+      <Modal isOpen={isOpen} onOpenChange={setOpen}>
+        <Dialog>
+          <DialogCloseBtn close={close} />
+          <Heading slot="title">Plan editing</Heading>
+          <CatForm
+            cat={cat}
+            mode="edit"
+            onSuccess={close} onCancel={close}
+          />
+        </Dialog>
+      </Modal>
     </>
   )
 }

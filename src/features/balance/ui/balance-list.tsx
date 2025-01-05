@@ -1,6 +1,6 @@
-import { ButtonIcon, GridList, GridListItem } from "@shared/react-aria"
-import { DeleteIcon } from "@shared/svg"
-import { DateUtils, numToFixedStr } from "@shared/utils"
+import { ButtonIcon, GridList, GridListItem } from "@shared/ui/react-aria"
+import { DeleteIcon } from "@shared/ui/svg"
+import { DateUtils, numToFixedStr } from "@shared/lib/utils"
 import { useBalanceDelete, useBalanceGet } from "../api"
 import { Balance } from "../lib/types"
 

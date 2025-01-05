@@ -3,12 +3,13 @@ import { ExportMenu } from "@features/import-export"
 import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
 import { toast } from "@features/toaster"
-import { AppThemeSwitcher } from "@shared/app-theme-switcher"
-import { Button, Disclosure } from "@shared/react-aria"
-import { Vibration } from "@shared/svg"
-import { isTouchDevice } from "@shared/utils"
+import { AppThemeSelector } from "@shared/ui/app-theme-selector"
+import { Button, ButtonGroup, Disclosure, ToggleButton } from "@shared/ui/react-aria"
+import { Vibration } from "@shared/ui/svg"
+import { isTouchDevice } from "@shared/lib/utils"
 import { getAuth } from "firebase/auth"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
+import { StartPageSelector } from "@shared/ui"
 
 export const SettingsPage = () => {
   const { currentUser } = getAuth()
@@ -18,7 +19,8 @@ export const SettingsPage = () => {
 
   return (
     <main className="max-width-wrap align-start align-baseline flex-row wrap gap-3 pad-2">
-      <AppThemeSwitcher />
+      <AppThemeSelector />
+      <StartPageSelector/>
       <ImportCategories />
       <ImportOperations />
       <ExportMenu />
@@ -44,16 +46,21 @@ export const SettingsPage = () => {
 
 const Testing = () => {
   const isTouch = useMemo(() => isTouchDevice(), [])
+  const [pending, setPending] = useState(false)
   return (
     <Disclosure title="testing">
-      <div className="flex-col gap-1">
         <Button onPress={() => toast('Info toast example', 'Log', () => console.log('test'))}>My toast info</Button>
         <Button onPress={() => toast.error('Error toast example', 'Log', () => console.log('test'))}>My toast error</Button>
         <Button onPress={() => toast.success('Success toast example', 'Log', () => console.log('test'))}>My toast success</Button>
         <Button onPress={() => toast.warning('Warning toast example', 'Log', () => console.log('test'))}>My toast warning</Button>
 
         {isTouch && <VibroButton />}
-        <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p></div>
+        <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
+
+      <ButtonGroup>
+        <Button isPending={pending}>{pending ? 'Pending' : 'Not pending' }</Button>
+        <ToggleButton isSelected={pending} onChange={setPending}>Toggle pending</ToggleButton>
+      </ButtonGroup>
     </Disclosure>
   )
 }

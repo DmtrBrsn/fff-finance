@@ -1,4 +1,4 @@
-import { Id, Upd, Add } from "@shared/types/api-types"
+import { Id, Upd, Add } from "@shared/lib/types/api-types"
 
 export type Category = {
   id: Id

@@ -2,8 +2,8 @@ import { parseDate } from "@internationalized/date"
 import {
   DateField, NumberField,
   TextField
-} from "@shared/react-aria"
-import { DateUtils } from "@shared/utils"
+} from "@shared/ui/react-aria"
+import { DateUtils } from "@shared/lib/utils"
 
 export const OpDateField = (
   { date, onChange }:

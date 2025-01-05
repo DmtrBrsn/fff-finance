@@ -1,6 +1,5 @@
 
-import { OpFilterFields } from '@features/operations/lib'
-import { GetPlanParams, Plan, PlanFilterBy, PlanSortableFields, PlanSortBy, PlanUtils } from '@features/plans/lib'
+import { GetPlanParams, Plan, PlanFilterBy, PlanFilterFields, PlanSortableFields, PlanSortBy, PlanUtils } from '@features/plans/lib'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
@@ -14,7 +13,7 @@ type PlansListStore = {
   setSort: (sortBy: PlanSortBy) => void
   removeSort: (field?: PlanSortableFields) => void
   setFilter: (filterBy: PlanFilterBy) => void
-  removeFilter: (field?: OpFilterFields) => void
+  removeFilter: (field?: PlanFilterFields) => void
   setSelected: (ids: Plan['id'][]) => void
   filterSelected: (ids: Plan['id'][]) => void
 }

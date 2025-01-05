@@ -1,6 +1,6 @@
 import { toast } from "@features/toaster"
 import { useState } from 'react'
-import { Button } from "@shared/react-aria"
+import { Button } from "@shared/ui"
 import { useAuth } from "@features/auth/auth-context"
 
 export const UnlinkEmailAndPassword = () => {
@@ -22,7 +22,7 @@ export const UnlinkEmailAndPassword = () => {
     <Button
       variant="danger"
       onPress={handleClick}
-      isDisabled={loading}
+      isPending={loading}
     >
       {loading ? "...Unlinking" : "Unlink Email and password"}
     </Button>

@@ -1,6 +1,6 @@
 import { CatUtils } from "@features/categories/lib"
-import { Tag, TagGroup } from "@shared/react-aria"
-import { SortUtils } from "@shared/utils"
+import { Tag, TagGroup } from "@shared/ui/react-aria"
+import { SortUtils } from "@shared/lib/utils"
 import { Selection } from "react-aria-components"
 
 import './cat-select-tags.css'

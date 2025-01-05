@@ -6,6 +6,7 @@ export const UserData = () => {
     
   return (
     <div className="settings-section-container">
+      <label>User</label>
       <ul>
         <li>email: {currentUser.email}</li>
         <li>name: {currentUser.displayName}</li>

@@ -1,16 +1,16 @@
 import { toast } from "@features/toaster"
-import { DateUtils } from "@shared/utils"
+import { DateUtils } from "@shared/lib/utils"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Operation } from "../lib"
 import { GetOpsParams } from "./operations-params"
-import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperations, updateOperation } from "./operations.api"
+import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperation, getOperations, updateOperation } from "./operations.api"
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
 
 export function useOperationsGet(params: GetOpsParams, enabled = false) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
     queryKey: [QUERY_KEY_OPERATIONS, params],
-    queryFn: () => getOperations(params),
+    queryFn: params.id !== undefined ? () => getOperation(params.id!) : () => getOperations(params),
     enabled,
     staleTime: Infinity,
     retry: 2,
@@ -26,11 +26,11 @@ export function useOperationsAdd() {
       const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
       for (const query of queries) {
         const params = query[0][1] as GetOpsParams
-        if (
-          params?.from != undefined && params?.to != undefined &&
+        const singleIdquery = params.id !== undefined
+        const opNotInQueryPeriod = params?.from != undefined && params?.to != undefined &&
           (DateUtils.isoStrToTime(added.date) < DateUtils.isoStrToTime(params.from) ||
             DateUtils.isoStrToTime(added.date) > DateUtils.isoStrToTime(params.to))
-        ) {
+        if (opNotInQueryPeriod || singleIdquery) {
           continue
         }
         queryClient.setQueryData<Operation[]>(

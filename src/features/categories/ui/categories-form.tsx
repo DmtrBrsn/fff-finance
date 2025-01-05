@@ -1,5 +1,5 @@
-import { Button, Checkbox, NumberField, TextField } from "@shared/react-aria"
-import { DateUtils } from "@shared/utils"
+import { Button, Checkbox, NumberField, TextField } from "@shared/ui/react-aria"
+import { DateUtils } from "@shared/lib/utils"
 import { useState, FormEvent } from "react"
 import { useCategoriesGet, useCategoriesAdd, useCategoriesUpdate } from "../api"
 import { Category, CatUtils } from "../lib"
@@ -66,8 +66,8 @@ export const CatForm = (
         onChange={(order) => setValues({ ...values, order })}
       />
       <span className="flex-row gap-1">
-        <Button type="submit" variant="attention" isDisabled={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
-        <Button type="button" onPress={onCancel}>Cancel</Button>
+        <Button type="submit" variant="attention" isPending={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
+        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
       </span>
     </Form>
   )

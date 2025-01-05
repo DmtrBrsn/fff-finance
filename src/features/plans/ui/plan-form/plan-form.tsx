@@ -1,10 +1,10 @@
 import { toast } from "@features/toaster"
 import { CategoryComboboxField } from "@features/categories/ui/fields-for-category"
-import { weekdays } from "@shared/contants"
-import { Button } from "@shared/react-aria"
-import { Spinner } from "@shared/spinner"
-import { ResetIcon } from "@shared/svg"
-import { DateUtils } from "@shared/utils"
+import { weekdays } from "@shared/lib/contants"
+import { Button } from "@shared/ui/react-aria"
+import { Spinner } from "@shared/ui/spinner"
+import { ResetIcon } from "@shared/ui/svg"
+import { DateUtils } from "@shared/lib/utils"
 import { FormEvent, useMemo, useState } from "react"
 import { Form } from "react-aria-components"
 import { usePlansAdd, usePlansUpdate } from "@features/plans/api"
@@ -17,9 +17,9 @@ export const PlanForm = (
 
   const initPlan: PlanFormValues = {
     dateStart: mode==='add' ? DateUtils.getCurIsoDate() : plan?.dateStart,
-    dateEnd: plan?.dateEnd ?? undefined,
+    dateEnd: plan?.dateEnd,
     sum: plan?.sum ?? 0,
-    idCategory: plan?.idCategory ?? undefined,
+    idCategory: plan?.idCategory,
     description: plan?.description ?? '',
     every: plan?.every ?? 'off',
     everyNumber: plan?.everyNumber ?? 1,
@@ -49,7 +49,6 @@ export const PlanForm = (
     else if (mode === 'add') {
       await add(newPlan)
     }
-    reset()
     onSuccess && onSuccess()
   }
 
@@ -115,10 +114,11 @@ export const PlanForm = (
           type="submit"
           isDisabled={isSaving}
         >
-          {isSaving || isEditing ? <Spinner /> : mode==='add' ? 'Save' : 'Update'}
+          {mode === 'add' ? 'Save' : 'Update'}
+          {isSaving || isEditing && <Spinner/>}
         </Button>
-        {onCancel && <Button type="button" isDisabled={isSaving} onPress={onCancel}>Cancel</Button>}
-        <Button tooltip='Reset' type="button" isDisabled={isSaving} onPress={reset}><ResetIcon /></Button>
+        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
+        <Button tooltip='Reset' type="button" isPending={isSaving} onPress={reset}><ResetIcon /></Button>
       </span>
     </Form>
   )

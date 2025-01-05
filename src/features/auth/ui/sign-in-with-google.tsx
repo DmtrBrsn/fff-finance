@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { toast } from "@features/toaster"
-import { GoogleIcon } from '@shared/svg'
-import { Button } from '@shared/react-aria'
+import { Button, GoogleIcon } from '@shared/ui'
+import { useState } from 'react'
 import { useAuth } from '../auth-context'
 
 export const SignInWithGoogle = () => {
@@ -20,9 +19,9 @@ export const SignInWithGoogle = () => {
   }
 
   return (
-    <Button size='l' isDisabled={loading} onPress={handleClick}>
-      <GoogleIcon/>
-      {loading ? '...Signing in' :'Sign in with Google'}
+    <Button size='l' isPending={loading} onPress={handleClick}>
+      <GoogleIcon />
+      {loading ? '...Signing in' : 'Sign in with Google'}
     </Button>
   )
 }

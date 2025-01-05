@@ -1,5 +1,5 @@
 import { useOperationsGet } from "@features/operations/api"
-import { FlCell, FlHeader, ListHeaderCheckBox } from "@shared/fl-list"
+import { FlCell, FlHeader, ListHeaderCheckBox } from "@shared/ui/fl-list"
 import { useOpsListStore } from "../operations-list-store"
 
 export const OperationListHeaderSection = () => {

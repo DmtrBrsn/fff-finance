@@ -1,8 +1,8 @@
 import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, getDocs, limit, orderBy, query, QueryConstraint, where } from "firebase/firestore"
 import { Balance, BalanceAdd, GetBalanceParams } from "../lib/types"
-import { DateUtils, getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/lib/utils"
 import { db } from "@app/firebase"
-import { Id } from "@shared/types/api-types"
+import { Id } from "@shared/lib/types/api-types"
 
 const balanceParamsToQuery = (
   collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetBalanceParams

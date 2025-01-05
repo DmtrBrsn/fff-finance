@@ -1,7 +1,7 @@
 import { writeBatch, doc, collection } from "firebase/firestore"
 import { toast } from "@features/toaster"
 import { db } from "@app/firebase"
-import { DateUtils, getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/lib/utils"
 import { Category } from "@features/categories/lib"
 import { getOperations } from "../api"
 

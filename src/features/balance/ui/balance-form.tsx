@@ -1,7 +1,7 @@
 import { parseDate } from "@internationalized/date"
-import { Button, DatePicker, NumberField } from "@shared/react-aria"
-import { CreateIcon } from "@shared/svg"
-import { DateUtils } from "@shared/utils"
+import { Button, DatePicker, NumberField } from "@shared/ui/react-aria"
+import { CreateIcon } from "@shared/ui/svg"
+import { DateUtils } from "@shared/lib/utils"
 import { FormEvent, useState } from "react"
 import { Form } from "react-aria-components"
 import { useBalanceAdd } from "../api"
@@ -36,7 +36,7 @@ export const BalanceForm = () => {
           isRequired
         />
       </span>
-      <Button type="submit" variant="attention" isDisabled={adding}><CreateIcon />Add</Button>
+      <Button type="submit" variant="attention" isPending={adding}><CreateIcon />Add</Button>
     </Form>
   )
 }

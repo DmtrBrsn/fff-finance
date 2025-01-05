@@ -1,11 +1,12 @@
 import { Category, CatUtils } from '@features/categories/lib'
 import { useOperationsDelete } from '@features/operations/api'
 import { Operation } from '@features/operations/lib'
-import { ConditionalModal } from '@shared/conditional-modal'
-import { FlCell } from '@shared/fl-list'
-import { Checkbox, MenuButtonIcon, MenuItem } from '@shared/react-aria'
-import { DateUtils } from '@shared/utils'
-import { ReactNode, useState } from 'react'
+import { DateUtils, isTouchDevice } from '@shared/lib/utils'
+import { FlCell } from '@shared/ui/fl-list'
+import { Checkbox, DialogCloseBtn, MenuButtonIcon, MenuItem } from '@shared/ui/react-aria'
+import { ReactNode, useMemo, useState } from 'react'
+import { Dialog, Modal } from 'react-aria-components'
+import { useNavigate } from 'react-router-dom'
 import { EditOperationForm } from '../../operation-form'
 import './op-section-values.css'
 
@@ -67,21 +68,28 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
 export const OpMenuBtn = ({ op }: { op: Operation }) => {
   const [isOpen, setOpen] = useState(false)
   const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
+  const isTouch = useMemo(() => isTouchDevice(), [])
+  const navigate = useNavigate()
+
+  const editBtnAction = () => {
+    isTouch ? navigate(`/operations/${op.id}`) : setOpen(true)
+  }
+  const close = () => setOpen(false)
 
   return (
-    <FlCell className="op-buttons">
+    <FlCell className="op-menu-btn">
       <MenuButtonIcon>
-        <MenuItem onAction={() => setOpen(true)}>Edit</MenuItem>
+        <MenuItem onAction={editBtnAction}>Edit</MenuItem>
         <MenuItem isDisabled={deleting} onAction={() => () => deleteOp(op.id)}>Delete</MenuItem>
       </MenuButtonIcon>
 
-      <ConditionalModal
-        isOpen={isOpen}
-        setOpen={setOpen}
-      >
-        <EditOperationForm op={op}/>
-      </ConditionalModal>
-      </FlCell>
+      <Modal isOpen={isOpen} onOpenChange={setOpen}>
+        <Dialog>
+          <DialogCloseBtn close={close} />
+          <EditOperationForm op={op} onSuccess={close} onCancel={close} />
+        </Dialog>
+      </Modal>
+    </FlCell>
   )
 }
 

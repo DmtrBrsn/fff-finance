@@ -1,7 +1,7 @@
 import { db } from "@app/firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc } from 'firebase/firestore'
-import { Id } from "@/shared/types/api-types"
-import { DateUtils, getColPath } from "@shared/utils"
+import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc, QueryDocumentSnapshot, getDoc, DocumentSnapshot } from 'firebase/firestore'
+import { Id } from "@shared/lib/types/api-types"
+import { DateUtils, getColPath } from "@shared/lib/utils"
 import { toast } from "@features/toaster"
 import { Operation, OperationAdd, OperationUpd } from "../lib"
 import { GetOpsParams } from "./operations-params"
@@ -18,6 +18,33 @@ const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, Docume
   else return query(collectionRef)
 }
 
+const docSnapToOp = (
+  docSnap: QueryDocumentSnapshot<DocumentData, DocumentData> | DocumentSnapshot<DocumentData, DocumentData>
+) => {
+  if(!docSnap.exists()) return null
+  const rawDoc = docSnap.data()
+  let created
+  let date
+  if (!(rawDoc.date instanceof Timestamp)) {
+    toast.error(`Invalid date in operation id ${docSnap.id}. Operation is not shown `)
+    console.error(`Invalid date in ${docSnap.id}`)
+    return null
+  }
+  else date = DateUtils.tsToIsoStr(rawDoc.date)
+  if (!(rawDoc.created instanceof Timestamp)) {
+    toast.error(`Invalid created in doc ${docSnap.id}`)
+    created = 'Invalid date'
+  } else created = DateUtils.tsToIsoStr(rawDoc.created)
+  return { id: docSnap.id, ...rawDoc, created, date } as Operation
+}
+
+export const getOperation = async (id: Id) => {
+  const docRef = doc(db, getColPath('operations'), id)
+  const docSnap = await getDoc(docRef);
+  const op = docSnapToOp(docSnap)
+  return op === null ? [] : [op]
+}
+
 export const getOperations = async (params?: GetOpsParams) => {
   const collectionRef = collection(db, getColPath('operations'))
   const q = opParamsToQuery(collectionRef, params)
@@ -25,21 +52,10 @@ export const getOperations = async (params?: GetOpsParams) => {
   console.log(`read operations: ${querySnapshot.docs.length}`)
   querySnapshot.metadata.fromCache && console.log('fromCache')
   const ops: Operation[] = []
-  for (const doc of querySnapshot.docs) {
-    const rawDoc = doc.data()
-    let created
-    let date
-    if (!(rawDoc.date instanceof Timestamp)) {
-      toast.error(`Invalid date in operation id ${doc.id}. Operation is not shown `)
-      console.error(`Invalid date in ${doc.id}`)
-      continue
-    }
-    else date = DateUtils.tsToIsoStr(rawDoc.date)
-    if (!(rawDoc.created instanceof Timestamp)) {
-      toast.error(`Invalid created in doc ${doc.id}`)
-      created = 'Invalid date'
-    } else created = DateUtils.tsToIsoStr(rawDoc.created)
-    ops.push({ id: doc.id, ...rawDoc, created, date } as Operation)
+  for (const docSnap of querySnapshot.docs) {
+    const op = docSnapToOp(docSnap)
+    if (op===null) continue
+    ops.push(op)
   }
   return ops
 }

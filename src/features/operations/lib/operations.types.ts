@@ -1,5 +1,5 @@
 import { Category } from "@features/categories/lib"
-import { Upd, Add, Id } from "@shared/types/api-types"
+import { Upd, Add, Id } from "@shared/lib/types/api-types"
 
 export type Operation = {
   id: Id

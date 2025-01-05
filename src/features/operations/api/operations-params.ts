@@ -1,5 +1,6 @@
-import { DateUtils } from "@shared/utils"
+import { DateUtils } from "@shared/lib/utils"
 import { Operation } from "../lib"
+import { Id } from "@shared/lib/types/api-types"
 
 export type GetOpsParams = {
   from?: string
@@ -7,8 +8,7 @@ export type GetOpsParams = {
   limit?: number
   orderBy?: keyof Operation
   orderByDirection?: 'asc' | 'desc'
-  // createdTo?: string
-  // createdFrom?: string
+  id?: Id
 }
 
 export const getThisMonthOpParams = (): GetOpsParams => {
@@ -19,5 +19,4 @@ export const getThisMonthOpParams = (): GetOpsParams => {
   return ({from, to})
 }
 
-export const getLatestOpsParams = (): GetOpsParams => ({limit: 10})
-
+export const getLatestOpsParams = (): GetOpsParams => ({limit: 10, orderBy: 'created', orderByDirection: 'desc'})

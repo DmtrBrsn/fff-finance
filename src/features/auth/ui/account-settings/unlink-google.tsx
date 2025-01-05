@@ -1,8 +1,7 @@
-import { useState } from "react"
-import { toast } from "@features/toaster"
-import { GoogleIcon } from "@shared/svg"
-import { Button } from "@shared/react-aria"
 import { useAuth } from "@features/auth/auth-context"
+import { toast } from "@features/toaster"
+import { Button, GoogleIcon } from "@shared/ui"
+import { useState } from "react"
 
 export const UnlinkGoogle = () => {
   const { userService } = useAuth()
@@ -21,7 +20,7 @@ export const UnlinkGoogle = () => {
   }
 
   return (
-    <Button isDisabled={loading} onPress={handleClick}>
+    <Button isPending={loading} onPress={handleClick}>
       <GoogleIcon/>
       {loading ? 'Unlinking...':'Unlink Google'}
     </Button>

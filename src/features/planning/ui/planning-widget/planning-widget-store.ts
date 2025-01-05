@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { PlanningUtils } from "../../lib/planning-utils"
-import { Period } from "@shared/utils"
+import { Period } from "@shared/lib/utils"
 
 type PlanningWidgetStore = {
   from: string

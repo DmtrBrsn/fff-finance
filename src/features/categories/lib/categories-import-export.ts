@@ -2,7 +2,7 @@ import { writeBatch, doc, collection } from "firebase/firestore"
 import { toast } from "@features/toaster"
 import { getAllCategories } from "../api"
 import { db } from "@app/firebase"
-import { DateUtils, getColPath } from "@shared/utils"
+import { DateUtils, getColPath } from "@shared/lib/utils"
 
 export async function importCategories(json: string) {
   const catsParsed = JSON.parse(json)

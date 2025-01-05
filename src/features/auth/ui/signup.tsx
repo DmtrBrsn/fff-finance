@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useAppStore } from '@app/app-store'
 import { toast } from "@features/toaster"
+import { Button, TextField } from '@shared/ui'
+import React, { useState } from 'react'
 import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context'
 import { firebasePasswordMinLength } from '../lib'
 
@@ -12,14 +13,15 @@ export const Signup = () => {
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const { startPage } = useAppStore()
 
-  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
     setLoading(true)
     signup(formState.email, formState.password).then(() => {
       toast.success('Sign up successful. Welcome!')
-      navigate('/')
+      navigate(startPage)
     }).catch(err => {
       toast.error(`Sign up failed: ${err}`)
       setError(`Sign up failed: ${err}`)
@@ -57,7 +59,7 @@ export const Signup = () => {
         />
         <Button
           type='submit'
-          isDisabled={loading}
+          isPending={loading}
         >
           {loading ? 'Loading...' : 'Sign up'}
         </Button>

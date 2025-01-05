@@ -1,7 +1,7 @@
 import { useCategoriesGet } from "@features/categories/api"
 import { CatUtils } from "@features/categories/lib"
-import { ComboBox, ComboBoxItem, Select, SelectItem } from "@shared/react-aria"
-import { Id } from "@shared/types/api-types"
+import { ComboBox, ComboBoxItem, Select, SelectItem } from "@shared/ui/react-aria"
+import { Id } from "@shared/lib/types/api-types"
 
 export const CategorySelectField = (
   { idCat, setIdCat }: { idCat: Id | null, setIdCat: (id: Id) => void }

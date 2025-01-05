@@ -1,16 +1,23 @@
-import { ConditionalModalBtn } from "@shared/conditional-modal"
-import { CreateIcon } from "@shared/svg"
+import { Button, DialogCloseBtn } from "@shared/ui"
+import { CreateIcon } from "@shared/ui/svg"
+import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components"
 import { CatForm } from "./categories-form"
 
 export const CatAddBtn = () => {
   return (
-    <ConditionalModalBtn
-      title="New category"
-      buttonProps={{
-        children: <><CreateIcon />Add category</>
-      }}
-    >
-      <CatForm mode="add" />
-    </ConditionalModalBtn>
+    <DialogTrigger>
+      <Button><CreateIcon />Create category</Button>
+      <Modal>
+        <Dialog>
+          {({ close }) => (
+            <>
+              <DialogCloseBtn close={close} />
+              <Heading slot="title">New category</Heading>
+              <CatForm mode="add" onSuccess={close} onCancel={close} />
+            </>
+          )}
+        </Dialog>
+      </Modal>
+    </DialogTrigger>
   )
 }

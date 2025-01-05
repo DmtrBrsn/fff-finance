@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp, SwapVert } from "@shared/svg"
-import { ToggleButtonIcon } from "@shared/react-aria"
+import { ArrowDown, ArrowUp, SwapVert } from "@shared/ui/svg"
+import { ToggleButtonIcon } from "@shared/ui/react-aria"
 import { OpSortableFields } from "@features/operations/lib"
 import { useOpsListStore } from "../operations-list-store"
 

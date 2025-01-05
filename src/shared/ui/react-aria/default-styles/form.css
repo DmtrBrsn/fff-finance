@@ -1,0 +1,29 @@
+.react-aria-Form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: start;
+  gap: calc(var(--gap-step) * 3);
+}
+
+.react-aria-Form [role=alert] {
+  border: 2px solid var(--invalid-color);
+  background: var(--overlay-background);
+  border-radius: var(--app-border-radius);
+  padding: var(--gap-step);
+  max-width: 20rem;
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}

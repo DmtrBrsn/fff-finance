@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from "@features/toaster"
 import { Form } from 'react-aria-components'
-import { Button, TextField } from '@shared/react-aria'
+import { Button, TextField } from '@shared/ui'
 import { useAuth } from '@features/auth/auth-context'
 
 export const PasswordReset = () => {
@@ -47,7 +47,7 @@ export const PasswordReset = () => {
         />
         <Button
           type='submit'
-          isDisabled={loading}
+          isPending={loading}
         >
           {loading ? 'Loading...' : 'Reset Password'}
         </Button>
