@@ -1,6 +1,6 @@
 import { FlBody, FlNoData } from "@shared/ui/fl-list"
 import { Disclosure } from "@shared/ui/react-aria"
-import { Spinner } from "@shared/ui/spinner"
+import { Spinner } from "@shared/ui/spinner/spinner"
 import { SortUtils } from "@shared/lib/utils"
 import { useOperationsGet } from "../api"
 import { getLatestOpsParams } from "../api/operations-params"

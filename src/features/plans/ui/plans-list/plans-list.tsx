@@ -28,7 +28,7 @@ export const PlansList = () => {
 
   return (
     <FlList className="plans-list">
-      <PlansToolbar />
+      {selected.length===0 && <PlansToolbar />}
       {selected.length > 0 && <PlansListActionBar plans={filteredPlans} />}
       <PlansListHeader />
       {plansFetching || catsFetching ? <FlNoData><Spinner /></FlNoData> :

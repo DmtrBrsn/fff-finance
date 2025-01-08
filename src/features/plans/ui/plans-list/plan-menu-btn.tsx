@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom"
 import { usePlansDelete } from "../../api"
 import { Plan } from "../../lib"
 import { PlanForm } from "../plan-form"
+import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
   const [isOpen, setOpen] = useState(false)
   const { mutateAsync: deletePlan, isPending: deleting } = usePlansDelete()
+  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
   const isTouch = useMemo(() => isTouchDevice(), [])
   const navigate = useNavigate()
 
@@ -17,12 +19,12 @@ export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
     isTouch ? navigate(`/plans/${plan.id}`) : setOpen(true)
   }
   const close = () => setOpen(false)
-  
+
   return (
     <>
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
-        <MenuItem isDisabled={deleting} onAction={() => deletePlan(plan.id)}>Delete</MenuItem>
+        <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
       </MenuButtonIcon>
 
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
@@ -32,6 +34,12 @@ export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
           <PlanForm mode='edit' plan={plan} onSuccess={close} onCancel={close} />
         </Dialog>
       </Modal>
+      <ConfirmDialog
+        title="Delete plan?"
+        isOpen={delConfirmOpen}
+        setOpen={setDelConfirmOpen}
+        onConfirm={() => deletePlan(plan.id)}
+      />
     </>
   )
 }

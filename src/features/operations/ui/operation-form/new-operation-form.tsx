@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { toast } from "@features/toaster"
-import { Spinner } from '@shared/ui/spinner'
+import { Spinner } from '@shared/ui/spinner/spinner'
 import { DateUtils } from '@shared/lib/utils'
 import { Button } from '@shared/ui/react-aria'
 import { CatSelectTags } from '@features/categories/ui/fields-for-category'

@@ -17,17 +17,19 @@
   
   a {
     font-weight: 500;
-    color: white;
+    color: var(--highlight-foreground);
     text-decoration: none;
     padding: 0.2rem 0.3rem;
     border-radius: var(--app-border-radius);
   }
   
   > a.active {
-    background-color: var(--highlight-pressed);
+    background-color: #e4e4e4d7;
+    color: var(--highlight-background);
   }
   > a:hover {
-    background-color: var(--highlight-hover);
+    background-color: #c5c5c5ba;
+    color: var(--highlight-background-hover);
   }
 }
 

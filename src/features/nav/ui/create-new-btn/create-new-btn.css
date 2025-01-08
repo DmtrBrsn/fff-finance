@@ -5,7 +5,7 @@
   aspect-ratio: 1;
   position: fixed;
   bottom: 5rem;
-  right: 1rem;
+  right: 2rem;
   z-index: 10;
 
   >svg {

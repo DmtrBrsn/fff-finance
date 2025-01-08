@@ -7,6 +7,7 @@ import { useCategoriesBatchUpdate, useCategoriesDelete } from "../../api"
 import { Category, CatUtils } from "../../lib"
 import { CatForm } from "../categories-form"
 import './cat-grid.css'
+import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 export const CatGrid = (
   { isIncome, cats, fetching }:
@@ -41,6 +42,7 @@ export const CatGrid = (
 const CatMenuBtn = ({ cat }: { cat: Category }) => {
   const [isOpen, setOpen] = useState(false)
   const { mutate: del } = useCategoriesDelete()
+  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
   const isTouch = useMemo(() => isTouchDevice(), [])
   const navigate = useNavigate()
 
@@ -53,7 +55,7 @@ const CatMenuBtn = ({ cat }: { cat: Category }) => {
     <>
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
-        <MenuItem onAction={() => del(cat.id)}>Delete</MenuItem>
+        <MenuItem onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
       </MenuButtonIcon>
 
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
@@ -67,6 +69,13 @@ const CatMenuBtn = ({ cat }: { cat: Category }) => {
           />
         </Dialog>
       </Modal>
+
+      <ConfirmDialog
+        title="Delete category?"
+        isOpen={delConfirmOpen}
+        setOpen={setDelConfirmOpen}
+        onConfirm={() => del(cat.id)}
+      />
     </>
   )
 }

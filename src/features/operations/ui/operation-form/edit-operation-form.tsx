@@ -1,6 +1,6 @@
 import { CategorySelectField } from "@features/categories/ui/fields-for-category"
 import { Button } from "@shared/ui/react-aria"
-import { Spinner } from "@shared/ui/spinner"
+import { Spinner } from "@shared/ui/spinner/spinner"
 import { FormEvent, useState } from "react"
 import { Form, Heading } from "react-aria-components"
 import { toast } from "@features/toaster"

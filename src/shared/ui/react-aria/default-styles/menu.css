@@ -98,9 +98,9 @@
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    > svg {
+    /* > svg {
       fill: var(--font-color);
-    }
+    } */
   }
 
   [slot=description] {

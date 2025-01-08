@@ -4,7 +4,6 @@ import { Menu, MenuTrigger, Popover } from 'react-aria-components'
 import './create-new-btn.css'
 
 export const CreateNewBtn = () => {
-
   return (
     <MenuTrigger>
       <Button
@@ -15,9 +14,9 @@ export const CreateNewBtn = () => {
       </Button>
       <Popover>
         <Menu>
-          <MenuItem href='/operations/new'>New operation</MenuItem>
-          <MenuItem href='/plans/new' onAction={() => {}}>New plan</MenuItem>
-          <MenuItem href='/categories/new'>New category</MenuItem>
+          <MenuItem href='/operations/new'>Operation</MenuItem>
+          <MenuItem href='/plans/new'>Plan</MenuItem>
+          <MenuItem href='/categories/new'>Category</MenuItem>
         </Menu>
       </Popover>
     </MenuTrigger>

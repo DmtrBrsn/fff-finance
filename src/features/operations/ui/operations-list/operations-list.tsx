@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react"
-import { Spinner } from "@shared/ui/spinner"
+import { Spinner } from "@shared/ui/spinner/spinner"
 import { OperationsListToolbar } from "./operations-toolbar"
 import { FlList, FlNoData } from "@shared/ui/fl-list"
 import { Virtuoso } from "react-virtuoso"
@@ -27,7 +27,7 @@ export const OperationsListWtoolbar = () => {
 
   return (
     <OperationsList fullHeight>
-      <OperationsListToolbar />
+      {selected.length === 0 && <OperationsListToolbar />}
       {selected.length>0 && <OpListActionBar ops={filteredOps} />}
       <OperationListHeaderSection />
       {opsFetching || catsFetching ? <FlNoData><Spinner /></FlNoData> :

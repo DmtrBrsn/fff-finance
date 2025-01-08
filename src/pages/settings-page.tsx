@@ -3,13 +3,13 @@ import { ExportMenu } from "@features/import-export"
 import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
 import { toast } from "@features/toaster"
-import { AppThemeSelector } from "@shared/ui/app-theme-selector"
-import { Button, ButtonGroup, Disclosure, ToggleButton } from "@shared/ui/react-aria"
-import { Vibration } from "@shared/ui/svg"
 import { isTouchDevice } from "@shared/lib/utils"
+import { StartPageSelector } from "@shared/ui"
+import { AppThemeSelector } from "@shared/ui/app-theme-selector"
+import { Button, Disclosure, ToggleButton } from "@shared/ui/react-aria"
+import { Vibration } from "@shared/ui/svg"
 import { getAuth } from "firebase/auth"
 import { useMemo, useState } from "react"
-import { StartPageSelector } from "@shared/ui"
 
 export const SettingsPage = () => {
   const { currentUser } = getAuth()
@@ -57,10 +57,10 @@ const Testing = () => {
         {isTouch && <VibroButton />}
         <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
 
-      <ButtonGroup>
+
         <Button isPending={pending}>{pending ? 'Pending' : 'Not pending' }</Button>
         <ToggleButton isSelected={pending} onChange={setPending}>Toggle pending</ToggleButton>
-      </ButtonGroup>
+
     </Disclosure>
   )
 }

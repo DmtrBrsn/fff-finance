@@ -1,6 +1,6 @@
 .toaster {
   position: fixed;
-  bottom: 3rem;
+  bottom: 4rem;
   left: 50%;
   transform: translate(-50%);
 
@@ -41,8 +41,10 @@
     }
 
     .message {
+      overflow-wrap: break-word;
       flex-grow: 1;
       font-size: 1rem;
+      overflow-y: auto;
     }
   }
 

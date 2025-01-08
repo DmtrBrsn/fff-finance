@@ -6,9 +6,6 @@ import './nav.css'
 export const AppNav = () => {
   return (
     <nav className={'app-nav'}>
-      {/* <NavLink to="/">
-        <NavItem><CreateIcon />New</NavItem>
-      </NavLink> */}
       <NavLink to="/operations">
         <NavItem><ListIcon/>Operations</NavItem>
       </NavLink>

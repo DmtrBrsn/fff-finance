@@ -9,6 +9,7 @@ import { Dialog, Modal } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
 import { EditOperationForm } from '../../operation-form'
 import './op-section-values.css'
+import { ConfirmDialog } from '@shared/ui/confirm-dialog'
 
 const Label = ({ children }: { children: ReactNode }) => <span className='op-section-value-label'>{children}</span>
 
@@ -68,6 +69,7 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
 export const OpMenuBtn = ({ op }: { op: Operation }) => {
   const [isOpen, setOpen] = useState(false)
   const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
+  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
   const isTouch = useMemo(() => isTouchDevice(), [])
   const navigate = useNavigate()
 
@@ -80,7 +82,7 @@ export const OpMenuBtn = ({ op }: { op: Operation }) => {
     <FlCell className="op-menu-btn">
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
-        <MenuItem isDisabled={deleting} onAction={() => () => deleteOp(op.id)}>Delete</MenuItem>
+        <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
       </MenuButtonIcon>
 
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
@@ -89,6 +91,13 @@ export const OpMenuBtn = ({ op }: { op: Operation }) => {
           <EditOperationForm op={op} onSuccess={close} onCancel={close} />
         </Dialog>
       </Modal>
+
+      <ConfirmDialog
+        title="Delete operation?"
+        isOpen={delConfirmOpen}
+        setOpen={setDelConfirmOpen}
+        onConfirm={() => deleteOp(op.id)}
+      />
     </FlCell>
   )
 }
