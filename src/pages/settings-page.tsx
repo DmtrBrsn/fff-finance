@@ -3,7 +3,7 @@ import { ExportMenu } from "@features/import-export"
 import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
 import { toast } from "@features/toaster"
-import { isTouchDevice } from "@shared/lib/utils"
+import { isTouchDevice, setMetaThemeColor } from "@shared/lib/utils"
 import { StartPageSelector } from "@shared/ui"
 import { AppThemeSelector } from "@shared/ui/app-theme-selector"
 import { Button, Disclosure, ToggleButton } from "@shared/ui/react-aria"
@@ -47,6 +47,7 @@ export const SettingsPage = () => {
 const Testing = () => {
   const isTouch = useMemo(() => isTouchDevice(), [])
   const [pending, setPending] = useState(false)
+  const [color, setColor] = useState<string | undefined>(undefined)
   return (
     <Disclosure title="testing">
         <Button onPress={() => toast('Info toast example', 'Log', () => console.log('test'))}>My toast info</Button>
@@ -59,8 +60,11 @@ const Testing = () => {
 
 
         <Button isPending={pending}>{pending ? 'Pending' : 'Not pending' }</Button>
-        <ToggleButton isSelected={pending} onChange={setPending}>Toggle pending</ToggleButton>
-
+      <ToggleButton isSelected={pending} onChange={setPending}>Toggle pending</ToggleButton>
+      
+      <span className="flex-row gap-1 pad-1"><input type='color' value={color} onChange={(e) => setColor(e.target.value)}></input>
+        <Button onPress={() => color && setMetaThemeColor(color)}>set theme color</Button></span>
+      <Button onPress={()=>document.querySelector('meta[name="theme-color"]')?.remove()} >remove theme color</Button>
     </Disclosure>
   )
 }

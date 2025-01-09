@@ -1,15 +1,15 @@
+import { CategorySelectField } from "@features/categories/ui/fields-for-category"
+import { usePlansAdd, usePlansUpdate } from "@features/plans/api"
+import { Plan, PlanFormValues, PlanUtils } from "@features/plans/lib"
 import { toast } from "@features/toaster"
-import { CategoryComboboxField } from "@features/categories/ui/fields-for-category"
 import { weekdays } from "@shared/lib/contants"
+import { DateUtils } from "@shared/lib/utils"
 import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
 import { ResetIcon } from "@shared/ui/svg"
-import { DateUtils } from "@shared/lib/utils"
 import { FormEvent, useMemo, useState } from "react"
 import { Form } from "react-aria-components"
-import { usePlansAdd, usePlansUpdate } from "@features/plans/api"
-import { Plan, PlanFormValues, PlanUtils } from "@features/plans/lib"
-import { PlanDateStartField, PlanSumField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, EndTypeChooser, PlanTimesField, PlanDateEndField } from "./plan-fields"
+import { EndTypeChooser, PlanDateEndField, PlanDateStartField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, PlanSumField, PlanTimesField } from "./plan-fields"
 
 export const PlanForm = (
   { mode, plan, onSuccess, onCancel,  }: { mode: 'add' | 'edit', plan?: Plan, onSuccess?: () => void, onCancel?: () => void,  }
@@ -78,7 +78,7 @@ export const PlanForm = (
       />
       <PlanSumField sum={values.sum} onChange={(sum) => setValues({ ...values, sum })} />
       <PlanDescriptionField description={values.description} onChange={(description) => setValues({ ...values, description })} />
-      <CategoryComboboxField
+      <CategorySelectField
         idCat={values.idCategory ?? null}
         setIdCat={(idCategory) => setValues({ ...values, idCategory })}
       />

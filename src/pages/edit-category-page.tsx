@@ -14,7 +14,7 @@ export const EditCategoryPage = () => {
       <div className="flex-col gap-3 max-width-wrap">
         <Breadcrumbs>
           <Breadcrumb>
-            <Link href="/categoties">Categories</Link>
+            <Link href="/categories">Categories</Link>
           </Breadcrumb>
           <Breadcrumb>
             <Link href={`/categoties/${id}`}>Edit</Link>

@@ -1,22 +1,20 @@
 import { useOperationsGet } from '@features/operations/api'
-import { DateUtils, numToFixedStr } from '@shared/lib/utils'
-import { useMemo } from 'react'
-import { DialogTrigger, Toolbar } from 'react-aria-components'
-import { useOpsListStore } from "../operations-list-store"
-import { OpListFilterSortSetup } from './op-list-filter-sort-setup'
+import { DateUtils } from '@shared/lib/utils'
 import { ListPeriodSetup } from '@shared/ui/list-period-setup'
 import { Button, Popover } from '@shared/ui/react-aria'
 import { ArrowDropDown, CalendarMonth } from '@shared/ui/svg'
+import { DialogTrigger, Toolbar } from 'react-aria-components'
 import { OpAddBtn } from '../../add-op-btn'
+import { useOpsListStore } from "../operations-list-store"
+import { OpListFilterSortSetup } from './op-list-filter-sort-setup'
 
 export const OperationsListToolbar = () => {
   const { params, setParams } = useOpsListStore()
-  const { data: ops, isPending } = useOperationsGet(params, true)
+  const { isPending } = useOperationsGet(params, true)
 
   const handlePeriodChange = (from?: string, to?: string) =>
     setParams({ ...params, from, to })
 
-  const opsSum = useMemo(() => ops?.reduce((acc, op) => acc + op.sum, 0) ?? 0, [ops])
   const buttonText = params.from && params.to && DateUtils.getDatesRangeLoc(new Date(params.from), new Date(params.to))
 
   return (
@@ -33,8 +31,6 @@ export const OperationsListToolbar = () => {
         </Popover>
       </DialogTrigger>
       <OpListFilterSortSetup />
-      {ops && 'operations: ' + ops.length}
-      {ops && ' sum: ' + numToFixedStr(opsSum)}
     </Toolbar>
   )
 }

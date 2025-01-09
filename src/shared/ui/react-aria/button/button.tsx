@@ -1,6 +1,5 @@
-import { LinkProps, Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, TooltipProps, TooltipTrigger, Link as Rlink } from 'react-aria-components'
+import { LinkProps, Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, Link as Rlink, TooltipProps, TooltipTrigger } from 'react-aria-components'
 import { Tooltip } from '../tooltip/tooltip'
-import { Spinner } from '@shared/ui/spinner'
 
 export type BasicButtonProps = {
   variant?: 'primary' | 'danger' | 'attention' | 'transparent'
@@ -26,12 +25,12 @@ export function Button(
   
   if (tooltip) return (
     <TooltipTrigger>
-      <RACButton className={className} {...props}>{props.children} { props.isPending && <Spinner/>}</RACButton>
+      <RACButton className={className} {...props}>{props.children}</RACButton>
       <Tooltip {...tooltipProps}>{tooltip}</Tooltip>
     </TooltipTrigger>
   )
   else return (
-    <RACButton className={className} {...props}>{props.children} { props.isPending && <Spinner/>}</RACButton>
+    <RACButton className={className} {...props}>{props.children}</RACButton>
   )
 }
 

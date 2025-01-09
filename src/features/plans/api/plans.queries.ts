@@ -70,7 +70,8 @@ export function usePlansUpdate() {
           updated.dateStart && params.from && params.to &&
           (updated.dateStart < params.from || updated.dateStart > params.to)
         )
-        if (!singleIdquery || params.type !== planRecType || regularPlanNotInQuery) {
+        if (singleIdquery || params.type !== planRecType || regularPlanNotInQuery) {
+          console.log(singleIdquery)
           queryClient.setQueryData<Plan[]>(
             query[0],
             cache =>
