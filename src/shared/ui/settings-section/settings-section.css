@@ -1,0 +1,42 @@
+.settings-section {
+  padding: 0.3rem;
+  margin-bottom: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--max-width);
+
+  .react-aria-Heading {
+    margin: 0;
+    text-align: center;
+  }
+  .react-aria-Separator {
+    margin-top: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.9rem;
+  }
+}
+
+.settings-sub-section{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: calc(var(--gap-step) * 2);
+  padding: calc(var(--gap-step) * 3);
+  background-color: var(--gray-50);
+  border-radius: var(--app-border-radius);
+}
+.settings-sub-section>label {
+  color: var(--gray-600);
+}
+@media (max-width: 44rem) {
+  .settings-sub-section {
+    width: 95rem;
+  }
+}

@@ -17,7 +17,6 @@ export const NewPlan = () => {
             <Link href="/plans/new">New</Link>
           </Breadcrumb>
         </Breadcrumbs>
-        <h2>New Plan</h2>
         <PlanForm mode="add" onSuccess={() => navigate('/plans')} />
       </div>
     </main>

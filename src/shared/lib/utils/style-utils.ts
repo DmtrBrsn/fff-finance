@@ -7,13 +7,12 @@ export const setRootCssProperty = (propName: string, value: string | null) =>
   document.documentElement.style.setProperty(propName, value)
 
 export function updateRootThemeAttr(newTheme: AppTheme) {
+  const bgColor = getRootCssProperty('--background-color')
+  setMetaThemeColor(bgColor)
   if (newTheme === 'auto') {
-    removeMetaThemeColor()
     document.documentElement.removeAttribute('data-theme')
   }
   else {
-    const bgColor = getRootCssProperty('--background-color')
-    setMetaThemeColor(bgColor)
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 }

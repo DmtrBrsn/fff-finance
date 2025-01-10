@@ -21,15 +21,15 @@ export const PlansToolbar = () => {
         selectedKeys={[params.type ?? 'regular']}
         onSelectionChange={(k) => k.size > 0 && setParams({ ...params, type: [...k][0] as 'regular' | 'repeating' | 'no-date' })}
       >
-        <ToggleButton id={'regular'}>
-          <CalendarMonth />{buttonText}
-        </ToggleButton>
         <DialogTrigger>
           <Button isDisabled={params.type!=='regular'} narrow size="s"><ArrowDropDown /></Button>
           <Popover>
             <ListPeriodSetup params={params} setParams={handlePeriodChange} />
           </Popover>
         </DialogTrigger>
+        <ToggleButton id={'regular'}>
+          <CalendarMonth />{buttonText}
+        </ToggleButton>
         <ToggleButton id={'repeating'}>
           <RepeatIcon />
         </ToggleButton>

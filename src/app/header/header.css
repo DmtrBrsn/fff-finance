@@ -1,7 +1,6 @@
 .app-header  {
   display: flex;
   align-items: center;
-  background-color: var(--app-color);
 }
 
 .app-header-desktop {

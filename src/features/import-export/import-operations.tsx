@@ -3,7 +3,7 @@ import { QUERY_KEY_OPERATIONS } from "@features/operations/api"
 import { importOperations } from "@features/operations/lib"
 import { toast } from "@features/toaster"
 import { isTouchDevice } from "@shared/lib/utils"
-import { ContextualHelp, FolderOpen, Spinner } from "@shared/ui"
+import { ContextualHelp, FolderOpen, SettingsSubSection, Spinner } from "@shared/ui"
 import { useQueryClient } from "@tanstack/react-query"
 import { useMemo, useRef, useState } from "react"
 import { Button, DropZone, FileTrigger, Heading, Text } from "react-aria-components"
@@ -47,8 +47,21 @@ export const ImportOperations = () => {
   }, [cats])
 
   return (
-    <div className='settings-section-container align-center'>
-      <label>Import operations</label>
+    <SettingsSubSection>
+      <span className="flex-row gap-1">
+        <label>Import operations</label>
+        <ContextualHelp>
+          <Heading slot="title">Requirements</Heading>
+          <Text>{JSON.stringify([{
+            date: 'iso date',
+            description: 'string',
+            'idCategory?': 'string',
+            'categoryName?': 'name of category (provide if idCategory is unknown)',
+            sum: 'number (>=0)',
+            'created?': 'iso date'
+          }], null, 2)}</Text>
+        </ContextualHelp>
+      </span>
       {cats === undefined || cats.length === 0 ? 'Create categories first' :
         <>
           {
@@ -63,19 +76,8 @@ export const ImportOperations = () => {
                 Or drop
               </DropZone>
           }
-          <ContextualHelp>
-            <Heading slot="title">Requirements</Heading>
-            <Text>{JSON.stringify([{
-              date: 'iso date',
-              description: 'string',
-              'idCategory?': 'string',
-              'categoryName?': 'name of category (provide if idCategory is unknown)',
-              sum: 'number (>=0)',
-              'created?': 'iso date'
-            }], null, 2)}</Text>
-          </ContextualHelp>
         </>
       }
-    </div>
+    </SettingsSubSection>
   )
 }

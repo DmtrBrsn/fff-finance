@@ -59,7 +59,6 @@ export const PlansListFilterSortSetup = () => {
         </Popover>
       </DialogTrigger>
       <Button
-        narrow
         onPress={resetFiltersAndSort}
         tooltip={'Reset filters and sort'}
         isDisabled={filterOptions.length === 0 && sortOptions.length === 0}

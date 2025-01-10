@@ -8,15 +8,15 @@ import { ReactNode, useMemo, useState } from 'react'
 import { Dialog, Modal } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
 import { EditOperationForm } from '../../operation-form'
-import './op-section-values.css'
 import { ConfirmDialog } from '@shared/ui/confirm-dialog'
+import { useOpsListStore } from '../operations-list-store'
+import './op-section-values.css'
 
 const Label = ({ children }: { children: ReactNode }) => <span className='op-section-value-label'>{children}</span>
 
 export const OpDateSectionValue = ({ val }: { val: Operation['date'] }) => {
   return (
     <FlCell className="op-section-value op-date">
-      {/* <Label>Date</Label> */}
       {DateUtils.isoStrToLocal(val)}
     </FlCell>
   )
@@ -25,7 +25,6 @@ export const OpDateSectionValue = ({ val }: { val: Operation['date'] }) => {
 export const OpSumSectionValue = ({ val }: { val: Operation['sum'] }) => {
   return (
     <FlCell className="op-section-value op-sum">
-      {/* <Label>Sum</Label> */}
       {val.toLocaleString()}
     </FlCell>
   )
@@ -34,7 +33,6 @@ export const OpSumSectionValue = ({ val }: { val: Operation['sum'] }) => {
 export const OpDescriptionSectionValue = ({ val }: { val: Operation['description'] }) => {
   return (
     <FlCell className="op-section-value op-description">
-      {/* <Label>Description</Label> */}
       {val}
     </FlCell>
   )
@@ -43,7 +41,6 @@ export const OpDescriptionSectionValue = ({ val }: { val: Operation['description
 export const OpCatSectionValue = ({ cat }: { cat?: Category }) => {
   return (
     <FlCell className="op-section-value op-category">
-      {/* <Label>Category</Label> */}
       {cat === undefined ? 'No category found' : cat.name}
     </FlCell>
   )
@@ -68,6 +65,8 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
 
 export const OpMenuBtn = ({ op }: { op: Operation }) => {
   const [isOpen, setOpen] = useState(false)
+  const { selected, setSelected } = useOpsListStore()
+  const isSelected = selected.includes(op.id)
   const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
   const [delConfirmOpen, setDelConfirmOpen] = useState(false)
   const isTouch = useMemo(() => isTouchDevice(), [])
@@ -78,11 +77,21 @@ export const OpMenuBtn = ({ op }: { op: Operation }) => {
   }
   const close = () => setOpen(false)
 
+  const toggleSelect = () => {
+    if (isSelected) {
+      setSelected(selected.filter(id => id !== op.id))
+    }
+    else {
+      setSelected([...selected, op.id])
+    }
+  }
+
   return (
     <FlCell className="op-menu-btn">
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
         <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
+        <MenuItem onAction={toggleSelect}>{isSelected ? 'Deselect' : 'Select'}</MenuItem>
       </MenuButtonIcon>
 
       <Modal isOpen={isOpen} onOpenChange={setOpen}>

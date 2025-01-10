@@ -16,7 +16,6 @@ export const NewOperation = () => {
             <Link href="/operations/new">New</Link>
           </Breadcrumb>
         </Breadcrumbs>
-        <h2>New operation</h2>
         <NewOperationForm />
         <OperationsLatest/>
       </div>

@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { toast } from "@features/toaster"
 import { useQueryClient } from '@tanstack/react-query'
 import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
-import { ContextualHelp, FolderOpen, Button, Spinner } from '@shared/ui'
+import { ContextualHelp, FolderOpen, Button, Spinner, SettingsSubSection } from '@shared/ui'
 import { isTouchDevice } from '@shared/lib/utils'
 import { QUERY_KEY_CATEGORIES } from '@features/categories/api'
 import { importCategories } from '@features/categories/lib'
@@ -41,8 +41,18 @@ export const ImportCategories = () => {
   }, [])
 
   return (
-    <div className='settings-section-container align-center'>
-      <label>Import categories</label>
+    <SettingsSubSection>
+      <span className="flex-row gap-1">
+        <label>Import categories</label>
+        <ContextualHelp>
+          <Heading slot="title">Requirements</Heading>
+          <Text>{JSON.stringify([{
+            name: 'string',
+            isIncome: 'boolean',
+            'created?': 'iso date'
+          }], null, 2)}</Text>
+        </ContextualHelp>
+      </span>
       {
         inProgress ?
           <Spinner /> : isTouch ? ImportBtn :
@@ -56,15 +66,7 @@ export const ImportCategories = () => {
               Or drop
             </DropZone>
       }
-      <ContextualHelp>
-        <Heading slot="title">Requirements</Heading>
-        <Text>{JSON.stringify([{
-          name: 'string',
-          isIncome: 'boolean',
-          'created?': 'iso date'
-        }], null, 2)}</Text>
-      </ContextualHelp>
-    </div>
+    </SettingsSubSection>
   )
 }
 

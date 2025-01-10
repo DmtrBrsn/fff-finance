@@ -10,7 +10,7 @@ export const ListHeaderCheckBox = <T extends Record<string, any> & { id: Id }>(
   }
 
   return <Checkbox
-    isSelected={selected.length === data.length}
+    isSelected={selected.length > 0 &&selected.length === data.length}
     onChange={handleChange}
     isIndeterminate={selected.length > 0 && selected.length < data.length}
   />

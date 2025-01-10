@@ -6,6 +6,8 @@ import { CloseIcon, DeleteIcon, SelectAll } from "@shared/ui/svg"
 import { Separator, Toolbar } from "react-aria-components"
 import { usePlansListStore } from "../plans-list-store"
 import './plans-list-action-bar.css'
+import { useState } from "react"
+import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
   const {
@@ -13,6 +15,7 @@ export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
     setSelected
   } = usePlansListStore()
   const { mutateAsync: batchDeletePlans } = usePlansBatchDelete()
+  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
 
   const deleteSelected = () => batchDeletePlans(selected)
     .then(() => {
@@ -27,26 +30,34 @@ export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
   }
 
   return (
-    <Toolbar className='react-aria-Toolbar plans-list-action-bar'>
-      <ButtonIcon
-        tooltip="Cancel selection"
-        onPress={cancel}
-      >
-        <CloseIcon />
-      </ButtonIcon>
-      {selected.length+'/'+plans.length}
-      <ButtonIcon
-        tooltip="Select all"
-        onPress={selectAll}
-      >
-        <SelectAll/>
-      </ButtonIcon>
-      <Separator orientation="vertical" />
-      <ButtonIcon
-        onPress={deleteSelected}
-        isDisabled={selected.length === 0}
-        tooltip={'Delete selected'}
-      ><DeleteIcon /></ButtonIcon>
-    </Toolbar>
+    <>
+      <Toolbar className='react-aria-Toolbar plans-list-action-bar'>
+        <ButtonIcon
+          tooltip="Cancel selection"
+          onPress={cancel}
+        >
+          <CloseIcon />
+        </ButtonIcon>
+        {selected.length + '/' + plans.length}
+        <ButtonIcon
+          tooltip="Select all"
+          onPress={selectAll}
+        >
+          <SelectAll />
+        </ButtonIcon>
+        <Separator orientation="vertical" />
+        <ButtonIcon
+          onPress={() => setDelConfirmOpen(true)}
+          isDisabled={selected.length === 0}
+          tooltip={'Delete selected'}
+        ><DeleteIcon /></ButtonIcon>
+      </Toolbar>
+      <ConfirmDialog
+        title="Delete plans?"
+        isOpen={delConfirmOpen}
+        setOpen={setDelConfirmOpen}
+        onConfirm={deleteSelected}
+      />
+    </>
   )
 }

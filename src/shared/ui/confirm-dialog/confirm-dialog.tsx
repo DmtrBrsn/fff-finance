@@ -29,6 +29,7 @@ export const ConfirmDialog = (
             {cancelText}
           </Button>
           <Button
+            autoFocus
             onPress={() => { close(); onConfirm() }}
             variant={danger ? 'danger' : "attention"}
           >

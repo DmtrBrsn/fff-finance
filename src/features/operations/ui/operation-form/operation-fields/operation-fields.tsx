@@ -21,8 +21,8 @@ export const OpDateField = (
 }
 
 export const OpSumField = (
-  { sum, onChange }:
-    { sum: number, onChange: (sum: number) => void }
+  { sum, onChange, autofocus = true }:
+    { sum: number, onChange: (sum: number) => void, autofocus?: boolean }
 ) => {
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value
@@ -30,6 +30,7 @@ export const OpSumField = (
   }
   return (
     <NumberField
+      autoFocus={autofocus}
       buttons={false}
       size={6}
       label='Sum'

@@ -7,9 +7,12 @@ import { usePlansDelete } from "../../api"
 import { Plan } from "../../lib"
 import { PlanForm } from "../plan-form"
 import { ConfirmDialog } from "@shared/ui/confirm-dialog"
+import { usePlansListStore } from "./plans-list-store"
 
 export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
   const [isOpen, setOpen] = useState(false)
+  const { selected, setSelected } = usePlansListStore()
+  const isSelected = selected.includes(plan.id)
   const { mutateAsync: deletePlan, isPending: deleting } = usePlansDelete()
   const [delConfirmOpen, setDelConfirmOpen] = useState(false)
   const isTouch = useMemo(() => isTouchDevice(), [])
@@ -20,11 +23,21 @@ export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
   }
   const close = () => setOpen(false)
 
+  const toggleSelect = () => {
+    if (isSelected) {
+      setSelected(selected.filter(id => id !== plan.id))
+    }
+    else {
+      setSelected([...selected, plan.id])
+    }
+  }
+
   return (
     <>
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
         <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
+        <MenuItem onAction={toggleSelect}>{isSelected ? 'Deselect' : 'Select'}</MenuItem>
       </MenuButtonIcon>
 
       <Modal isOpen={isOpen} onOpenChange={setOpen}>

@@ -6,7 +6,7 @@ import { useAppStore } from './app-store'
 import { updateRootThemeAttr } from '@shared/lib/utils'
 import { Toaster } from '@features/toaster'
 import { AuthProvider } from '@features/auth/auth-context'
-import { CreateNewBtn } from '@features/nav/ui/create-new-btn'
+import { CreateNewBtn } from '@features/nav/ui'
 import { pagesToShowCreateBtnOn } from '@features/nav/lib/nav-constants'
 
 import './styles/root.css'

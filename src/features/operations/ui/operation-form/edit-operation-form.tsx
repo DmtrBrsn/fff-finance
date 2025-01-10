@@ -1,13 +1,13 @@
 import { CategorySelectField } from "@features/categories/ui/fields-for-category"
-import { Button } from "@shared/ui/react-aria"
-import { Spinner } from "@shared/ui/spinner/spinner"
-import { FormEvent, useState } from "react"
-import { Form, Heading } from "react-aria-components"
-import { toast } from "@features/toaster"
-import { ResetIcon } from "@shared/ui/svg"
 import { useOperationsUpdate } from "@features/operations/api"
 import { Operation, OperationUpd } from "@features/operations/lib"
-import { OpDateField, OpSumField, OpDescriptionField } from "./operation-fields"
+import { toast } from "@features/toaster"
+import { Button } from "@shared/ui/react-aria"
+import { Spinner } from "@shared/ui/spinner/spinner"
+import { ResetIcon } from "@shared/ui/svg"
+import { FormEvent, useState } from "react"
+import { Form } from "react-aria-components"
+import { OpDateField, OpDescriptionField, OpSumField } from "./operation-fields"
 
 type EditOperationFormProps = {
   op: Operation
@@ -33,9 +33,8 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
 
   return (
     <Form onSubmit={handleSubmit} className="react-aria-Form edit-operation-form">
-      <Heading slot="title">Edit operation</Heading>
       <OpDateField date={updOp.date ?? op.date} onChange={(date) => setUpdOp({ ...updOp, date })} />
-      <OpSumField sum={updOp.sum ?? op.sum} onChange={(sum) => setUpdOp({ ...updOp, sum })} />
+      <OpSumField autofocus={false} sum={updOp.sum ?? op.sum} onChange={(sum) => setUpdOp({ ...updOp, sum })} />
       <OpDescriptionField
         description={updOp.description ?? op.description}
         onChange={(description) => setUpdOp({ ...updOp, description })}

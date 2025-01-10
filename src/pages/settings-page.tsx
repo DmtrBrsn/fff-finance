@@ -4,7 +4,7 @@ import { ImportCategories } from "@features/import-export/import-categories"
 import { ImportOperations } from "@features/import-export/import-operations"
 import { toast } from "@features/toaster"
 import { isTouchDevice, setMetaThemeColor } from "@shared/lib/utils"
-import { StartPageSelector } from "@shared/ui"
+import { SettingsSection, StartPageSelector } from "@shared/ui"
 import { AppThemeSelector } from "@shared/ui/app-theme-selector"
 import { Button, Disclosure, ToggleButton } from "@shared/ui/react-aria"
 import { Vibration } from "@shared/ui/svg"
@@ -18,28 +18,34 @@ export const SettingsPage = () => {
   const userLoggedInUsingGoogle = !!providers?.some(prov => prov.providerId === 'google.com')
 
   return (
-    <main className="max-width-wrap align-start align-baseline flex-row wrap gap-3 pad-2">
-      <AppThemeSelector />
-      <StartPageSelector/>
-      <ImportCategories />
-      <ImportOperations />
-      <ExportMenu />
-      <UserData />
-      <Logout />
-      {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle />}
-      {userLoggedInUsingEmailAndPass ? <UnlinkEmailAndPassword /> : <></>}
-      {userLoggedInUsingEmailAndPass ? (
-        <>
-          <UpdateEmail />
-          <UpdatePassword />
-        </>)
-        :
-        <></>
-      }
-      <DeleteUser />
-
-
-      <Testing />
+    <main>
+      <SettingsSection title='App'>
+        <AppThemeSelector />
+        <StartPageSelector />
+      </SettingsSection>
+      <SettingsSection title='Account'>
+        <UserData />
+        <Logout />
+        {userLoggedInUsingGoogle ? <UnlinkGoogle /> : <SignInWithGoogle />}
+        {userLoggedInUsingEmailAndPass ? <UnlinkEmailAndPassword /> : <></>}
+        <DeleteUser />
+        {userLoggedInUsingEmailAndPass ? (
+          <>
+            <UpdateEmail />
+            <UpdatePassword />
+          </>)
+          :
+          <></>
+        }
+      </SettingsSection>
+      <SettingsSection title='Import/export'>
+        <ImportCategories />
+        <ImportOperations />
+        <ExportMenu />
+      </SettingsSection>
+      <SettingsSection title='Testing'>
+        <Testing />
+      </SettingsSection>
     </main>
   )
 }
@@ -50,21 +56,21 @@ const Testing = () => {
   const [color, setColor] = useState<string | undefined>(undefined)
   return (
     <Disclosure title="testing">
-        <Button onPress={() => toast('Info toast example', 'Log', () => console.log('test'))}>My toast info</Button>
-        <Button onPress={() => toast.error('Error toast example', 'Log', () => console.log('test'))}>My toast error</Button>
-        <Button onPress={() => toast.success('Success toast example', 'Log', () => console.log('test'))}>My toast success</Button>
-        <Button onPress={() => toast.warning('Warning toast example', 'Log', () => console.log('test'))}>My toast warning</Button>
+      <Button onPress={() => toast('Info toast example', 'Log', () => console.log('test'))}>My toast info</Button>
+      <Button onPress={() => toast.error('Error toast example', 'Log', () => console.log('test'))}>My toast error</Button>
+      <Button onPress={() => toast.success('Success toast example', 'Log', () => console.log('test'))}>My toast success</Button>
+      <Button onPress={() => toast.warning('Warning toast example', 'Log', () => console.log('test'))}>My toast warning</Button>
 
-        {isTouch && <VibroButton />}
-        <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
+      {isTouch && <VibroButton />}
+      <p style={{ fontSize: '1.2rem', padding: '1rem', background: 'yellow', color: 'magenta' }}>{isTouch ? 'touch device' : 'not touch device'}</p>
 
 
-        <Button isPending={pending}>{pending ? 'Pending' : 'Not pending' }</Button>
+      <Button isPending={pending}>{pending ? 'Pending' : 'Not pending'}</Button>
       <ToggleButton isSelected={pending} onChange={setPending}>Toggle pending</ToggleButton>
-      
+
       <span className="flex-row gap-1 pad-1"><input type='color' value={color} onChange={(e) => setColor(e.target.value)}></input>
         <Button onPress={() => color && setMetaThemeColor(color)}>set theme color</Button></span>
-      <Button onPress={()=>document.querySelector('meta[name="theme-color"]')?.remove()} >remove theme color</Button>
+      <Button onPress={() => document.querySelector('meta[name="theme-color"]')?.remove()} >remove theme color</Button>
     </Disclosure>
   )
 }

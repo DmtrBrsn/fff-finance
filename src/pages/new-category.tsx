@@ -15,7 +15,6 @@ export const NewCategory = () => {
             <Link href="/categories/new">New</Link>
           </Breadcrumb>
         </Breadcrumbs>
-        <h2>New Category</h2>
         <CatForm mode="add" onSuccess={() => navigate('/categories')} />
       </div>
     </main>

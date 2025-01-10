@@ -1,3 +1,4 @@
+import { SettingsSubSection } from "@shared/ui"
 import { getAuth } from "firebase/auth"
 
 export const UserData = () => {
@@ -5,7 +6,7 @@ export const UserData = () => {
   if (currentUser==undefined) return <></>
     
   return (
-    <div className="settings-section-container">
+    <SettingsSubSection>
       <label>User</label>
       <ul>
         <li>email: {currentUser.email}</li>
@@ -19,6 +20,6 @@ export const UserData = () => {
           <li>last sign in: {new Date(currentUser.metadata.lastSignInTime).toLocaleString(navigator.language)}</li>
         }
       </ul>
-    </div>
+    </SettingsSubSection>
   )
 }

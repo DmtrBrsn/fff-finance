@@ -1,12 +1,13 @@
 import { StartPage, useAppStore } from "@app/app-store"
 import { RadioGroup } from "./react-aria"
 import { Radio } from "react-aria-components"
+import { SettingsSubSection } from "./settings-section"
 
 export const StartPageSelector = () => {
   const { startPage, setStartPage } = useAppStore()
   
   return (
-    <div className='settings-section-container'>
+    <SettingsSubSection>
       <RadioGroup
         label='Start page'
         orientation='vertical'
@@ -16,6 +17,6 @@ export const StartPageSelector = () => {
         <Radio value='/operations'>Operations</Radio>
         <Radio value='/planning'>Planning</Radio>
       </RadioGroup>
-    </div>
+    </SettingsSubSection>
   )
 }
