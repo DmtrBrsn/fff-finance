@@ -10,7 +10,7 @@ export class CatUtils {
     return isIncome === false ? 'Expense' : isIncome ? 'Income' : '-'
   }
 
-  public static orderCats(cats: Category[]) {
+  public static orderCats<T extends Pick<Category, 'isIncome' | 'order'>>(cats: T[]) {
     return cats
       .sort(SortUtils.num((c) => c.order, 'asc'))
       .sort(SortUtils.bool((c) => c.isIncome, 'desc'))

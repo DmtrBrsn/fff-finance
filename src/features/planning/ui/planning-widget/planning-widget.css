@@ -3,78 +3,98 @@
   display: flex;
   flex-direction: column;
 
-  .toolbar {
-    min-width: min(25rem, 95vw);
+  /* .toolbar {
+    min-width: min(50rem, 95vw);
+  } */
+
+}
+
+.period-sections-container {
+  height: inherit;
+  display: inherit;
+  flex-direction: inherit;
+  width: min(50rem, 100vw);
+
+  [data-testid="virtuoso-item-list"] {
+    gap: 0.6rem;
   }
 
-  .period-sections-container {
-    height: inherit;
-    display: inherit;
-    flex-direction: inherit;
-    max-width: 45rem;
-    
-    [data-testid="virtuoso-item-list"] {
-      gap: 0.6rem;
+  .period-section {
+    border-radius: var(--app-border-radius);
+    background: var(--gray-50);
+    padding: 0.6rem;
+    gap: 0.6rem;
+
+    &.current {
+      background: var(--blue-50);
     }
 
-    .period-section {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-      border-radius: var(--app-border-radius);
-      background: var(--gray-50); 
-      padding: 0.6rem;
-      &.current {background: var(--blue-50);}
-  
-  
-      .period-name {
-        /* text-align: center; */
+    .period-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .period-summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem;
+
+      &.Plans {color: var(--blue-600);}
+      &.Operations {color: var(--green-600);}
+
+      .title {
         font-size: 1.2rem;
+        width: 7rem;
       }
 
-      .period-summary {
+      .values {
+        display: flex;
+        gap: 0.6rem;
+        font-weight: 600;
+      }
+
+      .values-pair {
+        display: flex;
+        gap: 0.6rem;
+      }
+
+      .value {
         display: flex;
         flex-wrap: wrap;
-        justify-content: start;
-        align-items: center;
         gap: 0.3rem;
-        font-size: 1rem;
 
-        &.Plans {color: var(--blue-600);}
-        &.Operations {color: var(--green-600);}
+        /* .value-title {
+        } */
 
-        .title {
-          width: 7rem;
-        }
-        .value {
-          width: 4rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.1rem;
-          .number {
-            font-weight: 500;
-          }
+        .value-sum {
+          width: 5rem;
         }
       }
+    }
+
+  }
+
+  .cat-summary-inc-exp-title {
+    font-weight: 600;
+  }
   
-      .cat-summary-list {
-        &.plans {color: var(--blue-600);}
-        &.ops {color: var(--green-600);}
-        .cat-summary-row {
-          display: flex;
-          align-items: center;
-          gap: 0.2rem;
-          padding: 0.2rem;
-          border-radius: var(--app-border-radius);
-
-          .cat-name {
-            width: calc(7rem - 0.3rem);
-          }
-          .inc, .exp {
-            width: 4rem;
-          }
-        }
-      }
+  .cat-summary-row {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    border-radius: var(--app-border-radius);
+  
+    .cat-name {
+      width: calc(16rem);
+    }
+  
+    .cat-sum {
+      width: 5rem;
     }
   }
 

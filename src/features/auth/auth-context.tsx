@@ -1,17 +1,17 @@
 import { auth } from "@app/firebase"
 import { onAuthStateChanged, User, } from "firebase/auth"
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { AuthService, UserService } from "./lib"
+import { AuthUtils, UserService } from "./lib"
 
 type Props = { children?: React.ReactNode }
 type CurrentUser = User | null
 type AuthContextValue = {
-  service: typeof AuthService
+  service: typeof AuthUtils
   currentUser?: CurrentUser
   userService?: UserService
 }
 
-export const AuthContext = createContext<AuthContextValue>({ service: AuthService })
+export const AuthContext = createContext<AuthContextValue>({ service: AuthUtils })
 
 export function useAuth() {
   return useContext(AuthContext)
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   const value = {
     currentUser,
-    service: AuthService,
+    service: AuthUtils,
     userService
   }
 

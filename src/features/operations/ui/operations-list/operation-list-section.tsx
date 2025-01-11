@@ -1,6 +1,6 @@
 import { useCategoriesGet } from '@features/categories/api'
 import { Operation } from '@features/operations/lib'
-import { OpCatSectionValue, OpCheckbox, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpMenuBtn, OpSumSectionValue } from './op-section-values/op-section-values'
+import { OpCatSectionValue, OpCheckbox, OpCreatedSectionValue, OpDateSectionValue, OpDescriptionSectionValue, OpIsIncomeSectionValue, OpListOpMenuBtn, OpSumSectionValue } from './op-section-values/op-section-values'
 import { OperationSection } from './operation-section'
 import { useOpsListStore } from './operations-list-store'
 import './operations-list.style.css'
@@ -50,7 +50,7 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
       <OpCatSectionValue cat={cat}/>
       <OpIsIncomeSectionValue cat={cat}/>
       <OpCreatedSectionValue val={op.created}/>
-      <OpMenuBtn op={op}/>
+      <OpListOpMenuBtn op={op}/>
     </OperationSection>
   )
 }

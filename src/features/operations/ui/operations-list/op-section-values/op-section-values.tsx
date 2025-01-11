@@ -5,7 +5,7 @@ import { DateUtils, isTouchDevice } from '@shared/lib/utils'
 import { FlCell } from '@shared/ui/fl-list'
 import { Checkbox, DialogCloseBtn, MenuButtonIcon, MenuItem } from '@shared/ui/react-aria'
 import { ReactNode, useMemo, useState } from 'react'
-import { Dialog, Modal } from 'react-aria-components'
+import { Dialog, Heading, Modal } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
 import { EditOperationForm } from '../../operation-form'
 import { ConfirmDialog } from '@shared/ui/confirm-dialog'
@@ -63,7 +63,7 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
   )
 }
 
-export const OpMenuBtn = ({ op }: { op: Operation }) => {
+export const OpListOpMenuBtn = ({ op }: { op: Operation }) => {
   const [isOpen, setOpen] = useState(false)
   const { selected, setSelected } = useOpsListStore()
   const isSelected = selected.includes(op.id)
@@ -97,6 +97,44 @@ export const OpMenuBtn = ({ op }: { op: Operation }) => {
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
         <Dialog>
           <DialogCloseBtn close={close} />
+          <Heading slot="title">Operation editing</Heading>
+          <EditOperationForm op={op} onSuccess={close} onCancel={close} />
+        </Dialog>
+      </Modal>
+
+      <ConfirmDialog
+        title="Delete operation?"
+        isOpen={delConfirmOpen}
+        setOpen={setDelConfirmOpen}
+        onConfirm={() => deleteOp(op.id)}
+      />
+    </FlCell>
+  )
+}
+
+export const OpMenuBtn = ({ op }: { op: Operation }) => {
+  const [isOpen, setOpen] = useState(false)
+  const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
+  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
+  const isTouch = useMemo(() => isTouchDevice(), [])
+  const navigate = useNavigate()
+
+  const editBtnAction = () => {
+    isTouch ? navigate(`/operations/${op.id}`) : setOpen(true)
+  }
+  const close = () => setOpen(false)
+
+  return (
+    <FlCell className="op-menu-btn">
+      <MenuButtonIcon>
+        <MenuItem onAction={editBtnAction}>Edit</MenuItem>
+        <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
+      </MenuButtonIcon>
+
+      <Modal isOpen={isOpen} onOpenChange={setOpen}>
+        <Dialog>
+          <DialogCloseBtn close={close} />
+          <Heading slot="title">Operation editing</Heading>
           <EditOperationForm op={op} onSuccess={close} onCancel={close} />
         </Dialog>
       </Modal>

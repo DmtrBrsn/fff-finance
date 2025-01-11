@@ -1,24 +1,24 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateEmail, updatePassword, deleteUser, User, GoogleAuthProvider, signInWithPopup, unlink } from "firebase/auth"
 import { auth } from "@app/firebase"
 
-export class AuthService {
+export class AuthUtils {
   static providersIds = {
     google: 'google.com',
     emailAndPassword: 'password'
   }
 
-  static signup = (email:string, password:string) => {
+  static signup = (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password)
   }
-  
-  static loginWithEmailAndPassword = (email:string, password:string) => {
+
+  static loginWithEmailAndPassword = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password)
   }
-  
+
   static logout = () => signOut(auth)
-  
-  static resetPassword = (email:string) => sendPasswordResetEmail(auth, email)
-  
+
+  static resetPassword = (email: string) => sendPasswordResetEmail(auth, email)
+
   static loginWithGoogle = () => {
     const provider = new GoogleAuthProvider()
     return signInWithPopup(auth, provider)
@@ -33,23 +33,23 @@ export class UserService {
     this.user = user
   }
 
-  updateEmail = (newEmail:string) => {
+  updateEmail = (newEmail: string) => {
     return updateEmail(this.user, newEmail)
   }
 
-  updatePassword = (newPasword:string) => {
+  updatePassword = (newPasword: string) => {
     return updatePassword(this.user, newPasword)
   }
-    
+
   delete = () => {
     return deleteUser(this.user)
   }
-  
+
   unlinkGoogle = () => {
-    return unlink(this.user, AuthService.providersIds.google)
+    return unlink(this.user, AuthUtils.providersIds.google)
   }
 
   unlinkEmailAndPassword = () => {
-    return unlink(this.user, AuthService.providersIds.emailAndPassword)
+    return unlink(this.user, AuthUtils.providersIds.emailAndPassword)
   }
 }

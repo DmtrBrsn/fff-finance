@@ -1,9 +1,11 @@
 import { toast } from "@features/toaster"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { GetPlanParams, Plan, PlanUtils } from "../lib"
-import { addPlan, batchDeletePlans, deletePlan, getPlan, getPlans, updatePlan } from "./plans.api"
+import { addPlan, batchDeletePlans, deletePlan, getPlan, getPlans, getRegPlanSumsBetweenDates, updatePlan } from "./plans.api"
+import { Category } from "@features/categories/lib"
 
 export const QUERY_KEY_PLANS = 'PLANS' as const
+export const QUERY_KEY_REG_PLAN_SUMS_BETWEEN_DATES = 'REG_PLAN_SUMS_BTWN_DATES' as const
 
 export function usePlansGet(params: GetPlanParams, enabled = true) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
@@ -134,4 +136,15 @@ export function usePlansBatchDelete() {
       console.error(err)
     }
   })
+}
+
+export function useRegPlanSumsBetweenDatesGet(dateStart: string, dateEnd: string, cats: Category[], enabled = false) {
+  const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+    queryKey: [QUERY_KEY_REG_PLAN_SUMS_BETWEEN_DATES, dateStart, dateEnd],
+    queryFn: ()=> getRegPlanSumsBetweenDates(dateStart, dateEnd, cats),
+    enabled,
+    staleTime: Infinity,
+    retry: 2,
+  })
+  return { isPending, isFetching, isError, data, error, refetch }
 }

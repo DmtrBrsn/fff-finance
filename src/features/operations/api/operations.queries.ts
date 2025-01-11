@@ -3,9 +3,11 @@ import { DateUtils } from "@shared/lib/utils"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Operation } from "../lib"
 import { GetOpsParams } from "./operations-params"
-import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperation, getOperations, updateOperation } from "./operations.api"
+import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperation, getOperations, getOpSumsBetweenDates, updateOperation } from "./operations.api"
+import { Category } from "@features/categories/lib"
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
+export const QUERY_KEY_OP_SUMS_BETWEEN_DATES = 'OP_SUMS_BTWN_DATES' as const
 
 export function useOperationsGet(params: GetOpsParams, enabled = false) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
@@ -142,4 +144,15 @@ export function useOperationsDelete() {
       console.error(err)
     }
   })
+}
+
+export function useOpSumsBetweenDatesGet(dateStart: string, dateEnd: string, cats: Category[], enabled = false) {
+  const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+    queryKey: [QUERY_KEY_OP_SUMS_BETWEEN_DATES, dateStart, dateEnd],
+    queryFn: ()=> getOpSumsBetweenDates(dateStart, dateEnd, cats),
+    enabled,
+    staleTime: Infinity,
+    retry: 2,
+  })
+  return { isPending, isFetching, isError, data, error, refetch }
 }

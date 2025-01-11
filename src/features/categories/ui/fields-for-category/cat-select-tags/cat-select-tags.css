@@ -2,4 +2,7 @@
   max-height: 15rem;
   max-width: 25rem;
   overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--app-border-radius);
+  padding: 0.1rem;
 }

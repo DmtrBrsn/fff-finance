@@ -1,10 +1,11 @@
 import { db } from "@app/firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc, QueryDocumentSnapshot, getDoc, DocumentSnapshot } from 'firebase/firestore'
+import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc, QueryDocumentSnapshot, getDoc, DocumentSnapshot, getAggregateFromServer, sum } from 'firebase/firestore'
 import { Id } from "@shared/lib/types/api-types"
 import { DateUtils, getColPath } from "@shared/lib/utils"
 import { toast } from "@features/toaster"
 import { Operation, OperationAdd, OperationUpd } from "../lib"
 import { GetOpsParams } from "./operations-params"
+import { Category } from "@features/categories/lib"
 
 const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams ) => {
   let queryArr: QueryConstraint[] = []
@@ -126,4 +127,41 @@ export const batchDeleteOperations = async (ids: Id[]) => {
   }
   await batch.commit()
   return ids
+}
+
+export const getOpSumsBetweenDates = async (
+  dateStart: string,
+  dateEnd: string,
+  cats: Category[]
+) => {
+  const incCatIds = cats.filter(cat => cat.isIncome).map(cat => cat.id)
+  const expCatIds = cats.filter(cat => !cat.isIncome).map(cat => cat.id)
+
+  const result = {incSum: 0, expSum: 0, margin: 0}
+
+  const collectionRef = collection(db, getColPath('operations'))
+
+  if (incCatIds.length > 0) {
+    const q = query(
+      collectionRef,
+      where('date', '>', DateUtils.isoStrToTs(dateStart)),
+      where('date', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('idCategory', 'in', [...incCatIds])
+    )
+    const querySnapshot = await getAggregateFromServer(q, {incSum: sum('sum')})
+    result.incSum = querySnapshot.data().incSum
+  }
+
+  if (expCatIds.length > 0) {
+    const q = query(
+      collectionRef,
+      where('date', '>', DateUtils.isoStrToTs(dateStart)),
+      where('date', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('idCategory', 'in', [...expCatIds])
+    )
+    const querySnapshot = await getAggregateFromServer(q, {expSum: sum('sum')})
+    result.expSum = querySnapshot.data().expSum
+  }
+  result.margin = result.incSum - result.expSum
+  return result
 }
