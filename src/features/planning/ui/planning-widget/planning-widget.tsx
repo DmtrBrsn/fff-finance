@@ -11,7 +11,7 @@ import { DateUtils, numToFixedStr, Period } from "@shared/lib/utils"
 import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
 import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
 import { ArrowDropDown, Refresh, SettingsIcon } from "@shared/ui/svg"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
@@ -121,15 +121,12 @@ const CategoriesSummaryList = (
 ) => {
   const { data: cats } = useCategoriesGet(false)
   const summaryCats = PlanningUtils.prepateCatSummary(ops.cats, plans.cats, cats ?? [])
-  const [open, setOpen] = useState(summaryCats.length > 0)
   const incCats = summaryCats.filter(c => c.isIncome)
   const expCats = summaryCats.filter(c => !c.isIncome)
 
   return (
     <Disclosure
       title="Categories"
-      isExpanded={open}
-      onExpandedChange={setOpen}
       isDisabled={summaryCats.length === 0}
     >
       <div className="cat-summary-row">

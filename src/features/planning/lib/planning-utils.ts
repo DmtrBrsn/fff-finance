@@ -120,10 +120,11 @@ export class PlanningUtils {
     }
     for (const c of planSummary) {
       const cat = cats.find(cat => cat.id === c[0])
+      const resCat = result.get(cat?.id ?? '')
       result.set(cat?.id ?? '', {
         name: cat?.name ?? '',
         planSum: c[1],
-        opSum: 0,
+        opSum: resCat ? resCat.opSum : 0,
         id: cat?.id ?? '',
         isIncome: cat?.isIncome ?? false,
         order: cat?.order

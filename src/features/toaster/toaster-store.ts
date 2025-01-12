@@ -1,7 +1,6 @@
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { Toast } from './lib/types'
 import { maxShownToasts } from './lib/toaster-constants'
+import { Toast } from './lib/types'
 
 type ToasterStore = {
   queued: Toast[]
@@ -13,7 +12,7 @@ type ToasterStore = {
 }
 
 export const useToasterStore = create<ToasterStore>()(
-  persist(
+  // persist(
     (set) => ({
       queued: [],
       shown: [],
@@ -40,11 +39,11 @@ export const useToasterStore = create<ToasterStore>()(
       }),
       clear: () => set({ shown: [], queued: [] }),
     }),
-    {
-      name: 'toaster-store',
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
+    // {
+    //   name: 'toaster-store',
+    //   storage: createJSONStorage(() => sessionStorage),
+    // }
+  // )
 )
 
 const removeOnTimeout = (toast: Toast) => {
