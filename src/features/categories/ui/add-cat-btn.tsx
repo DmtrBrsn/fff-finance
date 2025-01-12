@@ -1,7 +1,7 @@
 import { Button, DialogCloseBtn } from "@shared/ui"
 import { CreateIcon } from "@shared/ui/svg"
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components"
-import { CatForm } from "./categories-form"
+import { CatForm } from "./cat-form"
 
 export const CatAddBtn = () => {
   return (

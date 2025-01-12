@@ -196,28 +196,29 @@ export class DateUtils {
 	}
 	
 	static getFirstDayOfPeriod(date: Date, period: Period) {
+		const d = new Date(date)
 		switch (period) {
 			case 'day' :
 			case 'D' : {
-				return new Date(date)
+				return d
 			}
 			case 'week':
 			case 'W' : {
-				const weekNum = this.getWeekNum(date)
-				const dayNum = date.getDate()
+				const weekNum = this.getWeekNum(d)
+				const dayNum = d.getDate()
 				const weekBelongsToPreviousYear = (weekNum > 51 && dayNum < 7)
-				const year = weekBelongsToPreviousYear ? date.getFullYear() - 1 : date.getFullYear()
+				const year = weekBelongsToPreviousYear ? d.getFullYear() - 1 : d.getFullYear()
 				return this.getDateOfISOWeek(year + '-W' + weekNum)
 			}
 			case 'month':
 			case 'M' : {
-				const FD = new Date(date)
+				const FD = d
 				FD.setDate(1)
 				return FD
 			}
 			case 'year':
 			case 'Y' : {
-				return new Date(date.getFullYear(), 0, 1)
+				return new Date(d.getFullYear(), 0, 1)
 			}
 		}
 	}
@@ -276,14 +277,19 @@ export class DateUtils {
 		return new Date(this.floorTimeToDay(date.getTime()))
 	}
 
-	static isBetween(date: Date | number, dateFrom: Date | number, dateTo: Date | number) {
-		return date >= dateFrom && date <= dateTo
+	static isBetween(date: Date | number, from: Date | number, to: Date | number) {
+		const dateStart = DateUtils.floorDateToDay(new Date(date))
+		const fromDayStart = DateUtils.floorDateToDay(new Date(from))
+		const toDayStart = DateUtils.floorDateToDay(new Date(to))
+		return dateStart >= fromDayStart && dateStart <= toDayStart
 	}
 
 	static getPeriodType = (from: Date | number | string, to: Date | number | string) => {
 		const now = DateUtils.getCurDayStart()
-		if (new Date(to) < now) return 'past'
-		if (new Date(from) > now) return 'future'
+		const fromDayStart = DateUtils.floorDateToDay(new Date(from))
+		const toDayStart = DateUtils.floorDateToDay(new Date(to))
+		if (new Date(toDayStart) < now) return 'past'
+		if (new Date(fromDayStart) > now) return 'future'
 		return 'current'
 	}
 

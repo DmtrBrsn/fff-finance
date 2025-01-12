@@ -1,10 +1,10 @@
 import { Balance } from "@features/balance/lib/types";
-import { Category } from "@features/categories/lib";
-import { Operation, OpUtils } from "@features/operations/lib";
+import { Category, CatUtils } from "@features/categories/lib";
+import { Operation, OpSummary, OpUtils } from "@features/operations/lib";
 import { Plan, PlanUtils } from "@features/plans/lib";
 import { OpOrPlanSums } from "@shared/lib/types/common-types";
 import { DateUtils, Period, SortUtils } from "@shared/lib/utils";
-import { PlanningWidgetPeriodData } from "./types";
+import { CatSummary, PlanningWidgetPeriodData } from "./types";
 
 export class PlanningUtils {
   public static getDefaultDates() {
@@ -56,6 +56,7 @@ export class PlanningUtils {
     const data: PlanningWidgetPeriodData[] = []
 
     let curPeriodStart = new Date(start)
+
     while (curPeriodStart < end) {
       const curPeriodEnd = DateUtils.getLastDayOfPeriod(curPeriodStart, period)
       const periodType = DateUtils.getPeriodType(curPeriodStart, curPeriodEnd)
@@ -102,5 +103,34 @@ export class PlanningUtils {
     return data
   }
 
+  public static prepateCatSummary(
+    opSummary: OpSummary['cats'], planSummary: OpSummary['cats'], cats: Category[]
+  ) {
+    const result: Map<Category['id'], CatSummary> = new Map
+    for (const c of opSummary) {
+      const cat = cats.find(cat => cat.id === c[0])
+      result.set(cat?.id ?? '', {
+        name: cat?.name ?? '',
+        planSum: 0,
+        opSum: c[1],
+        id: cat?.id ?? '',
+        isIncome: cat?.isIncome ?? false,
+        order: cat?.order
+      })
+    }
+    for (const c of planSummary) {
+      const cat = cats.find(cat => cat.id === c[0])
+      result.set(cat?.id ?? '', {
+        name: cat?.name ?? '',
+        planSum: c[1],
+        opSum: 0,
+        id: cat?.id ?? '',
+        isIncome: cat?.isIncome ?? false,
+        order: cat?.order
+      })
+    }
+    const catSummary = CatUtils.orderCats(Array.from(result.values()).filter(c=>c.opSum>0 || c.planSum>0))
+    return catSummary
+  }
 
 }

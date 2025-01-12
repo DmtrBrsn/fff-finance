@@ -15,6 +15,7 @@ import {
 export interface DateFieldProps<T extends DateValue>
   extends AriaDateFieldProps<T> {
   label?: string
+  fontSize?: 'm' | 'l' | 'xl'
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
   withButtons?: boolean

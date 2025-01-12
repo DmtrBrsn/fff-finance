@@ -12,3 +12,5 @@ export type PlanningWidgetPeriodData = {
   plannedBalance: number
   actualBalance: number
 }
+
+export type CatSummary = {name: string, planSum: number, opSum: number, id: string, isIncome: boolean, order?: number}

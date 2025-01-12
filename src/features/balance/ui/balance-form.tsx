@@ -1,7 +1,7 @@
 import { parseDate } from "@internationalized/date"
-import { Button, DatePicker, NumberField } from "@shared/ui/react-aria"
-import { CreateIcon } from "@shared/ui/svg"
 import { DateUtils } from "@shared/lib/utils"
+import { ButtonIcon, DatePicker, NumberField } from "@shared/ui/react-aria"
+import { CreateIcon } from "@shared/ui/svg"
 import { FormEvent, useState } from "react"
 import { Form } from "react-aria-components"
 import { useBalanceAdd } from "../api"
@@ -17,7 +17,7 @@ export const BalanceForm = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <span className="flex-row gap-1">
+      <span className="flex-row gap-1 align-end">
         <NumberField
           label='Sum'
           size={6}
@@ -35,8 +35,8 @@ export const BalanceForm = () => {
           maxValue={parseDate(DateUtils.getCurIsoDate())}
           isRequired
         />
+      <ButtonIcon type="submit" size="l" isPending={adding}><CreateIcon /></ButtonIcon>
       </span>
-      <Button type="submit" variant="attention" isPending={adding}><CreateIcon />Add</Button>
     </Form>
   )
 }

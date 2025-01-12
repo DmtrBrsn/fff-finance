@@ -1,5 +1,5 @@
 import { useCategoriesGet } from "@features/categories/api"
-import { CatForm } from "@features/categories/ui/categories-form"
+import { CatForm } from "@features/categories/ui/cat-form"
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate, useParams } from "react-router-dom"
 

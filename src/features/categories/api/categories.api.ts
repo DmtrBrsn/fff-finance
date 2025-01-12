@@ -35,6 +35,7 @@ export const addCategory = async (newDoc: CategoryAdd): Promise<Category> => {
 
 export const updateCategory = async (updDoc: CategoryUpd) => {
   const docRef = doc(db, getColPath('categories'), updDoc.id)
+  if (('order' in updDoc) && updDoc.order === undefined) delete updDoc.order
   await setDoc(docRef, updDoc)
   return updDoc
 }

@@ -1,4 +1,4 @@
-import { CatForm } from "@features/categories/ui/categories-form"
+import { CatForm } from "@features/categories/ui/cat-form"
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate } from "react-router-dom"
 

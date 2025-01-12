@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { PlanningUtils } from "../../lib/planning-utils"
 import { Period } from "@shared/lib/utils"
+import { createJSONStorage, persist } from "zustand/middleware"
 
 type PlanningWidgetStore = {
   from: string
@@ -18,7 +19,7 @@ type PlanningWidgetStore = {
 }
 
 export const usePlanningWidgetStore = create<PlanningWidgetStore>()(
-  // persist(
+  persist(
   (set) => ({
     from: PlanningUtils.getDefaultDates().from,
     to: PlanningUtils.getDefaultDates().to,
@@ -32,13 +33,15 @@ export const usePlanningWidgetStore = create<PlanningWidgetStore>()(
     setShowPastPlans: (showPastPlans) => set({ showPastPlans }),
     setShowFutureOps: (showFutureOps) => set({ showFutureOps })
   }),
-  // {
-  //   name: 'ops-list-store',
-  //   // storage: createJSONStorage(() => localStorage),
-  //   // partialize: (state) =>
-  //   //   Object.fromEntries(
-  //   //     Object.entries(state).filter(([key]) => !['filterFormOpenFor'].includes(key)),
-  //   //   ),
-  // }
-  // )
+  {
+    name: 'planning-widget-store',
+    storage: createJSONStorage(() => sessionStorage),
+    partialize: (state) =>
+      Object.fromEntries(
+        Object.entries(state)
+          // .filter(([key]) => !['filterFormOpenFor'].includes(key))
+        ,
+      ),
+  }
+  )
 )

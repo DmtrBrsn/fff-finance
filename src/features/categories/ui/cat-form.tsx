@@ -51,6 +51,7 @@ export const CatForm = (
         isRequired
       />
       <Checkbox
+        size="l"
         isSelected={values.isIncome}
         onChange={(e) => setValues({ ...values, isIncome: e })}
       >
@@ -66,8 +67,8 @@ export const CatForm = (
         onChange={(order) => setValues({ ...values, order })}
       />
       <span className="flex-row gap-1">
-        <Button type="submit" variant="attention" isPending={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
-        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
+        {onCancel && <Button type="button" size='l' onPress={onCancel}>Cancel</Button>}
+        <Button type="submit" variant="attention" size='l' isPending={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
       </span>
     </Form>
   )

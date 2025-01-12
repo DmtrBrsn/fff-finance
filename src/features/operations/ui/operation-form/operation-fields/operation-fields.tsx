@@ -30,9 +30,11 @@ export const OpSumField = (
   }
   return (
     <NumberField
+      className={'react-aria-NumberField operation-sum-field'}
       autoFocus={autofocus}
       buttons={false}
-      size={6}
+      fontSize="xl"
+      size={8}
       label='Sum'
       minValue={0}
       step={0.01}
@@ -56,6 +58,7 @@ export const OpDescriptionField = (
       isRequired
       maxLength={300}
       onChange={onChange}
+      size={35}
     />
   )
 }

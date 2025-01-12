@@ -19,13 +19,14 @@ import { useContext } from 'react'
 export interface ComboBoxProps<T extends object>
   extends Omit<AriaComboBoxProps<T>, 'children'> {
   label?: string
+  fontSize?: 'm' | 'l' | 'xl'
   description?: string | null
   errorMessage?: string | ((validation: ValidationResult) => string)
   children: React.ReactNode | ((item: T) => React.ReactNode)
 }
 
 export function ComboBox<T extends object>(
-  { label, description, errorMessage, children, ...props }: ComboBoxProps<T>
+  { label, fontSize='m', description, errorMessage, children, ...props }: ComboBoxProps<T>
 ) {
   return (
     (
@@ -34,7 +35,7 @@ export function ComboBox<T extends object>(
         <div className="my-combobox-container">
           <Input />
           <ButtonIcon
-            className='react-aria-Button-icon s drop-down-button'
+            className={'react-aria-Button-icon s drop-down-button' + ' ' + fontSize}
           >
             <ArrowDropDown />
           </ButtonIcon>

@@ -14,6 +14,7 @@
   display: inherit;
   flex-direction: inherit;
   width: min(50rem, 100vw);
+  gap: 0.6rem;
 
   [data-testid="virtuoso-item-list"] {
     gap: 0.6rem;
@@ -80,7 +81,10 @@
 
   .cat-summary-inc-exp-title {
     font-weight: 600;
+    text-align: center;
+    color: var(--gray-400)
   }
+
   
   .cat-summary-row {
     display: flex;
@@ -89,11 +93,13 @@
     padding: 0.2rem;
     border-radius: var(--app-border-radius);
   
-    .cat-name {
-      width: calc(16rem);
+    .name {
+      min-width: 7rem;
+      max-width: 16rem;
+      flex-grow: 1;
     }
   
-    .cat-sum {
+    .plan-sum, .op-sum, .diff {
       width: 5rem;
     }
   }

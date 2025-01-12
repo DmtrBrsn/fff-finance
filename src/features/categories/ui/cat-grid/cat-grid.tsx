@@ -5,7 +5,7 @@ import { Dialog, Heading, Modal, useDragAndDrop } from "react-aria-components"
 import { useNavigate } from "react-router-dom"
 import { useCategoriesBatchUpdate, useCategoriesDelete } from "../../api"
 import { Category, CatUtils } from "../../lib"
-import { CatForm } from "../categories-form"
+import { CatForm } from "../cat-form"
 import './cat-grid.css'
 import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
@@ -61,7 +61,7 @@ const CatMenuBtn = ({ cat }: { cat: Category }) => {
       <Modal isOpen={isOpen} onOpenChange={setOpen}>
         <Dialog>
           <DialogCloseBtn close={close} />
-          <Heading slot="title">Plan editing</Heading>
+          <Heading slot="title">Category editing</Heading>
           <CatForm
             cat={cat}
             mode="edit"

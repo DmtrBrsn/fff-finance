@@ -14,19 +14,20 @@ import { CloseIcon } from '@shared/ui/svg'
 
 export interface SearchFieldProps extends AriaSearchFieldProps {
   label?: string
+  fontSize?: 'm' | 'l' | 'xl'
   description?: string
   placeholder?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
 }
 
 export function SearchField(
-  { label, description, errorMessage, ...props }: SearchFieldProps
+  { label, fontSize='m', description, errorMessage, ...props }: SearchFieldProps
 ) {
   return (
     (
       <AriaSearchField {...props}>
         <Label>{label}</Label>
-        <Input placeholder={props.placeholder ?? 'Search'} />
+        <Input className={'react-aria-Input' + ' ' + fontSize} placeholder={props.placeholder ?? 'Search'} />
         <ButtonIcon size='s'><CloseIcon/></ButtonIcon>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>

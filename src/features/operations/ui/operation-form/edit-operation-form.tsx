@@ -44,15 +44,16 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />
       <span className="flex-row gap-1">
+        <Button isPending={isSaving} size='l' tooltip="Reset" onPress={reset}><ResetIcon/></Button>
+        {onCancel && <Button size='l' onPress={onCancel}>Cancel</Button>}
         <Button
+          size='l'
           variant="attention"
           type="submit"
           isPending={isSaving}
         >
           {isSaving ? <Spinner /> : 'Update'}
         </Button>
-        {onCancel && <Button onPress={onCancel}>Cancel</Button>}
-        <Button isPending={isSaving} tooltip="Reset" onPress={reset}><ResetIcon/></Button>
       </span>
     </Form>
   )

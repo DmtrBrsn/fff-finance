@@ -69,6 +69,7 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
         >
           <ResetIcon />
         </Button>
+        {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
         <Button
           size='l'
           variant='attention'
@@ -77,7 +78,6 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
         >
           {isSaving ? <Spinner /> : 'Save'}
         </Button>
-        {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
       </span>
     </Form>
   )

@@ -12,6 +12,7 @@ import {
 
 export interface NumberFieldProps extends AriaNumberFieldProps {
   size?: number
+  fontSize?: 'm' | 'l' | 'xl'
   label?: string
   description?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
@@ -19,7 +20,7 @@ export interface NumberFieldProps extends AriaNumberFieldProps {
 }
 
 export function NumberField(
-  { size, label, description, errorMessage, buttons=true, ...props }: NumberFieldProps
+  { size, label, fontSize='m', description, errorMessage, buttons=true, ...props }: NumberFieldProps
 ) {
   return (
     (
@@ -27,11 +28,11 @@ export function NumberField(
         <Label>{label}</Label>
         {buttons ? <Group>
           <Button slot="decrement">-</Button>
-          <Input size={size} />
+          <Input size={size} className={'react-aria-Input' + ' ' + fontSize} />
           <Button slot="increment">+</Button>
         </Group>
           :
-          <Input className='react-aria-Input no-buttons' size={size} />}
+          <Input className={'react-aria-Input no-buttons' + ' ' + fontSize} size={size} />}
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaNumberField>

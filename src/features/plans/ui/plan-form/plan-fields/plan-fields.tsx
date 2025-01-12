@@ -125,6 +125,7 @@ export const PlanRepeatWeekSetup = (
 export const PlanDescriptionField = ({description, onChange}: {description: string, onChange: (description: string) => void}) => {
   return (
     <TextField
+      size={35}
       label='Description'
       name="planDescription"
       value={description}
@@ -144,6 +145,7 @@ export const PlanSumField = ({ sum, onChange }: { sum: number, onChange: (sum: n
     <NumberField
       buttons={false}
       size={8}
+      fontSize="l"
       label='Sum'
       minValue={0}
       step={0.01}

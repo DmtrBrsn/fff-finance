@@ -4,6 +4,7 @@
   .react-aria-Button {
     border-radius: var(--app-border-radius);
     font-size: 1rem;
+    
     padding: var(--gap-step) var(--gap-step) var(--gap-step) calc(var(--gap-step) * 2);
     display: flex;
     align-items: center;
@@ -81,6 +82,7 @@
 
 .react-aria-Select {
   .react-aria-SelectValue {
+    line-height: var(--input-line-height);
     [slot=description] {
       display: none;
     }

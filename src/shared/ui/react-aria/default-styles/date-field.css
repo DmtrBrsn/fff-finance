@@ -68,6 +68,7 @@
 }
 
 .react-aria-DateSegment {
+  line-height: var(--input-line-height);
   padding: 0 0.1rem;
   font-variant-numeric: tabular-nums;
   text-align: end;

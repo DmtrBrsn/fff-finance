@@ -3,20 +3,18 @@ import { BalanceWidget } from "@features/balance/ui"
 import { useCategoriesGet } from "@features/categories/api"
 import { useOperationsGet, useOpSumsBetweenDatesGet } from "@features/operations/api"
 import { OpSummary } from "@features/operations/lib"
-import { PlanningWidgetPeriodData } from "@features/planning/lib"
+import { CatSummary, PlanningWidgetPeriodData } from "@features/planning/lib"
 import { PlanningUtils } from "@features/planning/lib/planning-utils"
 import { usePlansGet, useRegPlanSumsBetweenDatesGet } from "@features/plans/api"
 import { parseDate } from "@internationalized/date"
-import { FlList, FlNoData } from "@shared/ui/fl-list"
+import { DateUtils, numToFixedStr, Period } from "@shared/lib/utils"
+import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
 import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
 import { ArrowDropDown, Refresh, SettingsIcon } from "@shared/ui/svg"
-import { DateUtils, numToFixedStr, Period } from "@shared/lib/utils"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
-import { Virtuoso } from "react-virtuoso"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
-import { CatUtils } from "@features/categories/lib"
 
 
 export const PlanningWidget = () => {
@@ -52,14 +50,9 @@ export const PlanningWidget = () => {
     <FlList className="planning-widget">
       <PwToolbar />
       {isFetching ? <FlNoData>Loading...</FlNoData> : data == undefined ? <FlNoData>No data</FlNoData> :
-        <>
-          <div className="period-sections-container">
-            <Virtuoso
-              data={data}
-              itemContent={(_, d) => <PeriodSection key={d.periodName} data={d} />}
-            />
-          </div>
-        </>
+        <FlBody className="period-sections-container">
+          {data.map(d => <PeriodSection key={d.periodName} data={d} />)}
+        </FlBody>
       }
     </FlList>
   )
@@ -67,20 +60,19 @@ export const PlanningWidget = () => {
 
 const PeriodSection = ({ data }: { data: PlanningWidgetPeriodData }) => {
   const { showPastPlans, showFutureOps } = usePlanningWidgetStore()
-  const hidePast = data.periodType === 'past' && !showPastPlans
-  const hideFuture = data.periodType === 'future' && !showFutureOps
+  const hidePlans = data.periodType === 'past' && !showPastPlans
+  const hideOps = data.periodType === 'future' && !showFutureOps
 
   return (
     <div className={'period-section ' + data.periodType}>
       <PeriodName name={data.periodName} />
-      {hidePast ? <></> : <>
-        <PeriodSummary title="Plans" summary={data.opPlansSummary} bal={data.plannedBalance} />
-        <CategoriesSummaryList summary={data.opPlansSummary} />
-      </>}
-      {hideFuture ? <></> : <>
-        <PeriodSummary title="Operations" summary={data.opsSummary} bal={data.actualBalance} />
-        <CategoriesSummaryList summary={data.opsSummary} />
-      </>}
+      {!hidePlans && <PeriodSummary title="Plans" summary={data.opPlansSummary} bal={data.plannedBalance} />}
+      {!hideOps && <PeriodSummary title="Operations" summary={data.opsSummary} bal={data.actualBalance} />}
+      <CategoriesSummaryList
+        ops={data.opsSummary}
+        plans={data.opPlansSummary}
+        hidePlans={hidePlans}
+        hideOps={hideOps} />
     </div>
   )
 }
@@ -100,21 +92,21 @@ const PeriodSummary = (
       <span className="values">
         <span className="values-pair">
           <span className="value">
-            <span className="value-title">inc</span>
+            <span className="value-title">Income</span>
             <span className="value-sum">{numToFixedStr(summary.incSum, 0)}</span>
           </span>
           <span className="value">
-            <span className="value-title">exp</span>
+            <span className="value-title">Expense</span>
             <span className="value-sum">{numToFixedStr(summary.expSum, 0)}</span>
           </span>
         </span>
         <span className="values-pair">
           <span className="value">
-            <span className="value-title">margin</span>
+            <span className="value-title">Margin</span>
             <span className="value-sum">{numToFixedStr(summary.margin, 0)}</span>
           </span>
           <span className="value">
-            <span className="value-title">bal</span>
+            <span className="value-title">Balance</span>
             <span className="value-sum">{numToFixedStr(bal, 0)}</span>
           </span>
         </span>
@@ -123,44 +115,51 @@ const PeriodSummary = (
   )
 }
 
-const CategoriesSummaryList = ({ summary}: { summary: OpSummary}) => {
+const CategoriesSummaryList = (
+  { ops, plans, hidePlans, hideOps }:
+    { ops: OpSummary, plans: OpSummary, hidePlans: boolean, hideOps: boolean }
+) => {
   const { data: cats } = useCategoriesGet(false)
-  const summaryCats = useMemo(()=>
-    CatUtils.orderCats(
-      Array.from(summary.cats.entries()).map(el => {
-        const cat = cats?.find(cat => cat.id === el[0])
-        return {
-          id: el[0],
-          sum: el[1],
-          name: cat?.name ?? '',
-          isIncome: cat?.isIncome ?? false
-        }
-      })
-    ),
-    [cats, summary.cats]
-  )
+  const summaryCats = PlanningUtils.prepateCatSummary(ops.cats, plans.cats, cats ?? [])
+  const [open, setOpen] = useState(summaryCats.length > 0)
   const incCats = summaryCats.filter(c => c.isIncome)
   const expCats = summaryCats.filter(c => !c.isIncome)
 
   return (
-    <Disclosure title="Categories" isDisabled={summary.cats.size === 0}>
-      {incCats.length>0 && <div>
+    <Disclosure
+      title="Categories"
+      isExpanded={open}
+      onExpandedChange={setOpen}
+      isDisabled={summaryCats.length === 0}
+    >
+      <div className="cat-summary-row">
+        <div className="name">Name</div>
+        <div className="plan-sum">{hidePlans ? ' ' : 'Plans'}</div>
+        <div className="op-sum">{hideOps ? ' ' : 'Operations'}</div>
+        <div className="diff">{hidePlans || hideOps ? ' ' : 'Diff'}</div>
+      </div>
+      {incCats.length > 0 && <>
         <span className="cat-summary-inc-exp-title">Incomes</span>
-        {incCats.map(c => <CatSummaryRow name={c.name} sum={c.sum} />)}
-      </div>}
-      {expCats.length>0 && <div>
+        {incCats.map(c => <CatSummaryRow key={c.id} catSummary={c} hidePlans={hidePlans} hideOps={hideOps} />)}
+      </>}
+      {expCats.length > 0 && <>
         <span className="cat-summary-inc-exp-title">Expenses</span>
-        {expCats.map(c => <CatSummaryRow name={c.name} sum={c.sum} />)}
-      </div>}
+        {expCats.map(c => <CatSummaryRow key={c.id} catSummary={c} hidePlans={hidePlans} hideOps={hideOps} />)}
+      </>}
     </Disclosure>
   )
 }
 
-const CatSummaryRow = ({ name, sum }: { name: string, sum: number }) => {
+const CatSummaryRow = (
+  { catSummary, hidePlans, hideOps }:
+    { catSummary: CatSummary, hidePlans: boolean, hideOps: boolean }
+) => {
   return (
     <div className="cat-summary-row">
-      <div className="cat-name">{name}</div>
-      <div className="cat-sum">{numToFixedStr(sum, 0)}</div>
+      <div className="name">{catSummary.name}</div>
+      <div className="plan-sum">{hidePlans ? ' ' : numToFixedStr(catSummary.planSum, 0)}</div>
+      <div className="op-sum">{hideOps ? ' ' : numToFixedStr(catSummary.opSum, 0)}</div>
+      <div className="diff">{hidePlans || hideOps ? ' ' : numToFixedStr(catSummary.opSum - catSummary.planSum, 0)}</div>
     </div>
   )
 }

@@ -109,7 +109,10 @@ export const PlanForm = (
         </>
       }
       <span className="flex-row gap-1">
+        <Button tooltip='Reset' type="button" size='l' isPending={isSaving} onPress={reset}><ResetIcon /></Button>
+        {onCancel && <Button type="button" size='l' onPress={onCancel}>Cancel</Button>}
         <Button
+          size='l'
           variant='attention'
           type="submit"
           isDisabled={isSaving}
@@ -117,8 +120,6 @@ export const PlanForm = (
           {mode === 'add' ? 'Save' : 'Update'}
           {isSaving || isEditing && <Spinner/>}
         </Button>
-        {onCancel && <Button type="button" onPress={onCancel}>Cancel</Button>}
-        <Button tooltip='Reset' type="button" isPending={isSaving} onPress={reset}><ResetIcon /></Button>
       </span>
     </Form>
   )

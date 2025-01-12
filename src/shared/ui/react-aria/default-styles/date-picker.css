@@ -14,7 +14,7 @@
   .react-aria-Button-icon {
     margin-left: -1.929rem;
     margin-right: calc(1.929rem - 1.429rem);
-    padding: 0.1rem;
+    padding: 0 0.1rem;
   }
 
   .react-aria-DateInput {
