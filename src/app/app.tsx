@@ -19,14 +19,14 @@ function App() {
   const { theme } = useAppStore()
   updateRootThemeAttr(theme)
   const navigate = useNavigate()
-  const location = useLocation()
-  const createBtnIsShown = pagesToShowCreateBtnOn.includes(location.pathname)
+  const { pathname } = useLocation()
+  const createBtnIsShown = pagesToShowCreateBtnOn.includes(pathname)
 
   return (
     <>
       <AuthProvider>
-        <Header />
         <RouterProvider navigate={navigate} useHref={useHref}>
+        <Header />
           <Router />
           {createBtnIsShown && <CreateNewBtn />}
         </RouterProvider>

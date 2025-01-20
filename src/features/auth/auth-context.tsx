@@ -11,7 +11,7 @@ type AuthContextValue = {
   userService?: UserService
 }
 
-export const AuthContext = createContext<AuthContextValue>({ service: AuthUtils })
+const AuthContext = createContext<AuthContextValue>({ service: AuthUtils })
 
 export function useAuth() {
   return useContext(AuthContext)
