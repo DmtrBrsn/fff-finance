@@ -35,7 +35,7 @@ const docSnapToOp = (
   if (!(rawDoc.created instanceof Timestamp)) {
     toast.error(`Invalid created in doc ${docSnap.id}`)
     created = 'Invalid date'
-  } else created = DateUtils.tsToIsoStr(rawDoc.created)
+  } else created = DateUtils.tsToIsoStr(rawDoc.created, true)
   return { id: docSnap.id, ...rawDoc, created, date } as Operation
 }
 

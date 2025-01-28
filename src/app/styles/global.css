@@ -72,6 +72,7 @@ textarea,
 .justify-center {justify-content: center;}
 .justify-end {justify-content: end;}
 .align-self-end {align-self: flex-end;}
+.full-height {height: 100%;}
 .gap-micro {gap: 0.1rem;}
 .gap-1 {gap: calc(var(--gap-step) * 1);}
 .gap-2 {gap: calc(var(--gap-step) * 2);}

@@ -1,28 +1,43 @@
-import { toast } from "@features/toaster"
-import React, { ErrorInfo } from "react"
+import { Component, createElement, FunctionComponent, ReactNode } from 'react'
 
-interface ErrorBoundaryProps {
-  fallback: React.ReactNode
-  children: React.ReactNode
+type ErrorBoundaryProps = {
+  children: ReactNode
+  fallbackComponent: FunctionComponent<FallbackProps>
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, { hasError: boolean }> {
-  state = {hasError: false}
+type FallbackProps = {
+  error: Error | null
+  resetErrorBoundary: () => void
+}
 
-  static getDerivedStateFromError() {
-    return { hasError: true }
+type ErrorBoundaryState = {
+  hasError: boolean
+  error: Error | null
+}
+
+const initialState: ErrorBoundaryState = {
+  hasError: false,
+  error: null
+}
+
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state = initialState
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error }
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.log(error, info)
-    toast.error(error.message)
-  }
+  // componentDidCatch(error: Error, info: ErrorInfo) {
+  //   console.error(error, info)
+  // }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback
+      return createElement(this.props.fallbackComponent, {
+        error: this.state.error,
+        resetErrorBoundary: () => this.setState(initialState)
+      })
     }
-
     return this.props.children
   }
 }

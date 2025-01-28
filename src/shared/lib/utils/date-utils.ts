@@ -88,8 +88,8 @@ export class DateUtils {
 		return Timestamp.fromDate(new Date(isoStr))
 	}
 
-	static tsToIsoStr(ts: Timestamp) {
-		return this.dateToIsoDate(ts.toDate())
+	static tsToIsoStr(ts: Timestamp, withTime: boolean = false) {
+		return withTime ? this.dateToIsoDateTime(ts.toDate()) : this.dateToIsoDate(ts.toDate())
 	}
 
 	static dateToIsoStr(date: Date) {
@@ -133,6 +133,13 @@ export class DateUtils {
 		return new Date(date.getTime() - (offset * 60000))
 			.toISOString()
 			.split('T')[0]
+	}
+
+  static dateToIsoDateTime(date: Date, offset?: number) {
+    offset = offset===undefined ? date.getTimezoneOffset() : offset;
+		return new Date(date.getTime() - (offset * 60000))
+			.toISOString()
+			.split('Z')[0]
 	}
 
   static isoStrToIsoDate(isoDate: string, offset?: number) {

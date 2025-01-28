@@ -50,7 +50,7 @@ export const PlanningWidget = () => {
     <FlList className="planning-widget">
       <PwToolbar />
       {isFetching ? <FlNoData>Loading...</FlNoData> : data == undefined ? <FlNoData>No data</FlNoData> :
-        <FlBody className="period-sections-container">
+        <FlBody className="planning-period-sections-container">
           {data.map(d => <PeriodSection key={d.periodName} data={d} />)}
         </FlBody>
       }
@@ -156,7 +156,7 @@ const CatSummaryRow = (
       <div className="name">{catSummary.name}</div>
       <div className="plan-sum">{hidePlans ? ' ' : numToFixedStr(catSummary.planSum, 0)}</div>
       <div className="op-sum">{hideOps ? ' ' : numToFixedStr(catSummary.opSum, 0)}</div>
-      <div className="diff">{hidePlans || hideOps ? ' ' : numToFixedStr(catSummary.opSum - catSummary.planSum, 0)}</div>
+      <div className="diff">{hidePlans || hideOps ? ' ' : numToFixedStr(catSummary.planSum - catSummary.opSum, 0)}</div>
     </div>
   )
 }

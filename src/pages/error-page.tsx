@@ -1,13 +1,19 @@
 import { useAppStore } from "@app/app-store"
-import { LinkButton } from "@shared/ui"
+import { Button, LinkButton, Refresh } from "@shared/ui"
 
-export const ErrorPage = () => {
+export const ErrorPage = (
+  { error, resetErrorBoundary }:
+    { error: Error | null, resetErrorBoundary: () => void }
+) => {
   const { startPage } = useAppStore()
   return (
-    <main className="flex-col align-center justify-center">
-      <h1>Error</h1>
-      <p>Something went wrong</p>
-      <LinkButton href={startPage}>Go to start page</LinkButton>
-    </main>
+    <main className="flex-col align-center justify-center full-height" >
+      <h1>An error occurred</h1>
+      <p>{error?.name ?? ''} {error?.message ?? ''}</p>
+      <span className='flex-row gap-2'>
+        <Button onPress={resetErrorBoundary} size='l'><Refresh/>Reset error</Button>
+        <LinkButton size='l' href={startPage}><Refresh />Go to start page</LinkButton>
+      </span>
+    </main >
   )
 }

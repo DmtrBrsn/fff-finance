@@ -32,7 +32,7 @@ const docSnapToPlan = (
   return {
     id: docSnap.id,
     ...rawDoc,
-    created: rawDoc.created ? DateUtils.tsToIsoStr(rawDoc.created) : undefined,
+    created: rawDoc.created ? DateUtils.tsToIsoStr(rawDoc.created, true) : undefined,
     dateStart: rawDoc.dateStart ? DateUtils.tsToIsoStr(rawDoc.dateStart) : undefined,
     dateEnd: rawDoc.dateEnd ? DateUtils.tsToIsoStr(rawDoc.dateEnd) : undefined
   } as Plan

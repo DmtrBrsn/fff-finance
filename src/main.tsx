@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary fallback={<ErrorPage />}>
+    <ErrorBoundary fallbackComponent={ErrorPage}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <App />
