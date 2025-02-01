@@ -1,5 +1,5 @@
 import { parseDate } from "@internationalized/date"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { ButtonIcon, DatePicker, NumberField } from "@shared/ui/react-aria"
 import { CreateIcon } from "@shared/ui/svg"
 import { FormEvent, useState } from "react"
@@ -9,7 +9,7 @@ import { BalanceAdd } from "../lib/types"
 
 export const BalanceForm = () => {
   const { mutateAsync: add, isPending: adding } = useBalanceAdd()
-  const [values, setValues] = useState<BalanceAdd>({ sum: 0, date: DateUtils.getCurIsoDate() })
+  const [values, setValues] = useState<BalanceAdd>({ sum: 0, date: Dates.now() })
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await add(values)
@@ -31,11 +31,11 @@ export const BalanceForm = () => {
           label='Date'
           name="balanceDate"
           value={parseDate(values.date)}
-          onChange={(d) => d && setValues({ ...values, date: DateUtils.isoStrToIsoDate(d.toString()) })}
-          maxValue={parseDate(DateUtils.getCurIsoDate())}
+          onChange={(d) => d && setValues({ ...values, date: Dates.removeTimeFromString(d.toString()) })}
+          maxValue={parseDate(Dates.now())}
           isRequired
         />
-      <ButtonIcon type="submit" size="l" isPending={adding}><CreateIcon /></ButtonIcon>
+        <ButtonIcon type="submit" size="l" isPending={adding}><CreateIcon /></ButtonIcon>
       </span>
     </Form>
   )

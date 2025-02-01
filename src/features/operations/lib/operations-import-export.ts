@@ -1,7 +1,7 @@
 import { writeBatch, doc, collection } from "firebase/firestore"
 import { toast } from "@features/toaster"
 import { db } from "@app/firebase"
-import { DateUtils, getColPath } from "@shared/lib/utils"
+import { Dates, getColPath, TimestampAdapter } from "@shared/lib/utils"
 import { Category } from "@features/categories/lib"
 import { getOperations } from "../api"
 
@@ -30,7 +30,7 @@ export async function importOperations(json: string, cats: Category[]) {
 }
 
 function validateImportOperation(opParsed: any, index: number, cats: Category[]) {
-  if (opParsed.date == undefined || !DateUtils.isDateValid(new Date(opParsed.date))) {
+  if (opParsed.date == undefined || !Dates.isDateValid(new Date(opParsed.date))) {
     throw new Error(`incorrect date at ${index}`)
   }
   if (opParsed.description == undefined || typeof opParsed.description !== 'string') {
@@ -47,26 +47,26 @@ function validateImportOperation(opParsed: any, index: number, cats: Category[])
   if (!catExists) {
     throw new Error(`no category exists by name "${opParsed.categoryName}" at ${index}`)
   }
-  if (opParsed.sum == undefined || typeof opParsed.sum !== 'number' || opParsed.sum<0) {
+  if (opParsed.sum == undefined || typeof opParsed.sum !== 'number' || opParsed.sum < 0) {
     throw new Error(`incorrect sum at ${index}}`)
   }
-  if (opParsed.created != undefined && !DateUtils.isDateValid(new Date(opParsed.created))) {
+  if (opParsed.created != undefined && !Dates.isDateValid(new Date(opParsed.created))) {
     throw new Error(`incorrect created at ${index}`)
   }
 }
 
 function parsedImportOpToOp(opParsed: any, cats: Category[]) {
   const cat = opParsed.idCategory ?
-    cats.find(c => c.id === opParsed.idCategory) : 
+    cats.find(c => c.id === opParsed.idCategory) :
     cats.find(c => c.name === opParsed.categoryName)
-  
+
   if (!cat) throw new Error('category not found')
   else return {
-    date: DateUtils.isoStrToTs(opParsed.date) ,
+    date: TimestampAdapter.isoStrToTs(opParsed.date),
     description: opParsed.description,
     idCategory: cat.id,
     sum: opParsed.sum,
-    created: opParsed.created ? DateUtils.isoStrToTs(opParsed.created) :  DateUtils.getCurTs(),
+    created: opParsed.created ? TimestampAdapter.isoStrToTs(opParsed.created) : TimestampAdapter.getCurTs(),
   }
 }
 
@@ -75,13 +75,13 @@ export async function exportOperations() {
   const opsForExport: any[] = []
 
   for (let op of ops) {
-    opsForExport.push({...op})
+    opsForExport.push({ ...op })
   }
 
   const json = JSON.stringify(opsForExport)
 
   const blob = new Blob([json], { type: 'text/plain' })
 
-  const name = new Date().toISOString()+'_operations.json'
-  return {blob, name}
+  const name = new Date().toISOString() + '_operations.json'
+  return { blob, name }
 }

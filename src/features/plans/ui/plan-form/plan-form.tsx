@@ -3,7 +3,7 @@ import { usePlansAdd, usePlansUpdate } from "@features/plans/api"
 import { Plan, PlanFormValues, PlanUtils } from "@features/plans/lib"
 import { toast } from "@features/toaster"
 import { weekdays } from "@shared/lib/contants"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
 import { ResetIcon } from "@shared/ui/svg"
@@ -12,11 +12,11 @@ import { Form } from "react-aria-components"
 import { EndTypeChooser, PlanDateEndField, PlanDateStartField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, PlanSumField, PlanTimesField } from "./plan-fields"
 
 export const PlanForm = (
-  { mode, plan, onSuccess, onCancel,  }: { mode: 'add' | 'edit', plan?: Plan, onSuccess?: () => void, onCancel?: () => void,  }
+  { mode, plan, onSuccess, onCancel, }: { mode: 'add' | 'edit', plan?: Plan, onSuccess?: () => void, onCancel?: () => void, }
 ) => {
 
   const initPlan: PlanFormValues = {
-    dateStart: mode==='add' ? DateUtils.getCurIsoDate() : plan?.dateStart,
+    dateStart: mode === 'add' ? Dates.now() : plan?.dateStart,
     dateEnd: plan?.dateEnd,
     sum: plan?.sum ?? 0,
     idCategory: plan?.idCategory,
@@ -26,7 +26,7 @@ export const PlanForm = (
     weekdays: plan?.weekdays ?? [],
 
     times: 1,
-    endType: plan?.dateEnd ? 'date' :  plan && plan.dateEnd==undefined ? 'never' :  'times'
+    endType: plan?.dateEnd ? 'date' : plan && plan.dateEnd == undefined ? 'never' : 'times'
   }
 
   const [values, setValues] = useState<PlanFormValues>(initPlan)
@@ -60,7 +60,7 @@ export const PlanForm = (
   useMemo(
     () => {
       if (values.dateStart === undefined) return
-      const startWeekDay = weekdays[DateUtils.getWeekDay(values.dateStart)]
+      const startWeekDay = weekdays[Dates.getWeekDay(values.dateStart)]
       const newWd = [...new Set([...values.weekdays, startWeekDay])]
       setValues({
         ...values,
@@ -118,7 +118,7 @@ export const PlanForm = (
           isDisabled={isSaving}
         >
           {mode === 'add' ? 'Save' : 'Update'}
-          {isSaving || isEditing && <Spinner/>}
+          {isSaving || isEditing && <Spinner />}
         </Button>
       </span>
     </Form>

@@ -1,6 +1,6 @@
 import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, getDocs, limit, orderBy, query, QueryConstraint, where } from "firebase/firestore"
 import { Balance, BalanceAdd, GetBalanceParams } from "../lib/types"
-import { DateUtils, getColPath } from "@shared/lib/utils"
+import { getColPath, TimestampAdapter } from "@shared/lib/utils"
 import { db } from "@app/firebase"
 import { Id } from "@shared/lib/types/api-types"
 
@@ -10,8 +10,8 @@ const balanceParamsToQuery = (
   const queryArr: QueryConstraint[] = []
 
   if (params?.limit) queryArr.push(limit(params.limit))
-  if (params?.from !== undefined) queryArr.push(where('date', '>=', DateUtils.isoStrToTs(params.from)))
-  if (params?.to !== undefined) queryArr.push(where('date', '<=', DateUtils.isoStrToTs(params.to)))
+  if (params?.from !== undefined) queryArr.push(where('date', '>=', TimestampAdapter.isoStrToTs(params.from)))
+  if (params?.to !== undefined) queryArr.push(where('date', '<=', TimestampAdapter.isoStrToTs(params.to)))
   if (params?.sortDir !== undefined) queryArr.push(orderBy('date', params.sortDir))
 
   if (params && queryArr.length > 0) return query(collectionRef, ...queryArr)
@@ -28,7 +28,7 @@ export const getBalance = async (params?: GetBalanceParams) => {
       id: doc.id,
       sum: rawDoc.sum,
       note: rawDoc.note,
-      date: DateUtils.tsToIsoStr(rawDoc.date),
+      date: TimestampAdapter.tsToIsoStr(rawDoc.date),
     } as Balance
   })
 }
@@ -40,7 +40,7 @@ export const addBalance = async (newDoc: BalanceAdd): Promise<Balance> => {
     collectionRef,
     {
       ...rest,
-      date: DateUtils.isoStrToTs(newDoc.date)
+      date: TimestampAdapter.isoStrToTs(newDoc.date)
     }
   )
   const addedDoc = { id: docRef.id, ...newDoc }

@@ -1,253 +1,204 @@
-import { Timestamp } from "firebase/firestore"
+export type Period = 'D' | 'W' | 'M' | 'Q' | 'HY' | 'Y' | 'day' | 'week' | 'month' | 'quarter' | 'halfYear' | 'year'
+type DateStringOptions = {
+	tzOffsetHours?: number
+	withTime?: boolean
+}
+type AnyDate = string | number | Date
 
-export type Period = 'day' | 'D' | 'week' | 'W' | 'month' | 'M' | 'year' | 'Y'
-
-export class DateUtils {
+export class Dates {
 	static second = 1000
-	static min = this.second * 60
-	static hour = this.min * 60
-	static day = 24 * this.hour
-	static week = 7 * this.day
+	static min = Dates.second * 60
+	static hour = Dates.min * 60
+	static day = 24 * Dates.hour
+	static week = 7 * Dates.day
 
-	static isPastDay(date: Date | number | string) {
-		return new Date(date) < DateUtils.floorDateToDay(new Date)
+	/** by default: tz is local, without time*/
+	static now(options?: DateStringOptions) {
+		return Dates.dateObjToDateString(new Date, options)
+	}
+	static nowNum() {
+		return new Date().getTime()
+	}
+	static dateObjToNum(date: Date) {
+		return date.getTime()
+	}
+	/** by default: tz is local, without time*/
+	static dateObjToDateString(
+		date: Date,
+		options?: DateStringOptions
+	) {
+		const d = new Date(date)
+		return (
+			new Date(d.getTime() -
+				(options?.tzOffsetHours ?? d.getTimezoneOffset() / 60) * 60 * 60 * 1000
+			).toISOString()
+		).split(options?.withTime ? 'Z' : 'T')[0]
+	}
+	/** by default: tz is local, without time*/
+	static numToDateString(date: number, options?: DateStringOptions) {
+		return Dates.dateObjToDateString(new Date(date), options)
+	}
+	/** date is considered local*/
+	static dateStringToNum(date: string) {
+		return new Date(date).getTime()
 	}
 
-	static formatDateLoc = (date: Date | string | number) => {
+	static dateObjToDateTimeString(date: Date) {
+		return Dates.dateObjToDateString(date, { withTime: true })
+	}
+
+	static removeTimeFromString(date: string) {
+		return Dates.dateObjToDateString(new Date(date), { withTime: false })
+	}
+
+	static formatDateLoc = (
+		date: AnyDate,
+		options?: {
+			month?: 'numeric' | 'long' | 'short' | 'narrow',
+			year?: 'numeric' | '2-digit'
+		}
+	) => {
 		const d = new Date(date)
 		return new Intl.DateTimeFormat(navigator.language, {
-			year: 'numeric',
-			month: 'short',
+			year: options?.year ?? 'numeric',
+			month: options?.month ?? 'short',
 			day: 'numeric'
 		}).format(d)
 	}
 
-	static formatDateTimeLoc = (date: Date | number) => {
+	static formatDateTimeLoc = (
+		date: AnyDate,
+		options?: {
+			month?: 'numeric' | 'long' | 'short' | 'narrow',
+			year?: 'numeric' | '2-digit'
+		}
+	) => {
+		const d = new Date(date)
 		return new Intl.DateTimeFormat(navigator.language, {
-			year: 'numeric',
-			month: 'short',
+			year: options?.year ?? 'numeric',
+			month: options?.month ?? 'short',
 			day: 'numeric',
 			hour: 'numeric',
 			minute: 'numeric',
 			second: 'numeric'
-		}).format(date)
+		}).format(d)
 	}
 
-	static getLocPeriod(date: Date | number, per: Period) {
+	static formatPeriod(date: AnyDate, per: Period) {
 		switch (per) {
 			case 'D':
 			case 'day':
-				return DateUtils.formatDateLoc(date)
+				return Dates.formatDateLoc(date)
 			case 'W':
 			case 'week':
-				return DateUtils.getWeekLoc(date)
+				return Dates.formatWeek(date)
 			case 'M':
 			case 'month':
-				return DateUtils.getMonthAndYearLoc(date)
+				return Dates.formatMonth(date)
+			case 'Q':
+			case 'quarter':
+				return Dates.formatQuarter(date)
+			case 'HY':
+			case 'halfYear':
+				return Dates.formatHalfYear(date)
 			case 'Y':
 			case 'year':
-				return new Date(date).getFullYear().toString()
+				return (new Date(date)).getFullYear().toString()
 		}
 	}
 
-	static getWeekLoc(date: Date | number) {
+	static formatMonth(date: AnyDate) {
 		const d = new Date(date)
-		const weekNum = DateUtils.getWeekNum(d)
-		const weekStart = DateUtils.getFirstDayOfPeriod(d, 'W')
-		const weekEnd = DateUtils.getLastDayOfPeriod(weekStart, 'W')
-		return `Н${weekNum} (${DateUtils.getDatesRangeLoc(weekStart, weekEnd)})`
+		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric' }).format(d)
 	}
 
-
-	static getDatesRangeLoc(start: Date | number, end: Date | number) {
-		//@ts-ignore
-		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric', day: 'numeric' }).formatRange(start, end)
+	static formatWeek(date: AnyDate) {
+		const d = new Date(date)
+		const weekNum = Dates.getWeekNum(d)
+		const weekStart = Dates.getFirstDayOfPeriod(d, 'W')
+		const weekEnd = Dates.getLastDayOfPeriod(weekStart, 'W')
+		return `Н${weekNum} (${Dates.formatRange(weekStart, weekEnd)})`
 	}
-	
-	static getDaysDurationLocalString(days: number) {
+
+	static formatRange(start: AnyDate, end: AnyDate) {
+		const s = new Date(start)
+		const e = new Date(end)
+		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric', day: 'numeric' }).formatRange(s, e)
+	}
+
+	static formatQuarter(date: AnyDate) {
+		const d = new Date(date)
+		const quarter = Math.floor((d.getMonth() / 3))
+		return `Q${quarter} ${d.getFullYear()}`
+	}
+
+	static formatHalfYear(date: AnyDate) {
+		const d = new Date(date)
+		const hy = Math.floor(((d.getMonth() + 1) / 6))
+		return `HY${hy} ${d.getFullYear()}`
+	}
+
+	static formatDurationDays(days: number) {
 		if (!('DurationFormat' in Intl)) return `${days} d.`
-		//@ts-ignore
-		return new Intl.DurationFormat(navigator.language, { style: 'long' }).format({
+		return new (Intl as any).DurationFormat(navigator.language, { style: 'long' }).format({
 			days
-		})
+		}) as string
 	}
 
-	static getMonthAndYearLoc(date: Date | number) {
-		return new Intl.DateTimeFormat(navigator.language, { month: 'short', year: 'numeric' }).format(date)
+	static getDurationFullDays(start: AnyDate, end: AnyDate, abs = true) {
+		const s = new Date(start)
+		const e = new Date(end)
+		const d = (s.getTime() - e.getTime()) / Dates.day
+		return Math.floor(abs ? Math.abs(d) : -d)
 	}
 
-	static getWeekDay(date: Date | number | string) {
+	static getDurationPartDays(start: AnyDate, end: AnyDate) {
+		return Dates.getDurationFullDays(start, end) + 1
+	}
+
+	static roundTimeToDay(t: number) {
+		const d = new Date(t)
+		const dz = Dates.floorDay(t)
+		return d.getTime() - dz <= Dates.day / 2 ?
+			dz
+			:
+			Dates.add(dz, 'D', 1)
+	}
+
+	static floorDay(date: AnyDate) {
+		const floored = new Date(date)
+		floored.setUTCHours(0, 0, 0, 0)
+		return floored.getTime()
+	}
+
+	static isPastDay(date: number | string) {
+		return new Date(date).getTime() < Dates.floorDay(new Date)
+	}
+
+	static getDaysInMonth(date: AnyDate) {
+		const d = new Date(date)
+		return new Date(d.getFullYear(), d.getMonth() + 1, 0)
+			.getDate()
+	}
+
+	static getWeekDay(date: AnyDate) {
 		return new Date(date).getDay()
 	}
 
-	static isoStrToLocal(isoStr: string) {
-		return new Date(isoStr).toLocaleDateString(undefined, {dateStyle:'medium'})
+	static add(date: AnyDate, per: Period, amount: number) {
+		return Dates.addMutate(new Date(date), per, amount).getTime()
 	}
-
-	static isoStrToTs(isoStr: string) {
-		return Timestamp.fromDate(new Date(isoStr))
+	static subtract(date: AnyDate, per: Period, amount: number) {
+		return Dates.subtractMutate(new Date(date), per, amount).getTime()
 	}
-
-	static tsToIsoStr(ts: Timestamp, withTime: boolean = false) {
-		return withTime ? this.dateToIsoDateTime(ts.toDate()) : this.dateToIsoDate(ts.toDate())
+	static increment(date: AnyDate, per: Period) {
+		return Dates.add(date, per, 1)
 	}
-
-	static dateToIsoStr(date: Date) {
-		return date.toISOString()
-	}
-  
-	static getCurIsoStr() {
-		const curDate = new Date()
-		return this.dateToIsoStr(curDate)
-	}
-
-	static getCurIsoDate() {
-		const curDate = new Date()
-		return this.dateToIsoDate(curDate)
-	}
-
-	static getCurTs() {
-		return Timestamp.now()
-	}
-
-	static getCurDayStart() {
-		return DateUtils.floorDateToDay(new Date())
-	}
-
-	static getCurDayStartIsoDate() {
-		const curDate = DateUtils.getCurDayStart()
-		return this.dateToIsoDate(curDate)
-	}
-
-	static getCurDayStartTs() {
-		const curDate = DateUtils.getCurDayStart()
-		return Timestamp.fromDate(curDate)
-	}
-
-	static isoStrToTime(isoStr: string) {
-		return new Date(isoStr).getTime()
-	}
-
-  static dateToIsoDate(date: Date, offset?: number) {
-    offset = offset===undefined ? date.getTimezoneOffset() : offset;
-		return new Date(date.getTime() - (offset * 60000))
-			.toISOString()
-			.split('T')[0]
-	}
-
-  static dateToIsoDateTime(date: Date, offset?: number) {
-    offset = offset===undefined ? date.getTimezoneOffset() : offset;
-		return new Date(date.getTime() - (offset * 60000))
-			.toISOString()
-			.split('Z')[0]
-	}
-
-  static isoStrToIsoDate(isoDate: string, offset?: number) {
-    const date = new Date(isoDate)
-    offset = offset===undefined ? date.getTimezoneOffset() : offset;
-    return new Date(date.getTime() - (offset * 60000))
-       .toISOString()
-       .split("T")[0];
-  }
-	
-	static add(date: Date, per: Period, amount: number) {
-		switch (per) {
-			case 'day':
-			case 'D' :
-				date.setDate(date.getDate() + amount)
-				break
-			case 'week':
-			case 'W' :
-				date.setDate(date.getDate() + 7*amount)
-				break
-			case 'month':
-			case 'M':
-				date.setMonth(date.getMonth() + amount)
-				break
-			case 'year':	
-			case 'Y' :
-				date.setFullYear(date.getFullYear() + amount)
-		}
-		return date
-	}
-
-  static incrementDatePeriod(date: Date, per: Period) {
-		return DateUtils.add(date, per, 1)
-	}
-	
-	static toIncrementedDatePeriod(date: Date | string, per: Period) { 
-		let d = new Date(date)
-		DateUtils.incrementDatePeriod(d, per)
-		return d
-	}
-
-	static subtract(date: Date, per: Period, amount: number) {
-		return DateUtils.add(date, per, -amount)
-	}
-  
-  static decrementDatePeriod(date: Date, per: Period) {
-		return DateUtils.subtract(date, per, 1)
-	}
-
-	static toDecrementedDatePeriod(date: Date | string, per: Period) { 
-		let d = new Date(date)
-		DateUtils.decrementDatePeriod(d, per)
-		return d
-	}
-
-	static getLastDayOfPeriod(date: Date, period: Period) {
-		const FD = this.getFirstDayOfPeriod(date, period)
-		const LD = this.incrementDatePeriod(FD, period)
-		LD.setDate(LD.getDate() - 1)
-		return LD
-	}
-	
-	static getFirstDayOfPeriod(date: Date, period: Period) {
-		const d = new Date(date)
-		switch (period) {
-			case 'day' :
-			case 'D' : {
-				return d
-			}
-			case 'week':
-			case 'W' : {
-				const weekNum = this.getWeekNum(d)
-				const dayNum = d.getDate()
-				const weekBelongsToPreviousYear = (weekNum > 51 && dayNum < 7)
-				const year = weekBelongsToPreviousYear ? d.getFullYear() - 1 : d.getFullYear()
-				return this.getDateOfISOWeek(year + '-W' + weekNum)
-			}
-			case 'month':
-			case 'M' : {
-				const FD = d
-				FD.setDate(1)
-				return FD
-			}
-			case 'year':
-			case 'Y' : {
-				return new Date(d.getFullYear(), 0, 1)
-			}
-		}
-	}
-
-	static getFirstDayOfPeriodIsoStr(date: Date, period: Period) {
-		return this.dateToIsoStr(this.getFirstDayOfPeriod(date, period))
-	}
-
-	static getLastDayOfPeriodIsoStr(date: Date, period: Period) {
-		return this.dateToIsoStr(this.getLastDayOfPeriod(date, period))
-	}
-
-	static getWeekNum(date: Date) {
-		const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
-		const dayNum = d.getUTCDay() || 7
-		d.setUTCDate(d.getUTCDate() + 4 - dayNum)
-		const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-		return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+	static decrement(date: AnyDate, per: Period) {
+		return Dates.subtract(date, per, 1)
 	}
 
 	static getDateOfISOWeek(yearAndWeek: string) {
-		// получает номер и год (2020-W06), возвращает дату начала недели
 		const w = parseInt(yearAndWeek.substring(6, 8))
 		const y = parseInt(yearAndWeek.substring(0, 4))
 		const simple = new Date(y, 0, 1 + (w - 1) * 7)
@@ -258,54 +209,147 @@ export class DateUtils {
 		} else {
 			ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay())
 		}
-		return ISOweekStart
+		return ISOweekStart.getTime()
 	}
 
-	static roundTimeToDay(t: number) {
-    const d = new Date(t)
-    const dz = new Date(t)
-    dz.setUTCHours(0, 0, 0, 0)
-    return d.getTime() - dz.getTime() <= this.day / 2
-      ? dz.getTime()
-      : this.incrementDatePeriod(dz, 'D').getTime()
+	static getLastDayOfPeriod(date: AnyDate, period: Period) {
+		const firstDay = Dates.getFirstDayOfPeriod(date, period)
+		const LD = new Date(Dates.add(firstDay, period, 1))
+		LD.setDate(LD.getDate() - 1)
+		return LD.getTime()
 	}
 
-	static ceilTimeToDay(t: number) {
-		const floored = this.floorTimeToDay(t)
-		return this.incrementDatePeriod(new Date(floored), 'D').getTime()
+	static getFirstDayOfPeriod(date: AnyDate, period: Period) {
+		const d = new Date(date)
+		let FD: Date
+		switch (period) {
+			case 'D':
+			case 'day': {
+				FD = d
+				break
+			}
+			case 'W':
+			case 'week': {
+				const weekNum = Dates.getWeekNum(d)
+				const dayNum = d.getDate()
+				const weekBelongsToPreviousYear = (weekNum > 51 && dayNum < 7)
+				const year = weekBelongsToPreviousYear ? d.getFullYear() - 1 : d.getFullYear()
+				FD = new Date(Dates.getDateOfISOWeek(year + '-W' + weekNum))
+				break
+			}
+			case 'M':
+			case 'month': {
+				FD = d
+				FD.setDate(1)
+				break
+			}
+			case 'Q':
+			case 'quarter': {
+				const quarter = Math.floor((d.getMonth() / 3))
+				FD = new Date(d.getFullYear(), quarter * 3, 1)
+				break
+			}
+			case 'HY':
+			case 'halfYear': {
+				const fdMonth = d.getMonth() > 5 ? 6 : 0
+				FD = new Date(d.getFullYear(), fdMonth, 1)
+				break
+			}
+			case 'Y':
+			case 'year': {
+				FD = new Date(d.getFullYear(), 0, 1)
+			}
+		}
+		return FD.getTime()
 	}
 
-	static floorTimeToDay(t: number) {
-		const d = new Date(t)
-		d.setUTCHours(0, 0, 0, 0)
-		return d.getTime()
+	/** returns YYYY-MM */
+	static getMonthString(date: AnyDate) {
+		const d = new Date(date)
+		const split = Dates.dateObjToDateString(d).split('-')
+		return split[0] + '-' + split[1]
 	}
-	static floorDateToDay(date: Date) {
-		return new Date(this.floorTimeToDay(date.getTime()))
-	}
-
-	static isBetween(date: Date | number, from: Date | number, to: Date | number) {
-		const dateStart = DateUtils.floorDateToDay(new Date(date))
-		const fromDayStart = DateUtils.floorDateToDay(new Date(from))
-		const toDayStart = DateUtils.floorDateToDay(new Date(to))
-		return dateStart >= fromDayStart && dateStart <= toDayStart
+	/** monthString YYYY-MM */
+	static monthStringToNum(monthString: string) {
+		const split = monthString.split('-')
+		return new Date(+split[0], +split[1] - 1, 1).getTime()
 	}
 
-	static getPeriodType = (from: Date | number | string, to: Date | number | string) => {
-		const now = DateUtils.getCurDayStart()
-		const fromDayStart = DateUtils.floorDateToDay(new Date(from))
-		const toDayStart = DateUtils.floorDateToDay(new Date(to))
-		if (new Date(toDayStart) < now) return 'past'
-		if (new Date(fromDayStart) > now) return 'future'
-		return 'current'
+	/** monthString YYYY-MM */
+	static monthStrToStartEndStr = (monthString: string) => {
+		const firstDay = Dates.monthStringToNum(monthString)
+		const lastDay = Dates.getLastDayOfPeriod(firstDay, 'M')
+		const dateStart = Dates.numToDateString(firstDay)
+		const dateEnd = Dates.numToDateString(lastDay)
+		return { dateStart, dateEnd }
+	}
+
+	static getWeekNum(date: AnyDate) {
+		const copy = new Date(date)
+		const d = new Date(Date.UTC(copy.getFullYear(), copy.getMonth(), copy.getDate()))
+		const dayNum = d.getUTCDay() || 7
+		d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+		const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+		return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
 	}
 
 	static isDateValid = (date: Date | string) => {
-    const invalidStr = 'Invalid Date'
-    return typeof date === 'string'
-      ? new Date(date).toString() !== invalidStr
-      : date instanceof Date
-        ? date.toString() !== invalidStr
-        : false
-  }
+		const invalidStr = 'Invalid Date'
+		return typeof date === 'string'
+			? new Date(date).toString() !== invalidStr
+			: date instanceof Date
+				? date.toString() !== invalidStr
+				: false
+	}
+
+	static isBetween(date: Date | number, from: Date | number, to: Date | number) {
+		const dateStart = Dates.floorDay(new Date(date))
+		const fromDayStart = Dates.floorDay(new Date(from))
+		const toDayStart = Dates.floorDay(new Date(to))
+		return dateStart >= fromDayStart && dateStart <= toDayStart
+	}
+
+	static getPeriodType = (from: AnyDate, to: AnyDate) => {
+		const now = Dates.floorDay(Dates.nowNum())
+		const fromDayStart = Dates.floorDay(new Date(from))
+		const toDayStart = Dates.floorDay(new Date(to))
+		if (toDayStart < now) return 'past'
+		if (fromDayStart > now) return 'future'
+		return 'current'
+	}
+
+	/** Mutates date */
+	static addMutate(date: Date, per: Period, amount: number) {
+		switch (per) {
+			case 'D':
+			case 'day':
+				date.setDate(date.getDate() + amount)
+				break
+			case 'W':
+			case 'week':
+				date.setDate(date.getDate() + 7 * amount)
+				break
+			case 'M':
+			case 'month':
+				date.setMonth(date.getMonth() + amount)
+				break
+			case 'Q':
+			case 'quarter':
+				date.setMonth(date.getMonth() + 3 * amount)
+				break
+			case 'HY':
+			case 'halfYear':
+				date.setMonth(date.getMonth() + 6 * amount)
+				break
+			case 'Y':
+			case 'year':
+				date.setFullYear(date.getFullYear() + amount)
+		}
+		return date
+	}
+	/** Mutates date */
+	static subtractMutate(date: Date, per: Period, amount: number) {
+		return Dates.addMutate(date, per, -amount)
+	}
+
 }

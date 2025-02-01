@@ -7,7 +7,7 @@ import { CatSummary, PlanningWidgetPeriodData } from "@features/planning/lib"
 import { PlanningUtils } from "@features/planning/lib/planning-utils"
 import { usePlansGet, useRegPlanSumsBetweenDatesGet } from "@features/plans/api"
 import { parseDate } from "@internationalized/date"
-import { DateUtils, numToFixedStr, Period } from "@shared/lib/utils"
+import { Dates, numToFixedStr, Period } from "@shared/lib/utils"
 import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
 import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
 import { ArrowDropDown, Refresh, SettingsIcon } from "@shared/ui/svg"
@@ -15,7 +15,6 @@ import { useMemo } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
-
 
 export const PlanningWidget = () => {
   const { from, to, period } = usePlanningWidgetStore()
@@ -180,7 +179,7 @@ const PwToolbar = () => {
     refetchBalance()
   }
 
-  const buttonText = from && to && DateUtils.getDatesRangeLoc(new Date(from), new Date(to))
+  const buttonText = from && to && Dates.formatRange(new Date(from), new Date(to))
 
   return (
     <Toolbar className='toolbar react-aria-Toolbar'>

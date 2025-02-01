@@ -1,7 +1,7 @@
 import { Category } from "@features/categories/lib"
 import { toast } from "@features/toaster"
 import { Weekdays } from "@shared/lib/types/common-types"
-import { DateUtils, FilterUtils, getUuid, SortUtils } from "@shared/lib/utils"
+import { Dates, FilterUtils, getUuid, SortUtils } from "@shared/lib/utils"
 import { GetPlanParams, Plan, PlanFilterBy, PlanFormValues, PlanOp, PlanRecType, PlanSortBy, RepeatEvery } from "./plans.types"
 
 export class PlanUtils {
@@ -29,7 +29,7 @@ export class PlanUtils {
       sum: values.sum,
       dateStart: values.dateStart,
       description: values.description,
-      created: DateUtils.getCurIsoStr(),
+      created: Dates.now(),
 
       dateEnd: repeat && values.endType === 'times' ?
         PlanUtils.calcDateEnd(
@@ -61,12 +61,14 @@ export class PlanUtils {
     let curDate = new Date(dateStart)
     let repeatCount = 0
     while (repeatCount < times) {
-      DateUtils.add(curDate, every, everyNumber)
+      Dates.addMutate(curDate, every, everyNumber)
       repeatCount++
     }
-    if (every === 'week' && weekdays && weekdays.length > 1) DateUtils.add(curDate, 'day', weekdays.length - 1)
+    if (every === 'week' && weekdays && weekdays.length > 1) {
+      Dates.addMutate(curDate, 'day', weekdays.length - 1)
+    }
 
-    return DateUtils.dateToIsoStr(curDate)
+    return Dates.dateObjToDateString(curDate)
   }
 
   public static getPlanOperationsCountForForm(values: PlanFormValues) {
@@ -84,7 +86,7 @@ export class PlanUtils {
       () => repeatCount < values.times
 
     while (loopConditionFn()) {
-      DateUtils.add(curDate, values.every, values.everyNumber)
+      Dates.addMutate(curDate, values.every, values.everyNumber)
       repeatCount++
       opCount += values.every === 'week' ? values.weekdays.length : 1
     }
@@ -93,10 +95,10 @@ export class PlanUtils {
 
   public static getRepeatDescription(plan: Plan) {
     if (plan.every == undefined) return ''
-    return `Repeats every ${plan.everyNumber === 1 ? '' : plan.everyNumber} ${plan.every}${plan.every === 'week' ? ' on ' + plan.weekdays!.join(', ') : ''} ${plan.dateEnd ? 'until ' + DateUtils.isoStrToLocal(plan.dateEnd) : 'forever'}`
+    return `Repeats every ${plan.everyNumber === 1 ? '' : plan.everyNumber} ${plan.every}${plan.every === 'week' ? ' on ' + plan.weekdays!.join(', ') : ''} ${plan.dateEnd ? 'until ' + Dates.formatDateLoc(plan.dateEnd) : 'forever'}`
   }
 
-  public static getPlansOperationsList(plans: Plan[], start: Date | string, end: Date | string) {
+  public static getPlansOperationsList(plans: Plan[], start: number | string, end: number | string) {
     const ops: PlanOp[] = []
     for (const plan of plans) {
       ops.push(...PlanUtils.getPlanOpsList(plan, start, end))
@@ -104,7 +106,7 @@ export class PlanUtils {
     return ops
   }
 
-  private static getPlanOpsList(plan: Plan, start: Date | string, end: Date | string) {
+  private static getPlanOpsList(plan: Plan, start: number | string, end: number | string) {
     if (plan.dateStart === undefined) return []
     const isFinite = plan.dateEnd != undefined
     const repeating = plan.every != undefined && plan.everyNumber != undefined
@@ -114,12 +116,12 @@ export class PlanUtils {
     const ops: PlanOp[] = []
     let curDate = new Date(plan.dateStart)
 
-    while (curDate <= endDate || (isFinite && curDate <= new Date(plan.dateEnd!))) {
+    while (curDate <= endDate && (isFinite && curDate <= new Date(plan.dateEnd!))) {
       if (curDate >= startDate) {
         if (plan.every === 'week' && plan.weekdays && plan.weekdays.length > 0) {
-          const wFd = DateUtils.getFirstDayOfPeriod(curDate, 'week')
+          const wFd = Dates.getFirstDayOfPeriod(curDate, 'week')
           for (const wd of plan.weekdays) {
-            const curWd = DateUtils.add(new Date(wFd), 'day', plan.weekdays.indexOf(wd))
+            const curWd = Dates.addMutate(new Date(wFd), 'day', plan.weekdays.indexOf(wd))
             if (
               curWd >= startDate &&
               curWd <= endDate ||
@@ -127,7 +129,7 @@ export class PlanUtils {
             ) {
               ops.push({
                 id: getUuid(),
-                date: DateUtils.dateToIsoDate(curWd),
+                date: Dates.dateObjToDateString(curWd),
                 sum: plan.sum,
                 description: plan.description,
                 idCategory: plan.idCategory,
@@ -139,7 +141,7 @@ export class PlanUtils {
         else {
           ops.push({
             id: getUuid(),
-            date: DateUtils.dateToIsoDate(curDate),
+            date: Dates.dateObjToDateString(curDate),
             sum: plan.sum,
             description: plan.description,
             idCategory: plan.idCategory,
@@ -148,16 +150,16 @@ export class PlanUtils {
         }
       }
       if (!repeating) break
-      DateUtils.add(curDate, plan.every!, plan.everyNumber!)
+      Dates.addMutate(curDate, plan.every!, plan.everyNumber!)
     }
     return ops
   }
 
   public static getDefaultGetPlanParams = (): GetPlanParams => {
-    const firstD = DateUtils.getFirstDayOfPeriodIsoStr(new Date, 'M')
-    const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
-    const from = DateUtils.isoStrToIsoDate(firstD)
-    const to = DateUtils.isoStrToIsoDate(lastD)
+    const firstD = Dates.numToDateString(Dates.getFirstDayOfPeriod(new Date, 'M'))
+    const lastD = Dates.numToDateString(Dates.getLastDayOfPeriod(new Date, 'M'))
+    const from = Dates.removeTimeFromString(firstD)
+    const to = Dates.removeTimeFromString(lastD)
     return ({ from, to, type: 'regular' })
   }
 

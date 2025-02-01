@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { toast } from "@features/toaster"
 import { Spinner } from '@shared/ui/spinner/spinner'
-import { DateUtils } from '@shared/lib/utils'
+import { Dates } from '@shared/lib/utils'
 import { Button } from '@shared/ui/react-aria'
 import { CatSelectTags } from '@features/categories/ui/fields-for-category'
 import { Form } from 'react-aria-components'
@@ -11,11 +11,11 @@ import { getOpDraft, OperationAdd, updateOpDraft, removeOpDraft } from '@feature
 import { OpDateField, OpSumField, OpDescriptionField } from './operation-fields'
 import './new-operation-form.css'
 
-export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void, onCancel?: () => void}) => {
+export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => void, onCancel?: () => void }) => {
   const operationDraft = getOpDraft()
 
   const initOp = {
-    date: DateUtils.getCurIsoDate(),
+    date: Dates.now(),
     description: '',
     idCategory: '',
     created: '',
@@ -42,7 +42,7 @@ export const NewOperationForm = ({onSuccess, onCancel}: {onSuccess?: () => void,
       toast.error('Please choose a category')
       return
     }
-    await add({ ...op, created: DateUtils.getCurIsoStr() })
+    await add({ ...op, created: Dates.now() })
     reset()
     onSuccess && onSuccess()
   }

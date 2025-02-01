@@ -3,7 +3,7 @@ import { CatUtils } from "@features/categories/lib"
 import { usePlansGet } from "@features/plans/api"
 import { Plan, PlanUtils } from "@features/plans/lib"
 import { FlCell, FlList, FlNoData, FlRow } from "@shared/ui/fl-list"
-import { DateUtils, SortUtils } from "@shared/lib/utils"
+import { Dates, SortUtils } from "@shared/lib/utils"
 import { useEffect, useMemo } from "react"
 import { Virtuoso } from "react-virtuoso"
 import { PlanMenuBtn } from "./plan-menu-btn"
@@ -28,7 +28,7 @@ export const PlansList = () => {
 
   return (
     <FlList className="plans-list">
-      {selected.length===0 && <PlansToolbar />}
+      {selected.length === 0 && <PlansToolbar />}
       {selected.length > 0 && <PlansListActionBar plans={filteredPlans} />}
       <PlansListHeader />
       {plansFetching || catsFetching ? <FlNoData><Spinner /></FlNoData> :
@@ -43,7 +43,7 @@ export const PlansList = () => {
 }
 
 const PlanRow = ({ plan }: { plan: Plan }) => {
-  const startStr = plan.dateStart == undefined ? '-' : DateUtils.isoStrToLocal(plan.dateStart)
+  const startStr = plan.dateStart == undefined ? '-' : Dates.formatDateLoc(plan.dateStart)
   const { data: cats } = useCategoriesGet(false)
   const cat = cats?.find(cat => cat.id === plan.idCategory)
   const { selected, setSelected } = usePlansListStore()
@@ -87,7 +87,7 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
       </FlCell>
       <FlCell className="plan-created" >
         <span className="plan-created-label">Created</span>
-        {DateUtils.isoStrToLocal(plan.created)}
+        {Dates.formatDateLoc(plan.created)}
       </FlCell>
       <FlCell className="plan-menu-btn" >
         <PlanMenuBtn plan={plan} />

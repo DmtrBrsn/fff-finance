@@ -1,28 +1,28 @@
 import { db } from "@app/firebase"
-import { getDocs, collection, addDoc, doc, deleteDoc, query, orderBy, where, CollectionReference, DocumentData, QueryConstraint, limit, writeBatch, Timestamp, updateDoc, QueryDocumentSnapshot, getDoc, DocumentSnapshot, getAggregateFromServer, sum } from 'firebase/firestore'
-import { Id } from "@shared/lib/types/api-types"
-import { DateUtils, getColPath } from "@shared/lib/utils"
+import { Category } from "@features/categories/lib"
 import { toast } from "@features/toaster"
+import { Id } from "@shared/lib/types/api-types"
+import { TimestampAdapter, getColPath } from "@shared/lib/utils"
+import { CollectionReference, DocumentData, DocumentSnapshot, QueryConstraint, QueryDocumentSnapshot, Timestamp, addDoc, collection, deleteDoc, doc, getAggregateFromServer, getDoc, getDocs, limit, orderBy, query, sum, updateDoc, where, writeBatch } from 'firebase/firestore'
 import { Operation, OperationAdd, OperationUpd } from "../lib"
 import { GetOpsParams } from "./operations-params"
-import { Category } from "@features/categories/lib"
 
-const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams ) => {
+const opParamsToQuery = (collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetOpsParams) => {
   let queryArr: QueryConstraint[] = []
 
-  if (params?.from !== undefined) queryArr.push(where('date', '>=', DateUtils.isoStrToTs(params.from)))
-  if (params?.to!==undefined) queryArr.push(where('date', '<=', DateUtils.isoStrToTs(params.to)))
+  if (params?.from !== undefined) queryArr.push(where('date', '>=', TimestampAdapter.isoStrToTs(params.from)))
+  if (params?.to !== undefined) queryArr.push(where('date', '<=', TimestampAdapter.isoStrToTs(params.to)))
   if (params?.orderBy !== undefined) queryArr.push(orderBy(params.orderBy, params.orderByDirection ?? undefined))
   if (params?.limit !== undefined) queryArr.push(limit(params.limit))
-  
-  if (params && queryArr.length>0) return query(collectionRef, ...queryArr)
+
+  if (params && queryArr.length > 0) return query(collectionRef, ...queryArr)
   else return query(collectionRef)
 }
 
 const docSnapToOp = (
   docSnap: QueryDocumentSnapshot<DocumentData, DocumentData> | DocumentSnapshot<DocumentData, DocumentData>
 ) => {
-  if(!docSnap.exists()) return null
+  if (!docSnap.exists()) return null
   const rawDoc = docSnap.data()
   let created
   let date
@@ -31,11 +31,11 @@ const docSnapToOp = (
     console.error(`Invalid date in ${docSnap.id}`)
     return null
   }
-  else date = DateUtils.tsToIsoStr(rawDoc.date)
+  else date = TimestampAdapter.tsToIsoStr(rawDoc.date)
   if (!(rawDoc.created instanceof Timestamp)) {
     toast.error(`Invalid created in doc ${docSnap.id}`)
     created = 'Invalid date'
-  } else created = DateUtils.tsToIsoStr(rawDoc.created, true)
+  } else created = TimestampAdapter.tsToIsoStr(rawDoc.created, true)
   return { id: docSnap.id, ...rawDoc, created, date } as Operation
 }
 
@@ -55,7 +55,7 @@ export const getOperations = async (params?: GetOpsParams) => {
   const ops: Operation[] = []
   for (const docSnap of querySnapshot.docs) {
     const op = docSnapToOp(docSnap)
-    if (op===null) continue
+    if (op === null) continue
     ops.push(op)
   }
   return ops
@@ -68,8 +68,8 @@ export const addOperation = async (newDoc: OperationAdd): Promise<Operation> => 
     collectionRef,
     {
       ...rest,
-      created: DateUtils.isoStrToTs(newDoc.created),
-      date: DateUtils.isoStrToTs(newDoc.date)
+      created: TimestampAdapter.isoStrToTs(newDoc.created),
+      date: TimestampAdapter.isoStrToTs(newDoc.date)
     }
   )
   const addedDoc = { id: docRef.id, ...newDoc }
@@ -83,8 +83,8 @@ export const batchAddOperations = (newDocs: OperationAdd[]) => {
     const { created, date, ...rest } = newDoc
     batch.set(ref, {
       ...rest,
-      created: DateUtils.isoStrToTs(newDoc.created),
-      date: DateUtils.isoStrToTs(newDoc.date)
+      created: TimestampAdapter.isoStrToTs(newDoc.created),
+      date: TimestampAdapter.isoStrToTs(newDoc.date)
     })
   }
   return batch.commit()
@@ -95,7 +95,7 @@ export const updateOperation = async (updDoc: OperationUpd) => {
   const docRef = doc(db, getColPath('operations'), updDoc.id)
   await updateDoc(
     docRef,
-    updDoc.date ? { ...updDoc, date: DateUtils.isoStrToTs(updDoc.date) } : updDoc
+    updDoc.date ? { ...updDoc, date: TimestampAdapter.isoStrToTs(updDoc.date) } : updDoc
   )
   return updDoc
 }
@@ -103,10 +103,10 @@ export const updateOperation = async (updDoc: OperationUpd) => {
 export const batchUpdateOperations = async (updDocs: OperationUpd[]) => {
   let batch = writeBatch(db)
   for (const updDoc of updDocs) {
-    const ref = doc(collection(db, getColPath('operations')),  updDoc.id)
+    const ref = doc(collection(db, getColPath('operations')), updDoc.id)
     batch.update(
       ref,
-      updDoc.date ? { ...updDoc, date: DateUtils.isoStrToTs(updDoc.date) } : updDoc
+      updDoc.date ? { ...updDoc, date: TimestampAdapter.isoStrToTs(updDoc.date) } : updDoc
     )
   }
   await batch.commit()
@@ -119,7 +119,7 @@ export const deleteOperation = async (id: Id) => {
   return id
 }
 
-export const batchDeleteOperations = async (ids: Id[]) => { 
+export const batchDeleteOperations = async (ids: Id[]) => {
   let batch = writeBatch(db)
   for (const id of ids) {
     const ref = doc(collection(db, getColPath('operations')), id)
@@ -137,29 +137,29 @@ export const getOpSumsBetweenDates = async (
   const incCatIds = cats.filter(cat => cat.isIncome).map(cat => cat.id)
   const expCatIds = cats.filter(cat => !cat.isIncome).map(cat => cat.id)
 
-  const result = {incSum: 0, expSum: 0, margin: 0}
+  const result = { incSum: 0, expSum: 0, margin: 0 }
 
   const collectionRef = collection(db, getColPath('operations'))
 
   if (incCatIds.length > 0) {
     const q = query(
       collectionRef,
-      where('date', '>', DateUtils.isoStrToTs(dateStart)),
-      where('date', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('date', '>', TimestampAdapter.isoStrToTs(dateStart)),
+      where('date', '<', TimestampAdapter.isoStrToTs(dateEnd)),
       where('idCategory', 'in', [...incCatIds])
     )
-    const querySnapshot = await getAggregateFromServer(q, {incSum: sum('sum')})
+    const querySnapshot = await getAggregateFromServer(q, { incSum: sum('sum') })
     result.incSum = querySnapshot.data().incSum
   }
 
   if (expCatIds.length > 0) {
     const q = query(
       collectionRef,
-      where('date', '>', DateUtils.isoStrToTs(dateStart)),
-      where('date', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('date', '>', TimestampAdapter.isoStrToTs(dateStart)),
+      where('date', '<', TimestampAdapter.isoStrToTs(dateEnd)),
       where('idCategory', 'in', [...expCatIds])
     )
-    const querySnapshot = await getAggregateFromServer(q, {expSum: sum('sum')})
+    const querySnapshot = await getAggregateFromServer(q, { expSum: sum('sum') })
     result.expSum = querySnapshot.data().expSum
   }
   result.margin = result.incSum - result.expSum

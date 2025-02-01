@@ -72,8 +72,8 @@ export function usePlansUpdate() {
           updated.dateStart && params.from && params.to &&
           (updated.dateStart < params.from || updated.dateStart > params.to)
         )
-        if (singleIdquery || params.type !== planRecType || regularPlanNotInQuery) {
-          console.log(singleIdquery)
+        if ((params.type && params.type !== planRecType) || regularPlanNotInQuery) {
+          console.log(params.type)
           queryClient.setQueryData<Plan[]>(
             query[0],
             cache =>
@@ -141,7 +141,7 @@ export function usePlansBatchDelete() {
 export function useRegPlanSumsBetweenDatesGet(dateStart: string, dateEnd: string, cats: Category[], enabled = false) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
     queryKey: [QUERY_KEY_REG_PLAN_SUMS_BETWEEN_DATES, dateStart, dateEnd],
-    queryFn: ()=> getRegPlanSumsBetweenDates(dateStart, dateEnd, cats),
+    queryFn: () => getRegPlanSumsBetweenDates(dateStart, dateEnd, cats),
     enabled,
     staleTime: Infinity,
     retry: 2,

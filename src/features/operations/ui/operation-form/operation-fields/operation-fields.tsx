@@ -3,7 +3,7 @@ import {
   DateField, NumberField,
   TextField
 } from "@shared/ui/react-aria"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 
 export const OpDateField = (
   { date, onChange }:
@@ -15,7 +15,7 @@ export const OpDateField = (
       value={parseDate(date)}
       isRequired
       withButtons
-      onChange={(d) => d && onChange(DateUtils.isoStrToIsoDate(d.toString()))}
+      onChange={(d) => d && onChange(Dates.removeTimeFromString(d.toString()))}
     />
   )
 }
@@ -26,7 +26,7 @@ export const OpSumField = (
 ) => {
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value
-    val.length>1 && val.startsWith('0') && onChange(Number(val.slice(1)))
+    val.length > 1 && val.startsWith('0') && onChange(Number(val.slice(1)))
   }
   return (
     <NumberField

@@ -1,6 +1,6 @@
 import { parseDate } from "@internationalized/date"
 import { DatePicker, NumberField, RadioGroup, Tag, TagGroup, TextField } from "@shared/ui/react-aria"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { Radio } from "react-aria-components"
 import { weekdays } from "@shared/lib/contants"
 import { Weekdays } from "@shared/lib/types/common-types"
@@ -14,8 +14,8 @@ export const PlanDateStartField = (
     <DatePicker
       label={'Start date'}
       value={dateStart ? parseDate(dateStart) : null}
-      onChange={(d) => onChange(d ? DateUtils.isoStrToIsoDate(d.toString()) : undefined)}
-      description={dateStart && DateUtils.isPastDay(dateStart) ? 'In the past' : undefined}
+      onChange={(d) => onChange(d ? Dates.removeTimeFromString(d.toString()) : undefined)}
+      description={dateStart && Dates.isPastDay(dateStart) ? 'In the past' : undefined}
     />
   )
 }
@@ -28,7 +28,7 @@ export const PlanDateEndField = (
     <DatePicker
       label={'End date'}
       value={dateEnd ? parseDate(dateEnd) : null}
-      onChange={(d) => onChange(d ? DateUtils.isoStrToIsoDate(d.toString()) : undefined)}
+      onChange={(d) => onChange(d ? Dates.removeTimeFromString(d.toString()) : undefined)}
       minValue={dateStart ? parseDate(dateStart) : undefined}
       isRequired
     />
@@ -122,7 +122,7 @@ export const PlanRepeatWeekSetup = (
   )
 }
 
-export const PlanDescriptionField = ({description, onChange}: {description: string, onChange: (description: string) => void}) => {
+export const PlanDescriptionField = ({ description, onChange }: { description: string, onChange: (description: string) => void }) => {
   return (
     <TextField
       size={35}
@@ -139,7 +139,7 @@ export const PlanDescriptionField = ({description, onChange}: {description: stri
 export const PlanSumField = ({ sum, onChange }: { sum: number, onChange: (sum: number) => void }) => {
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value
-    val.length>1 && val.startsWith('0') && onChange(Number(val.slice(1)))
+    val.length > 1 && val.startsWith('0') && onChange(Number(val.slice(1)))
   }
   return (
     <NumberField

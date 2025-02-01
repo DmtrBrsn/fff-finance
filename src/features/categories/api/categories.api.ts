@@ -1,6 +1,6 @@
 import { db } from '@app/firebase'
 import { Id } from "@shared/lib/types/api-types"
-import { DateUtils, getColPath } from '@shared/lib/utils'
+import { getColPath, TimestampAdapter } from '@shared/lib/utils'
 import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, writeBatch } from 'firebase/firestore'
 import { Category, CategoryAdd, CategoryUpd } from '../lib'
 
@@ -13,7 +13,7 @@ export const getAllCategories = async () => {
     return {
       id: doc.id,
       ...rawDoc,
-      created: rawDoc.created ? DateUtils.tsToIsoStr(rawDoc.created) : undefined
+      created: rawDoc.created ? TimestampAdapter.tsToIsoStr(rawDoc.created) : undefined
     } as Category
   })
 }
@@ -26,10 +26,10 @@ export const addCategory = async (newDoc: CategoryAdd): Promise<Category> => {
     {
       ...rest,
       order: newDoc.order ?? null,
-      created: DateUtils.isoStrToTs(newDoc.created)
+      created: TimestampAdapter.isoStrToTs(newDoc.created)
     }
   )
-  const addedDoc = { id: docRef.id, ...newDoc} as Category
+  const addedDoc = { id: docRef.id, ...newDoc } as Category
   return addedDoc
 }
 
@@ -43,7 +43,7 @@ export const updateCategory = async (updDoc: CategoryUpd) => {
 export const batchUpdateCategories = async (updDocs: CategoryUpd[]) => {
   let batch = writeBatch(db)
   for (const updDoc of updDocs) {
-    const ref = doc(collection(db, getColPath('categories')),  updDoc.id)
+    const ref = doc(collection(db, getColPath('categories')), updDoc.id)
     batch.update(
       ref,
       updDoc

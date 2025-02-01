@@ -1,5 +1,5 @@
 import { Button, Checkbox, NumberField, TextField } from "@shared/ui/react-aria"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { useState, FormEvent } from "react"
 import { useCategoriesGet, useCategoriesAdd, useCategoriesUpdate } from "../api"
 import { Category, CatUtils } from "../lib"
@@ -27,7 +27,7 @@ export const CatForm = (
         name: values.name,
         isIncome: values.isIncome,
         order: values.order,
-        created: DateUtils.getCurIsoStr()
+        created: Dates.now()
       })
     }
     else {

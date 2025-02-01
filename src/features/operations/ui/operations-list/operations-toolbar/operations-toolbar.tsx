@@ -1,5 +1,5 @@
 import { useOperationsGet } from '@features/operations/api'
-import { DateUtils } from '@shared/lib/utils'
+import { Dates } from '@shared/lib/utils'
 import { ListPeriodSetup } from '@shared/ui/list-period-setup'
 import { Button, Popover } from '@shared/ui/react-aria'
 import { ArrowDropDown, CalendarMonth } from '@shared/ui/svg'
@@ -15,11 +15,11 @@ export const OperationsListToolbar = () => {
   const handlePeriodChange = (from?: string, to?: string) =>
     setParams({ ...params, from, to })
 
-  const buttonText = params.from && params.to && DateUtils.getDatesRangeLoc(new Date(params.from), new Date(params.to))
+  const buttonText = params.from && params.to && Dates.formatRange(new Date(params.from), new Date(params.to))
 
   return (
     <Toolbar>
-      <OpAddBtn/>
+      <OpAddBtn />
       <DialogTrigger>
         <Button narrow> <CalendarMonth />{buttonText}<ArrowDropDown /></Button>
         <Popover>

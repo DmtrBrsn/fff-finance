@@ -1,10 +1,10 @@
 import { Operation, OpSummary } from "@features/operations/lib"
 import { PlanOp } from "@features/plans/lib"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 
 export type PlanningWidgetPeriodData = {
   periodName: string
-  periodType: ReturnType<typeof DateUtils.getPeriodType>
+  periodType: ReturnType<typeof Dates.getPeriodType>
   opsInPeriod: Operation[]
   opPlansInPeriod: PlanOp[]
   opsSummary: OpSummary
@@ -13,4 +13,4 @@ export type PlanningWidgetPeriodData = {
   actualBalance: number
 }
 
-export type CatSummary = {name: string, planSum: number, opSum: number, id: string, isIncome: boolean, order?: number}
+export type CatSummary = { name: string, planSum: number, opSum: number, id: string, isIncome: boolean, order?: number }

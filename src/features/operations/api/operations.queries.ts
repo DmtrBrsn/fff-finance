@@ -1,5 +1,5 @@
 import { toast } from "@features/toaster"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Operation } from "../lib"
 import { GetOpsParams } from "./operations-params"
@@ -30,8 +30,8 @@ export function useOperationsAdd() {
         const params = query[0][1] as GetOpsParams
         const singleIdquery = params.id !== undefined
         const opNotInQueryPeriod = params?.from != undefined && params?.to != undefined &&
-          (DateUtils.isoStrToTime(added.date) < DateUtils.isoStrToTime(params.from) ||
-            DateUtils.isoStrToTime(added.date) > DateUtils.isoStrToTime(params.to))
+          (Dates.dateStringToNum(added.date) < Dates.dateStringToNum(params.from) ||
+            Dates.dateStringToNum(added.date) > Dates.dateStringToNum(params.to))
         if (opNotInQueryPeriod || singleIdquery) {
           continue
         }
@@ -149,7 +149,7 @@ export function useOperationsDelete() {
 export function useOpSumsBetweenDatesGet(dateStart: string, dateEnd: string, cats: Category[], enabled = false) {
   const { isPending, isFetching, isError, data, error, refetch } = useQuery({
     queryKey: [QUERY_KEY_OP_SUMS_BETWEEN_DATES, dateStart, dateEnd],
-    queryFn: ()=> getOpSumsBetweenDates(dateStart, dateEnd, cats),
+    queryFn: () => getOpSumsBetweenDates(dateStart, dateEnd, cats),
     enabled,
     staleTime: Infinity,
     retry: 2,

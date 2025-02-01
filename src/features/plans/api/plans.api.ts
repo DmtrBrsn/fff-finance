@@ -1,9 +1,9 @@
 import { db } from "@app/firebase"
+import { Category } from "@features/categories/lib"
 import { Id } from "@shared/lib/types/api-types"
-import { DateUtils, getColPath } from "@shared/lib/utils"
+import { getColPath, TimestampAdapter } from "@shared/lib/utils"
 import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, DocumentSnapshot, getAggregateFromServer, getDoc, getDocs, query, QueryConstraint, QueryDocumentSnapshot, sum, updateDoc, where, writeBatch } from "firebase/firestore"
 import { GetPlanParams, Plan, PlanAdd, PlanUpd, repeatEvery } from "../lib"
-import { Category } from "@features/categories/lib"
 
 const planParamsToQuery = (
   collectionRef: CollectionReference<DocumentData, DocumentData>,
@@ -18,8 +18,8 @@ const planParamsToQuery = (
   }
   else if (params.type === 'regular') {
     queryArr.push(where('every', '==', null))
-    params.from && queryArr.push(where('dateStart', '>=', DateUtils.isoStrToTs(params.from)))
-    params.to && queryArr.push(where('dateStart', '<=', DateUtils.isoStrToTs(params.to)))
+    params.from && queryArr.push(where('dateStart', '>=', TimestampAdapter.isoStrToTs(params.from)))
+    params.to && queryArr.push(where('dateStart', '<=', TimestampAdapter.isoStrToTs(params.to)))
   }
   return query(collectionRef, ...queryArr)
 }
@@ -32,9 +32,9 @@ const docSnapToPlan = (
   return {
     id: docSnap.id,
     ...rawDoc,
-    created: rawDoc.created ? DateUtils.tsToIsoStr(rawDoc.created, true) : undefined,
-    dateStart: rawDoc.dateStart ? DateUtils.tsToIsoStr(rawDoc.dateStart) : undefined,
-    dateEnd: rawDoc.dateEnd ? DateUtils.tsToIsoStr(rawDoc.dateEnd) : undefined
+    created: rawDoc.created ? TimestampAdapter.tsToIsoStr(rawDoc.created, true) : undefined,
+    dateStart: rawDoc.dateStart ? TimestampAdapter.tsToIsoStr(rawDoc.dateStart) : undefined,
+    dateEnd: rawDoc.dateEnd ? TimestampAdapter.tsToIsoStr(rawDoc.dateEnd) : undefined
   } as Plan
 }
 
@@ -66,9 +66,9 @@ export const addPlan = async (newDoc: PlanAdd): Promise<Plan> => {
     collectionRef,
     {
       ...rest,
-      created: DateUtils.isoStrToTs(newDoc.created),
-      dateStart: newDoc.dateStart ? DateUtils.isoStrToTs(newDoc.dateStart) : null,
-      dateEnd: newDoc.dateEnd ? DateUtils.isoStrToTs(newDoc.dateEnd) : null
+      created: TimestampAdapter.isoStrToTs(newDoc.created),
+      dateStart: newDoc.dateStart ? TimestampAdapter.isoStrToTs(newDoc.dateStart) : null,
+      dateEnd: newDoc.dateEnd ? TimestampAdapter.isoStrToTs(newDoc.dateEnd) : null
     }
   )
   const addedDoc = { id: docRef.id, ...newDoc } as Plan
@@ -82,8 +82,8 @@ export const updatePlan = async (updDoc: PlanUpd) => {
     docRef,
     {
       ...updDoc,
-      dateStart: updDoc.dateStart ? DateUtils.isoStrToTs(updDoc.dateStart) : null,
-      dateEnd: updDoc.dateEnd ? DateUtils.isoStrToTs(updDoc.dateEnd) : null
+      dateStart: updDoc.dateStart ? TimestampAdapter.isoStrToTs(updDoc.dateStart) : null,
+      dateEnd: updDoc.dateEnd ? TimestampAdapter.isoStrToTs(updDoc.dateEnd) : null
     }
   )
   return updDoc
@@ -114,31 +114,31 @@ export const getRegPlanSumsBetweenDates = async (
   const incCatIds = cats.filter(cat => cat.isIncome).map(cat => cat.id)
   const expCatIds = cats.filter(cat => !cat.isIncome).map(cat => cat.id)
 
-  const result = {incSum: 0, expSum: 0, margin: 0}
+  const result = { incSum: 0, expSum: 0, margin: 0 }
 
   const collectionRef = collection(db, getColPath('plans'))
 
   if (incCatIds.length > 0) {
     const q = query(
       collectionRef,
-      where('dateStart', '>', DateUtils.isoStrToTs(dateStart)),
-      where('dateStart', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('dateStart', '>', TimestampAdapter.isoStrToTs(dateStart)),
+      where('dateStart', '<', TimestampAdapter.isoStrToTs(dateEnd)),
       where('every', '==', null),
       where('idCategory', 'in', [...incCatIds])
     )
-    const querySnapshot = await getAggregateFromServer(q, {incSum: sum('sum')})
+    const querySnapshot = await getAggregateFromServer(q, { incSum: sum('sum') })
     result.incSum = querySnapshot.data().incSum
   }
 
   if (expCatIds.length > 0) {
     const q = query(
       collectionRef,
-      where('dateStart', '>', DateUtils.isoStrToTs(dateStart)),
-      where('dateStart', '<', DateUtils.isoStrToTs(dateEnd)),
+      where('dateStart', '>', TimestampAdapter.isoStrToTs(dateStart)),
+      where('dateStart', '<', TimestampAdapter.isoStrToTs(dateEnd)),
       where('every', '==', null),
       where('idCategory', 'in', [...expCatIds])
     )
-    const querySnapshot = await getAggregateFromServer(q, {expSum: sum('sum')})
+    const querySnapshot = await getAggregateFromServer(q, { expSum: sum('sum') })
     result.expSum = querySnapshot.data().expSum
   }
   result.margin = result.incSum - result.expSum

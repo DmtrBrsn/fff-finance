@@ -1,4 +1,4 @@
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { Operation } from "../lib"
 import { Id } from "@shared/lib/types/api-types"
 
@@ -12,11 +12,11 @@ export type GetOpsParams = {
 }
 
 export const getThisMonthOpParams = (): GetOpsParams => {
-  const firstD = DateUtils.getFirstDayOfPeriodIsoStr(new Date, 'M')
-  const lastD = DateUtils.getLastDayOfPeriodIsoStr(new Date, 'M')
-  const from = DateUtils.isoStrToIsoDate(firstD)
-  const to = DateUtils.isoStrToIsoDate(lastD)
-  return ({from, to})
+  const firstD = Dates.numToDateString(Dates.getFirstDayOfPeriod(new Date, 'M'))
+  const lastD = Dates.numToDateString(Dates.getLastDayOfPeriod(new Date, 'M'))
+  const from = Dates.removeTimeFromString(firstD)
+  const to = Dates.removeTimeFromString(lastD)
+  return ({ from, to })
 }
 
-export const getLatestOpsParams = (): GetOpsParams => ({limit: 10, orderBy: 'created', orderByDirection: 'desc'})
+export const getLatestOpsParams = (): GetOpsParams => ({ limit: 10, orderBy: 'created', orderByDirection: 'desc' })

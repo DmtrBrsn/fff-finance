@@ -1,7 +1,7 @@
 import { parseDate } from "@internationalized/date"
 import { Button, ButtonGroup, DatePicker, RadioGroup } from "@shared/ui/react-aria"
 import { Refresh } from "@shared/ui/svg"
-import { DateUtils } from "@shared/lib/utils"
+import { Dates } from "@shared/lib/utils"
 import { useCallback, useState } from "react"
 import { Radio } from "react-aria-components"
 
@@ -23,27 +23,27 @@ export const ListPeriodSetup = (
     (type: '-' | 'cur' | '+') => {
       if (per === 'custom') return
       if (type === 'cur') {
-        const newFrom = DateUtils.getFirstDayOfPeriod(new Date, per)
-        const newTo = DateUtils.getLastDayOfPeriod(new Date, per)
-        setParams(DateUtils.dateToIsoDate(newFrom), DateUtils.dateToIsoDate(newTo))
+        const newFrom = Dates.getFirstDayOfPeriod(new Date, per)
+        const newTo = Dates.getLastDayOfPeriod(new Date, per)
+        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
       }
       else if (type === '+') {
         const currentFrom = params.from ? new Date(params.from) : new Date()
-        const newFrom = DateUtils.getFirstDayOfPeriod(
-          DateUtils.toIncrementedDatePeriod(currentFrom, per),
+        const newFrom = Dates.getFirstDayOfPeriod(
+          Dates.increment(currentFrom, per),
           per
         )
-        const newTo = DateUtils.getLastDayOfPeriod(newFrom, per)
-        setParams(DateUtils.dateToIsoDate(newFrom), DateUtils.dateToIsoDate(newTo))
+        const newTo = Dates.getLastDayOfPeriod(newFrom, per)
+        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
       }
       else if (type === '-') {
         const currentFrom = params.from ? new Date(params.from) : new Date()
-        const newFrom = DateUtils.getFirstDayOfPeriod(
-          DateUtils.toDecrementedDatePeriod(currentFrom, per),
+        const newFrom = Dates.getFirstDayOfPeriod(
+          Dates.decrement(currentFrom, per),
           per
         )
-        const newTo = DateUtils.getLastDayOfPeriod(newFrom, per)
-        setParams(DateUtils.dateToIsoDate(newFrom), DateUtils.dateToIsoDate(newTo))
+        const newTo = Dates.getLastDayOfPeriod(newFrom, per)
+        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
       }
     },
     [per, params.from, params.to, setParams]
