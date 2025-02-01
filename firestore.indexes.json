@@ -1,0 +1,59 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "operations",
+      "queryScope": "COLLECTION",     
+      "fields": [
+        {
+          "fieldPath": "idCategory",  
+          "order": "ASCENDING"        
+        },
+        {
+          "fieldPath": "date",        
+          "order": "ASCENDING"        
+        },
+        {
+          "fieldPath": "sum",
+          "order": "ASCENDING"        
+        }
+      ]
+    },
+    {
+      "collectionGroup": "plans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "every",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dateStart",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "plans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "every",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "idCategory",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dateStart",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "sum",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
