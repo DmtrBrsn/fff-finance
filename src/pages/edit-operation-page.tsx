@@ -1,5 +1,5 @@
 import { useCategoriesGet } from "@features/categories/api"
-import { useOperationsGet } from "@features/operations/api"
+import { getOpFromCache, useOperationsGet } from "@features/operations/api"
 import { EditOperationForm } from "@features/operations/ui"
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate, useParams } from "react-router-dom"
@@ -7,7 +7,9 @@ import { useNavigate, useParams } from "react-router-dom"
 export const EditOperationPage = () => {
   useCategoriesGet(true)
   const { id } = useParams()
-  const { data: ops, isPending } = useOperationsGet({ id }, id !== undefined)
+  let op = id ? getOpFromCache(id) : undefined
+  const { data: ops, isPending } = useOperationsGet({ id }, op == undefined)
+  op ??= ops?.find(o => o.id === id)
   const navigate = useNavigate()
 
   return (
@@ -21,9 +23,9 @@ export const EditOperationPage = () => {
             <Link href={`/operations/${id}`}>Edit</Link>
           </Breadcrumb>
         </Breadcrumbs>
-        {isPending ? <p>Loading...</p> :
-          ops?.length === 0 || !ops ? <p>Operation not found</p> :
-            <EditOperationForm op={ops[0]} onSuccess={() => navigate('/operations')} />
+        {op == undefined && isPending ? <p>Loading...</p> :
+          op == undefined ? <p>Operation not found</p> :
+            <EditOperationForm op={op} onSuccess={() => navigate('/operations')} />
         }
       </div>
     </main>

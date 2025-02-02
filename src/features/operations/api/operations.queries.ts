@@ -5,6 +5,7 @@ import { Operation } from "../lib"
 import { GetOpsParams } from "./operations-params"
 import { addOperation, batchAddOperations, batchDeleteOperations, batchUpdateOperations, deleteOperation, getOperation, getOperations, getOpSumsBetweenDates, updateOperation } from "./operations.api"
 import { Category } from "@features/categories/lib"
+import type { Id } from '@shared/lib/types/api-types'
 
 export const QUERY_KEY_OPERATIONS = 'OPERATIONS' as const
 export const QUERY_KEY_OP_SUMS_BETWEEN_DATES = 'OP_SUMS_BTWN_DATES' as const
@@ -18,6 +19,15 @@ export function useOperationsGet(params: GetOpsParams, enabled = false) {
     retry: 2,
   })
   return { isPending, isFetching, isError, data, error, refetch }
+}
+
+export function getOpFromCache(id: Id) {
+  const queryClient = useQueryClient()
+  const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_OPERATIONS] })
+  for (const query of queries) {
+    const data = queryClient.getQueryData<Operation[]>(query[0])
+    return data?.find(p => p?.id === id)
+  }
 }
 
 export function useOperationsAdd() {

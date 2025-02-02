@@ -10,18 +10,18 @@ import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 import { usePlansListStore } from "./plans-list-store"
 
 export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
-  const [isOpen, setOpen] = useState(false)
+  const [isEditingOpen, setEditingOpen] = useState(false)
+  const [isDelConfirmOpen, setDelConfirmOpen] = useState(false)
   const { selected, setSelected } = usePlansListStore()
   const isSelected = selected.includes(plan.id)
-  const { mutateAsync: deletePlan, isPending: deleting } = usePlansDelete()
-  const [delConfirmOpen, setDelConfirmOpen] = useState(false)
+  const { mutateAsync: deletePlan, isPending: isDeleting } = usePlansDelete()
   const isTouch = useMemo(() => isTouchDevice(), [])
   const navigate = useNavigate()
 
   const editBtnAction = () => {
-    isTouch ? navigate(`/plans/${plan.id}`) : setOpen(true)
+    isTouch ? navigate(`/plans/${plan.id}`) : setEditingOpen(true)
   }
-  const close = () => setOpen(false)
+  const closeEditing = () => setEditingOpen(false)
 
   const toggleSelect = () => {
     if (isSelected) {
@@ -36,20 +36,20 @@ export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
     <>
       <MenuButtonIcon>
         <MenuItem onAction={editBtnAction}>Edit</MenuItem>
-        <MenuItem isDisabled={deleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
+        <MenuItem isDisabled={isDeleting} onAction={() => setDelConfirmOpen(true)}>Delete</MenuItem>
         <MenuItem onAction={toggleSelect}>{isSelected ? 'Deselect' : 'Select'}</MenuItem>
       </MenuButtonIcon>
 
-      <Modal isOpen={isOpen} onOpenChange={setOpen}>
+      <Modal isOpen={isEditingOpen} onOpenChange={setEditingOpen}>
         <Dialog>
-          <DialogCloseBtn close={close} />
+          <DialogCloseBtn close={closeEditing} />
           <Heading slot="title">Plan editing</Heading>
-          <PlanForm mode='edit' plan={plan} onSuccess={close} onCancel={close} />
+          <PlanForm mode='edit' plan={plan} onSuccess={closeEditing} onCancel={closeEditing} />
         </Dialog>
       </Modal>
       <ConfirmDialog
         title="Delete plan?"
-        isOpen={delConfirmOpen}
+        isOpen={isDelConfirmOpen}
         setOpen={setDelConfirmOpen}
         onConfirm={() => deletePlan(plan.id)}
       />

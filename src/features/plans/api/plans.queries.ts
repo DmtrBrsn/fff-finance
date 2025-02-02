@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { GetPlanParams, Plan, PlanUtils } from "../lib"
 import { addPlan, batchDeletePlans, deletePlan, getPlan, getPlans, getRegPlanSumsBetweenDates, updatePlan } from "./plans.api"
 import { Category } from "@features/categories/lib"
+import type { Id } from '@shared/lib/types/api-types'
 
 export const QUERY_KEY_PLANS = 'PLANS' as const
 export const QUERY_KEY_REG_PLAN_SUMS_BETWEEN_DATES = 'REG_PLAN_SUMS_BTWN_DATES' as const
@@ -16,6 +17,15 @@ export function usePlansGet(params: GetPlanParams, enabled = true) {
     retry: 2,
   })
   return { isPending, isFetching, isError, data, error, refetch }
+}
+
+export function getPlanFromCache(id: Id) {
+  const queryClient = useQueryClient()
+  const queries = queryClient.getQueriesData({ queryKey: [QUERY_KEY_PLANS] })
+  for (const query of queries) {
+    const data = queryClient.getQueryData<Plan[]>(query[0])
+    return data?.find(p => p?.id === id)
+  }
 }
 
 export function usePlansAdd() {

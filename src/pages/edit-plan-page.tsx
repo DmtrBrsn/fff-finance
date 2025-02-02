@@ -1,5 +1,5 @@
 import { useCategoriesGet } from "@features/categories/api"
-import { usePlansGet } from "@features/plans/api"
+import { getPlanFromCache, usePlansGet } from "@features/plans/api"
 import { PlanForm } from "@features/plans/ui"
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate, useParams } from "react-router-dom"
@@ -7,7 +7,9 @@ import { useNavigate, useParams } from "react-router-dom"
 export const EditPlanPage = () => {
   useCategoriesGet(true)
   const { id } = useParams()
-  const { data: plans, isPending } = usePlansGet({ id }, id !== undefined)
+  let plan = id ? getPlanFromCache(id) : undefined
+  const { data: plans, isPending } = usePlansGet({ id }, plan == undefined)
+  plan ??= plans?.find(p => p.id === id)
   const navigate = useNavigate()
 
   return (
@@ -21,9 +23,9 @@ export const EditPlanPage = () => {
             <Link href={`/plans/${id}`}>Edit</Link>
           </Breadcrumb>
         </Breadcrumbs>
-        {isPending ? <p>Loading...</p> :
-          plans?.length === 0 || !plans ? <p>Plan not found</p> :
-            <PlanForm mode="edit" plan={plans[0]} onSuccess={() => navigate('/plans')} />
+        {plan == undefined && isPending ? <p>Loading...</p> :
+          plan == undefined ? <p>Plan not found</p> :
+            <PlanForm mode="edit" plan={plan} onSuccess={() => navigate('/plans')} />
         }
       </div>
     </main>
