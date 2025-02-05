@@ -25,21 +25,22 @@ export interface SelectProps<T extends object>
   errorMessage?: string | ((validation: ValidationResult) => string)
   items?: Iterable<T>
   children: React.ReactNode | ((item: T) => React.ReactNode)
+  justified?: boolean
 }
 
 export function Select<T extends object>(
-  { label, description, withClearButton, errorMessage, children, items, ...props }: SelectProps<
+  { label, description, withClearButton, errorMessage, justified = false, children, items, ...props }: SelectProps<
     T
   >
 ) {
   return (
     (
-      <AriaSelect {...props}>
+      <AriaSelect className={justified ? 'react-aria-Select justified' : 'react-aria-Select'} {...props}>
         <Label>{label}</Label>
         <span className='flex-row gap-1'>
           <AriaButton className='react-aria-Button drop-down-button'>
-            <SelectValue/>
-            <ArrowDropDown aria-hidden="true"/>
+            <SelectValue />
+            <ArrowDropDown aria-hidden="true" />
           </AriaButton>
           {withClearButton && <SelectClearButton />}
         </span>
@@ -62,12 +63,12 @@ export function SelectItem(props: ListBoxItemProps) {
 function SelectClearButton() {
   let state = useContext(SelectStateContext)
   return (
-    <>{state?.selectedKey && <Button
+    <>{Boolean(state?.selectedKey) && <Button
       // Don't inherit behavior from Select.
       slot={null}
       className={'react-aria-Button narrow'}
       onPress={() => state?.setSelectedKey(null)}>
-      <CloseIcon/>
+      <CloseIcon />
     </Button >}</>
   )
 }

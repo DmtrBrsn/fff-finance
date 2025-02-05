@@ -42,7 +42,7 @@ export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => vo
       toast.error('Please choose a category')
       return
     }
-    await add({ ...op, created: Dates.now() })
+    await add({ ...op, created: Dates.now({ withTime: true }) })
     reset()
     onSuccess && onSuccess()
   }

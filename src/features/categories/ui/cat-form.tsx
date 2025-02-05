@@ -27,7 +27,7 @@ export const CatForm = (
         name: values.name,
         isIncome: values.isIncome,
         order: values.order,
-        created: Dates.now()
+        created: Dates.now({ withTime: true })
       })
     }
     else {

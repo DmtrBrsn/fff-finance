@@ -29,7 +29,7 @@ export class PlanUtils {
       sum: values.sum,
       dateStart: values.dateStart,
       description: values.description,
-      created: Dates.now(),
+      created: Dates.now({ withTime: true }),
 
       dateEnd: repeat && values.endType === 'times' ?
         PlanUtils.calcDateEnd(

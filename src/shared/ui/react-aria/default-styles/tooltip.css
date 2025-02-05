@@ -1,4 +1,5 @@
 .react-aria-Tooltip {
+  --tooltip-margin: 0.6rem;
   box-shadow: 0 0 6px 2px rgba(0 0 0 / 0.1);
   border-radius: var(--app-border-radius);
   background: var(--text-color);
@@ -12,35 +13,39 @@
   text-align: center;
 
   &[data-placement=top] {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--gap-step);
     --origin: translateY(var(--gap-step));
   }
 
   &[data-placement=bottom] {
-    margin-top: var(--gap-step);
+    margin-top: var(--tooltip-margin);
     --origin: translateY(-var(--gap-step));
+
     & .react-aria-OverlayArrow svg {
       transform: rotate(180deg);
     }
   }
 
   &[data-placement=right] {
-    margin-left: var(--gap-step);
+    margin-left: var(--tooltip-margin);
     --origin: translateX(-var(--gap-step));
+
     & .react-aria-OverlayArrow svg {
       transform: rotate(90deg);
     }
   }
 
   &[data-placement=left] {
-    margin-right: var(--gap-step);
+    margin-right: var(--tooltip-margin);
     --origin: translateX(var(--gap-step));
+
     & .react-aria-OverlayArrow svg {
       transform: rotate(-90deg);
     }
   }
 
   & .react-aria-OverlayArrow svg {
+    height: 0.6rem;
     display: block;
     fill: var(--text-color);
   }
