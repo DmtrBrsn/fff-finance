@@ -6,7 +6,6 @@ import { OpSummary } from "@features/operations/lib"
 import { CatSummary, PlanningWidgetPeriodData } from "@features/planning/lib"
 import { PlanningUtils } from "@features/planning/lib/planning-utils"
 import { usePlansGet, useRegPlanSumsBetweenDatesGet } from "@features/plans/api"
-import { parseDate } from "@internationalized/date"
 import { Dates, numToFixedStr, Period } from "@shared/lib/utils"
 import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
 import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
@@ -190,14 +189,14 @@ const PwToolbar = () => {
             <DatePicker
               label="From"
               clearable={false}
-              value={from ? parseDate(from) : null}
-              onChange={d => d && setFrom(d.toString())}
+              value={from ?? null}
+              onChange={d => d && setFrom(d)}
             />
             <DatePicker
               label="To"
               clearable={false}
-              value={to ? parseDate(to) : null}
-              onChange={d => d && setTo(d.toString())}
+              value={to ?? null}
+              onChange={d => d && setTo(d)}
             />
             <Select
               label="Period"

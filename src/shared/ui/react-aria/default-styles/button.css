@@ -9,6 +9,10 @@
   --selected-bg: var(--gray-600);
   --selected-color: var(--gray-50);
 
+  --disabled-bg: transparent;
+  --disabled-color: var(--text-color-disabled);
+
+
   &.attention {
     --bg: var(--highlight-background);
     --color: var(--highlight-foreground);
@@ -19,6 +23,9 @@
 
     --selected-bg: var(--blue-600);
     --selected-color: var(--gray-50);
+
+    --disabled-bg: hsl(from var(--bg) h calc(s - 40) l);
+    --disabled-color: var(--text-color-disabled);
   }
 
   &.danger {
@@ -31,6 +38,9 @@
 
     --selected-bg: var(--red-500);
     --selected-color: var(--gray-100);
+
+    --disabled-bg: hsl(from var(--bg) h calc(s - 40) l);
+    --disabled-color: var(--text-color-disabled);
   }
 
   &.transparent {
@@ -112,11 +122,12 @@
   }
 
   &[data-disabled] {
-    border-color: var(--border-color-disabled);
-    color: var(--text-color-disabled);
+    background-color: var(--disabled-bg);
+    color: var(--disabled-color);
+    border-color: var(--disabled-color);
 
     >svg {
-      fill: var(--text-color-disabled);
+      fill: var(--disabled-color);
     }
   }
 
@@ -128,6 +139,4 @@
       fill: var(--selected-color);
     }
   }
-
-
 }

@@ -40,8 +40,8 @@ export function useOperationsAdd() {
         const params = query[0][1] as GetOpsParams
         const singleIdquery = params.id !== undefined
         const opNotInQueryPeriod = params?.from != undefined && params?.to != undefined &&
-          (Dates.dateStringToNum(added.date) < Dates.dateStringToNum(params.from) ||
-            Dates.dateStringToNum(added.date) > Dates.dateStringToNum(params.to))
+          (Dates.toNum(added.date) < Dates.toNum(params.from) ||
+            Dates.toNum(added.date) > Dates.toNum(params.to))
         if (opNotInQueryPeriod || singleIdquery) {
           continue
         }

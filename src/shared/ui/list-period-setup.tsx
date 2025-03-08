@@ -1,4 +1,3 @@
-import { parseDate } from "@internationalized/date"
 import { Button, ButtonGroup, DatePicker, RadioGroup } from "@shared/ui/react-aria"
 import { Refresh } from "@shared/ui/svg"
 import { Dates } from "@shared/lib/utils"
@@ -23,27 +22,27 @@ export const ListPeriodSetup = (
     (type: '-' | 'cur' | '+') => {
       if (per === 'custom') return
       if (type === 'cur') {
-        const newFrom = Dates.getFirstDayOfPeriod(new Date, per)
-        const newTo = Dates.getLastDayOfPeriod(new Date, per)
-        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
+        const newFrom = Dates.getFirstDay(per, new Date)
+        const newTo = Dates.getLastDay(per, new Date)
+        setParams(Dates.toString(newFrom), Dates.toString(newTo))
       }
       else if (type === '+') {
         const currentFrom = params.from ? new Date(params.from) : new Date()
-        const newFrom = Dates.getFirstDayOfPeriod(
-          Dates.increment(currentFrom, per),
-          per
+        const newFrom = Dates.getFirstDay(
+          per,
+          Dates.add(currentFrom, per, 1)
         )
-        const newTo = Dates.getLastDayOfPeriod(newFrom, per)
-        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
+        const newTo = Dates.getLastDay(per, newFrom)
+        setParams(Dates.toString(newFrom), Dates.toString(newTo))
       }
       else if (type === '-') {
         const currentFrom = params.from ? new Date(params.from) : new Date()
-        const newFrom = Dates.getFirstDayOfPeriod(
-          Dates.decrement(currentFrom, per),
-          per
+        const newFrom = Dates.getFirstDay(
+          per,
+          Dates.subtract(currentFrom, per, 1)
         )
-        const newTo = Dates.getLastDayOfPeriod(newFrom, per)
-        setParams(Dates.numToDateString(newFrom), Dates.numToDateString(newTo))
+        const newTo = Dates.getLastDay(per, newFrom)
+        setParams(Dates.toString(newFrom), Dates.toString(newTo))
       }
     },
     [per, params.from, params.to, setParams]
@@ -66,13 +65,13 @@ export const ListPeriodSetup = (
         <>
           <DatePicker
             label='From'
-            value={customFrom ? parseDate(customFrom) : null}
-            onChange={d => setCustomFrom(d ? d.toString() : undefined)}
+            value={customFrom ?? null}
+            onChange={d => setCustomFrom(d ?? undefined)}
           />
           <DatePicker
             label='To'
-            value={customTo ? parseDate(customTo) : null}
-            onChange={d => setCustomTo(d ? d.toString() : undefined)}
+            value={customTo ?? null}
+            onChange={d => setCustomTo(d ?? undefined)}
           />
           <Button
             variant='attention'

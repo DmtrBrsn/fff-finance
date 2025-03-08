@@ -8,8 +8,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
 
-.react-aria-DropZone[data-drop-target] {
-  background-color: var(--highlight-hover);
+  &[data-focus-visible],
+  &[data-drop-target] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: -1px;
+  }
+
+  &[data-drop-target] {
+    background: var(--highlight-hover);
+  }
 }

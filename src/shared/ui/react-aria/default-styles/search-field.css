@@ -1,24 +1,31 @@
 .react-aria-SearchField {
   display: grid;
-  grid-template-areas: "label label"
-                       "input button"
-                       "help  help";
+  grid-template-areas: "label label label"
+    "input search-icon button"
+    "help  help help";
   grid-template-columns: 1fr auto;
   align-items: center;
   width: fit-content;
   color: var(--text-color);
 
   .react-aria-Input {
+    --search-font-size: 1rem;
+
+    &.l {
+      --search-font-size: 1.5rem;
+    }
+
+    &.xl {
+      --search-font-size: 2rem;
+    }
+
     grid-area: input;
-    padding: 0.286rem 1.714rem 0.286rem 0.286rem;
+    padding: 0.3rem 3.5rem 0.3rem 0.3rem;
     margin: 0;
     border: 1px solid var(--border-color);
     border-radius: var(--app-border-radius);
     background: var(--background-color);
-    font-size: 1rem;
-    &.l {font-size: 1.5rem;}
-    &.xl {font-size: 2rem;}
-    line-height: var(--input-line-height);
+    font-size: var(--search-font-size);
     color: var(--field-text-color);
 
     &::-webkit-search-cancel-button,
@@ -34,15 +41,32 @@
 
   .react-aria-Button-icon {
     grid-area: button;
-    margin-left: -1.8rem;
+    margin-left: -3.4rem;
     padding: 0.1rem;
+  }
+
+  .search-icon {
+    grid-area: search-icon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -1.8rem;
+    height: calc(var(--search-font-size) * 1.5);
+    width: calc(var(--search-font-size) * 1.5);
+    padding: calc(var(--search-font-size) * 1.5 * 0.12);
+    aspect-ratio: 1 / 1;
+
+    >svg {
+      height: calc(var(--search-font-size) * 1.5 * 0.7);
+      width: calc(var(--search-font-size) * 1.5 * 0.7);
+    }
   }
 
   &[data-empty] button {
     display: none;
   }
 
-  .react-aria-Input{
+  .react-aria-Input {
     &[data-invalid] {
       border-color: var(--red-500);
     }

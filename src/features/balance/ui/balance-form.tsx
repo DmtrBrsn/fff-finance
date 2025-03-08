@@ -1,4 +1,3 @@
-import { parseDate } from "@internationalized/date"
 import { Dates } from "@shared/lib/utils"
 import { ButtonIcon, DatePicker, NumberField } from "@shared/ui/react-aria"
 import { CreateIcon } from "@shared/ui/svg"
@@ -30,9 +29,9 @@ export const BalanceForm = () => {
         <DatePicker
           label='Date'
           name="balanceDate"
-          value={parseDate(values.date)}
-          onChange={(d) => d && setValues({ ...values, date: Dates.removeTimeFromString(d.toString()) })}
-          maxValue={parseDate(Dates.now())}
+          value={values.date}
+          onChange={date => date && setValues({ ...values, date })}
+          maxValue={Dates.now()}
           isRequired
         />
         <ButtonIcon type="submit" size="l" isPending={adding}><CreateIcon /></ButtonIcon>

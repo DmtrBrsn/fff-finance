@@ -17,8 +17,20 @@
     padding: 0 0.1rem;
   }
 
+  &[data-disabled] {
+    .react-aria-DateInput {
+      border-color: var(--text-color-disabled);
+    }
+  }
+
   .react-aria-DateInput {
     padding: var(--gap-step) 1.929rem var(--gap-step) var(--gap-step);
+  }
+
+  &[data-invalid] {
+    .react-aria-DateInput {
+      border-color: var(--invalid-color);
+    }
   }
 }
 

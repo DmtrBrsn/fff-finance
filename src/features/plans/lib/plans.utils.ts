@@ -61,14 +61,14 @@ export class PlanUtils {
     let curDate = new Date(dateStart)
     let repeatCount = 0
     while (repeatCount < times) {
-      Dates.addMutate(curDate, every, everyNumber)
+      curDate = Dates.toDate(Dates.addNum(curDate, every, everyNumber))
       repeatCount++
     }
     if (every === 'week' && weekdays && weekdays.length > 1) {
-      Dates.addMutate(curDate, 'day', weekdays.length - 1)
+      curDate = Dates.toDate(Dates.addNum(curDate, 'day', weekdays.length - 1))
     }
 
-    return Dates.dateObjToDateString(curDate)
+    return Dates.toString(curDate)
   }
 
   public static getPlanOperationsCountForForm(values: PlanFormValues) {
@@ -80,13 +80,13 @@ export class PlanUtils {
     if (values.endType === 'never') return Infinity
     let opCount = 0
     let repeatCount = 0
-    let curDate = new Date(values.dateStart)
+    let curDate = Dates.toDate(values.dateStart)
     const loopConditionFn = values.endType === 'date' && values.dateEnd ?
-      () => curDate <= new Date(values.dateEnd!) :
+      () => curDate <= Dates.toDate(values.dateEnd!) :
       () => repeatCount < values.times
 
     while (loopConditionFn()) {
-      Dates.addMutate(curDate, values.every, values.everyNumber)
+      curDate = Dates.toDate(Dates.addNum(curDate, values.every, values.everyNumber))
       repeatCount++
       opCount += values.every === 'week' ? values.weekdays.length : 1
     }
@@ -110,26 +110,26 @@ export class PlanUtils {
     if (plan.dateStart === undefined) return []
     const isFinite = plan.dateEnd != undefined
     const repeating = plan.every != undefined && plan.everyNumber != undefined
-    const startDate = new Date(start)
-    const endDate = new Date(end)
-    if (new Date(plan.dateStart) > endDate || (isFinite && new Date(plan.dateEnd!) < startDate)) return []
+    const startDate = Dates.toDate(start)
+    const endDate = Dates.toDate(end)
+    if (Dates.toDate(plan.dateStart) > endDate || (isFinite && Dates.toDate(plan.dateEnd!) < startDate)) return []
     const ops: PlanOp[] = []
-    let curDate = new Date(plan.dateStart)
+    let curDate = Dates.toDate(plan.dateStart)
 
-    while (curDate <= endDate && (isFinite && curDate <= new Date(plan.dateEnd!))) {
+    while (curDate <= endDate && (isFinite && curDate <= Dates.toDate(plan.dateEnd!))) {
       if (curDate >= startDate) {
         if (plan.every === 'week' && plan.weekdays && plan.weekdays.length > 0) {
-          const wFd = Dates.getFirstDayOfPeriod(curDate, 'week')
+          const wFd = Dates.getFirstDayNum('week', curDate)
           for (const wd of plan.weekdays) {
-            const curWd = Dates.addMutate(new Date(wFd), 'day', plan.weekdays.indexOf(wd))
+            const curWd = Dates.toDate(Dates.add(wFd, 'day', plan.weekdays.indexOf(wd)))
             if (
               curWd >= startDate &&
               curWd <= endDate ||
-              (isFinite && curWd <= new Date(plan.dateEnd!))
+              (isFinite && curWd <= Dates.toDate(plan.dateEnd!))
             ) {
               ops.push({
                 id: getUuid(),
-                date: Dates.dateObjToDateString(curWd),
+                date: Dates.toString(curWd),
                 sum: plan.sum,
                 description: plan.description,
                 idCategory: plan.idCategory,
@@ -141,7 +141,7 @@ export class PlanUtils {
         else {
           ops.push({
             id: getUuid(),
-            date: Dates.dateObjToDateString(curDate),
+            date: Dates.toString(curDate),
             sum: plan.sum,
             description: plan.description,
             idCategory: plan.idCategory,
@@ -150,16 +150,14 @@ export class PlanUtils {
         }
       }
       if (!repeating) break
-      Dates.addMutate(curDate, plan.every!, plan.everyNumber!)
+      curDate = Dates.toDate(Dates.add(curDate, plan.every!, plan.everyNumber!))
     }
     return ops
   }
 
   public static getDefaultGetPlanParams = (): GetPlanParams => {
-    const firstD = Dates.numToDateString(Dates.getFirstDayOfPeriod(new Date, 'M'))
-    const lastD = Dates.numToDateString(Dates.getLastDayOfPeriod(new Date, 'M'))
-    const from = Dates.removeTimeFromString(firstD)
-    const to = Dates.removeTimeFromString(lastD)
+    const from = Dates.getFirstDay('M', new Date)
+    const to = Dates.getLastDay('M', new Date)
     return ({ from, to, type: 'regular' })
   }
 

@@ -8,19 +8,19 @@ import { CatSummary, PlanningWidgetPeriodData } from "./types";
 
 export class PlanningUtils {
   public static getDefaultDates() {
-    const thisMonthStart = Dates.getFirstDayOfPeriod(Dates.now(), 'month')
-    const from = Dates.subtract(thisMonthStart, 'month', 1)
-    const to = Dates.add(thisMonthStart, 'month', 5)
+    const thisMonthStart = Dates.getFirstDay('month', Dates.now())
+    const from = Dates.subtractNum(thisMonthStart, 'month', 1)
+    const to = Dates.addNum(thisMonthStart, 'month', 5)
     return {
-      from: Dates.numToDateString(from),
-      to: Dates.numToDateString(to),
+      from: Dates.toString(from),
+      to: Dates.toString(to),
     }
   }
 
   public static getLastBalanceBeforeDate(balances: Balance[], date: string) {
     return balances
       .sort(SortUtils.date(b => b.date, 'asc'))
-      .find(b => Dates.dateStringToNum(b.date) < Dates.dateStringToNum(date))
+      .find(b => Dates.toNum(b.date) < Dates.toNum(date))
   }
 
   public static createDataForPlanningWidget(
@@ -30,13 +30,13 @@ export class PlanningUtils {
         period: Period, lastBalanceBeforeFrom?: Balance, opSumsBeforeFrom?: OpOrPlanSums, regPlanSumsBeforeFrom?: OpOrPlanSums
       }
   ) {
-    const start = Dates.getFirstDayOfPeriod(from, period)
-    const end = Dates.getLastDayOfPeriod(to, period)
+    const start = Dates.getFirstDay(period, from)
+    const end = Dates.getLastDay(period, to)
     if (start >= end) throw new Error('Start date is greater than end date')
     const opPlans = PlanUtils.getPlansOperationsList(plans, start, end)
 
     balances = balances
-      .filter(b => new Date(b.date).getTime() <= Dates.floorDay(Dates.nowNum()))
+      .filter(b => Dates.toNum(b.date) <= Dates.floorDay(Dates.nowNum()))
       .sort(SortUtils.date(b => b.date, 'asc'))
 
     let curPlannedBalance = 0
@@ -59,7 +59,7 @@ export class PlanningUtils {
     let curPeriodStart = start
 
     while (curPeriodStart < end) {
-      const curPeriodEnd = Dates.getLastDayOfPeriod(curPeriodStart, period)
+      const curPeriodEnd = Dates.getLastDay(period, curPeriodStart)
       const periodType = Dates.getPeriodType(curPeriodStart, curPeriodEnd)
       const opsInPeriod = ops.filter(op => Dates.isBetween(new Date(op.date), curPeriodStart, curPeriodEnd))
       const opPlansInPeriod = opPlans.filter(opp => Dates.isBetween(new Date(opp.date), curPeriodStart, curPeriodEnd))
@@ -82,7 +82,7 @@ export class PlanningUtils {
       }
 
       data.push({
-        periodName: Dates.formatPeriod(curPeriodStart, period),
+        periodName: Dates.formatPeriod(period, curPeriodStart),
         periodType,
         opsInPeriod,
         opPlansInPeriod,
@@ -91,13 +91,13 @@ export class PlanningUtils {
         plannedBalance: curPlannedBalance,
         actualBalance: curActualBalance,
       })
-      const nextPerStart = Dates.increment(curPeriodStart, period)
-      const nextPeriodEnd = Dates.getLastDayOfPeriod(nextPerStart, period)
+      const nextPerStart = Dates.add(curPeriodStart, period, 1)
+      const nextPeriodEnd = Dates.getLastDay(period, nextPerStart)
       const nextPeriodType = Dates.getPeriodType(nextPerStart, nextPeriodEnd)
       if (nextPeriodType === 'current') {
         curPlannedBalance = curActualBalance
       }
-      curPeriodStart = Dates.increment(curPeriodStart, period)
+      curPeriodStart = Dates.add(curPeriodStart, period, 1)
     }
 
     return data

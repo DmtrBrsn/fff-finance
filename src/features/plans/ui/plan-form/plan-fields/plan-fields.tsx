@@ -1,4 +1,3 @@
-import { parseDate } from "@internationalized/date"
 import { DatePicker, NumberField, RadioGroup, Tag, TagGroup, TextField } from "@shared/ui/react-aria"
 import { Dates } from "@shared/lib/utils"
 import { Radio } from "react-aria-components"
@@ -13,8 +12,8 @@ export const PlanDateStartField = (
   return (
     <DatePicker
       label={'Start date'}
-      value={dateStart ? parseDate(dateStart) : null}
-      onChange={(d) => onChange(d ? Dates.removeTimeFromString(d.toString()) : undefined)}
+      value={dateStart ?? null}
+      onChange={(d) => onChange(d ?? undefined)}
       description={dateStart && Dates.isPastDay(dateStart) ? 'In the past' : undefined}
     />
   )
@@ -27,9 +26,9 @@ export const PlanDateEndField = (
   return (
     <DatePicker
       label={'End date'}
-      value={dateEnd ? parseDate(dateEnd) : null}
-      onChange={(d) => onChange(d ? Dates.removeTimeFromString(d.toString()) : undefined)}
-      minValue={dateStart ? parseDate(dateStart) : undefined}
+      value={dateEnd ?? null}
+      onChange={(d) => onChange(d ?? undefined)}
+      minValue={dateStart}
       isRequired
     />
   )

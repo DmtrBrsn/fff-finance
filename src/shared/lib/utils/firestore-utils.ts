@@ -18,7 +18,7 @@ export class TimestampAdapter {
   }
 
   static tsToIsoStr(ts: Timestamp, withTime: boolean = false) {
-    return withTime ? Dates.dateObjToDateTimeString(ts.toDate()) : Dates.dateObjToDateString(ts.toDate())
+    return withTime ? Dates.toString(ts.toDate(), { withTime: true }) : Dates.toString(ts.toDate())
   }
 
   static getCurTs() {

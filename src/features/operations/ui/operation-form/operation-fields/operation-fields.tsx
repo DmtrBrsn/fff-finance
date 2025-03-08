@@ -1,9 +1,7 @@
-import { parseDate } from "@internationalized/date"
 import {
   DateField, NumberField,
   TextField
 } from "@shared/ui/react-aria"
-import { Dates } from "@shared/lib/utils"
 
 export const OpDateField = (
   { date, onChange }:
@@ -12,10 +10,10 @@ export const OpDateField = (
   return (
     <DateField
       label='Date'
-      value={parseDate(date)}
+      value={date}
       isRequired
       withButtons
-      onChange={(d) => d && onChange(Dates.removeTimeFromString(d.toString()))}
+      onChange={(d) => d && onChange(d)}
     />
   )
 }

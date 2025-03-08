@@ -5,6 +5,7 @@ type Props = {
   isOpen: boolean
   setOpen: (open: boolean) => void
   onConfirm: () => void
+  onCancel?: () => void
   title: string
   confirmText?: string
   cancelText?: string
@@ -13,11 +14,14 @@ type Props = {
 }
 
 export const ConfirmDialog = (
-  { isOpen, setOpen, onConfirm, title, confirmText='OK', cancelText = 'Cancel', danger = false, information }: Props
+  { isOpen, setOpen, onConfirm, onCancel, title, confirmText = 'OK', cancelText = 'Cancel', danger = false, information }: Props
 ) => {
-  const close = () => setOpen(false)
+  const close = () => {
+    setOpen(false)
+    onCancel && onCancel()
+  }
   return (
-    <Modal isOpen={isOpen} onOpenChange={setOpen}>
+    <Modal isOpen={isOpen} onOpenChange={(o) => o === false && close()}>
       <Dialog>
         <DialogCloseBtn close={close} />
         <Heading slot="title">{title}</Heading>

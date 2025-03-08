@@ -12,10 +12,8 @@ export type GetOpsParams = {
 }
 
 export const getThisMonthOpParams = (): GetOpsParams => {
-  const firstD = Dates.numToDateString(Dates.getFirstDayOfPeriod(new Date, 'M'))
-  const lastD = Dates.numToDateString(Dates.getLastDayOfPeriod(new Date, 'M'))
-  const from = Dates.removeTimeFromString(firstD)
-  const to = Dates.removeTimeFromString(lastD)
+  const from = Dates.getFirstDay('M', new Date)
+  const to = Dates.getLastDay('M', new Date)
   return ({ from, to })
 }
 

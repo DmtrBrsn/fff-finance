@@ -16,47 +16,80 @@ import {
   Text,
   ValidationResult,
   DatePickerStateContext
-} from 'react-aria-components';
-import { ButtonIcon } from '../button-icon/button-icon';
-import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/ui/svg';
-import { today } from '@internationalized/date';
-import React from 'react';
-import { Button } from '../button/button';
+} from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon'
+import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/ui/svg'
+import { parseDate, today } from '@internationalized/date'
+import React, { useCallback } from 'react'
+import { Button } from '../button/button'
 
-export interface DatePickerProps<T extends DateValue>
-  extends AriaDatePickerProps<T> {
-  label?: string;
-  description?: string;
-  errorMessage?: string | ((validation: ValidationResult) => string);
-  clearable?: boolean;
+type DateStringLayerProps = {
+  onChange?: (value: string | null) => void
+  value?: string | null
+  defaultValue?: string | null
+  minValue?: string
+  maxValue?: string
 }
 
+export type DatePickerProps<T extends DateValue> = {
+  label?: string
+  description?: string
+  errorMessage?: string | ((validation: ValidationResult) => string)
+  clearable?: boolean
+  visibleMonths?: 1 | 2 | 3
+} & Omit<AriaDatePickerProps<T>, 'onChange' | 'value' | 'defaultValue' | 'minValue' | 'maxValue'> & DateStringLayerProps
+
 export function DatePicker<T extends DateValue>(
-  { label, description, errorMessage, clearable = true, ...props }: DatePickerProps<T>
+  { label, description, visibleMonths = 1, clearable = true, errorMessage, ...props }: DatePickerProps<T>
 ) {
+
+  const onChange = useCallback((v: DateValue | null) => {
+    return props.onChange === undefined ? undefined :
+      v === null ? props.onChange(null) : props.onChange(v.toString())
+  }, [props.onChange])
+
+  const parseValue = useCallback((v?: string | null) => {
+    if (v == undefined) {
+      return v
+    }
+    else {
+      try {
+        return parseDate(v.split('T')[0]) as T
+      }
+      catch {
+        return null
+      }
+    }
+  }, [])
+
   return (
     (
-      <AriaDatePicker {...props}>
+      <AriaDatePicker
+        {...props}
+        onChange={onChange}
+        value={parseValue(props.value)}
+        defaultValue={parseValue(props.defaultValue)}
+        minValue={parseValue(props.minValue)}
+        maxValue={parseValue(props.maxValue)}
+      >
         <Label>{label}</Label>
         <Group>
           <DateInput>
             {(segment) => <DateSegment segment={segment} />}
           </DateInput>
-          <ButtonIcon size='s'><CalendarMonth/></ButtonIcon>
+          <ButtonIcon size='s'><CalendarMonth /></ButtonIcon>
         </Group>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
         <Popover>
           <Dialog>
-            <Calendar>
+            <Calendar visibleDuration={{ months: visibleMonths }}>
               <header>
-                <ButtonIcon slot="previous"><ChevronBack/></ButtonIcon>
+                <ButtonIcon slot="previous"><ChevronBack /></ButtonIcon>
                 <Heading />
-                <ButtonIcon slot="next"><ChevronForward/></ButtonIcon>
+                <ButtonIcon slot="next"><ChevronForward /></ButtonIcon>
               </header>
-              <CalendarGrid weekdayStyle='short'>
-                {(date) => <CalendarCell date={date} />}
-              </CalendarGrid>
+              <CalendarGrids visibleMonths={visibleMonths} />
               <span className='flex-row justify-sb gap-1'>
                 {clearable && <DatePickerClearButton />}
                 <DatePickerSetTodayButton />
@@ -66,6 +99,30 @@ export function DatePicker<T extends DateValue>(
         </Popover>
       </AriaDatePicker>
     )
+  )
+}
+
+const CalendarGrids = (
+  { visibleMonths = 1 }: { visibleMonths?: 1 | 2 | 3 }
+) => {
+  return (
+    <div className='flex-row wrap gap-2'>
+      <CalendarGrid weekdayStyle='short'>
+        {date => <CalendarCell date={date} />}
+      </CalendarGrid>
+      {visibleMonths > 1 && <CalendarGrid
+        weekdayStyle='short'
+        offset={{ months: 1 }}
+      >
+        {date => <CalendarCell date={date} />}
+      </CalendarGrid>}
+      {visibleMonths > 2 && <CalendarGrid
+        weekdayStyle='short'
+        offset={{ months: 2 }}
+      >
+        {date => <CalendarCell date={date} />}
+      </CalendarGrid>}
+    </div>
   )
 }
 

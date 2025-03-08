@@ -1,34 +1,38 @@
 .react-aria-Group-buttons {
-  --border-color: var(--gray-400);
-
   display: flex;
 
   .react-aria-Button {
     border-radius: 0;
-    border: 1px solid var(--border-color);
   }
+
   &.horizontal {
     .react-aria-Button:not(.react-aria-Button:last-child) {
       border-right-width: 0;
     }
+
     .react-aria-Button:first-child {
       border-top-left-radius: var(--app-border-radius);
       border-bottom-left-radius: var(--app-border-radius);
     }
+
     .react-aria-Button:last-child {
       border-top-right-radius: var(--app-border-radius);
       border-bottom-right-radius: var(--app-border-radius);
     }
   }
+
   &.vertical {
     flex-direction: column;
+
     .react-aria-Button:not(.react-aria-Button:last-child) {
       border-bottom-width: 0;
     }
+
     .react-aria-Button:first-child {
       border-top-left-radius: var(--app-border-radius);
       border-top-right-radius: var(--app-border-radius);
     }
+
     .react-aria-Button:last-child {
       border-bottom-left-radius: var(--app-border-radius);
       border-bottom-right-radius: var(--app-border-radius);

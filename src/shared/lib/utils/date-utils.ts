@@ -14,16 +14,13 @@ export class Dates {
 
 	/** by default: tz is local, without time*/
 	static now(options?: DateStringOptions) {
-		return Dates.dateObjToDateString(new Date, options)
+		return Dates.dateObjToString(new Date, options)
 	}
 	static nowNum() {
 		return new Date().getTime()
 	}
-	static dateObjToNum(date: Date) {
-		return date.getTime()
-	}
 	/** by default: tz is local, without time*/
-	static dateObjToDateString(
+	private static dateObjToString(
 		date: Date,
 		options?: DateStringOptions
 	) {
@@ -34,21 +31,17 @@ export class Dates {
 			).toISOString()
 		).split(options?.withTime ? 'Z' : 'T')[0]
 	}
-	/** by default: tz is local, without time*/
-	static numToDateString(date: number, options?: DateStringOptions) {
-		return Dates.dateObjToDateString(new Date(date), options)
+
+	static toString(date: AnyDate, options?: DateStringOptions) {
+		return Dates.dateObjToString(new Date(date), options)
 	}
-	/** date is considered local*/
-	static dateStringToNum(date: string) {
+
+	static toNum(date: AnyDate) {
 		return new Date(date).getTime()
 	}
 
-	static dateObjToDateTimeString(date: Date) {
-		return Dates.dateObjToDateString(date, { withTime: true })
-	}
-
-	static removeTimeFromString(date: string) {
-		return Dates.dateObjToDateString(new Date(date), { withTime: false })
+	static toDate(date: AnyDate) {
+		return new Date(date)
 	}
 
 	static formatDateLoc = (
@@ -84,7 +77,7 @@ export class Dates {
 		}).format(d)
 	}
 
-	static formatPeriod(date: AnyDate, per: Period) {
+	static formatPeriod(per: Period, date: AnyDate) {
 		switch (per) {
 			case 'D':
 			case 'day':
@@ -115,8 +108,8 @@ export class Dates {
 	static formatWeek(date: AnyDate) {
 		const d = new Date(date)
 		const weekNum = Dates.getWeekNum(d)
-		const weekStart = Dates.getFirstDayOfPeriod(d, 'W')
-		const weekEnd = Dates.getLastDayOfPeriod(weekStart, 'W')
+		const weekStart = Dates.getFirstDayNum('W', d)
+		const weekEnd = Dates.getLastDayNum('W', weekStart,)
 		return `Н${weekNum} (${Dates.formatRange(weekStart, weekEnd)})`
 	}
 
@@ -162,7 +155,7 @@ export class Dates {
 		return d.getTime() - dz <= Dates.day / 2 ?
 			dz
 			:
-			Dates.add(dz, 'D', 1)
+			Dates.addNum(dz, 'D', 1)
 	}
 
 	static floorDay(date: AnyDate) {
@@ -171,7 +164,7 @@ export class Dates {
 		return floored.getTime()
 	}
 
-	static isPastDay(date: number | string) {
+	static isPastDay(date: AnyDate) {
 		return new Date(date).getTime() < Dates.floorDay(new Date)
 	}
 
@@ -185,17 +178,27 @@ export class Dates {
 		return new Date(date).getDay()
 	}
 
-	static add(date: AnyDate, per: Period, amount: number) {
+	/** Mutates date */
+	static incrementDatePeriodMutate(date: Date, per: Period) {
+		return Dates.addMutate(date, per, 1)
+	}
+	/** Mutates date */
+	static decrementDatePeriodMutate(date: Date, per: Period) {
+		return Dates.subtractMutate(date, per, 1)
+	}
+
+	static add(date: AnyDate, per: Period, amount: number, options?: DateStringOptions) {
+		return Dates.toString(Dates.addMutate(new Date(date), per, amount), options)
+	}
+	static addNum(date: AnyDate, per: Period, amount: number) {
 		return Dates.addMutate(new Date(date), per, amount).getTime()
 	}
-	static subtract(date: AnyDate, per: Period, amount: number) {
+
+	static subtract(date: AnyDate, per: Period, amount: number, options?: DateStringOptions) {
+		return Dates.toString(Dates.subtractMutate(new Date(date), per, amount), options)
+	}
+	static subtractNum(date: AnyDate, per: Period, amount: number) {
 		return Dates.subtractMutate(new Date(date), per, amount).getTime()
-	}
-	static increment(date: AnyDate, per: Period) {
-		return Dates.add(date, per, 1)
-	}
-	static decrement(date: AnyDate, per: Period) {
-		return Dates.subtract(date, per, 1)
 	}
 
 	static getDateOfISOWeek(yearAndWeek: string) {
@@ -212,15 +215,19 @@ export class Dates {
 		return ISOweekStart.getTime()
 	}
 
-	static getLastDayOfPeriod(date: AnyDate, period: Period) {
-		const firstDay = Dates.getFirstDayOfPeriod(date, period)
-		const LD = new Date(Dates.add(firstDay, period, 1))
+	static getLastDayNum(period: Period, date?: AnyDate) {
+		const firstDay = Dates.getFirstDayNum(period, date ?? new Date)
+		const LD = new Date(Dates.addNum(firstDay, period, 1))
 		LD.setDate(LD.getDate() - 1)
 		return LD.getTime()
 	}
 
-	static getFirstDayOfPeriod(date: AnyDate, period: Period) {
-		const d = new Date(date)
+	static getLastDay(period: Period, date?: AnyDate, options?: DateStringOptions) {
+		return Dates.toString(Dates.getLastDayNum(period, date), options)
+	}
+
+	static getFirstDayNum(period: Period, date?: AnyDate) {
+		const d = date ? new Date(date) : new Date
 		let FD: Date
 		switch (period) {
 			case 'D':
@@ -263,10 +270,14 @@ export class Dates {
 		return FD.getTime()
 	}
 
+	static getFirstDay(period: Period, date?: AnyDate, options?: DateStringOptions) {
+		return Dates.toString(Dates.getFirstDayNum(period, date), options)
+	}
+
 	/** returns YYYY-MM */
 	static getMonthString(date: AnyDate) {
 		const d = new Date(date)
-		const split = Dates.dateObjToDateString(d).split('-')
+		const split = Dates.dateObjToString(d).split('-')
 		return split[0] + '-' + split[1]
 	}
 	/** monthString YYYY-MM */
@@ -278,9 +289,9 @@ export class Dates {
 	/** monthString YYYY-MM */
 	static monthStrToStartEndStr = (monthString: string) => {
 		const firstDay = Dates.monthStringToNum(monthString)
-		const lastDay = Dates.getLastDayOfPeriod(firstDay, 'M')
-		const dateStart = Dates.numToDateString(firstDay)
-		const dateEnd = Dates.numToDateString(lastDay)
+		const lastDay = Dates.getLastDayNum('M', firstDay)
+		const dateStart = Dates.toString(firstDay)
+		const dateEnd = Dates.toString(lastDay)
 		return { dateStart, dateEnd }
 	}
 
@@ -295,11 +306,13 @@ export class Dates {
 
 	static isDateValid = (date: Date | string) => {
 		const invalidStr = 'Invalid Date'
-		return typeof date === 'string'
-			? new Date(date).toString() !== invalidStr
-			: date instanceof Date
-				? date.toString() !== invalidStr
-				: false
+		return (typeof date === 'string') ?
+			new Date(date).toString() !== invalidStr
+			:
+			(date instanceof Date) ?
+				date.toString() !== invalidStr
+				:
+				false
 	}
 
 	static isBetween(date: Date | number, from: Date | number, to: Date | number) {
@@ -318,8 +331,7 @@ export class Dates {
 		return 'current'
 	}
 
-	/** Mutates date */
-	static addMutate(date: Date, per: Period, amount: number) {
+	private static addMutate(date: Date, per: Period, amount: number) {
 		switch (per) {
 			case 'D':
 			case 'day':
@@ -347,9 +359,7 @@ export class Dates {
 		}
 		return date
 	}
-	/** Mutates date */
-	static subtractMutate(date: Date, per: Period, amount: number) {
+	private static subtractMutate(date: Date, per: Period, amount: number) {
 		return Dates.addMutate(date, per, -amount)
 	}
-
 }

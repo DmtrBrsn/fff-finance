@@ -23,23 +23,28 @@ export interface ComboBoxProps<T extends object>
   description?: string | null
   errorMessage?: string | ((validation: ValidationResult) => string)
   children: React.ReactNode | ((item: T) => React.ReactNode)
+  clearButton?: boolean
+  placeholder?: string
 }
 
 export function ComboBox<T extends object>(
-  { label, fontSize='m', description, errorMessage, children, ...props }: ComboBoxProps<T>
+  { label, fontSize, description, errorMessage, children, placeholder, clearButton = true, ...props }: ComboBoxProps<T>
 ) {
   return (
     (
       <AriaComboBox {...props}>
         <Label>{label}</Label>
         <div className="my-combobox-container">
-          <Input />
+          <Input
+            className={'react-aria-Input' + (clearButton ? ' with-clear-btn' : '')}
+            placeholder={placeholder}
+          />
           <ButtonIcon
             className={'react-aria-Button-icon s drop-down-button' + ' ' + fontSize}
           >
             <ArrowDropDown />
           </ButtonIcon>
-          <ComboBoxClearButton/>
+          {clearButton && <ComboBoxClearButton isDisabled={props.isDisabled} />}
         </div>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
@@ -57,19 +62,20 @@ export function ComboBoxItem(props: ListBoxItemProps) {
   return <ListBoxItem {...props} />
 }
 
-function ComboBoxClearButton() {
+function ComboBoxClearButton({ isDisabled = false }: { isDisabled?: boolean }) {
   let state = useContext(ComboBoxStateContext);
   return (
     <ButtonIcon
       slot={null}
       aria-label="Очистить"
+      isDisabled={isDisabled}
       className={
         'react-aria-Button-icon s clear-input-button' +
         (state?.inputValue ? '' : ' hidden')
       }
-      onPress={() => state?.setSelectedKey(null)}
+      onPress={() => { state?.setSelectedKey(null); state?.setInputValue('') }}
     >
-      <CloseIcon/>
+      <CloseIcon />
     </ButtonIcon>
   );
 }
