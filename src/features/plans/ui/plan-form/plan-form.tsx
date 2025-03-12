@@ -115,10 +115,12 @@ export const PlanForm = (
           size='l'
           variant='attention'
           type="submit"
-          isDisabled={isSaving}
+          isPending={isSaving || isEditing}
         >
-          {mode === 'add' ? 'Save' : 'Update'}
-          {isSaving || isEditing && <Spinner />}
+          <>
+            {mode === 'add' ? 'Save' : 'Update'}
+            {(isSaving || isEditing) ? <Spinner /> : ''}
+          </>
         </Button>
       </span>
     </Form>

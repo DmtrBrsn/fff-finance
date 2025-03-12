@@ -76,7 +76,7 @@ export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => vo
           type="submit"
           isPending={isSaving}
         >
-          {'Save' + (isSaving ? <Spinner /> : '')}
+          {isSaving ? <>Save <Spinner /></> : 'Save'}
         </Button>
       </span>
     </Form>

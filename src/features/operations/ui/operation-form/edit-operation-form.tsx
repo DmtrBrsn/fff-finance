@@ -52,7 +52,7 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
           type="submit"
           isPending={isSaving}
         >
-          {'Update' + (isSaving ? <Spinner /> : '')}
+          {isSaving ? <>Update <Spinner /></> : 'Update'}
         </Button>
       </span>
     </Form>

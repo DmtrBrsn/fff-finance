@@ -75,8 +75,10 @@ export const CatForm = (
           size='l'
           isPending={adding || updating}
         >
-          {mode === 'add' ? 'Add' : 'Update'}
-          {adding || updating ? <Spinner /> : ''}
+          <>
+            {mode === 'add' ? 'Save' : 'Update'}
+            {(adding || updating) ? <Spinner /> : ''}
+          </>
         </Button>
       </span>
     </Form>
