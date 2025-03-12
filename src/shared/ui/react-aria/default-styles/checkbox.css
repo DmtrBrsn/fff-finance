@@ -1,8 +1,7 @@
-
 .react-aria-Checkbox {
-  --selected-color: var(--highlight-background);
-  --selected-color-pressed: var(--highlight-background-pressed);
-  --checkmark-color: var(--highlight-foreground);
+  --cb-selected-color: var(--highlight-background);
+  --cb-selected-color-pressed: var(--highlight-background-pressed);
+  --cb-checkmark-color: var(--highlight-foreground);
 
   display: flex;
   align-items: center;
@@ -10,21 +9,23 @@
   font-size: 1rem;
   color: var(--text-color);
   forced-color-adjust: none;
-  
+
 
   .checkbox.s {
-    --size: 1rem;
+    --cb-size: 1rem;
   }
+
   .checkbox.m {
-    --size: 1.1rem;
+    --cb-size: 1.1rem;
   }
+
   .checkbox.l {
-    --size: 1.5rem;
+    --cb-size: 1.5rem;
   }
 
   .checkbox {
-    width: var(--size);
-    height: var(--size);
+    width: var(--cb-size);
+    height: var(--cb-size);
     border: 2px solid var(--border-color);
     border-radius: 4px;
     transition: all 200ms;
@@ -38,7 +39,7 @@
     width: 1rem;
     height: 1rem;
     fill: none;
-    stroke: var(--checkmark-color);
+    stroke: var(--cb-checkmark-color);
     stroke-width: 3px;
     stroke-dasharray: 22px;
     stroke-dashoffset: 66;
@@ -57,13 +58,13 @@
   &[data-selected],
   &[data-indeterminate] {
     .checkbox {
-      border-color: var(--selected-color);
-      background: var(--selected-color);
+      border-color: var(--cb-selected-color);
+      background: var(--cb-selected-color);
     }
 
     &[data-pressed] .checkbox {
-      border-color: var(--selected-color-pressed);
-      background: var(--selected-color-pressed);
+      border-color: var(--cb-selected-color-pressed);
+      background: var(--cb-selected-color-pressed);
     }
 
     svg {
@@ -74,13 +75,13 @@
   &[data-indeterminate] {
     & svg {
       stroke: none;
-      fill: var(--checkmark-color);
+      fill: var(--cb-checkmark-color);
     }
   }
 
   &[data-invalid] {
     .checkbox {
-      --checkmark-color: var(--gray-50);
+      --cb-checkmark-color: var(--gray-50);
       border-color: var(--invalid-color);
     }
 

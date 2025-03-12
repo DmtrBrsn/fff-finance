@@ -68,14 +68,14 @@
 
   .react-aria-Input {
     &[data-invalid] {
-      border-color: var(--red-500);
+      border-color: var(--invalid-color);
     }
   }
 
   .react-aria-FieldError {
     grid-area: help;
     font-size: 0.9rem;
-    color: var(--red-500);
+    color: var(--invalid-color);
   }
 
   [slot=description] {
@@ -85,8 +85,8 @@
 
   .react-aria-Input {
     &[data-disabled] {
-      border-color: var(--gray-300);
-      color: var(--gray-300);
+      border-color: var(--border-color-disabled);
+      color: var(--text-color-disabled0);
     }
   }
 }

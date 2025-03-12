@@ -6,32 +6,34 @@
   forced-color-adjust: none;
 
   .indicator.s {
-    --height: 1rem;
+    --switch-height: 1rem;
   }
+
   .indicator.m {
-    --height: 1rem;
+    --switch-height: 1rem;
   }
+
   .indicator.l {
-    --height: 1.5rem;
+    --switch-height: 1.5rem;
   }
 
   .indicator {
-    --width: calc(var(--height) * 1.7);
-    --border: calc(var(--height) * 0.13);
-    min-width: var(--width);
-    height: var(--height);
-    border: var(--border) solid var(--highlight-background);
+    --switch-width: calc(var(--switch-height) * 1.7);
+    --switch-border: calc(var(--switch-height) * 0.13);
+    min-width: var(--switch-width);
+    height: var(--switch-height);
+    border: var(--switch-border) solid var(--highlight-background);
     background: transparent;
-    border-radius: var(--height);
+    border-radius: var(--switch-height);
     transition: all 200ms;
     position: relative;
     box-sizing: content-box;
-    
+
     &:before {
       content: '';
       position: absolute;
-      width: var(--height);
-      height: var(--height);
+      width: var(--switch-height);
+      height: var(--switch-height);
       background: var(--gray-300);
       border-radius: 50%;
       transition: all 150ms;
@@ -49,9 +51,9 @@
 
       &:before {
         background: var(--background-color);
-        transform: translateX(calc(var(--width) - var(--height)));
+        transform: translateX(calc(var(--switch-width) - var(--switch-height)));
       }
-      
+
     }
 
     &[data-pressed] {
@@ -73,6 +75,7 @@
     .indicator {
       border-color: var(--gray-300);
       background-color: unset;
+
       &:before {
         background: var(--gray-300);
       }

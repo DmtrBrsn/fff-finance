@@ -315,7 +315,7 @@ export class Dates {
 				false
 	}
 
-	static isBetween(date: Date | number, from: Date | number, to: Date | number) {
+	static isBetween(date: AnyDate, from: AnyDate, to: AnyDate) {
 		const dateStart = Dates.floorDay(new Date(date))
 		const fromDayStart = Dates.floorDay(new Date(from))
 		const toDayStart = Dates.floorDay(new Date(to))

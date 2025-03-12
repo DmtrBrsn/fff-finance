@@ -1,9 +1,18 @@
 .react-aria-Button-icon {
 
   --size: 1.7rem;
-  &.s {--size: 1.5rem;}
-  &.l {--size: 2.3rem;}
-  &.xl {--size: 3rem;}
+
+  &.s {
+    --size: 1.5rem;
+  }
+
+  &.l {
+    --size: 2.3rem;
+  }
+
+  &.xl {
+    --size: 3rem;
+  }
 
   width: var(--size);
   height: var(--size);
@@ -21,7 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   svg {
     fill: var(--text-color);
     height: calc(var(--size) * 0.75);
@@ -41,8 +50,7 @@
     outline-offset: -1px;
   }
 
-  &[data-disabled]{
-    border-color: var(--border-color-disabled);
+  &[data-disabled] {
     color: var(--text-color-disabled);
 
     svg {
@@ -53,13 +61,15 @@
   &[data-selected] {
     background-color: var(--gray-300);
     color: var(--gray-50);
-  
+
     svg {
       fill: var(--gray-50);
     }
+
     &[data-hovered] {
       background-color: var(--gray-400);
     }
+
     &[data-pressed] {
       background-color: var(--gray-500);
     }

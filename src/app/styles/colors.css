@@ -1,4 +1,5 @@
-:root, :root[data-theme="light"] {
+:root,
+:root[data-theme="light"] {
   color-scheme: light;
   --background-color: #ffffff;
   --gray-50: #f2f2f2;
@@ -42,10 +43,10 @@
   --highlight-pressed: rgba(0 0 0 / 0.2);
 }
 
+
 @media (prefers-color-scheme: dark) {
   :root:not(:root[data-theme]) {
     color-scheme: dark;
-
     --background-color: #1d1d1d;
     --gray-50: #272727;
     --gray-100: #393939;
@@ -127,7 +128,7 @@
   --yellow-400: #facc15;
   --yellow-500: #fde047;
   --yellow-600: #fef08a;
-  
+
   --app-color: var(--green-300);
   --highlight-hover: rgba(255 255 255 / 0.15);
   --highlight-pressed: rgba(255 255 255 / 0.25);
@@ -155,11 +156,16 @@
   --button-background-pressed: var(--background-color);
   /* these colors are the same between light and dark themes
   * to ensure contrast with the foreground color */
-  --highlight-background: #044792; /* blue-300 from dark theme, 3.03:1 against background-color */
-  --highlight-background-hover:  #006dca; /* blue-200 from dark theme */
-  --highlight-background-pressed: #008ff8; /* blue-100 from dark theme */
-  --highlight-background-invalid: #cc2000; /* red-300 from dark theme */
-  --highlight-foreground: white; /* 5.56:1 against highlight-background */
+  --highlight-background: #044792;
+  /* blue-300 from dark theme, 3.03:1 against background-color */
+  --highlight-background-hover: #006dca;
+  /* blue-200 from dark theme */
+  --highlight-background-pressed: #008ff8;
+  /* blue-100 from dark theme */
+  --highlight-background-invalid: #cc2000;
+  /* red-300 from dark theme */
+  --highlight-foreground: white;
+  /* 5.56:1 against highlight-background */
   --highlight-foreground-pressed: #ddd;
   --highlight-overlay: rgb(from #008ff8 r g b / 30%);
   --invalid-color: var(--red-400);

@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react"
 import { useCategoriesGet, useCategoriesAdd, useCategoriesUpdate } from "../api"
 import { Category, CatUtils } from "../lib"
 import { Form } from "react-aria-components"
+import { Spinner } from '@shared/ui'
 
 export const CatForm = (
   { mode, cat, onSuccess, onCancel }:
@@ -68,7 +69,15 @@ export const CatForm = (
       />
       <span className="flex-row gap-1">
         {onCancel && <Button type="button" size='l' onPress={onCancel}>Cancel</Button>}
-        <Button type="submit" variant="attention" size='l' isPending={adding || updating}>{mode === 'add' ? 'Add' : 'Update'}</Button>
+        <Button
+          type="submit"
+          variant="attention"
+          size='l'
+          isPending={adding || updating}
+        >
+          {mode === 'add' ? 'Add' : 'Update'}
+          {adding || updating ? <Spinner /> : ''}
+        </Button>
       </span>
     </Form>
   )

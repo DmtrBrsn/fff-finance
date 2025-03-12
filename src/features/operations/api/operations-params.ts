@@ -17,4 +17,4 @@ export const getThisMonthOpParams = (): GetOpsParams => {
   return ({ from, to })
 }
 
-export const getLatestOpsParams = (): GetOpsParams => ({ limit: 10, orderBy: 'created', orderByDirection: 'desc' })
+export const latestOpsParams: GetOpsParams = { limit: 10, orderBy: 'created', orderByDirection: 'desc' }

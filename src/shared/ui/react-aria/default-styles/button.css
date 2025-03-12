@@ -1,100 +1,100 @@
 .react-aria-Button {
-  --bg: var(--button-background);
-  --color: var(--text-color);
-  --border-color: var(--gray-400);
+  --btn-bg: var(--button-background);
+  --btn-color: var(--text-color);
+  --btn-border-color: var(--gray-400);
 
-  --hover-bg: var(--highlight-hover);
-  --pressed-bg: var(--highlight-pressed);
+  --btn-hover-bg: var(--highlight-hover);
+  --btn-pressed-bg: var(--highlight-pressed);
 
-  --selected-bg: var(--gray-600);
-  --selected-color: var(--gray-50);
+  --btn-selected-bg: var(--gray-600);
+  --btn-selected-color: var(--gray-50);
 
-  --disabled-bg: transparent;
-  --disabled-color: var(--text-color-disabled);
+  --btn-disabled-bg: transparent;
+  --btn-disabled-color: var(--text-color-disabled);
 
 
   &.attention {
-    --bg: var(--highlight-background);
-    --color: var(--highlight-foreground);
-    --border-color: transparent;
+    --btn-bg: var(--highlight-background);
+    --btn-color: var(--highlight-foreground);
+    --btn-border-color: transparent;
 
-    --hover-bg: var(--highlight-background-hover);
-    --pressed-bg: var(--highlight-background-pressed);
+    --btn-hover-bg: var(--highlight-background-hover);
+    --btn-pressed-bg: var(--highlight-background-pressed);
 
-    --selected-bg: var(--blue-600);
-    --selected-color: var(--gray-50);
+    --btn-selected-bg: var(--blue-600);
+    --btn-selected-color: var(--gray-50);
 
-    --disabled-bg: hsl(from var(--bg) h calc(s - 40) l);
-    --disabled-color: var(--text-color-disabled);
+    --btn-disabled-bg: hsl(from var(--btn-bg) h calc(s - 40) l);
+    --btn-disabled-color: var(--text-color-disabled);
   }
 
   &.danger {
-    --bg: var(--red-200);
-    --color: var(--highlight-foreground);
-    --border-color: transparent;
+    --btn-bg: var(--red-200);
+    --btn-color: var(--highlight-foreground);
+    --btn-border-color: transparent;
 
-    --hover-bg: var(--red-300);
-    --pressed-bg: var(--red-400);
+    --btn-hover-bg: var(--red-300);
+    --btn-pressed-bg: var(--red-400);
 
-    --selected-bg: var(--red-500);
-    --selected-color: var(--gray-100);
+    --btn-selected-bg: var(--red-500);
+    --btn-selected-color: var(--gray-100);
 
-    --disabled-bg: hsl(from var(--bg) h calc(s - 40) l);
-    --disabled-color: var(--text-color-disabled);
+    --btn-disabled-bg: hsl(from var(--btn-bg) h calc(s - 40) l);
+    --btn-disabled-color: var(--text-color-disabled);
   }
 
   &.transparent {
-    --bg: transparent;
+    --btn-bg: transparent;
   }
 
-  --size: 1rem;
-  --padding: 0.3rem 0.6rem;
+  --btn-size: 1rem;
+  --btn-padding: 0.3rem 0.6rem;
 
   &.narrow {
-    --padding: 0.3rem;
+    --btn-padding: 0.3rem;
   }
 
   &.s {
-    --padding: 0.1rem 0.2rem;
+    --btn-padding: 0.1rem 0.2rem;
   }
 
   &.s.narrow {
-    --padding: 0.1rem;
+    --btn-padding: 0.1rem;
   }
 
   &.l {
-    --size: 1.2rem;
-    --padding: 0.6rem 0.9rem;
+    --btn-size: 1.2rem;
+    --btn-padding: 0.6rem 0.9rem;
   }
 
   &.l.narrow {
-    --padding: 0.6rem;
+    --btn-padding: 0.6rem;
   }
 
   &.xl {
-    --size: 1.5rem;
-    --padding: 0.9rem 1.2rem;
+    --btn-size: 1.5rem;
+    --btn-padding: 0.9rem 1.2rem;
   }
 
   &.xl.narrow {
-    --padding: 0.6rem;
+    --btn-padding: 0.6rem;
   }
 
   &.justified {
     width: 100%;
   }
 
-  color: var(--color);
-  background: var(--bg);
-  border: 1px solid var(--border-color);
+  color: var(--btn-color);
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border-color);
   border-radius: var(--app-border-radius);
   appearance: none;
   vertical-align: middle;
-  font-size: var(--size);
+  font-size: var(--btn-size);
   text-align: center;
   margin: 0;
   outline: none;
-  padding: var(--padding);
+  padding: var(--btn-padding);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -102,18 +102,18 @@
   gap: 0.2rem;
 
   >svg {
-    fill: var(--color);
-    height: calc(var(--size) * 1.1);
-    width: calc(var(--size) * 1.1);
+    fill: var(--btn-color);
+    height: calc(var(--btn-size) * 1.1);
+    width: calc(var(--btn-size) * 1.1);
   }
 
   &[data-hovered] {
-    background: var(--hover-bg);
+    background: var(--btn-hover-bg);
   }
 
   &[data-pressed] {
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.1);
-    background: var(--pressed-bg);
+    background: var(--btn-pressed-bg);
   }
 
   &[data-focus-visible] {
@@ -122,21 +122,21 @@
   }
 
   &[data-disabled] {
-    background-color: var(--disabled-bg);
-    color: var(--disabled-color);
-    border-color: var(--disabled-color);
+    background-color: var(--btn-disabled-bg);
+    color: var(--btn-disabled-color);
+    border-color: var(--btn-disabled-color);
 
     >svg {
-      fill: var(--disabled-color);
+      fill: var(--btn-disabled-color);
     }
   }
 
   &[data-selected] {
-    background: var(--selected-bg);
-    color: var(--selected-color);
+    background: var(--btn-selected-bg);
+    color: var(--btn-selected-color);
 
     >svg {
-      fill: var(--selected-color);
+      fill: var(--btn-selected-color);
     }
   }
 }
