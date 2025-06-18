@@ -20,7 +20,7 @@ export const OpListFilterSortSetup = () => {
   return (
     <ButtonGroup>
       <DialogTrigger>
-        <Button narrow> <FilterList /><ArrowDropDown /></Button>
+        <Button equalPadding> <FilterList /><ArrowDropDown /></Button>
         <Popover>
           <div className="flex-col gap-2">
             <div className="flex-row gap-1">
@@ -49,7 +49,7 @@ export const OpListFilterSortSetup = () => {
             <div className="flex-row gap-1">
               isIncome
               <OpListSortControls field="isIncome" />
-              <IsIncomeFilter/>
+              <IsIncomeFilter />
             </div>
             <div className="flex-row gap-1">
               <span>Created</span>
@@ -59,7 +59,7 @@ export const OpListFilterSortSetup = () => {
         </Popover>
       </DialogTrigger>
       <Button
-        narrow
+        equalPadding
         onPress={resetFiltersAndSort}
         tooltip={'Reset filters and sort'}
         isDisabled={filterOptions.length === 0 && sortOptions.length === 0}
@@ -123,7 +123,7 @@ const SumFilter = () => {
         value={value == undefined ? NaN : Number(value)}
         onChange={updateFilter}
       />
-      {value!=undefined && <ButtonIcon onPress={() => removeFilter('sum')}>
+      {value != undefined && <ButtonIcon onPress={() => removeFilter('sum')}>
         <CloseIcon /></ButtonIcon>}
     </div>
   )
@@ -141,7 +141,7 @@ const CategoryFilter = () => {
       removeFilter('category')
     }
     else {
-      setFilter({ field: 'category', condition: 'in', values  })
+      setFilter({ field: 'category', condition: 'in', values })
     }
   }
 
@@ -149,18 +149,18 @@ const CategoryFilter = () => {
     <div className="flex-col gap-1">
       {filterValues.length > 0 && <div className="flex-row gap-1">
         {`${filterValues.length}/${cats?.length}`}
-        <ButtonIcon onPress={()=>removeFilter('category')}>
+        <ButtonIcon onPress={() => removeFilter('category')}>
           <CloseIcon /></ButtonIcon>
-          </div>}
-    <div className="cats-filter-box">
-      {cats?.map(c => <Checkbox
-        key={c.id}
-        value={c.name}
-        isSelected={filterValues.includes(c.name)}
-        onChange={e => updateFilter(c.name, e)}
-      >
-        {c.name}
-      </Checkbox>)}
+      </div>}
+      <div className="cats-filter-box">
+        {cats?.map(c => <Checkbox
+          key={c.id}
+          value={c.name}
+          isSelected={filterValues.includes(c.name)}
+          onChange={e => updateFilter(c.name, e)}
+        >
+          {c.name}
+        </Checkbox>)}
       </div>
     </div>
   )

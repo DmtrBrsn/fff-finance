@@ -11,24 +11,24 @@
     "fb-deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@internationalized/date": "^3.7.0",
-    "@react-aria/optimize-locales-plugin": "^1.1.4",
-    "@tanstack/react-query": "^5.67.3",
-    "firebase": "^11.4.0",
+    "@internationalized/date": "^3.8.2",
+    "@react-aria/optimize-locales-plugin": "^1.1.5",
+    "@tanstack/react-query": "^5.80.7",
+    "firebase": "^11.9.1",
     "motion": "^12.5.0",
-    "react": "19.0.0",
-    "react-aria-components": "^1.7.1",
-    "react-dom": "19.0.0",
-    "react-router-dom": "^7.3.0",
-    "react-virtuoso": "^4.12.5",
-    "zustand": "^5.0.3"
+    "react": "19.1.0",
+    "react-aria-components": "^1.10.1",
+    "react-dom": "19.1.0",
+    "react-router-dom": "^7.6.2",
+    "react-virtuoso": "^4.13.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@types/react-flatpickr": "^3.8.11",
-    "@vitejs/plugin-react-swc": "^3.8.0",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.1"
+    "@vitejs/plugin-react-swc": "^3.10.2",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
   }
 }

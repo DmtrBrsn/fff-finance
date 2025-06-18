@@ -11,10 +11,21 @@
   z-index: 1;
 
   .toast {
-    &.info {--bg: var(--blue-100);}
-    &.success {--bg: var(--green-100);}
-    &.error {--bg: var(--red-100);}
-    &.warning {--bg: var(--yellow-100);}
+    &.info {
+      --bg: var(--blue-100);
+    }
+
+    &.success {
+      --bg: var(--green-100);
+    }
+
+    &.error {
+      --bg: var(--red-100);
+    }
+
+    &.warning {
+      --bg: var(--yellow-100);
+    }
 
     display: flex;
     gap: calc(var(--gap-step) * 2);
@@ -27,6 +38,10 @@
     animation-iteration-count: 1;
     animation-duration: 0.3s;
     animation-name: slidein;
+
+    &.exit {
+      animation: slideout 0.3s forwards;
+    }
 
     .icon {
       height: 1.5rem;
@@ -53,5 +68,12 @@
 @keyframes slidein {
   from {
     transform: translateY(200%);
+  }
+}
+
+@keyframes slideout {
+  to {
+    transform: translateY(-200%);
+    opacity: 0;
   }
 }

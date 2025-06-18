@@ -1,9 +1,10 @@
 import { useToasterStore } from "../toaster-store"
-import { AddToast } from "./types"
+import { AddToast, type Toast } from "./types"
 import { toastDefaultDuration } from "./toaster-constants"
+import { Dates } from '@shared/lib/utils'
 
 const addToast = ({ message, type = 'info', duration = toastDefaultDuration, action, actionLabel }: AddToast) => {
-  const time = new Date().getTime()
+  const time = Dates.nowNum()
   useToasterStore.getState().add({
     time,
     message,
@@ -27,4 +28,13 @@ toast.info = (message: string, actionLabel?: string, action?: Function, duration
 toast.success = (message: string, actionLabel?: string, action?: Function, duration?: number) =>
   addToast({ message, type: 'success', action, actionLabel, duration })
 
-export { addToast, toast }
+const removeOnTimeout = (toast: Toast) => {
+  if (toast.duration > 0) {
+    const timer = setTimeout(() => {
+      useToasterStore.getState().remove(toast.time)
+    }, toast.duration)
+    return () => clearTimeout(timer)
+  }
+}
+
+export { addToast, toast, removeOnTimeout }

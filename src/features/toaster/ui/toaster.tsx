@@ -9,7 +9,7 @@ export const Toaster = () => {
   const { shown: toasts } = useToasterStore()
   if (toasts.length === 0) return null
   return (
-    <div className="toaster">
+    <div className="toaster" role="status" aria-live="polite">
       {toasts.map((t) => <SingleToast key={t.time} {...t} />)}
     </div>
   )
@@ -28,7 +28,11 @@ const SingleToast = (
 
   return (
     <div key={time} className={'toast' + (type ? ' ' + type : '')}>
-      <div className='icon'>
+      <div
+        className='icon'
+        role={type === 'error' ? 'alert' : 'status'}
+        aria-label={`${type} notification`}
+      >
         {type === 'warning' ?
           <WarningIcon /> :
           type === 'error' ?

@@ -6,23 +6,23 @@ export type BasicButtonProps = {
   size?: 's' | 'm' | 'l' | 'xl'
   tooltip?: string
   tooltipProps?: TooltipProps
-  narrow?: boolean
-  justified?: boolean
+  equalPadding?: boolean
+  width?: 'fit-content' | 'justified'
   children: React.ReactNode
 }
 
 export type ButtonProps = BasicButtonProps & RACButtonProps
 
 export function Button(
-  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: ButtonProps
+  { variant = 'primary', size = 'm', equalPadding = false, tooltip, width, tooltipProps, ...props }: ButtonProps
 ) {
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
     size +
     (props.className ? ' ' + props.className : '') +
-    (narrow ? ' narrow' : '') + 
-    (justified ? ' justified' : '')
-  
+    (equalPadding ? ' equal-padding' : '') +
+    (width ? ` ${width}` : '')
+
   if (tooltip) return (
     <TooltipTrigger>
       <RACButton className={className} {...props}>{props.children}</RACButton>
@@ -37,15 +37,15 @@ export function Button(
 type ToggleButtonProps = BasicButtonProps & RACToggleButtonProps
 
 export function ToggleButton(
-  { variant = 'primary', size = 'm', narrow=false, tooltip, justified=false, tooltipProps, ...props }: ToggleButtonProps
+  { variant = 'primary', size = 'm', equalPadding = false, tooltip, width, tooltipProps, ...props }: ToggleButtonProps
 ) {
 
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
     size +
     (props.className ? ' ' + props.className : '') +
-    (narrow ? ' narrow' : '') + 
-    (justified ? ' justified' : '')
+    (equalPadding ? ' equal-padding' : '') +
+    (width ? ` ${width}` : '')
 
   if (tooltip) return (
     <TooltipTrigger>
@@ -63,14 +63,15 @@ type LinkButtonProps = LinkProps & BasicButtonProps & {
 }
 
 export const LinkButton = (
-  { variant = 'primary', size = 'm', narrow=false, tooltip, ...props }: LinkButtonProps
+  { variant = 'primary', size = 'm', equalPadding = false, width, tooltip, ...props }: LinkButtonProps
 ) => {
   const className = 'react-aria-Button' + ' ' +
     variant + ' ' +
     size +
     (props.className ? ' ' + props.className : '') +
-    (narrow ? ' narrow' : '')
-  
+    (equalPadding ? ' equal-padding' : '') +
+    (width ? ` ${width}` : '')
+
   if (tooltip) return (
     <TooltipTrigger>
       <Rlink className={className} {...props}>{props.children}</Rlink>

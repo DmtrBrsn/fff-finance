@@ -69,7 +69,7 @@ function SelectClearButton({ isDisabled = false }: { isDisabled?: boolean }) {
       // Don't inherit behavior from Select.
       slot={null}
       isDisabled={isDisabled}
-      narrow
+      equalPadding
       onPress={() => state?.setSelectedKey(null)}>
       <CloseIcon />
     </Button >}</>

@@ -21,7 +21,7 @@ export const OperationsListToolbar = () => {
     <Toolbar>
       <OpAddBtn />
       <DialogTrigger>
-        <Button narrow> <CalendarMonth />{buttonText}<ArrowDropDown /></Button>
+        <Button equalPadding> <CalendarMonth />{buttonText}<ArrowDropDown /></Button>
         <Popover>
           <ListPeriodSetup
             params={params}

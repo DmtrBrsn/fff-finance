@@ -14,6 +14,7 @@ import { useMemo } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
+import { Spinner } from '@shared/ui'
 
 export const PlanningWidget = () => {
   const { from, to, period } = usePlanningWidgetStore()
@@ -47,7 +48,7 @@ export const PlanningWidget = () => {
   return (
     <FlList className="planning-widget">
       <PwToolbar />
-      {isFetching ? <FlNoData>Loading...</FlNoData> : data == undefined ? <FlNoData>No data</FlNoData> :
+      {isFetching ? <FlNoData><Spinner /></FlNoData> : data == undefined ? <FlNoData>No data</FlNoData> :
         <FlBody className="planning-period-sections-container">
           {data.map(d => <PeriodSection key={d.periodName} data={d} />)}
         </FlBody>
@@ -183,7 +184,7 @@ const PwToolbar = () => {
   return (
     <Toolbar className='toolbar react-aria-Toolbar'>
       <DialogTrigger>
-        <Button narrow> <SettingsIcon />{buttonText}<ArrowDropDown /></Button>
+        <Button equalPadding> <SettingsIcon />{buttonText}<ArrowDropDown /></Button>
         <Popover>
           <span className="flex-col gap-1">
             <DatePicker

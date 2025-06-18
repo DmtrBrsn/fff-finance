@@ -22,7 +22,7 @@ export const PlansToolbar = () => {
         onSelectionChange={(k) => k.size > 0 && setParams({ ...params, type: [...k][0] as 'regular' | 'repeating' | 'no-date' })}
       >
         <DialogTrigger>
-          <Button isDisabled={params.type !== 'regular'} narrow size="s"><ArrowDropDown /></Button>
+          <Button isDisabled={params.type !== 'regular'} equalPadding size="s"><ArrowDropDown /></Button>
           <Popover>
             <ListPeriodSetup params={params} setParams={handlePeriodChange} />
           </Popover>

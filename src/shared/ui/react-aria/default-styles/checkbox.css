@@ -9,6 +9,7 @@
   font-size: 1rem;
   color: var(--text-color);
   forced-color-adjust: none;
+  position: relative;
 
 
   .checkbox.s {

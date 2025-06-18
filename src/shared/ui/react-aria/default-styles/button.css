@@ -50,7 +50,7 @@
   --btn-size: 1rem;
   --btn-padding: 0.3rem 0.6rem;
 
-  &.narrow {
+  &.equal-padding {
     --btn-padding: 0.3rem;
   }
 
@@ -58,7 +58,7 @@
     --btn-padding: 0.1rem 0.2rem;
   }
 
-  &.s.narrow {
+  &.s.equal-padding {
     --btn-padding: 0.1rem;
   }
 
@@ -67,7 +67,7 @@
     --btn-padding: 0.6rem 0.9rem;
   }
 
-  &.l.narrow {
+  &.l.equal-padding {
     --btn-padding: 0.6rem;
   }
 
@@ -76,12 +76,16 @@
     --btn-padding: 0.9rem 1.2rem;
   }
 
-  &.xl.narrow {
+  &.xl.equal-padding {
     --btn-padding: 0.6rem;
   }
 
   &.justified {
     width: 100%;
+  }
+
+  &.fit-content {
+    width: fit-content;
   }
 
   color: var(--btn-color);

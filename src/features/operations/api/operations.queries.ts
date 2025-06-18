@@ -47,7 +47,7 @@ export function useOperationsAdd() {
         }
         queryClient.setQueryData<Operation[]>(
           query[0],
-          cache => cache ? [...cache, added] : [added]
+          cache => cache != undefined ? [...cache, added] : undefined
         )
       }
     },
