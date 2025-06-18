@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
-import {  initializeFirestore, memoryLocalCache } from 'firebase/firestore'
+import { initializeFirestore, memoryLocalCache } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -31,7 +31,7 @@ export const auth = getAuth(firebaseApp);
 
 export const db = initializeFirestore(
   firebaseApp, {
-    localCache: memoryLocalCache(),
+  localCache: memoryLocalCache(),
 });
 (async () => {
   if (isEmulation) {
