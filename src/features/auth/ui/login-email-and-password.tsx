@@ -50,6 +50,7 @@ export const LoginWithEmailAndPassword = () => {
           name="password"
           type="password"
           inputMode="text"
+          passwordPeekBtn
           value={formState.password}
           onChange={
             (password) => setFormState((prevProps) => ({ ...prevProps, password }))

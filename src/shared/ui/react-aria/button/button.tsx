@@ -1,8 +1,10 @@
 import { LinkProps, Button as RACButton, ButtonProps as RACButtonProps, ToggleButton as RACToggleButton, ToggleButtonProps as RACToggleButtonProps, Link as Rlink, TooltipProps, TooltipTrigger } from 'react-aria-components'
 import { Tooltip } from '../tooltip/tooltip'
 
+type ButtonVariant = 'primary' | 'danger' | 'attention' | 'transparent'
+
 export type BasicButtonProps = {
-  variant?: 'primary' | 'danger' | 'attention' | 'transparent'
+  variant?: ButtonVariant
   size?: 's' | 'm' | 'l' | 'xl'
   tooltip?: string
   tooltipProps?: TooltipProps

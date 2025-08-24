@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   FieldError,
   Input,
@@ -6,72 +7,92 @@ import {
   TextField as AriaTextField,
   TextFieldProps as AriaTextFieldProps,
   ValidationResult,
-  TextArea
+  TextArea,
+  Group
 } from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon'
+import { IconEye, IconEyeClosed } from '@tabler/icons-react'
 
-export interface TextFieldProps extends AriaTextFieldProps {
+interface BaseTextFieldProps extends AriaTextFieldProps {
   label?: string
-  size?: number
-  fontSize?: 'm' | 'l' | 'xl'
-  justified?: boolean
   description?: string
-  placeholder?: string
   errorMessage?: string | ((validation: ValidationResult) => string)
+  placeholder?: string
 }
 
-export interface TextAreaFieldProps extends TextFieldProps {
-  rows?: number
-  cols?: number
-  resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+interface TextFieldProps extends BaseTextFieldProps {
+  fontSize?: 'm' | 'l' | 'xl'
+  size?: number
+  passwordPeekBtn?: boolean
+  justified?: boolean
 }
 
-export function TextField(
-  { label, justified=false, fontSize='m', description, size, errorMessage, ...props }: TextFieldProps
-) {
-  const {className, ...restProps} = props
+interface TextAreaFieldProps extends BaseTextFieldProps {
+  rows?: number,
+  resize?: 'none' | 'both' | 'horizontal' | 'vertical',
+}
+
+export const TextField = (props: TextFieldProps) => {
+  const [passwordShown, setPasswordShown] = useState(false)
+
   return (
     (
-      <AriaTextField
-        className={
-          'react-aria-TextField' +
-          (className ? ' ' + className : '') +
-          (justified ? ' justified' : '')
+      <AriaTextField className={
+        'react-aria-TextField' +
+        (props.justified ? ' justified' : '')
+      } {...props}>
+        <Label>{props.label}</Label>
+        {props.type === 'password' ?
+          <Group className={
+            'react-aria-Group' +
+            (props.type === 'password' &&
+              (props.passwordPeekBtn == undefined || props.passwordPeekBtn) ? ' password-input-with-peek-btn' : '')
+          }>
+            <Input
+              className={'react-aria-Input' + ' ' + (props.fontSize ?? 'm')}
+              value={props.value}
+              size={props.size}
+              placeholder={props.placeholder}
+              type={props.type === 'password' && passwordShown ? 'text' : props.type}
+            />
+            {props.type === 'password' &&
+              (props.passwordPeekBtn == undefined || props.passwordPeekBtn) &&
+              <span className='password-input-peek-btn'>
+                <ButtonIcon
+                  onPress={() => setPasswordShown(!passwordShown)}
+                  size='s'
+                  isDisabled={props.isDisabled}
+                >
+                  {passwordShown ? <IconEye /> : <IconEyeClosed />}
+                </ButtonIcon></span>
+            }
+          </Group>
+          :
+          <Input
+            className={'react-aria-Input' + ' ' + (props.fontSize ?? 'm')}
+            size={props.size}
+            value={props.value}
+            placeholder={props.placeholder}
+          />
         }
-        {...restProps}
-      >
-        <Label>{label}</Label>
-        <Input
-          className={'react-aria-Input' + ' ' + fontSize}
-          size={size}
-          placeholder={restProps.placeholder}
-        />
-        {description && <Text slot="description">{description}</Text>}
-        <FieldError>{errorMessage}</FieldError>
+        {props.description && <Text slot="description">{props.description}</Text>}
+        <FieldError>{props.errorMessage}</FieldError>
       </AriaTextField>
     )
   )
 }
 
 export function TextAreaField(
-  { label, justified=false, fontSize='m', description, errorMessage, rows=4, cols=30, resize='none', ...props }: TextAreaFieldProps
+  { label, description, errorMessage, rows = 4, resize = 'none', ...props }: TextAreaFieldProps
 ) {
-  const {className, ...restProps} = props
   return (
     (
-      <AriaTextField
-        className={
-          'react-aria-TextField' +
-          (className ? ' ' + className : '') +
-          (justified ? ' justified' : '')
-        }
-        {...restProps}
-      >
+      <AriaTextField {...props}>
         <Label>{label}</Label>
         <TextArea
-          className={'react-aria-TextArea' + ' ' + fontSize}
-          cols={cols}
+          placeholder={props.placeholder}
           rows={rows}
-          placeholder={restProps.placeholder}
+          className={'react-aria-TextArea' + ' ' + resize}
         />
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
