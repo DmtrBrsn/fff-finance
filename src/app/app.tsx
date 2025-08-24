@@ -16,7 +16,7 @@ import './styles/global.css'
 import './styles/root.css'
 
 function App() {
-  const { theme } = useAppStore()
+  const theme = useAppStore(state => state.theme)
   updateRootThemeAttr(theme)
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -26,7 +26,7 @@ function App() {
     <>
       <AuthProvider>
         <RouterProvider navigate={navigate} useHref={useHref}>
-        <Header />
+          <Header />
           <Router />
           {createBtnIsShown && <CreateNewBtn />}
         </RouterProvider>

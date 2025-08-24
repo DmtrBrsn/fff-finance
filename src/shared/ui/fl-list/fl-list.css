@@ -54,7 +54,6 @@
   flex-direction: inherit;
   gap: inherit;
   overflow-y: auto;
-  /*custom-scrollbar*/
   border-radius: inherit;
   padding-right: var(--gap-step);
 }

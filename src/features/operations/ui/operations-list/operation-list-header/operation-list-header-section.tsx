@@ -3,7 +3,9 @@ import { FlCell, FlHeader, ListHeaderCheckBox } from "@shared/ui/fl-list"
 import { useOpsListStore } from "../operations-list-store"
 
 export const OperationListHeaderSection = () => {
-  const { params, setSelected, selected } = useOpsListStore()
+  const params = useOpsListStore(state => state.params)
+  const setSelected = useOpsListStore(state => state.setSelected)
+  const selected = useOpsListStore(state => state.selected)
   const { data: ops } = useOperationsGet(params)
 
   return (

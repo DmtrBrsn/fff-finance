@@ -17,7 +17,9 @@ import './planning-widget.css'
 import { Spinner } from '@shared/ui'
 
 export const PlanningWidget = () => {
-  const { from, to, period } = usePlanningWidgetStore()
+  const from = usePlanningWidgetStore(state => state.from)
+  const to = usePlanningWidgetStore(state => state.to)
+  const period = usePlanningWidgetStore(state => state.period)
   const { data: ops, isFetching: opsFetching } = useOperationsGet({ from, to }, true)
   const { data: plans, isFetching: plansFetching } = usePlansGet({ type: 'regular', from, to })
   const { data: repeatingPlans, isFetching: repeatingPlansFetching } = usePlansGet({ type: 'repeating' })
@@ -58,7 +60,8 @@ export const PlanningWidget = () => {
 }
 
 const PeriodSection = ({ data }: { data: PlanningWidgetPeriodData }) => {
-  const { showPastPlans, showFutureOps } = usePlanningWidgetStore()
+  const showPastPlans = usePlanningWidgetStore(state => state.showPastPlans)
+  const showFutureOps = usePlanningWidgetStore(state => state.showFutureOps)
   const hidePlans = data.periodType === 'past' && !showPastPlans
   const hideOps = data.periodType === 'future' && !showFutureOps
 
@@ -161,11 +164,16 @@ const CatSummaryRow = (
 }
 
 const PwToolbar = () => {
-  const {
-    from, to, setFrom, setTo, period, setPeriod,
-    showPastPlans, setShowPastPlans,
-    showFutureOps, setShowFutureOps
-  } = usePlanningWidgetStore()
+  const from = usePlanningWidgetStore(state => state.from)
+  const to = usePlanningWidgetStore(state => state.to)
+  const setFrom = usePlanningWidgetStore(state => state.setFrom)
+  const setTo = usePlanningWidgetStore(state => state.setTo)
+  const period = usePlanningWidgetStore(state => state.period)
+  const setPeriod = usePlanningWidgetStore(state => state.setPeriod)
+  const showPastPlans = usePlanningWidgetStore(state => state.showPastPlans)
+  const setShowPastPlans = usePlanningWidgetStore(state => state.setShowPastPlans)
+  const showFutureOps = usePlanningWidgetStore(state => state.showFutureOps)
+  const setShowFutureOps = usePlanningWidgetStore(state => state.setShowFutureOps)
 
   const { refetch: refetchOps } = useOperationsGet({ from, to })
   const { refetch: refetchPlans } = usePlansGet({ type: 'regular', from, to })

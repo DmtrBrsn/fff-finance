@@ -13,10 +13,8 @@ import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 
 export const OpListActionBar = ({ ops }: { ops: Operation[] }) => {
-  const {
-    selected,
-    setSelected
-  } = useOpsListStore()
+  const selected = useOpsListStore(state => state.selected)
+  const setSelected = useOpsListStore(state => state.setSelected)
 
   const { mutateAsync: batchDeleteOps } = useOperationsBatchDelete()
   const { data: cats } = useCategoriesGet()

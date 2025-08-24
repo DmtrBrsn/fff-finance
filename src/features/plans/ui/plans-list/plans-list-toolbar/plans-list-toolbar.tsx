@@ -8,7 +8,8 @@ import { Button, Popover, ToggleButton } from "@shared/ui/react-aria"
 import { PlansListFilterSortSetup } from "./plans-list-filter-sort-setup"
 
 export const PlansToolbar = () => {
-  const { params, setParams } = usePlansListStore()
+  const params = usePlansListStore(state => state.params)
+  const setParams = usePlansListStore(state => state.setParams)
   const handlePeriodChange = (from?: string, to?: string) =>
     setParams({ ...params, from, to })
   const buttonText = (params.from && params.to) ? Dates.formatRange(new Date(params.from), new Date(params.to)) : ''

@@ -9,7 +9,8 @@ import { useOpsListStore } from "../operations-list-store"
 import { OpListFilterSortSetup } from './op-list-filter-sort-setup'
 
 export const OperationsListToolbar = () => {
-  const { params, setParams } = useOpsListStore()
+  const params = useOpsListStore(state => state.params)
+  const setParams = useOpsListStore(state => state.setParams)
   const { isPending } = useOperationsGet(params, true)
 
   const handlePeriodChange = (from?: string, to?: string) =>

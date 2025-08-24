@@ -43,7 +43,7 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
         idCat={updOp.idCategory ?? op.idCategory}
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />
-      <span className="flex-row gap-1">
+      <span className="flex-row gap-1 align-self-end">
         <Button isPending={isSaving} size='l' tooltip="Reset" onPress={reset}><ResetIcon /></Button>
         {onCancel && <Button size='l' onPress={onCancel}>Cancel</Button>}
         <Button

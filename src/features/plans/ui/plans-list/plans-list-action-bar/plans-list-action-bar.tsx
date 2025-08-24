@@ -10,10 +10,8 @@ import { useState } from "react"
 import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
-  const {
-    selected,
-    setSelected
-  } = usePlansListStore()
+  const selected = usePlansListStore(state => state.selected)
+  const setSelected = usePlansListStore(state => state.setSelected)
   const { mutateAsync: batchDeletePlans } = usePlansBatchDelete()
   const [delConfirmOpen, setDelConfirmOpen] = useState(false)
 

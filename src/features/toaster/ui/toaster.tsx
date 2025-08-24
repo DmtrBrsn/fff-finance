@@ -6,7 +6,7 @@ import { Toast } from '../lib/types'
 import './toaster.css'
 
 export const Toaster = () => {
-  const { shown: toasts } = useToasterStore()
+  const toasts = useToasterStore(state => state.shown)
   if (toasts.length === 0) return null
   return (
     <div className="toaster" role="status" aria-live="polite">
@@ -18,7 +18,7 @@ export const Toaster = () => {
 const SingleToast = (
   { time, message, type, ...toast }: Toast
 ) => {
-  const { remove } = useToasterStore()
+  const remove = useToasterStore(state => state.remove)
   const removeToast = () => remove(time)
 
   const doAction = () => {

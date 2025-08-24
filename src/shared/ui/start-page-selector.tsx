@@ -4,8 +4,9 @@ import { Radio } from "react-aria-components"
 import { SettingsSubSection } from "./settings-section"
 
 export const StartPageSelector = () => {
-  const { startPage, setStartPage } = useAppStore()
-  
+  const startPage = useAppStore(state => state.startPage)
+  const setStartPage = useAppStore(state => state.setStartPage)
+
   return (
     <SettingsSubSection>
       <RadioGroup

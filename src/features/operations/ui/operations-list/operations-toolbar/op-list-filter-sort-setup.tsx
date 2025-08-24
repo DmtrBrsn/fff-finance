@@ -10,7 +10,10 @@ import { useOpsListStore } from "../operations-list-store"
 import './op-list-sort-filter.css'
 
 export const OpListFilterSortSetup = () => {
-  const { sortOptions, removeSort, filterOptions, removeFilter } = useOpsListStore()
+  const sortOptions = useOpsListStore(state => state.sortOptions)
+  const removeSort = useOpsListStore(state => state.removeSort)
+  const filterOptions = useOpsListStore(state => state.filterOptions)
+  const removeFilter = useOpsListStore(state => state.removeFilter)
 
   const resetFiltersAndSort = () => {
     removeFilter()
@@ -69,7 +72,9 @@ export const OpListFilterSortSetup = () => {
 }
 
 const DescriptionFilter = () => {
-  const { filterOptions, setFilter, removeFilter } = useOpsListStore()
+  const filterOptions = useOpsListStore(state => state.filterOptions)
+  const setFilter = useOpsListStore(state => state.setFilter)
+  const removeFilter = useOpsListStore(state => state.removeFilter)
   const filterBy = filterOptions.find(f => f.field === 'description')
 
   const updateFilter = (value: string) => {

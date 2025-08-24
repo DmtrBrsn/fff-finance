@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import {useLongPress, usePress, mergeProps} from 'react-aria';
+import { useLongPress, usePress, mergeProps } from 'react-aria';
 import './fl-list.css'
 
 type FlProps = { children: ReactNode | ReactNode[], className?: string }
@@ -60,7 +60,7 @@ export const FlTitle = ({ children, className }: FlProps) => {
 
 export const FlBody = ({ children, className }: FlProps) => {
   return (
-    <div className={'fl-list-body custom-scrollbar' + (className ? ' ' + className : '')}>
+    <div className={'fl-list-body' + (className ? ' ' + className : '')}>
       {children}
     </div>
   )
@@ -98,8 +98,8 @@ export const FlCell = (
 export const FlNoData = ({ children }: FlProps) => {
   return (
     <div className={
-      'fl-cell' + 
-      ' ' + 'center' + 
+      'fl-cell' +
+      ' ' + 'center' +
       ' ' + 'fl-no-data'
     }>
       {children}

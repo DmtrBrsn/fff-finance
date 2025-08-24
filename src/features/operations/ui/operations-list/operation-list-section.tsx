@@ -5,8 +5,9 @@ import { OperationSection } from './operation-section'
 import { useOpsListStore } from './operations-list-store'
 import './operations-list.style.css'
 
-export const OperationListSection = ({ op }: {op: Operation}) => {
-  const { selected, setSelected } = useOpsListStore()
+export const OperationListSection = ({ op }: { op: Operation }) => {
+  const selected = useOpsListStore(state => state.selected)
+  const setSelected = useOpsListStore(state => state.setSelected)
   const isSelected = selected.includes(op.id)
   const { data: cats } = useCategoriesGet()
   const cat = cats?.find(cat => cat.id === op.idCategory)
@@ -44,13 +45,13 @@ export const OperationListSection = ({ op }: {op: Operation}) => {
         isSelected={isSelected}
         handleCheckboxChange={handleCheckboxChange}
       />
-      <OpDateSectionValue val={op.date}/>
-      <OpSumSectionValue val={op.sum}/>
-      <OpDescriptionSectionValue val={op.description}/>
-      <OpCatSectionValue cat={cat}/>
-      <OpIsIncomeSectionValue cat={cat}/>
-      <OpCreatedSectionValue val={op.created}/>
-      <OpListOpMenuBtn op={op}/>
+      <OpDateSectionValue val={op.date} />
+      <OpSumSectionValue val={op.sum} />
+      <OpDescriptionSectionValue val={op.description} />
+      <OpCatSectionValue cat={cat} />
+      <OpIsIncomeSectionValue cat={cat} />
+      <OpCreatedSectionValue val={op.created} />
+      <OpListOpMenuBtn op={op} />
     </OperationSection>
   )
 }

@@ -15,7 +15,11 @@ import { Checkbox, ContextualHelp, RepeatIcon, Spinner } from "@shared/ui"
 import './plans-list.css'
 
 export const PlansList = () => {
-  const { params, filterSelected, filterOptions, sortOptions, selected } = usePlansListStore()
+  const params = usePlansListStore(state => state.params)
+  const filterSelected = usePlansListStore(state => state.filterSelected)
+  const filterOptions = usePlansListStore(state => state.filterOptions)
+  const sortOptions = usePlansListStore(state => state.sortOptions)
+  const selected = usePlansListStore(state => state.selected)
   const { data: plans, isFetching: plansFetching, error, isError } = usePlansGet(params)
   const { data: cats, isFetching: catsFetching } = useCategoriesGet()
 
@@ -46,7 +50,8 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
   const startStr = plan.dateStart == undefined ? '-' : Dates.formatDateLoc(plan.dateStart)
   const { data: cats } = useCategoriesGet(false)
   const cat = cats?.find(cat => cat.id === plan.idCategory)
-  const { selected, setSelected } = usePlansListStore()
+  const selected = usePlansListStore(state => state.selected)
+  const setSelected = usePlansListStore(state => state.setSelected)
   const isSelected = selected.includes(plan.id)
   const repeatStr = PlanUtils.getRepeatDescription(plan)
 

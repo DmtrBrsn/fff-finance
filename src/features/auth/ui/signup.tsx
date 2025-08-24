@@ -13,7 +13,7 @@ export const Signup = () => {
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { startPage } = useAppStore()
+  const startPage = useAppStore(state => state.startPage)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

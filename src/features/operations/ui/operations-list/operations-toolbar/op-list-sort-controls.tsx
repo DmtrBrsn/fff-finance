@@ -3,9 +3,11 @@ import { ToggleButtonIcon } from "@shared/ui/react-aria"
 import { OpSortableFields } from "@features/operations/lib"
 import { useOpsListStore } from "../operations-list-store"
 
-export const OpListSortControls = ({field}: {field: OpSortableFields}) => {
-  const { sortOptions, setSort, removeSort } = useOpsListStore()
-  
+export const OpListSortControls = ({ field }: { field: OpSortableFields }) => {
+  const sortOptions = useOpsListStore(state => state.sortOptions)
+  const setSort = useOpsListStore(state => state.setSort)
+  const removeSort = useOpsListStore(state => state.removeSort)
+
   const sortBy = sortOptions.find(s => s.field === field)
   const disabled = sortBy == undefined
   const displayedOrder = disabled || sortOptions.length === 1 ?
@@ -17,7 +19,7 @@ export const OpListSortControls = ({field}: {field: OpSortableFields}) => {
       setSort({ field, dir: 'asc' }) :
       sortBy.dir === 'asc' ?
         setSort({ field, dir: 'desc' }) :
-          removeSort(field)
+        removeSort(field)
   }
 
   return (

@@ -12,7 +12,8 @@ import { usePlansListStore } from "./plans-list-store"
 export const PlanMenuBtn = ({ plan }: { plan: Plan }) => {
   const [isEditingOpen, setEditingOpen] = useState(false)
   const [isDelConfirmOpen, setDelConfirmOpen] = useState(false)
-  const { selected, setSelected } = usePlansListStore()
+  const selected = usePlansListStore(state => state.selected)
+  const setSelected = usePlansListStore(state => state.setSelected)
   const isSelected = selected.includes(plan.id)
   const { mutateAsync: deletePlan, isPending: isDeleting } = usePlansDelete()
   const isTouch = useMemo(() => isTouchDevice(), [])

@@ -65,7 +65,8 @@ export const OpCreatedSectionValue = ({ val }: { val: Operation['created'] }) =>
 
 export const OpListOpMenuBtn = ({ op }: { op: Operation }) => {
   const [isOpen, setOpen] = useState(false)
-  const { selected, setSelected } = useOpsListStore()
+  const selected = useOpsListStore(state => state.selected)
+  const setSelected = useOpsListStore(state => state.setSelected)
   const isSelected = selected.includes(op.id)
   const { mutateAsync: deleteOp, isPending: deleting } = useOperationsDelete()
   const [delConfirmOpen, setDelConfirmOpen] = useState(false)

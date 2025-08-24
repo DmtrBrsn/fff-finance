@@ -3,7 +3,9 @@ import { usePlansListStore } from "./plans-list-store"
 import { usePlansGet } from "@features/plans/api"
 
 export const PlansListHeader = () => {
-  const { params, setSelected, selected } = usePlansListStore()
+  const params = usePlansListStore(state => state.params)
+  const setSelected = usePlansListStore(state => state.setSelected)
+  const selected = usePlansListStore(state => state.selected)
   const { data: plans } = usePlansGet(params)
 
   return (

@@ -3,9 +3,11 @@ import { ToggleButtonIcon } from "@shared/ui/react-aria"
 import { usePlansListStore } from "../plans-list-store"
 import { PlanSortableFields } from "@features/plans/lib"
 
-export const PlansListSortControls = ({field}: {field: PlanSortableFields}) => {
-  const { sortOptions, setSort, removeSort } = usePlansListStore()
-  
+export const PlansListSortControls = ({ field }: { field: PlanSortableFields }) => {
+  const sortOptions = usePlansListStore(state => state.sortOptions)
+  const setSort = usePlansListStore(state => state.setSort)
+  const removeSort = usePlansListStore(state => state.removeSort)
+
   const sortBy = sortOptions.find(s => s.field === field)
   const disabled = sortBy == undefined
   const displayedOrder = disabled || sortOptions.length === 1 ?
@@ -17,7 +19,7 @@ export const PlansListSortControls = ({field}: {field: PlanSortableFields}) => {
       setSort({ field, dir: 'asc' }) :
       sortBy.dir === 'asc' ?
         setSort({ field, dir: 'desc' }) :
-          removeSort(field)
+        removeSort(field)
   }
 
   return (

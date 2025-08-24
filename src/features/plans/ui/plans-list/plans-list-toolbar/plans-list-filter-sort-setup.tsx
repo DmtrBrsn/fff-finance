@@ -10,7 +10,10 @@ import { usePlansListStore } from "../plans-list-store"
 import './plans-list-sort-filter.css'
 
 export const PlansListFilterSortSetup = () => {
-  const { sortOptions, removeSort, filterOptions, removeFilter } = usePlansListStore()
+  const sortOptions = usePlansListStore(state => state.sortOptions)
+  const removeSort = usePlansListStore(state => state.removeSort)
+  const filterOptions = usePlansListStore(state => state.filterOptions)
+  const removeFilter = usePlansListStore(state => state.removeFilter)
 
   const resetFiltersAndSort = () => {
     removeFilter()
@@ -68,7 +71,9 @@ export const PlansListFilterSortSetup = () => {
 }
 
 const DescriptionFilter = () => {
-  const { filterOptions, setFilter, removeFilter } = usePlansListStore()
+  const filterOptions = usePlansListStore(state => state.filterOptions)
+  const setFilter = usePlansListStore(state => state.setFilter)
+  const removeFilter = usePlansListStore(state => state.removeFilter)
   const filterBy = filterOptions.find(f => f.field === 'description')
 
   const updateFilter = (value: string) => {

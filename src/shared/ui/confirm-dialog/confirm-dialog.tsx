@@ -28,11 +28,13 @@ export const ConfirmDialog = (
         {information && <p className="pad-1">{information}</p>}
         <div className="flex-row gap-2 justify-center pad-1">
           <Button
+            size='l'
             onPress={close}
           >
             {cancelText}
           </Button>
           <Button
+            size='l'
             autoFocus
             onPress={() => { close(); onConfirm() }}
             variant={danger ? 'danger' : "attention"}

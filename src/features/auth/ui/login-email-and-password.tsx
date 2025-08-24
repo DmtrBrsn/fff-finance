@@ -13,19 +13,19 @@ export const LoginWithEmailAndPassword = () => {
   const [formState, setFormState] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { startPage } = useAppStore()
+  const startPage = useAppStore(state => state.startPage)
 
-  const handleEmailAndPasswordSingInSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const handleEmailAndPasswordSingInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
     setLoading(true)
     loginWithEmailAndPassword(formState.email, formState.password)
-    .then(() => {
-      navigate(startPage)
-    }).catch(err => {
-      toast.error(`Sign in failed: ${err}`)
-      setError(`Sign in failed: ${err}`)
-    }).finally(() => setLoading(false))
+      .then(() => {
+        navigate(startPage)
+      }).catch(err => {
+        toast.error(`Sign in failed: ${err}`)
+        setError(`Sign in failed: ${err}`)
+      }).finally(() => setLoading(false))
   }
 
   return (
@@ -61,7 +61,7 @@ export const LoginWithEmailAndPassword = () => {
           type='submit'
           isPending={loading}
         >
-          <Login/>{loading ? 'Logging in...' : 'Log in'}
+          <Login />{loading ? 'Logging in...' : 'Log in'}
         </Button>
       </Form>
     </div>

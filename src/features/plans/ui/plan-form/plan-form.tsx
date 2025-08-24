@@ -108,7 +108,7 @@ export const PlanForm = (
           <code>Operations count: {opCount.toLocaleString()}</code>
         </>
       }
-      <span className="flex-row gap-1">
+      <span className="flex-row gap-1 align-self-end">
         <Button tooltip='Reset' type="button" size='l' isPending={isSaving} onPress={reset}><ResetIcon /></Button>
         {onCancel && <Button type="button" size='l' onPress={onCancel}>Cancel</Button>}
         <Button
