@@ -1,15 +1,15 @@
-import { useState, FormEvent } from 'react'
+import { CatSelectTags } from '@features/categories/ui/fields-for-category'
+import { useOperationsAdd } from '@features/operations/api'
+import { getOpDraft, OperationAdd, removeOpDraft, updateOpDraft } from '@features/operations/lib'
 import { toast } from "@features/toaster"
-import { Spinner } from '@shared/ui/spinner/spinner'
 import { Dates } from '@shared/lib/utils'
 import { Button } from '@shared/ui/react-aria'
-import { CatSelectTags } from '@features/categories/ui/fields-for-category'
+import { Spinner } from '@shared/ui/spinner/spinner'
+import { IconRestore } from '@tabler/icons-react'
+import { FormEvent, useState } from 'react'
 import { Form } from 'react-aria-components'
-import { ResetIcon } from '@shared/ui/svg'
-import { useOperationsAdd } from '@features/operations/api'
-import { getOpDraft, OperationAdd, updateOpDraft, removeOpDraft } from '@features/operations/lib'
-import { OpDateField, OpSumField, OpDescriptionField } from './operation-fields'
 import './new-operation-form.css'
+import { OpDateField, OpDescriptionField, OpSumField } from './operation-fields'
 
 export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => void, onCancel?: () => void }) => {
   const operationDraft = getOpDraft()
@@ -67,7 +67,7 @@ export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => vo
           isDisabled={isSaving || operationDraft == null}
           onPress={reset}
         >
-          <ResetIcon />
+          <IconRestore />
         </Button>
         {onCancel && <Button size='l' type="button" onPress={onCancel}>Cancel</Button>}
         <Button

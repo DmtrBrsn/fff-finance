@@ -47,9 +47,6 @@
     border-color: var(--highlight-background);
     background: var(--highlight-background);
     color: var(--highlight-foreground);
-    svg {
-      fill: var(--highlight-foreground);
-    }
   }
 
   [slot=remove] {
@@ -65,6 +62,7 @@
     &[data-hovered] {
       color: var(--text-color-hover);
     }
+
     &[data-pressed] {
       box-shadow: none;
       color: var(--text-color)
@@ -74,9 +72,11 @@
   &[data-selected] {
     [slot=remove] {
       color: inherit;
+
       &[data-hovered] {
         color: var(--red-500);
       }
+
       &[data-pressed] {
         box-shadow: none;
         color: var(--gray-50)

@@ -1,15 +1,15 @@
 
+import { IconSearch, IconX } from '@tabler/icons-react'
 import {
+  SearchField as AriaSearchField,
+  SearchFieldProps as AriaSearchFieldProps,
   FieldError,
   Input,
   Label,
-  SearchField as AriaSearchField,
-  SearchFieldProps as AriaSearchFieldProps,
   Text,
   ValidationResult
 } from 'react-aria-components'
 import { ButtonIcon } from '../button-icon/button-icon'
-import { CloseIcon, SearchIcon } from '@shared/ui/svg'
 
 
 export interface SearchFieldProps extends AriaSearchFieldProps {
@@ -28,8 +28,8 @@ export function SearchField(
       <AriaSearchField {...props}>
         <Label>{label}</Label>
         <Input placeholder={props.placeholder ?? 'Поиск'} />
-        <span className='search-icon'><SearchIcon /></span>
-        <ButtonIcon isDisabled={props.isDisabled} size='s'><CloseIcon /></ButtonIcon>
+        <span className='search-icon'><IconSearch /></span>
+        <ButtonIcon isDisabled={props.isDisabled} size='s'><IconX /></ButtonIcon>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
       </AriaSearchField>

@@ -3,7 +3,8 @@ import { QUERY_KEY_OPERATIONS } from "@features/operations/api"
 import { importOperations } from "@features/operations/lib"
 import { toast } from "@features/toaster"
 import { isTouchDevice } from "@shared/lib/utils"
-import { ContextualHelp, FolderOpen, SettingsSubSection, Spinner } from "@shared/ui"
+import { ContextualHelp, SettingsSubSection, Spinner } from "@shared/ui"
+import { IconFolderOpen } from '@tabler/icons-react'
 import { useQueryClient } from "@tanstack/react-query"
 import { useMemo, useRef, useState } from "react"
 import { Button, DropZone, FileTrigger, Heading, Text } from "react-aria-components"
@@ -41,7 +42,7 @@ export const ImportOperations = () => {
         ref={ref}
         acceptedFileTypes={['.json']}
       >
-        <Button><FolderOpen />Select a file</Button>
+        <Button><IconFolderOpen />Select a file</Button>
       </FileTrigger>
     )
   }, [cats])

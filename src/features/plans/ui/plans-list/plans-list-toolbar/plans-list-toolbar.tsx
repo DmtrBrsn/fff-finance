@@ -1,10 +1,10 @@
-import { ListPeriodSetup } from "@shared/ui/list-period-setup"
-import { CalendarMonth, ArrowDropDown, RepeatIcon, EventBusy } from "@shared/ui/svg"
 import { Dates } from "@shared/lib/utils"
+import { ListPeriodSetup } from "@shared/ui/list-period-setup"
+import { Button, Popover, ToggleButton } from "@shared/ui/react-aria"
+import { IconCalendarMonth, IconCalendarQuestion, IconCalendarRepeat, IconCaretDownFilled } from '@tabler/icons-react'
+import { DialogTrigger, ToggleButtonGroup, Toolbar } from "react-aria-components"
 import { PlanAddBtn } from "../../add-plan-btn"
 import { usePlansListStore } from "../plans-list-store"
-import { DialogTrigger, ToggleButtonGroup, Toolbar } from "react-aria-components"
-import { Button, Popover, ToggleButton } from "@shared/ui/react-aria"
 import { PlansListFilterSortSetup } from "./plans-list-filter-sort-setup"
 
 export const PlansToolbar = () => {
@@ -23,19 +23,19 @@ export const PlansToolbar = () => {
         onSelectionChange={(k) => k.size > 0 && setParams({ ...params, type: [...k][0] as 'regular' | 'repeating' | 'no-date' })}
       >
         <DialogTrigger>
-          <Button isDisabled={params.type !== 'regular'} equalPadding size="s"><ArrowDropDown /></Button>
+          <Button isDisabled={params.type !== 'regular'} equalPadding size="s"><IconCaretDownFilled /></Button>
           <Popover>
             <ListPeriodSetup params={params} setParams={handlePeriodChange} />
           </Popover>
         </DialogTrigger>
         <ToggleButton id={'regular'}>
-          <CalendarMonth />{buttonText}
+          <IconCalendarMonth />{buttonText}
         </ToggleButton>
         <ToggleButton id={'repeating'}>
-          <RepeatIcon />
+          <IconCalendarRepeat />
         </ToggleButton>
         <ToggleButton id={'no-date'}>
-          <EventBusy />
+          <IconCalendarQuestion />
         </ToggleButton>
       </ToggleButtonGroup>
       <PlansListFilterSortSetup />

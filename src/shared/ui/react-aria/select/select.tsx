@@ -1,22 +1,22 @@
-import { ArrowDropDown, CloseIcon } from '@shared/ui/svg'
+import { IconCaretDownFilled, IconX } from '@tabler/icons-react'
 import { useContext } from 'react'
 import {
   Button as AriaButton,
+  Select as AriaSelect,
+  SelectProps as AriaSelectProps,
   FieldError,
   Label,
   ListBox,
+  ListBoxItem,
+  ListBoxItemProps,
   Popover,
-  Select as AriaSelect,
-  SelectProps as AriaSelectProps,
+  SelectStateContext,
   SelectValue,
   Text,
-  ValidationResult,
-  ListBoxItemProps,
-  ListBoxItem,
-  SelectStateContext
+  ValidationResult
 } from 'react-aria-components'
-import { Button } from '../button/button'
 import { ButtonGroup } from '../button-group/button-group'
+import { Button } from '../button/button'
 
 export interface SelectProps<T extends object>
   extends Omit<AriaSelectProps<T>, 'children'> {
@@ -39,12 +39,12 @@ export function Select<T extends object>(
         {withClearButton ? <ButtonGroup styleOnly>
           <AriaButton className='react-aria-Button drop-down-button'>
             <SelectValue />
-            <ArrowDropDown aria-hidden="true" />
+            <IconCaretDownFilled aria-hidden="true" />
           </AriaButton>
           <SelectClearButton isDisabled={props.isDisabled} />
         </ButtonGroup> : <AriaButton className='react-aria-Button drop-down-button'>
           <SelectValue />
-          <ArrowDropDown aria-hidden="true" />
+          <IconCaretDownFilled aria-hidden="true" />
         </AriaButton>}
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
@@ -71,7 +71,7 @@ function SelectClearButton({ isDisabled = false }: { isDisabled?: boolean }) {
       isDisabled={isDisabled}
       equalPadding
       onPress={() => state?.setSelectedKey(null)}>
-      <CloseIcon />
+      <IconX />
     </Button >}</>
   )
 }

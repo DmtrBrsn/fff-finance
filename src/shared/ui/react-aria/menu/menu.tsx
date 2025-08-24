@@ -1,4 +1,4 @@
-import { ArrowDropDown, MoreVertIcon } from '@shared/ui/svg';
+import { IconCaretDownFilled, IconDotsVertical } from '@tabler/icons-react';
 import {
   MenuItem as AriaMenuItem,
   Button,
@@ -21,7 +21,7 @@ export function MenuButton<T extends object>(
 ) {
   return (
     <MenuTrigger {...props}>
-      <Button>{label}<ArrowDropDown /></Button>
+      <Button>{label}<IconCaretDownFilled /></Button>
       <Popover>
         <Menu {...props}>
           {children}
@@ -32,7 +32,7 @@ export function MenuButton<T extends object>(
 }
 
 export function MenuButtonIcon(
-  { content = <MoreVertIcon />, children, ...props }:
+  { content = <IconDotsVertical />, children, ...props }:
     MenuButtonProps<{}> & { content?: React.ReactNode }
 ) {
   return (
@@ -54,7 +54,6 @@ export function MenuItem(props: MenuItemProps) {
     (
       <AriaMenuItem {...props} textValue={textValue}>
         {({ hasSubmenu }) => (
-          //@ts-ignore
           <>
             {props.children}
             {hasSubmenu && (

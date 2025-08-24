@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp, SwapVert } from "@shared/ui/svg"
-import { ToggleButtonIcon } from "@shared/ui/react-aria"
 import { OpSortableFields } from "@features/operations/lib"
+import { ToggleButtonIcon } from "@shared/ui/react-aria"
+import { IconArrowDown, IconArrowsDownUp, IconArrowUp } from '@tabler/icons-react'
 import { useOpsListStore } from "../operations-list-store"
 
 export const OpListSortControls = ({ field }: { field: OpSortableFields }) => {
@@ -28,8 +28,8 @@ export const OpListSortControls = ({ field }: { field: OpSortableFields }) => {
       isSelected={!disabled}
       aria-label={disabled ? 'Sort' : sortBy.dir === 'desc' ? 'Sort descending' : 'Sort ascending'}
     >
-      {disabled ? <SwapVert /> :
-        sortBy.dir === 'desc' ? <ArrowDown /> : <ArrowUp />
+      {disabled ? <IconArrowsDownUp /> :
+        sortBy.dir === 'desc' ? <IconArrowDown /> : <IconArrowUp />
       }
       {displayedOrder}
     </ToggleButtonIcon>

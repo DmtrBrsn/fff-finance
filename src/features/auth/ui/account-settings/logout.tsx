@@ -1,8 +1,9 @@
+import { useAuth } from '@features/auth/auth-context'
+import { toast } from "@features/toaster"
+import { Button } from '@shared/ui'
+import { IconLogout } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from "@features/toaster"
-import { Button, Logout as LogoutIcon } from '@shared/ui'
-import { useAuth } from '@features/auth/auth-context'
 
 export const Logout = () => {
   const { logout } = useAuth().service
@@ -22,6 +23,6 @@ export const Logout = () => {
     onPress={handleClick}
     isPending={loading}
   >
-    <LogoutIcon/>{loading ? "...Logging out" : "Log out"}
+    <IconLogout />{loading ? "...Logging out" : "Log out"}
   </Button>
 }

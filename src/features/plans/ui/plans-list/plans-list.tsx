@@ -2,8 +2,10 @@ import { useCategoriesGet } from "@features/categories/api"
 import { CatUtils } from "@features/categories/lib"
 import { usePlansGet } from "@features/plans/api"
 import { Plan, PlanUtils } from "@features/plans/lib"
-import { FlCell, FlList, FlNoData, FlRow } from "@shared/ui/fl-list"
 import { Dates, SortUtils } from "@shared/lib/utils"
+import { Checkbox, ContextualHelp, Spinner } from "@shared/ui"
+import { FlCell, FlList, FlNoData, FlRow } from "@shared/ui/fl-list"
+import { IconRepeat } from '@tabler/icons-react'
 import { useEffect, useMemo } from "react"
 import { Virtuoso } from "react-virtuoso"
 import { PlanMenuBtn } from "./plan-menu-btn"
@@ -11,7 +13,6 @@ import { PlansListActionBar } from "./plans-list-action-bar"
 import { PlansListHeader } from "./plans-list-header"
 import { usePlansListStore } from "./plans-list-store"
 import { PlansToolbar } from "./plans-list-toolbar/plans-list-toolbar"
-import { Checkbox, ContextualHelp, RepeatIcon, Spinner } from "@shared/ui"
 import './plans-list.css'
 
 export const PlansList = () => {
@@ -88,7 +89,7 @@ const PlanRow = ({ plan }: { plan: Plan }) => {
       <FlCell className="plan-is-income" >{CatUtils.getIncExpStr(cat)}</FlCell>
       <FlCell className="plan-repeat">{repeatStr}</FlCell>
       <FlCell className="plan-repeat-btn" >
-        {repeatStr !== '' && <ContextualHelp customIcon={<RepeatIcon />}>{repeatStr}</ContextualHelp>}
+        {repeatStr !== '' && <ContextualHelp customIcon={<IconRepeat />}>{repeatStr}</ContextualHelp>}
       </FlCell>
       <FlCell className="plan-created" >
         <span className="plan-created-label">Created</span>

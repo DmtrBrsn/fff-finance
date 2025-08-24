@@ -7,7 +7,7 @@ import { isTouchDevice, setMetaThemeColor } from "@shared/lib/utils"
 import { SettingsSection, StartPageSelector } from "@shared/ui"
 import { AppThemeSelector } from "@shared/ui/app-theme-selector"
 import { Button, Disclosure, ToggleButton } from "@shared/ui/react-aria"
-import { Vibration } from "@shared/ui/svg"
+import { IconDeviceMobileVibration } from '@tabler/icons-react'
 import { getAuth } from "firebase/auth"
 import { useMemo, useState } from "react"
 
@@ -77,5 +77,5 @@ const Testing = () => {
 
 
 const VibroButton = () => {
-  return (<Button size='l' onPress={() => navigator.vibrate(300)}><Vibration /></Button>)
+  return (<Button size='l' onPress={() => navigator.vibrate(300)}><IconDeviceMobileVibration /></Button>)
 }

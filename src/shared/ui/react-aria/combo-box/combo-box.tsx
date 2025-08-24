@@ -1,3 +1,5 @@
+import { IconCaretDownFilled, IconX } from '@tabler/icons-react'
+import { useContext } from 'react'
 import {
   ComboBox as AriaComboBox,
   ComboBoxProps as AriaComboBoxProps,
@@ -13,8 +15,6 @@ import {
   ValidationResult
 } from 'react-aria-components'
 import { ButtonIcon } from '../button-icon/button-icon'
-import { ArrowDropDown, CloseIcon } from '@shared/ui/svg'
-import { useContext } from 'react'
 
 export interface ComboBoxProps<T extends object>
   extends Omit<AriaComboBoxProps<T>, 'children'> {
@@ -42,7 +42,7 @@ export function ComboBox<T extends object>(
           <ButtonIcon
             className={'react-aria-Button-icon s drop-down-button' + ' ' + fontSize}
           >
-            <ArrowDropDown />
+            <IconCaretDownFilled />
           </ButtonIcon>
           {clearButton && <ComboBoxClearButton isDisabled={props.isDisabled} />}
         </div>
@@ -75,7 +75,7 @@ function ComboBoxClearButton({ isDisabled = false }: { isDisabled?: boolean }) {
       }
       onPress={() => { state?.setSelectedKey(null); state?.setInputValue('') }}
     >
-      <CloseIcon />
+      <IconX />
     </ButtonIcon>
-  );
+  )
 }

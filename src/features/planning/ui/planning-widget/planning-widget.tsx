@@ -7,14 +7,14 @@ import { CatSummary, PlanningWidgetPeriodData } from "@features/planning/lib"
 import { PlanningUtils } from "@features/planning/lib/planning-utils"
 import { usePlansGet, useRegPlanSumsBetweenDatesGet } from "@features/plans/api"
 import { Dates, numToFixedStr, Period } from "@shared/lib/utils"
+import { Spinner } from '@shared/ui'
 import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
 import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
-import { ArrowDropDown, Refresh, SettingsIcon } from "@shared/ui/svg"
+import { IconCaretDownFilled, IconRefresh, IconSettings } from '@tabler/icons-react'
 import { useMemo } from "react"
 import { DialogTrigger, Toolbar } from "react-aria-components"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
-import { Spinner } from '@shared/ui'
 
 export const PlanningWidget = () => {
   const from = usePlanningWidgetStore(state => state.from)
@@ -192,7 +192,7 @@ const PwToolbar = () => {
   return (
     <Toolbar className='toolbar react-aria-Toolbar'>
       <DialogTrigger>
-        <Button equalPadding> <SettingsIcon />{buttonText}<ArrowDropDown /></Button>
+        <Button equalPadding> <IconSettings />{buttonText}<IconCaretDownFilled /></Button>
         <Popover>
           <span className="flex-col gap-1">
             <DatePicker
@@ -234,7 +234,7 @@ const PwToolbar = () => {
         </Popover>
       </DialogTrigger>
 
-      <ButtonIcon onPress={refetchAll}><Refresh /></ButtonIcon>
+      <ButtonIcon onPress={refetchAll}><IconRefresh /></ButtonIcon>
       <BalanceWidget />
     </Toolbar>
   )

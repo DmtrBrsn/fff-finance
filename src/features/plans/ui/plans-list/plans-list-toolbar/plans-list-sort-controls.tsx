@@ -1,7 +1,7 @@
-import { ArrowDown, ArrowUp, SwapVert } from "@shared/ui/svg"
-import { ToggleButtonIcon } from "@shared/ui/react-aria"
-import { usePlansListStore } from "../plans-list-store"
 import { PlanSortableFields } from "@features/plans/lib"
+import { ToggleButtonIcon } from "@shared/ui/react-aria"
+import { IconArrowDown, IconArrowsDownUp, IconArrowUp } from '@tabler/icons-react'
+import { usePlansListStore } from "../plans-list-store"
 
 export const PlansListSortControls = ({ field }: { field: PlanSortableFields }) => {
   const sortOptions = usePlansListStore(state => state.sortOptions)
@@ -28,8 +28,8 @@ export const PlansListSortControls = ({ field }: { field: PlanSortableFields }) 
       isSelected={!disabled}
       aria-label={disabled ? 'Sort' : sortBy.dir === 'desc' ? 'Sort descending' : 'Sort ascending'}
     >
-      {disabled ? <SwapVert /> :
-        sortBy.dir === 'desc' ? <ArrowDown /> : <ArrowUp />
+      {disabled ? <IconArrowsDownUp /> :
+        sortBy.dir === 'desc' ? <IconArrowDown /> : <IconArrowUp />
       }
       {displayedOrder}
     </ToggleButtonIcon>

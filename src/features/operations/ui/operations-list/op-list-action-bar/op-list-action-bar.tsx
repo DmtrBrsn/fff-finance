@@ -1,15 +1,15 @@
-import { useOperationsBatchDelete } from "@features/operations/api"
-import { useOpsListStore } from "../operations-list-store"
-import { Separator, Toolbar } from "react-aria-components"
-import { toast } from "@features/toaster"
-import { ButtonIcon } from "@shared/ui/react-aria"
-import { CloseIcon, DeleteIcon, SelectAll } from "@shared/ui/svg"
-import { Operation } from "@features/operations/lib"
-import { numToFixedStr } from "@shared/lib/utils"
-import { useMemo, useState } from "react"
 import { useCategoriesGet } from "@features/categories/api"
-import './op-list-action-bar.css'
+import { useOperationsBatchDelete } from "@features/operations/api"
+import { Operation } from "@features/operations/lib"
+import { toast } from "@features/toaster"
+import { numToFixedStr } from "@shared/lib/utils"
 import { ConfirmDialog } from "@shared/ui/confirm-dialog"
+import { ButtonIcon } from "@shared/ui/react-aria"
+import { IconSelectAll, IconTrash, IconX } from '@tabler/icons-react'
+import { useMemo, useState } from "react"
+import { Separator, Toolbar } from "react-aria-components"
+import { useOpsListStore } from "../operations-list-store"
+import './op-list-action-bar.css'
 
 
 export const OpListActionBar = ({ ops }: { ops: Operation[] }) => {
@@ -56,21 +56,21 @@ export const OpListActionBar = ({ ops }: { ops: Operation[] }) => {
           tooltip="Cancel selection"
           onPress={cancel}
         >
-          <CloseIcon />
+          <IconX />
         </ButtonIcon>
         {selected.length + '/' + ops.length}
         <ButtonIcon
           tooltip="Select all"
           onPress={selectAll}
         >
-          <SelectAll />
+          <IconSelectAll />
         </ButtonIcon>
         <Separator orientation="vertical" />
         <ButtonIcon
           onPress={() => setDelConfirmOpen(true)}
           isDisabled={selected.length === 0}
           tooltip={'Delete selected'}
-        ><DeleteIcon /></ButtonIcon>
+        ><IconTrash /></ButtonIcon>
         {selected.length > 0 && 'exp sum: ' + numToFixedStr(selectedExpSum) + '; '}
         {selected.length > 0 && 'inc sum: ' + numToFixedStr(selectedIncSum) + ';'}
       </Toolbar>

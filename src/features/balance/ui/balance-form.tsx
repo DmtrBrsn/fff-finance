@@ -1,6 +1,6 @@
 import { Dates } from "@shared/lib/utils"
 import { ButtonIcon, DatePicker, NumberField } from "@shared/ui/react-aria"
-import { CreateIcon } from "@shared/ui/svg"
+import { IconPlus } from '@tabler/icons-react'
 import { FormEvent, useState } from "react"
 import { Form } from "react-aria-components"
 import { useBalanceAdd } from "../api"
@@ -34,7 +34,7 @@ export const BalanceForm = () => {
           maxValue={Dates.now()}
           isRequired
         />
-        <ButtonIcon type="submit" size="l" isPending={adding}><CreateIcon /></ButtonIcon>
+        <ButtonIcon type="submit" size="l" isPending={adding}><IconPlus /></ButtonIcon>
       </span>
     </Form>
   )

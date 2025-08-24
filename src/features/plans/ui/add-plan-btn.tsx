@@ -1,12 +1,12 @@
 import { ButtonIcon, DialogCloseBtn } from "@shared/ui/react-aria"
-import { CreateIcon } from "@shared/ui/svg"
+import { IconPlus } from '@tabler/icons-react'
 import { Dialog, DialogTrigger, Heading, Modal } from "react-aria-components"
 import { PlanForm } from "./plan-form"
 
 export const PlanAddBtn = () => {
   return (
     <DialogTrigger>
-      <ButtonIcon tooltip="Create plan"><CreateIcon /></ButtonIcon>
+      <ButtonIcon tooltip="Create plan"><IconPlus /></ButtonIcon>
       <Modal>
         <Dialog>
           {({ close }) => (

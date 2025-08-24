@@ -1,8 +1,8 @@
-import { CloseIcon } from "@shared/ui/svg"
+import { IconX } from '@tabler/icons-react'
 import { ButtonIcon } from "../button-icon/button-icon"
 
-export const DialogCloseBtn = ({close}: {close: () => void}) => {
+export const DialogCloseBtn = ({ close }: { close: () => void }) => {
   return (
-    <span className="close-btn-wrapper"><ButtonIcon size='l' onPress={close}><CloseIcon /></ButtonIcon></span>
+    <span className="close-btn-wrapper"><ButtonIcon size='l' onPress={close}><IconX /></ButtonIcon></span>
   )
 }

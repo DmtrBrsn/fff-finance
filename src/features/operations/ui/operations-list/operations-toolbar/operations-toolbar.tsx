@@ -2,11 +2,11 @@ import { useOperationsGet } from '@features/operations/api'
 import { Dates } from '@shared/lib/utils'
 import { ListPeriodSetup } from '@shared/ui/list-period-setup'
 import { Button, Popover } from '@shared/ui/react-aria'
-import { ArrowDropDown, CalendarMonth } from '@shared/ui/svg'
 import { DialogTrigger, Toolbar } from 'react-aria-components'
 import { OpAddBtn } from '../../add-op-btn'
 import { useOpsListStore } from "../operations-list-store"
 import { OpListFilterSortSetup } from './op-list-filter-sort-setup'
+import { IconCalendarMonth, IconCaretDownFilled } from '@tabler/icons-react'
 
 export const OperationsListToolbar = () => {
   const params = useOpsListStore(state => state.params)
@@ -22,7 +22,7 @@ export const OperationsListToolbar = () => {
     <Toolbar>
       <OpAddBtn />
       <DialogTrigger>
-        <Button equalPadding> <CalendarMonth />{buttonText}<ArrowDropDown /></Button>
+        <Button equalPadding> <IconCalendarMonth />{buttonText}<IconCaretDownFilled /></Button>
         <Popover>
           <ListPeriodSetup
             params={params}

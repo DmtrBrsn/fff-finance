@@ -1,6 +1,6 @@
-import { ButtonIcon, GridList, GridListItem } from "@shared/ui/react-aria"
-import { DeleteIcon } from "@shared/ui/svg"
 import { Dates, numToFixedStr } from "@shared/lib/utils"
+import { ButtonIcon, GridList, GridListItem } from "@shared/ui/react-aria"
+import { IconTrash } from '@tabler/icons-react'
 import { useBalanceDelete, useBalanceGet } from "../api"
 import { Balance } from "../lib/types"
 
@@ -19,7 +19,7 @@ export const BalanceList = ({ fetch = true }: { fetch?: boolean }) => {
     >
       {(item) => <GridListItem textValue={getItemTextValue(item)}>
         {getItemTextValue(item)}
-        <ButtonIcon onPress={() => del(item.id)}><DeleteIcon /></ButtonIcon>
+        <ButtonIcon onPress={() => del(item.id)}><IconTrash /></ButtonIcon>
       </GridListItem>}
     </GridList>
   )

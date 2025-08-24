@@ -1,11 +1,12 @@
-import { useMemo, useRef, useState } from 'react'
-import { toast } from "@features/toaster"
-import { useQueryClient } from '@tanstack/react-query'
-import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
-import { ContextualHelp, FolderOpen, Button, Spinner, SettingsSubSection } from '@shared/ui'
-import { isTouchDevice } from '@shared/lib/utils'
 import { QUERY_KEY_CATEGORIES } from '@features/categories/api'
 import { importCategories } from '@features/categories/lib'
+import { toast } from "@features/toaster"
+import { isTouchDevice } from '@shared/lib/utils'
+import { Button, ContextualHelp, SettingsSubSection, Spinner } from '@shared/ui'
+import { IconFolderOpen } from '@tabler/icons-react'
+import { useQueryClient } from '@tanstack/react-query'
+import { useMemo, useRef, useState } from 'react'
+import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
 
 export const ImportCategories = () => {
   const queryClient = useQueryClient()
@@ -35,7 +36,7 @@ export const ImportCategories = () => {
         ref={ref}
         acceptedFileTypes={['.json']}
       >
-        <Button><FolderOpen />Select a file</Button>
+        <Button><IconFolderOpen />Select a file</Button>
       </FileTrigger>
     )
   }, [])

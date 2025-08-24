@@ -1,10 +1,14 @@
+import { parseDate, today } from '@internationalized/date'
+import { IconCalendarMonth, IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
+import React, { useCallback } from 'react'
 import {
+  DatePicker as AriaDatePicker,
+  DatePickerProps as AriaDatePickerProps,
   Calendar,
   CalendarCell,
   CalendarGrid,
   DateInput,
-  DatePicker as AriaDatePicker,
-  DatePickerProps as AriaDatePickerProps,
+  DatePickerStateContext,
   DateSegment,
   DateValue,
   Dialog,
@@ -14,13 +18,9 @@ import {
   Label,
   Popover,
   Text,
-  ValidationResult,
-  DatePickerStateContext
+  ValidationResult
 } from 'react-aria-components'
 import { ButtonIcon } from '../button-icon/button-icon'
-import { CalendarMonth, ChevronBack, ChevronForward } from '@shared/ui/svg'
-import { parseDate, today } from '@internationalized/date'
-import React, { useCallback } from 'react'
 import { Button } from '../button/button'
 
 type DateStringLayerProps = {
@@ -77,7 +77,7 @@ export function DatePicker<T extends DateValue>(
           <DateInput>
             {(segment) => <DateSegment segment={segment} />}
           </DateInput>
-          <ButtonIcon size='s'><CalendarMonth /></ButtonIcon>
+          <ButtonIcon size='s'><IconCalendarMonth /></ButtonIcon>
         </Group>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
@@ -85,9 +85,9 @@ export function DatePicker<T extends DateValue>(
           <Dialog>
             <Calendar visibleDuration={{ months: visibleMonths }}>
               <header>
-                <ButtonIcon slot="previous"><ChevronBack /></ButtonIcon>
+                <ButtonIcon slot="previous"><IconChevronLeft /></ButtonIcon>
                 <Heading />
-                <ButtonIcon slot="next"><ChevronForward /></ButtonIcon>
+                <ButtonIcon slot="next"><IconChevronRight /></ButtonIcon>
               </header>
               <CalendarGrids visibleMonths={visibleMonths} />
               <span className='flex-row justify-sb gap-1'>

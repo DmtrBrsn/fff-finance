@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from "@features/toaster"
-import { DialogTrigger, Form } from 'react-aria-components'
-import { Button, Popover, TextField, PersonOff } from '@shared/ui'
 import { useAuth } from '@features/auth/auth-context'
+import { toast } from "@features/toaster"
+import { Button, Popover, TextField } from '@shared/ui'
 import { ConfirmDialog } from '@shared/ui/confirm-dialog'
+import { IconUserX } from '@tabler/icons-react'
+import { useState } from 'react'
+import { DialogTrigger, Form } from 'react-aria-components'
+import { useNavigate } from 'react-router-dom'
 
 export const DeleteUser = () => {
   const { userService, currentUser } = useAuth()
@@ -50,7 +51,7 @@ export const DeleteUser = () => {
     <>
       <DialogTrigger isOpen={active} onOpenChange={setActive}>
         <Button variant='danger' onPress={() => setActive(true)} isDisabled={loading}>
-          <PersonOff />Delete user
+          <IconUserX />Delete user
         </Button>
         <Popover>
           <Form onSubmit={handleSubmit}>

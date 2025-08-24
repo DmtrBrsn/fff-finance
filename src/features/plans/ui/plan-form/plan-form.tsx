@@ -6,7 +6,7 @@ import { weekdays } from "@shared/lib/contants"
 import { Dates } from "@shared/lib/utils"
 import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { ResetIcon } from "@shared/ui/svg"
+import { IconRestore } from '@tabler/icons-react'
 import { FormEvent, useMemo, useState } from "react"
 import { Form } from "react-aria-components"
 import { EndTypeChooser, PlanDateEndField, PlanDateStartField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, PlanSumField, PlanTimesField } from "./plan-fields"
@@ -109,7 +109,7 @@ export const PlanForm = (
         </>
       }
       <span className="flex-row gap-1 align-self-end">
-        <Button tooltip='Reset' type="button" size='l' isPending={isSaving} onPress={reset}><ResetIcon /></Button>
+        <Button tooltip='Reset' type="button" size='l' isPending={isSaving} onPress={reset}><IconRestore /></Button>
         {onCancel && <Button type="button" size='l' onPress={onCancel}>Cancel</Button>}
         <Button
           size='l'

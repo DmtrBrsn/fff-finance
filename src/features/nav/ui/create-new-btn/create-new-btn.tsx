@@ -1,6 +1,6 @@
 import { Button, MenuItem } from '@shared/ui/react-aria'
-import { AddIcon } from '@shared/ui/svg'
 import { Menu, MenuTrigger, Popover } from 'react-aria-components'
+import { IconPlus } from '@tabler/icons-react'
 import './create-new-btn.css'
 
 export const CreateNewBtn = () => {
@@ -10,7 +10,7 @@ export const CreateNewBtn = () => {
         tooltip='Create new entry'
         className={'react-aria-Button add-op-btn-floating attention'}
       >
-        <AddIcon />
+        <IconPlus />
       </Button>
       <Popover>
         <Menu>

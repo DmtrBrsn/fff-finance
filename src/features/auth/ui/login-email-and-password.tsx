@@ -1,6 +1,7 @@
 import { useAppStore } from '@app/app-store'
 import { toast } from "@features/toaster"
-import { Button, Login, TextField } from '@shared/ui'
+import { Button, TextField } from '@shared/ui'
+import { IconLogin2 } from '@tabler/icons-react'
 import { useState } from 'react'
 import { Form } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
@@ -61,7 +62,7 @@ export const LoginWithEmailAndPassword = () => {
           type='submit'
           isPending={loading}
         >
-          <Login />{loading ? 'Logging in...' : 'Log in'}
+          <IconLogin2 />{loading ? 'Logging in...' : 'Log in'}
         </Button>
       </Form>
     </div>

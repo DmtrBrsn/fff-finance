@@ -1,13 +1,13 @@
 import { usePlansBatchDelete } from "@features/plans/api"
 import { Plan } from "@features/plans/lib"
 import { toast } from "@features/toaster"
+import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 import { ButtonIcon } from "@shared/ui/react-aria"
-import { CloseIcon, DeleteIcon, SelectAll } from "@shared/ui/svg"
+import { IconSelectAll, IconTrash, IconX } from '@tabler/icons-react'
+import { useState } from "react"
 import { Separator, Toolbar } from "react-aria-components"
 import { usePlansListStore } from "../plans-list-store"
 import './plans-list-action-bar.css'
-import { useState } from "react"
-import { ConfirmDialog } from "@shared/ui/confirm-dialog"
 
 export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
   const selected = usePlansListStore(state => state.selected)
@@ -34,21 +34,21 @@ export const PlansListActionBar = ({ plans }: { plans: Plan[] }) => {
           tooltip="Cancel selection"
           onPress={cancel}
         >
-          <CloseIcon />
+          <IconX />
         </ButtonIcon>
         {selected.length + '/' + plans.length}
         <ButtonIcon
           tooltip="Select all"
           onPress={selectAll}
         >
-          <SelectAll />
+          <IconSelectAll />
         </ButtonIcon>
         <Separator orientation="vertical" />
         <ButtonIcon
           onPress={() => setDelConfirmOpen(true)}
           isDisabled={selected.length === 0}
           tooltip={'Delete selected'}
-        ><DeleteIcon /></ButtonIcon>
+        ><IconTrash /></ButtonIcon>
       </Toolbar>
       <ConfirmDialog
         title="Delete plans?"

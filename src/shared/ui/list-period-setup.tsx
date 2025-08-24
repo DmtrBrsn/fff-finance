@@ -1,6 +1,6 @@
-import { Button, ButtonGroup, DatePicker, RadioGroup } from "@shared/ui/react-aria"
-import { Refresh } from "@shared/ui/svg"
 import { Dates } from "@shared/lib/utils"
+import { Button, ButtonGroup, DatePicker, RadioGroup } from "@shared/ui/react-aria"
+import { IconRefresh } from '@tabler/icons-react'
 import { useCallback, useState } from "react"
 import { Radio } from "react-aria-components"
 
@@ -77,7 +77,7 @@ export const ListPeriodSetup = (
             variant='attention'
             isPending={isPending}
             onPress={() => customTo && customFrom && setParams(customFrom, customTo)}>
-            <Refresh />Refresh</Button>
+            <IconRefresh />Refresh</Button>
         </>
         :
         <ButtonGroup>

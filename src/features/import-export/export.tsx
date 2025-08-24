@@ -1,10 +1,10 @@
 import { exportCategories } from "@features/categories/lib"
 import { exportOperations } from "@features/operations/lib/operations-import-export"
 import { toast } from "@features/toaster"
+import { saveFile } from "@shared/lib/utils"
 import { Button, MenuItem } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { ArrowDropDown, DownloadIcon } from "@shared/ui/svg"
-import { saveFile } from "@shared/lib/utils"
+import { IconCaretDownFilled, IconDownload } from '@tabler/icons-react'
 import { useState } from "react"
 import { Menu, MenuTrigger, Popover } from "react-aria-components"
 
@@ -28,7 +28,7 @@ export const ExportMenu = () => {
 
   return (
     <MenuTrigger>
-      <Button>{inProgress ? <Spinner /> : <DownloadIcon />}Export<ArrowDropDown /></Button>
+      <Button>{inProgress ? <Spinner /> : <IconDownload />}Export<IconCaretDownFilled /></Button>
       <Popover>
         <Menu>
           <MenuItem onAction={() => save('cats')}>Categories</MenuItem>

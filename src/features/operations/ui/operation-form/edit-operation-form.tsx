@@ -4,7 +4,7 @@ import { Operation, OperationUpd } from "@features/operations/lib"
 import { toast } from "@features/toaster"
 import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { ResetIcon } from "@shared/ui/svg"
+import { IconRestore } from '@tabler/icons-react'
 import { FormEvent, useState } from "react"
 import { Form } from "react-aria-components"
 import { OpDateField, OpDescriptionField, OpSumField } from "./operation-fields"
@@ -44,7 +44,7 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
         setIdCat={(idCategory) => setUpdOp({ ...updOp, idCategory })}
       />
       <span className="flex-row gap-1 align-self-end">
-        <Button isPending={isSaving} size='l' tooltip="Reset" onPress={reset}><ResetIcon /></Button>
+        <Button isPending={isSaving} size='l' tooltip="Reset" onPress={reset}><IconRestore /></Button>
         {onCancel && <Button size='l' onPress={onCancel}>Cancel</Button>}
         <Button
           size='l'

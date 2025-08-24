@@ -1,7 +1,7 @@
-import { CalendarMonth, CategoryIcon, ChecklistIcon, ListIcon, SettingsIcon } from "@shared/ui/svg"
+import { IconCalendarEvent, IconCategory, IconList, IconListCheck, IconSettings } from '@tabler/icons-react'
 import { ReactNode } from "react"
-import { useLocation } from "react-router-dom"
 import { Link } from "react-aria-components"
+import { useLocation } from "react-router-dom"
 import './navbar.css'
 
 export const AppNavbar = () => {
@@ -11,31 +11,31 @@ export const AppNavbar = () => {
     <nav className={'app-nav'} >
       <NavLink to="/operations" classFn={classFn}>
         <NavItem>
-          <ListIcon />
+          <IconList />
           <span className="text">Operations</span>
         </NavItem>
       </NavLink>
       <NavLink to="/plans" classFn={classFn}>
         <NavItem>
-          <ChecklistIcon />
+          <IconListCheck />
           <span className="text">Plans</span>
         </NavItem>
       </NavLink>
       <NavLink to="/planning" classFn={classFn}>
         <NavItem>
-          <CalendarMonth />
+          <IconCalendarEvent />
           <span className="text">Planning</span>
         </NavItem>
       </NavLink>
       <NavLink to="/categories" classFn={classFn}>
         <NavItem>
-          <CategoryIcon />
+          <IconCategory />
           <span className="text">Categories</span>
         </NavItem>
       </NavLink>
       <NavLink to="/settings" classFn={classFn}>
         <NavItem>
-          <SettingsIcon />
+          <IconSettings />
           <span className="text">Settings</span>
         </NavItem>
       </NavLink>

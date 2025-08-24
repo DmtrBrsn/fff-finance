@@ -32,7 +32,6 @@
   justify-content: center;
 
   svg {
-    fill: var(--text-color);
     height: calc(var(--size) * 0.75);
     width: calc(var(--size) * 0.75);
   }
@@ -52,19 +51,11 @@
 
   &[data-disabled] {
     color: var(--text-color-disabled);
-
-    svg {
-      fill: var(--text-color-disabled);
-    }
   }
 
   &[data-selected] {
     background-color: var(--gray-300);
     color: var(--gray-50);
-
-    svg {
-      fill: var(--gray-50);
-    }
 
     &[data-hovered] {
       background-color: var(--gray-400);

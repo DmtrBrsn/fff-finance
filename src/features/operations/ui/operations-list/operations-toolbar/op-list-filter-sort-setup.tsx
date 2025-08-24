@@ -1,12 +1,12 @@
 import { useCategoriesGet } from "@features/categories/api"
+import { FilterCondition } from "@shared/lib/utils"
 import { Button, ButtonGroup, ButtonIcon, Checkbox, NumberField, Popover, RadioGroup, Select, SelectItem } from "@shared/ui/react-aria"
 import { SearchField } from "@shared/ui/react-aria/search-field/search-field"
-import { ArrowDropDown, CloseIcon, FilterList, FilterListOff } from "@shared/ui/svg"
-import { FilterCondition } from "@shared/lib/utils"
+import { IconCaretDownFilled, IconFilter2, IconFilter2X, IconX } from '@tabler/icons-react'
 import { useState } from "react"
 import { DialogTrigger, Radio } from "react-aria-components"
-import { OpListSortControls } from "./op-list-sort-controls"
 import { useOpsListStore } from "../operations-list-store"
+import { OpListSortControls } from "./op-list-sort-controls"
 import './op-list-sort-filter.css'
 
 export const OpListFilterSortSetup = () => {
@@ -23,7 +23,7 @@ export const OpListFilterSortSetup = () => {
   return (
     <ButtonGroup>
       <DialogTrigger>
-        <Button equalPadding> <FilterList /><ArrowDropDown /></Button>
+        <Button equalPadding> <IconFilter2 /><IconCaretDownFilled /></Button>
         <Popover>
           <div className="flex-col gap-2">
             <div className="flex-row gap-1">
@@ -66,7 +66,7 @@ export const OpListFilterSortSetup = () => {
         onPress={resetFiltersAndSort}
         tooltip={'Reset filters and sort'}
         isDisabled={filterOptions.length === 0 && sortOptions.length === 0}
-      ><FilterListOff /></Button>
+      ><IconFilter2X /></Button>
     </ButtonGroup>
   )
 }
@@ -129,7 +129,7 @@ const SumFilter = () => {
         onChange={updateFilter}
       />
       {value != undefined && <ButtonIcon onPress={() => removeFilter('sum')}>
-        <CloseIcon /></ButtonIcon>}
+        <IconX /></ButtonIcon>}
     </div>
   )
 }
@@ -155,7 +155,7 @@ const CategoryFilter = () => {
       {filterValues.length > 0 && <div className="flex-row gap-1">
         {`${filterValues.length}/${cats?.length}`}
         <ButtonIcon onPress={() => removeFilter('category')}>
-          <CloseIcon /></ButtonIcon>
+          <IconX /></ButtonIcon>
       </div>}
       <div className="cats-filter-box">
         {cats?.map(c => <Checkbox

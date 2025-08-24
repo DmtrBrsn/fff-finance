@@ -1,6 +1,6 @@
+import { IconHelp, IconInfoCircle } from '@tabler/icons-react'
 import { DialogTrigger } from "react-aria-components"
 import { ButtonIcon } from "../react-aria/button-icon/button-icon"
-import { Help, Info } from "@shared/ui/svg"
 import { Popover } from "../react-aria/popover/popover"
 
 export const ContextualHelp = (
@@ -9,7 +9,7 @@ export const ContextualHelp = (
   return (
     <DialogTrigger>
       <ButtonIcon size="s">
-        {customIcon ? customIcon : variant === 'info' ? <Info /> : <Help />}
+        {customIcon ? customIcon : variant === 'info' ? <IconInfoCircle /> : <IconHelp />}
       </ButtonIcon>
       <Popover>
         {children}

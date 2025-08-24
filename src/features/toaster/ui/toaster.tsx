@@ -1,8 +1,8 @@
 
 import { Button, ButtonIcon } from '@shared/ui/react-aria'
-import { WarningIcon, ErrorIcon, CheckCircleIcon, Info, CloseIcon } from '@shared/ui/svg'
-import { useToasterStore } from '../toaster-store'
+import { IconAlertTriangle, IconCircleCheck, IconExclamationCircle, IconInfoCircle, IconX } from '@tabler/icons-react'
 import { Toast } from '../lib/types'
+import { useToasterStore } from '../toaster-store'
 import './toaster.css'
 
 export const Toaster = () => {
@@ -34,18 +34,18 @@ const SingleToast = (
         aria-label={`${type} notification`}
       >
         {type === 'warning' ?
-          <WarningIcon /> :
+          <IconAlertTriangle /> :
           type === 'error' ?
-            <ErrorIcon /> :
+            <IconExclamationCircle /> :
             type === 'success' ?
-              <CheckCircleIcon /> :
-              <Info />}
+              <IconCircleCheck /> :
+              <IconInfoCircle />}
       </div>
       <div className="message">{message}</div>
       {toast.action &&
         <Button variant="transparent" onPress={doAction}>{toast.actionLabel ?? 'Action'}</Button>
       }
-      <ButtonIcon size="l" onPress={removeToast}><CloseIcon /></ButtonIcon>
+      <ButtonIcon size="l" onPress={removeToast}><IconX /></ButtonIcon>
     </div>
   )
 }
