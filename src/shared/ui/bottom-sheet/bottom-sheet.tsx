@@ -1,16 +1,12 @@
+import { remToPx } from '@shared/lib/utils'
+import { Button } from '@shared/ui/react-aria'
 import { animate, AnimatePresence, motion, useMotionTemplate, useMotionValue, useTransform } from 'framer-motion'
 import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components'
-import { Button } from '@shared/ui/react-aria'
-import { remToPx } from '@shared/lib/utils'
 
 import './bottom-sheet.css'
 
 const MotionModal = motion.create(Modal)
 const MotionModalOverlay = motion.create(ModalOverlay)
-const staticTransition = {
-  duration: 0.5,
-  ease: [0.32, 0.72, 0, 1]
-}
 
 type Props = {
   title?: string
@@ -40,7 +36,6 @@ export const BottomSheet = ({ children, isOpen, setOpen, title }: Props) => {
             initial={{ y: h }}
             animate={{ y: 0 }}
             exit={{ y: h }}
-            transition={staticTransition}
             style={{
               y,
               top: SHEET_MARGIN,
@@ -63,7 +58,7 @@ export const BottomSheet = ({ children, isOpen, setOpen, title }: Props) => {
                 onPress={() => setOpen(false)}
               >Close</Button>
             </div>
-            <Dialog className="bottom-sheet-dialog">
+            <Dialog aria-label={title ?? 'bottom sheet'} className="bottom-sheet-dialog">
               {title && <Heading slot="title">
                 {title}
               </Heading>}

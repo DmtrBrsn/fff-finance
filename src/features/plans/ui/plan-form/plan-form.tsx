@@ -4,12 +4,13 @@ import { Plan, PlanFormValues, PlanUtils } from "@features/plans/lib"
 import { toast } from "@features/toaster"
 import { weekdays } from "@shared/lib/contants"
 import { Dates } from "@shared/lib/utils"
-import { Button } from "@shared/ui/react-aria"
+import { Button, Popover } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { IconRestore } from '@tabler/icons-react'
+import { IconCalculator, IconRestore } from '@tabler/icons-react'
 import { FormEvent, useMemo, useState } from "react"
-import { Form } from "react-aria-components"
+import { DialogTrigger, Form } from "react-aria-components"
 import { EndTypeChooser, PlanDateEndField, PlanDateStartField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, PlanSumField, PlanTimesField } from "./plan-fields"
+import { Calculator } from '@features/calculator'
 
 export const PlanForm = (
   { mode, plan, onSuccess, onCancel, }: { mode: 'add' | 'edit', plan?: Plan, onSuccess?: () => void, onCancel?: () => void, }
@@ -76,7 +77,23 @@ export const PlanForm = (
         dateStart={values.dateStart}
         onChange={(date) => setValues({ ...values, dateStart: date })}
       />
-      <PlanSumField sum={values.sum} onChange={(sum) => setValues({ ...values, sum })} />
+      <span className='flex-row gap-1 align-end'>
+        <PlanSumField sum={values.sum} onChange={(sum) => setValues({ ...values, sum })} />
+        <DialogTrigger>
+          <Button size='l'>
+            <IconCalculator />
+          </Button>
+          <Popover>
+            {(close) => (
+              <Calculator
+                value={values.sum}
+                setValue={(sum) => setValues({ ...values, sum })}
+                close={close}
+              />
+            )}
+          </Popover>
+        </DialogTrigger>
+      </span>
       <PlanDescriptionField description={values.description} onChange={(description) => setValues({ ...values, description })} />
       <CategorySelectField
         idCat={values.idCategory ?? null}

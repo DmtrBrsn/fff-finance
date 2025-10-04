@@ -3,13 +3,14 @@ import { useOperationsAdd } from '@features/operations/api'
 import { getOpDraft, OperationAdd, removeOpDraft, updateOpDraft } from '@features/operations/lib'
 import { toast } from "@features/toaster"
 import { Dates } from '@shared/lib/utils'
-import { Button } from '@shared/ui/react-aria'
+import { Button, Popover } from '@shared/ui/react-aria'
 import { Spinner } from '@shared/ui/spinner/spinner'
-import { IconRestore } from '@tabler/icons-react'
+import { IconCalculator, IconRestore } from '@tabler/icons-react'
 import { FormEvent, useState } from 'react'
-import { Form } from 'react-aria-components'
-import './new-operation-form.css'
+import { DialogTrigger, Form } from 'react-aria-components'
 import { OpDateField, OpDescriptionField, OpSumField } from './operation-fields'
+import { Calculator } from '@features/calculator'
+import './new-operation-form.css'
 
 export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => void, onCancel?: () => void }) => {
   const operationDraft = getOpDraft()
@@ -50,7 +51,23 @@ export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => vo
   return (
     <Form onSubmit={handleSubmit} className='react-aria-Form new-operation-form'>
       <OpDateField date={op.date} onChange={(date) => setOpAndDraft({ ...op, date })} />
-      <OpSumField sum={op.sum} onChange={(sum) => setOpAndDraft({ ...op, sum })} />
+      <span className='flex-row gap-1 align-end'>
+        <OpSumField sum={op.sum} onChange={(sum) => setOpAndDraft({ ...op, sum })} />
+        <DialogTrigger>
+          <Button size='l'>
+            <IconCalculator />
+          </Button>
+          <Popover>
+            {(close) => (
+              <Calculator
+                value={op.sum}
+                setValue={(sum) => setOpAndDraft({ ...op, sum })}
+                close={close}
+              />
+            )}
+          </Popover>
+        </DialogTrigger>
+      </span>
       <OpDescriptionField
         description={op.description}
         onChange={(description) => setOpAndDraft({ ...op, description })}

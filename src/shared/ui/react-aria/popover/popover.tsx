@@ -8,7 +8,7 @@ import {
 } from 'react-aria-components'
 
 interface PopoverProps extends Omit<AriaPopoverProps, 'children'> {
-  children: React.ReactNode
+  children: React.ReactNode | ((close: () => void) => React.ReactNode)
 }
 
 export function Popover({ children, ...props }: PopoverProps) {
@@ -21,7 +21,7 @@ export function Popover({ children, ...props }: PopoverProps) {
           </svg>
         </OverlayArrow>
         <Dialog>
-          {children}
+          {typeof children === 'function' ? (close) => children(close.close) : children}
         </Dialog>
       </AriaPopover>
     )
