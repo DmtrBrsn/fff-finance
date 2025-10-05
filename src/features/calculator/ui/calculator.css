@@ -1,6 +1,7 @@
 .calculator-container {
 
   .expression-container {
+
     .result {
       font-family: monospace;
       font-size: 1.2rem;

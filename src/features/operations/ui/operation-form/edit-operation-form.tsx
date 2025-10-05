@@ -1,14 +1,14 @@
+import { CalculatorPopover } from '@features/calculator'
 import { CategorySelectField } from "@features/categories/ui/fields-for-category"
 import { useOperationsUpdate } from "@features/operations/api"
 import { Operation, OperationUpd } from "@features/operations/lib"
 import { toast } from "@features/toaster"
-import { Button, Popover } from "@shared/ui/react-aria"
+import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { IconCalculator, IconRestore } from '@tabler/icons-react'
+import { IconRestore } from '@tabler/icons-react'
 import { FormEvent, useState } from "react"
-import { DialogTrigger, Form } from "react-aria-components"
+import { Form } from "react-aria-components"
 import { OpDateField, OpDescriptionField, OpSumField } from "./operation-fields"
-import { Calculator } from '@features/calculator'
 
 type EditOperationFormProps = {
   op: Operation
@@ -37,21 +37,10 @@ export const EditOperationForm = ({ op, onSuccess, onCancel }: EditOperationForm
       <OpDateField date={updOp.date ?? op.date} onChange={(date) => setUpdOp({ ...updOp, date })} />
       <span className='flex-row gap-1 align-end'>
         <OpSumField autofocus={false} sum={updOp.sum ?? op.sum} onChange={(sum) => setUpdOp({ ...updOp, sum })} />
-        <DialogTrigger>
-          <Button size='l'>
-            <IconCalculator />
-          </Button>
-          <Popover>
-            {(close) => (
-              <Calculator
-                value={updOp.sum ?? op.sum}
-                setValue={(sum) => setUpdOp({ ...updOp, sum })}
-                close={close}
-              />
-            )}
-          </Popover>
-        </DialogTrigger>
-
+        <CalculatorPopover
+          value={updOp.sum ?? op.sum}
+          setValue={(sum) => setUpdOp({ ...updOp, sum })}
+        />
       </span>
       <OpDescriptionField
         description={updOp.description ?? op.description}

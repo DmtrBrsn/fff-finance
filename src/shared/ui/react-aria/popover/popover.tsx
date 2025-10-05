@@ -9,9 +9,10 @@ import {
 
 interface PopoverProps extends Omit<AriaPopoverProps, 'children'> {
   children: React.ReactNode | ((close: () => void) => React.ReactNode)
+  padding?: boolean
 }
 
-export function Popover({ children, ...props }: PopoverProps) {
+export function Popover({ children, padding = true, ...props }: PopoverProps) {
   return (
     (
       <AriaPopover {...props}>
@@ -20,7 +21,7 @@ export function Popover({ children, ...props }: PopoverProps) {
             <path d="M0 0 L6 6 L12 0" />
           </svg>
         </OverlayArrow>
-        <Dialog>
+        <Dialog className={'react-aria-Dialog' + (!padding ? ' no-padding' : '')}>
           {typeof children === 'function' ? (close) => children(close.close) : children}
         </Dialog>
       </AriaPopover>

@@ -1,16 +1,16 @@
+import { CalculatorPopover } from '@features/calculator'
 import { CategorySelectField } from "@features/categories/ui/fields-for-category"
 import { usePlansAdd, usePlansUpdate } from "@features/plans/api"
 import { Plan, PlanFormValues, PlanUtils } from "@features/plans/lib"
 import { toast } from "@features/toaster"
 import { weekdays } from "@shared/lib/contants"
 import { Dates } from "@shared/lib/utils"
-import { Button, Popover } from "@shared/ui/react-aria"
+import { Button } from "@shared/ui/react-aria"
 import { Spinner } from "@shared/ui/spinner/spinner"
-import { IconCalculator, IconRestore } from '@tabler/icons-react'
+import { IconRestore } from '@tabler/icons-react'
 import { FormEvent, useMemo, useState } from "react"
-import { DialogTrigger, Form } from "react-aria-components"
+import { Form } from "react-aria-components"
 import { EndTypeChooser, PlanDateEndField, PlanDateStartField, PlanDescriptionField, PlanEveryField, PlanRepeatEveryNumberField, PlanRepeatWeekSetup, PlanSumField, PlanTimesField } from "./plan-fields"
-import { Calculator } from '@features/calculator'
 
 export const PlanForm = (
   { mode, plan, onSuccess, onCancel, }: { mode: 'add' | 'edit', plan?: Plan, onSuccess?: () => void, onCancel?: () => void, }
@@ -79,20 +79,10 @@ export const PlanForm = (
       />
       <span className='flex-row gap-1 align-end'>
         <PlanSumField sum={values.sum} onChange={(sum) => setValues({ ...values, sum })} />
-        <DialogTrigger>
-          <Button size='l'>
-            <IconCalculator />
-          </Button>
-          <Popover>
-            {(close) => (
-              <Calculator
-                value={values.sum}
-                setValue={(sum) => setValues({ ...values, sum })}
-                close={close}
-              />
-            )}
-          </Popover>
-        </DialogTrigger>
+        <CalculatorPopover
+          value={values.sum}
+          setValue={(sum) => setValues({ ...values, sum })}
+        />
       </span>
       <PlanDescriptionField description={values.description} onChange={(description) => setValues({ ...values, description })} />
       <CategorySelectField

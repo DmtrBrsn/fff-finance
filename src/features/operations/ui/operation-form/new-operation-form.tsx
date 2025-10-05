@@ -1,16 +1,16 @@
+import { CalculatorPopover } from '@features/calculator'
 import { CatSelectTags } from '@features/categories/ui/fields-for-category'
 import { useOperationsAdd } from '@features/operations/api'
 import { getOpDraft, OperationAdd, removeOpDraft, updateOpDraft } from '@features/operations/lib'
 import { toast } from "@features/toaster"
 import { Dates } from '@shared/lib/utils'
-import { Button, Popover } from '@shared/ui/react-aria'
+import { Button } from '@shared/ui/react-aria'
 import { Spinner } from '@shared/ui/spinner/spinner'
-import { IconCalculator, IconRestore } from '@tabler/icons-react'
+import { IconRestore } from '@tabler/icons-react'
 import { FormEvent, useState } from 'react'
-import { DialogTrigger, Form } from 'react-aria-components'
-import { OpDateField, OpDescriptionField, OpSumField } from './operation-fields'
-import { Calculator } from '@features/calculator'
+import { Form } from 'react-aria-components'
 import './new-operation-form.css'
+import { OpDateField, OpDescriptionField, OpSumField } from './operation-fields'
 
 export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => void, onCancel?: () => void }) => {
   const operationDraft = getOpDraft()
@@ -53,20 +53,10 @@ export const NewOperationForm = ({ onSuccess, onCancel }: { onSuccess?: () => vo
       <OpDateField date={op.date} onChange={(date) => setOpAndDraft({ ...op, date })} />
       <span className='flex-row gap-1 align-end'>
         <OpSumField sum={op.sum} onChange={(sum) => setOpAndDraft({ ...op, sum })} />
-        <DialogTrigger>
-          <Button size='l'>
-            <IconCalculator />
-          </Button>
-          <Popover>
-            {(close) => (
-              <Calculator
-                value={op.sum}
-                setValue={(sum) => setOpAndDraft({ ...op, sum })}
-                close={close}
-              />
-            )}
-          </Popover>
-        </DialogTrigger>
+        <CalculatorPopover
+          value={op.sum}
+          setValue={(sum) => setOpAndDraft({ ...op, sum })}
+        />
       </span>
       <OpDescriptionField
         description={op.description}

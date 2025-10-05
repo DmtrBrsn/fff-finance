@@ -48,6 +48,13 @@
     }
   }
 
+  .react-aria-Dialog {
+
+    &.no-padding {
+      padding: unset;
+    }
+  }
+
   &[data-placement=left] {
     --origin: translateX(8px);
 

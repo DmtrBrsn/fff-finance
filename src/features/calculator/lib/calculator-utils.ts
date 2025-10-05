@@ -1,3 +1,4 @@
+import { numToPrecision } from '@shared/lib/utils'
 import { Operator, operators } from './calculator-constants'
 
 const isStringNumber = (value: string) => !isNaN(Number(value))
@@ -6,14 +7,23 @@ const isCharDot = (value: string) => value === '.'
 
 export const validateExpression = (expr: string) => {
   if (['.', ...operators].includes(expr[0] as Operator)) return false
+  let isDecimalPart = false
   for (const [index, char] of expr.split('').entries()) {
     const isNumber = isStringNumber(char)
     const isOperator = isCharOperator(char)
     const isDot = isCharDot(char)
     const nextChar = expr[index + 1]
+    const previousChar = expr[index - 1]
+    if (isCharDot(previousChar)) {
+      isDecimalPart = true
+    }
+    if (isDecimalPart && isOperator) {
+      isDecimalPart = false
+    }
     if (
       (!isNumber && !isOperator && !isDot) ||
-      (nextChar != undefined && (isOperator || isDot) && (isCharOperator(nextChar) || isCharDot(expr[index + 1])))
+      (nextChar != undefined && (isOperator || isDot) && (isCharOperator(nextChar) || isCharDot(nextChar))) ||
+      (isDecimalPart && isDot)
     ) return false
   }
   return true
@@ -50,5 +60,5 @@ export const calculate = (expr: string) => {
   }
   let sumResult = 0
   for (const sum of sumArr) sumResult += Number(sum)
-  return sumResult
+  return numToPrecision(sumResult)
 }
