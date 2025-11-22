@@ -1,4 +1,5 @@
-import { AppTheme } from "@app/app-store"
+import { AppTheme } from '../../../app/app-store'
+
 
 export const getRootCssProperty = (propName: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(propName)

@@ -72,8 +72,8 @@ export const OpListActionBar = ({ ops }: { ops: Operation[] }) => {
           isDisabled={selected.length === 0}
           tooltip={'Delete selected'}
         ><IconTrash /></ButtonIcon>
-        {selected.length > 0 && 'exp sum: ' + numToFixedStr(selectedExpSum) + '; '}
-        {selected.length > 0 && 'inc sum: ' + numToFixedStr(selectedIncSum) + ';'}
+        {selected.length > 0 && '+ ' + numToFixedStr(selectedIncSum) + ';'}
+        {selected.length > 0 && '- ' + numToFixedStr(selectedExpSum) + '; '}
       </Toolbar>
       <ConfirmDialog
         title="Delete plans?"
