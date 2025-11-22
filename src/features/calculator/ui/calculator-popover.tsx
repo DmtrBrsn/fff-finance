@@ -1,7 +1,8 @@
-import { Button, Popover } from '@shared/ui'
+
 import { IconCalculator } from '@tabler/icons-react'
-import { DialogTrigger } from 'react-aria-components'
 import { Calculator } from './calculator'
+import { DialogTrigger } from 'react-aria-components'
+import { Button, Popover } from '../../../shared/ui'
 
 export const CalculatorPopover = ({ value, setValue }: { value: number, setValue: (value: number) => void }) => {
   return (

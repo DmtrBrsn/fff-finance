@@ -1,7 +1,8 @@
-import { AppTheme, useAppStore } from '@app/app-store'
-import { RadioGroup } from '@shared/ui/react-aria'
-import { Radio } from 'react-aria-components'
+
 import { SettingsSubSection } from './settings-section'
+import { useAppStore, AppTheme } from '../../app/app-store'
+import { RadioGroup } from './react-aria'
+import { Radio } from 'react-aria-components'
 
 export const AppThemeSelector = () => {
   const theme = useAppStore(state => state.theme)

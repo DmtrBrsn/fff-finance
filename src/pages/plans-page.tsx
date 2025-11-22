@@ -1,9 +1,10 @@
-import { PlansList } from "@features/plans/ui"
+import { PlansList } from '../entities/plans/ui'
+
 
 export const PlansPage = () => {
   return (
     <main>
-      <PlansList/>
+      <PlansList />
     </main>
   )
 }

@@ -1,8 +1,9 @@
-import { Button, TextField } from '@shared/ui'
+
 import { IconBackspace } from '@tabler/icons-react'
 import { useState } from 'react'
 import { calculate, isCompleteExpression, validateExpression } from '../lib/calculator-utils'
 import './calculator.css'
+import { Button, TextField } from '../../../shared/ui'
 
 type Props = {
   value: number

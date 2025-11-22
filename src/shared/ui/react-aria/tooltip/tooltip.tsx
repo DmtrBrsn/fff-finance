@@ -3,8 +3,8 @@ import {
   Tooltip as AriaTooltip,
   TooltipProps as AriaTooltipProps
 } from 'react-aria-components';
+import { remToPx } from '../../../lib/utils';
 
-import { remToPx } from '@shared/lib/utils';
 
 export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {
   children: React.ReactNode;

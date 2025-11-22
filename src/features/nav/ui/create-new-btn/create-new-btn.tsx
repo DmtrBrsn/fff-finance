@@ -1,7 +1,8 @@
-import { Button, MenuItem } from '@shared/ui/react-aria'
+
 import { Menu, MenuTrigger, Popover } from 'react-aria-components'
 import { IconPlus } from '@tabler/icons-react'
 import './create-new-btn.css'
+import { Button, MenuItem } from '../../../../shared/ui'
 
 export const CreateNewBtn = () => {
   return (

@@ -1,9 +1,10 @@
-import { useAuth } from '@features/auth/auth-context'
-import { toast } from "@features/toaster"
-import { Button } from '@shared/ui'
+
 import { IconLogout } from '@tabler/icons-react'
 import { useState } from 'react'
+import { Button } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
+import { toast } from '../../../toaster'
+import { useAuth } from '../../auth-context'
 
 export const Logout = () => {
   const { logout } = useAuth().service

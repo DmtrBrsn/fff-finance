@@ -1,6 +1,7 @@
-import { useAppStore } from "@app/app-store"
-import { Button, LinkButton } from "@shared/ui"
+
 import { IconRefresh } from '@tabler/icons-react'
+import { useAppStore } from '../app/app-store'
+import { Button, LinkButton } from '../shared/ui'
 
 export const ErrorPage = (
   { error, resetErrorBoundary }:

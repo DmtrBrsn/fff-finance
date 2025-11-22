@@ -1,20 +1,18 @@
-import { useBalanceGet } from "@features/balance/api"
-import { BalanceWidget } from "@features/balance/ui"
-import { useCategoriesGet } from "@features/categories/api"
-import { useOperationsGet, useOpSumsBetweenDatesGet } from "@features/operations/api"
-import { OpSummary } from "@features/operations/lib"
-import { CatSummary, PlanningWidgetPeriodData } from "@features/planning/lib"
-import { PlanningUtils } from "@features/planning/lib/planning-utils"
-import { usePlansGet, useRegPlanSumsBetweenDatesGet } from "@features/plans/api"
-import { Dates, numToFixedStr, Period } from "@shared/lib/utils"
-import { Spinner } from '@shared/ui'
-import { FlBody, FlList, FlNoData } from "@shared/ui/fl-list"
-import { Button, ButtonIcon, DatePicker, Disclosure, Popover, Select, SelectItem, Switch } from "@shared/ui/react-aria"
+
 import { IconCaretDownFilled, IconRefresh, IconSettings } from '@tabler/icons-react'
 import { useMemo } from "react"
-import { DialogTrigger, Toolbar } from "react-aria-components"
 import { usePlanningWidgetStore } from "./planning-widget-store"
 import './planning-widget.css'
+import { useBalanceGet } from '../../../../entities/balance/api'
+import { BalanceWidget } from '../../../../entities/balance/ui'
+import { useCategoriesGet } from '../../../../entities/categories/api'
+import { useOperationsGet, useOpSumsBetweenDatesGet } from '../../../../entities/operations/api'
+import { OpSummary } from '../../../../entities/operations/lib'
+import { usePlansGet, useRegPlanSumsBetweenDatesGet } from '../../../../entities/plans/api'
+import { numToFixedStr, Dates, Period } from '../../../../shared/lib/utils'
+import { FlList, FlNoData, Spinner, FlBody, SelectItem, ButtonIcon, Disclosure, Button, Popover, DatePicker, Select, Switch } from '../../../../shared/ui'
+import { PlanningUtils, PlanningWidgetPeriodData, CatSummary } from '../../lib'
+import { DialogTrigger, Toolbar } from 'react-aria-components'
 
 export const PlanningWidget = () => {
   const from = usePlanningWidgetStore(state => state.from)

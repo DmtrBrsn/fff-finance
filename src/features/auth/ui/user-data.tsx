@@ -1,10 +1,11 @@
-import { SettingsSubSection } from "@shared/ui"
+
 import { getAuth } from "firebase/auth"
+import { SettingsSubSection } from '../../../shared/ui'
 
 export const UserData = () => {
   const { currentUser } = getAuth()
-  if (currentUser==undefined) return <></>
-    
+  if (currentUser == undefined) return <></>
+
   return (
     <SettingsSubSection>
       <label>User</label>

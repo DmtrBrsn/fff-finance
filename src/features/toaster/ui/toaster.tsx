@@ -1,9 +1,9 @@
 
-import { Button, ButtonIcon } from '@shared/ui/react-aria'
 import { IconAlertTriangle, IconCircleCheck, IconExclamationCircle, IconInfoCircle, IconX } from '@tabler/icons-react'
 import { Toast } from '../lib/types'
 import { useToasterStore } from '../toaster-store'
 import './toaster.css'
+import { Button, ButtonIcon } from '../../../shared/ui'
 
 export const Toaster = () => {
   const toasts = useToasterStore(state => state.shown)

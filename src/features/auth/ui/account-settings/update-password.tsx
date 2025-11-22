@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { toast } from "@features/toaster"
-import { DialogTrigger, Form } from 'react-aria-components'
-import { Button, Popover, TextField } from '@shared/ui'
-import { useAuth } from '@features/auth/auth-context'
-import { firebasePasswordMinLength } from '@features/auth/lib'
+import { Form } from 'react-router-dom'
+import { toast } from '../../../toaster'
+import { useAuth } from '../../auth-context'
+import { firebasePasswordMinLength } from '../../lib'
+import { DialogTrigger } from 'react-aria-components'
+import { Button, Popover, TextField } from '../../../../shared/ui'
+
 
 export const UpdatePassword = () => {
   const { userService } = useAuth()

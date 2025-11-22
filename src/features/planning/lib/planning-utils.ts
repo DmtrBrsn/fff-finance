@@ -1,10 +1,11 @@
-import { Balance } from "@features/balance/lib/types";
-import { Category, CatUtils } from "@features/categories/lib";
-import { Operation, OpSummary, OpUtils } from "@features/operations/lib";
-import { Plan, PlanUtils } from "@features/plans/lib";
-import { OpOrPlanSums } from "@shared/lib/types/common-types";
-import { Dates, Period, SortUtils } from "@shared/lib/utils";
-import { CatSummary, PlanningWidgetPeriodData } from "./types";
+import { Balance } from '../../../entities/balance/lib/types'
+import { Category, CatUtils } from '../../../entities/categories/lib'
+import { Operation, OpUtils, OpSummary } from '../../../entities/operations/lib'
+import { Plan, PlanUtils } from '../../../entities/plans/lib'
+import { OpOrPlanSums } from '../../../shared/lib/types/common-types'
+import { Dates, SortUtils, Period } from '../../../shared/lib/utils'
+import { PlanningWidgetPeriodData, CatSummary } from './types'
+
 
 export class PlanningUtils {
   public static getDefaultDates() {

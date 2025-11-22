@@ -1,13 +1,14 @@
-import { useCategoriesGet } from "@features/categories/api"
-import { QUERY_KEY_OPERATIONS } from "@features/operations/api"
-import { importOperations } from "@features/operations/lib"
-import { toast } from "@features/toaster"
-import { isTouchDevice } from "@shared/lib/utils"
-import { ContextualHelp, SettingsSubSection, Spinner } from "@shared/ui"
+
 import { IconFolderOpen } from '@tabler/icons-react'
 import { useQueryClient } from "@tanstack/react-query"
 import { useMemo, useRef, useState } from "react"
-import { Button, DropZone, FileTrigger, Heading, Text } from "react-aria-components"
+import { useCategoriesGet } from '../../entities/categories/api'
+import { QUERY_KEY_OPERATIONS } from '../../entities/operations/api'
+import { importOperations } from '../../entities/operations/lib'
+import { isTouchDevice } from '../../shared/lib/utils'
+import { SettingsSubSection, ContextualHelp, Spinner, Button } from '../../shared/ui'
+import { toast } from '../toaster'
+import { DropZone, FileTrigger, Heading, Text } from 'react-aria-components'
 
 
 export const ImportOperations = () => {

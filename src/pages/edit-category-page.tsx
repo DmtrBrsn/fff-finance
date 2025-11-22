@@ -1,7 +1,8 @@
-import { getCatFromCache, useCategoriesGet } from "@features/categories/api"
-import { CatForm } from "@features/categories/ui/cat-form"
+
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate, useParams } from "react-router-dom"
+import { getCatFromCache, useCategoriesGet } from '../entities/categories/api'
+import { CatForm } from '../entities/categories/ui/cat-form'
 
 export const EditCategoryPage = () => {
   const { id } = useParams()

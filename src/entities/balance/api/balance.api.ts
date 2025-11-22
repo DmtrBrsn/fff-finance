@@ -1,0 +1,55 @@
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, getDocs, limit, orderBy, query, QueryConstraint, where } from "firebase/firestore"
+import { Balance, BalanceAdd, GetBalanceParams } from "../lib/types"
+import { db } from '../../../app/firebase'
+import { Id } from '../../../shared/lib/types/api-types'
+import { TimestampAdapter, getColPath } from '../../../shared/lib/utils'
+
+
+const balanceParamsToQuery = (
+  collectionRef: CollectionReference<DocumentData, DocumentData>, params?: GetBalanceParams
+) => {
+  const queryArr: QueryConstraint[] = []
+
+  if (params?.limit) queryArr.push(limit(params.limit))
+  if (params?.from !== undefined) queryArr.push(where('date', '>=', TimestampAdapter.isoStrToTs(params.from)))
+  if (params?.to !== undefined) queryArr.push(where('date', '<=', TimestampAdapter.isoStrToTs(params.to)))
+  if (params?.sortDir !== undefined) queryArr.push(orderBy('date', params.sortDir))
+
+  if (params && queryArr.length > 0) return query(collectionRef, ...queryArr)
+  else return query(collectionRef)
+}
+
+export const getBalance = async (params?: GetBalanceParams) => {
+  const collectionRef = collection(db, getColPath('balance'))
+  const q = balanceParamsToQuery(collectionRef, params)
+  const querySnapshot = await getDocs(q)
+  return querySnapshot.docs.map(doc => {
+    const rawDoc = doc.data()
+    return {
+      id: doc.id,
+      sum: rawDoc.sum,
+      note: rawDoc.note,
+      date: TimestampAdapter.tsToIsoStr(rawDoc.date),
+    } as Balance
+  })
+}
+
+export const addBalance = async (newDoc: BalanceAdd): Promise<Balance> => {
+  const collectionRef = collection(db, getColPath('balance'))
+  const { date, ...rest } = newDoc
+  const docRef = await addDoc(
+    collectionRef,
+    {
+      ...rest,
+      date: TimestampAdapter.isoStrToTs(newDoc.date)
+    }
+  )
+  const addedDoc = { id: docRef.id, ...newDoc }
+  return addedDoc
+}
+
+export const deleteBalance = async (id: Id) => {
+  const docRef = doc(db, getColPath('balance'), id)
+  await deleteDoc(docRef)
+  return id
+}

@@ -1,4 +1,4 @@
-import { IconCaretDownFilled, IconDotsVertical } from '@tabler/icons-react';
+import { IconCaretDownFilled, IconDotsVertical } from '@tabler/icons-react'
 import {
   MenuItem as AriaMenuItem,
   Button,
@@ -8,8 +8,8 @@ import {
   MenuTrigger,
   MenuTriggerProps,
   Popover
-} from 'react-aria-components';
-import { ButtonIcon } from '../button-icon/button-icon';
+} from 'react-aria-components'
+import { ButtonIcon } from '../button-icon/button-icon'
 
 export interface MenuButtonProps<T>
   extends MenuProps<T>, Omit<MenuTriggerProps, 'children'> {

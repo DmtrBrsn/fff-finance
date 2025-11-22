@@ -1,4 +1,5 @@
-import { weekdays } from "@shared/lib/contants";
+import { weekdays } from '../contants'
+
 
 export type Weekdays = typeof weekdays[number]
 

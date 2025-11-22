@@ -1,7 +1,8 @@
-import { auth } from "@app/firebase"
+
 import { onAuthStateChanged, User, } from "firebase/auth"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { AuthUtils, UserService } from "./lib"
+import { auth } from '../../app/firebase'
 
 type Props = { children?: React.ReactNode }
 type CurrentUser = User | null

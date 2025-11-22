@@ -13,7 +13,7 @@ import {
 } from 'react-aria-components'
 import { parseDate } from '@internationalized/date'
 import { useCallback } from 'react'
-import { Dates } from '@shared/lib/utils'
+import { Dates } from '../../../lib/utils'
 
 type DateStringLayerProps = {
   onChange?: (value: string | null) => void

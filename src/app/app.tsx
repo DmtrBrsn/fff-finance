@@ -1,9 +1,5 @@
-import { Header } from '@app/header'
-import { AuthProvider } from '@features/auth/auth-context'
-import { pagesToShowCreateBtnOn } from '@features/nav/lib/nav-constants'
-import { CreateNewBtn } from '@features/nav/ui'
-import { Toaster } from '@features/toaster'
-import { updateRootThemeAttr } from '@shared/lib/utils'
+
+
 import { RouterProvider } from 'react-aria-components'
 import { useHref, useLocation, useNavigate } from 'react-router-dom'
 import { useAppStore } from './app-store'
@@ -14,6 +10,12 @@ import './styles/auth.css'
 import './styles/colors.css'
 import './styles/global.css'
 import './styles/root.css'
+import { AuthProvider } from '../features/auth/auth-context'
+import { pagesToShowCreateBtnOn } from '../features/nav/lib/nav-constants'
+import { CreateNewBtn } from '../features/nav/ui'
+import { Toaster } from '../features/toaster'
+import { updateRootThemeAttr } from '../shared/lib/utils'
+import { Header } from './header'
 
 function App() {
   const theme = useAppStore(state => state.theme)

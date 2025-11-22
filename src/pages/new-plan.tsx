@@ -1,7 +1,8 @@
-import { useCategoriesGet } from "@features/categories/api"
-import { PlanForm } from "@features/plans/ui"
+
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate } from "react-router-dom"
+import { useCategoriesGet } from '../entities/categories/api'
+import { PlanForm } from '../entities/plans/ui'
 
 export const NewPlan = () => {
   useCategoriesGet(true)

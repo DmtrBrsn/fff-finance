@@ -1,15 +1,12 @@
-import { DeleteUser, Logout, SignInWithGoogle, UnlinkEmailAndPassword, UnlinkGoogle, UpdateEmail, UpdatePassword, UserData } from "@features/auth/ui"
-import { ExportMenu } from "@features/import-export"
-import { ImportCategories } from "@features/import-export/import-categories"
-import { ImportOperations } from "@features/import-export/import-operations"
-import { toast } from "@features/toaster"
-import { isTouchDevice, setMetaThemeColor } from "@shared/lib/utils"
-import { SettingsSection, StartPageSelector } from "@shared/ui"
-import { AppThemeSelector } from "@shared/ui/app-theme-selector"
-import { Button, Disclosure, ToggleButton } from "@shared/ui/react-aria"
+
 import { IconDeviceMobileVibration } from '@tabler/icons-react'
 import { getAuth } from "firebase/auth"
 import { useMemo, useState } from "react"
+import { UserData, Logout, UnlinkGoogle, SignInWithGoogle, UnlinkEmailAndPassword, DeleteUser, UpdateEmail, UpdatePassword } from '../features/auth/ui'
+import { ImportCategories, ImportOperations, ExportMenu } from '../features/import-export'
+import { toast } from '../features/toaster'
+import { isTouchDevice, setMetaThemeColor } from '../shared/lib/utils'
+import { SettingsSection, AppThemeSelector, StartPageSelector, Disclosure, Button, ToggleButton } from '../shared/ui'
 
 export const SettingsPage = () => {
   const { currentUser } = getAuth()

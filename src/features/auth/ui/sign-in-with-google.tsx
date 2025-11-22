@@ -1,7 +1,8 @@
-import { toast } from "@features/toaster"
-import { Button, GoogleIcon } from '@shared/ui'
+
 import { useState } from 'react'
 import { useAuth } from '../auth-context'
+import { Button, GoogleIcon } from '../../../shared/ui'
+import { toast } from '../../toaster'
 
 export const SignInWithGoogle = () => {
   const { loginWithGoogle } = useAuth().service

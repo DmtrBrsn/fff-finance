@@ -1,11 +1,12 @@
-import { remToPx } from '@shared/lib/utils'
-import React from 'react';
+
+import React from 'react'
 import {
   Dialog,
   OverlayArrow,
   Popover as AriaPopover,
   PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
+import { remToPx } from '../../../lib/utils'
 
 interface PopoverProps extends Omit<AriaPopoverProps, 'children'> {
   children: React.ReactNode | ((close: () => void) => React.ReactNode)

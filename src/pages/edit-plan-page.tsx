@@ -1,8 +1,10 @@
-import { useCategoriesGet } from "@features/categories/api"
-import { getPlanFromCache, usePlansGet } from "@features/plans/api"
-import { PlanForm } from "@features/plans/ui"
-import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
+
+
 import { useNavigate, useParams } from "react-router-dom"
+import { useCategoriesGet } from '../entities/categories/api'
+import { getPlanFromCache, usePlansGet } from '../entities/plans/api'
+import { PlanForm } from '../entities/plans/ui'
+import { Breadcrumb, Breadcrumbs, Link } from 'react-aria-components'
 
 export const EditPlanPage = () => {
   useCategoriesGet(true)

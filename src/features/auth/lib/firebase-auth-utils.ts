@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, updateEmail, updatePassword, deleteUser, User, GoogleAuthProvider, signInWithPopup, unlink } from "firebase/auth"
-import { auth } from "@app/firebase"
+import { auth } from '../../../app/firebase'
+
 
 export class AuthUtils {
   static providersIds = {

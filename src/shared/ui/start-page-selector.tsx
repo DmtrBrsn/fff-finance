@@ -1,7 +1,8 @@
-import { StartPage, useAppStore } from "@app/app-store"
+
 import { RadioGroup } from "./react-aria"
 import { Radio } from "react-aria-components"
 import { SettingsSubSection } from "./settings-section"
+import { useAppStore, StartPage } from '../../app/app-store'
 
 export const StartPageSelector = () => {
   const startPage = useAppStore(state => state.startPage)

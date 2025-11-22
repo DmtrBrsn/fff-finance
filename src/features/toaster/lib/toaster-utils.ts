@@ -1,7 +1,7 @@
 import { useToasterStore } from "../toaster-store"
 import { AddToast, type Toast } from "./types"
 import { toastDefaultDuration } from "./toaster-constants"
-import { Dates } from '@shared/lib/utils'
+import { Dates } from '../../../shared/lib/utils'
 
 const addToast = ({ message, type = 'info', duration = toastDefaultDuration, action, actionLabel }: AddToast) => {
   const time = Dates.nowNum()

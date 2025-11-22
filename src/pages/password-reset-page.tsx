@@ -1,5 +1,6 @@
-import { PasswordReset } from "@features/auth/ui"
+
 import { Link } from "react-aria-components"
+import { PasswordReset } from '../features/auth/ui'
 
 export const PasswordResetPage = () => {
   return (

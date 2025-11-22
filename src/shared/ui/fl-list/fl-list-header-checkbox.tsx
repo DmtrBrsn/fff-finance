@@ -1,5 +1,7 @@
-import { Id } from "@shared/lib/types/api-types"
-import { Checkbox } from "@shared/ui/react-aria"
+
+import { Id } from '../../lib/types/api-types'
+import { Checkbox } from '../react-aria'
+
 
 export const ListHeaderCheckBox = <T extends Record<string, any> & { id: Id }>(
   { data, selected, setSelected }: { data: T[], selected: Id[], setSelected: (ids: Id[]) => void }
@@ -10,7 +12,7 @@ export const ListHeaderCheckBox = <T extends Record<string, any> & { id: Id }>(
   }
 
   return <Checkbox
-    isSelected={selected.length > 0 &&selected.length === data.length}
+    isSelected={selected.length > 0 && selected.length === data.length}
     onChange={handleChange}
     isIndeterminate={selected.length > 0 && selected.length < data.length}
   />

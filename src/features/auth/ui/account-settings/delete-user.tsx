@@ -1,11 +1,12 @@
-import { useAuth } from '@features/auth/auth-context'
-import { toast } from "@features/toaster"
-import { Button, Popover, TextField } from '@shared/ui'
-import { ConfirmDialog } from '@shared/ui/confirm-dialog'
+
 import { IconUserX } from '@tabler/icons-react'
 import { useState } from 'react'
-import { DialogTrigger, Form } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
+import { ConfirmDialog } from '../../../../shared/ui/confirm-dialog'
+import { toast } from '../../../toaster'
+import { useAuth } from '../../auth-context'
+import { DialogTrigger, Form } from 'react-aria-components'
+import { Button, Popover, TextField } from '../../../../shared/ui'
 
 export const DeleteUser = () => {
   const { userService, currentUser } = useAuth()

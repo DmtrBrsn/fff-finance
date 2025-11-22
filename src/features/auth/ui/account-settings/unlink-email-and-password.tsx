@@ -1,8 +1,8 @@
-import { toast } from "@features/toaster"
 import { useState } from 'react'
-import { Button } from "@shared/ui"
-import { useAuth } from "@features/auth/auth-context"
-import { ConfirmDialog } from "@shared/ui/confirm-dialog"
+import { ConfirmDialog } from '../../../../shared/ui/confirm-dialog'
+import { toast } from '../../../toaster'
+import { useAuth } from '../../auth-context'
+import { Button } from '../../../../shared/ui'
 
 export const UnlinkEmailAndPassword = () => {
   const { userService } = useAuth()

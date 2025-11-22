@@ -1,12 +1,12 @@
-import { exportCategories } from "@features/categories/lib"
-import { exportOperations } from "@features/operations/lib/operations-import-export"
-import { toast } from "@features/toaster"
-import { saveFile } from "@shared/lib/utils"
-import { Button, MenuItem } from "@shared/ui/react-aria"
-import { Spinner } from "@shared/ui/spinner/spinner"
+
 import { IconCaretDownFilled, IconDownload } from '@tabler/icons-react'
 import { useState } from "react"
-import { Menu, MenuTrigger, Popover } from "react-aria-components"
+import { exportCategories } from '../../entities/categories/lib'
+import { exportOperations } from '../../entities/operations/lib'
+import { saveFile } from '../../shared/lib/utils'
+import { Button, MenuItem, Popover, Spinner } from '../../shared/ui'
+import { toast } from '../toaster'
+import { Menu, MenuTrigger } from 'react-aria-components'
 
 
 export const ExportMenu = () => {

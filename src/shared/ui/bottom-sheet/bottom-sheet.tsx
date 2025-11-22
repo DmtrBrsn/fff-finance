@@ -1,9 +1,11 @@
-import { remToPx } from '@shared/lib/utils'
-import { Button } from '@shared/ui/react-aria'
+
 import { animate, AnimatePresence, motion, useMotionTemplate, useMotionValue, useTransform } from 'framer-motion'
-import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components'
+
 
 import './bottom-sheet.css'
+import { remToPx } from '../../lib/utils'
+import { Button } from '../react-aria'
+import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components'
 
 const MotionModal = motion.create(Modal)
 const MotionModalOverlay = motion.create(ModalOverlay)

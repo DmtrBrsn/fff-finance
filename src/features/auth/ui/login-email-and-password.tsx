@@ -1,12 +1,13 @@
-import { useAppStore } from '@app/app-store'
-import { toast } from "@features/toaster"
-import { Button, TextField } from '@shared/ui'
+
 import { IconLogin2 } from '@tabler/icons-react'
 import { useState } from 'react'
-import { Form } from 'react-aria-components'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth-context'
 import { firebasePasswordMinLength } from '../lib'
+import { useAppStore } from '../../../app/app-store'
+import { toast } from '../../toaster'
+import { Form } from 'react-aria-components'
+import { Button, TextField } from '../../../shared/ui'
 
 export const LoginWithEmailAndPassword = () => {
   const { loginWithEmailAndPassword } = useAuth().service

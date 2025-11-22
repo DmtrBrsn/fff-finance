@@ -1,6 +1,7 @@
-import { CatForm } from "@features/categories/ui/cat-form"
+
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate } from "react-router-dom"
+import { CatForm } from '../entities/categories/ui/cat-form'
 
 export const NewCategory = () => {
   const navigate = useNavigate()

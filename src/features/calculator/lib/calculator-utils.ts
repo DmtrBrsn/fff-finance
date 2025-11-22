@@ -1,4 +1,5 @@
-import { numToPrecision } from '@shared/lib/utils'
+
+import { numToPrecision } from '../../../shared/lib/utils'
 import { Operator, operators } from './calculator-constants'
 
 const isStringNumber = (value: string) => !isNaN(Number(value))

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { useLongPress, usePress, mergeProps } from 'react-aria';
+import { useLongPress, usePress, mergeProps } from 'react-aria'
 import './fl-list.css'
 
 type FlProps = { children: ReactNode | ReactNode[], className?: string }

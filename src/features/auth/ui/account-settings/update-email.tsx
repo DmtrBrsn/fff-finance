@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { toast } from "@features/toaster"
-import { DialogTrigger, Form } from 'react-aria-components'
-import { Button, Popover, TextField } from '@shared/ui'
-import { useAuth } from '@features/auth/auth-context'
+import { Form } from 'react-router-dom'
+import { toast } from '../../../toaster'
+import { useAuth } from '../../auth-context'
+import { DialogTrigger } from 'react-aria-components'
+import { Button, Popover, TextField } from '../../../../shared/ui'
+
 
 export const UpdateEmail = () => {
   const { userService } = useAuth()

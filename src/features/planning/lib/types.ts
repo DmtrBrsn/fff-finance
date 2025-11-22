@@ -1,6 +1,7 @@
-import { Operation, OpSummary } from "@features/operations/lib"
-import { PlanOp } from "@features/plans/lib"
-import { Dates } from "@shared/lib/utils"
+import { Operation, OpSummary } from '../../../entities/operations/lib'
+import { PlanOp } from '../../../entities/plans/lib'
+import { Dates } from '../../../shared/lib/utils'
+
 
 export type PlanningWidgetPeriodData = {
   periodName: string

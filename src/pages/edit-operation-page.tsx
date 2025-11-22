@@ -1,8 +1,9 @@
-import { useCategoriesGet } from "@features/categories/api"
-import { getOpFromCache, useOperationsGet } from "@features/operations/api"
-import { EditOperationForm } from "@features/operations/ui"
+
 import { Breadcrumb, Breadcrumbs, Link } from "react-aria-components"
 import { useNavigate, useParams } from "react-router-dom"
+import { useCategoriesGet } from '../entities/categories/api'
+import { getOpFromCache, useOperationsGet } from '../entities/operations/api'
+import { EditOperationForm } from '../entities/operations/ui'
 
 export const EditOperationPage = () => {
   useCategoriesGet(true)

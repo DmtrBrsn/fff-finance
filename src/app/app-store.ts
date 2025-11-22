@@ -1,6 +1,7 @@
-import { updateRootThemeAttr } from '@shared/lib/utils'
+
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { updateRootThemeAttr } from '../shared/lib/utils'
 
 export type AppTheme = 'auto' | 'light' | 'dark'
 export type StartPage = '/operations/new' | '/operations' | '/planning'
@@ -21,7 +22,7 @@ export const useAppStore = create<AppStore>()(
       startPage: '/operations/new',
       theme: 'auto',
       language: navigator.language,
-      
+
       setStartPage: (startPage) => set({ startPage }),
       setTheme: (theme) => set(() => {
         updateRootThemeAttr(theme)
